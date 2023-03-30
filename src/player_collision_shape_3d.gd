@@ -5,7 +5,7 @@ const ACCEL_DEFAULT = 7
 const ACCEL_AIR = 1
 @onready var accel = ACCEL_DEFAULT
 var gravity_mult = 9.8
-var jump = 5
+var jump = 2.5
 
 var cam_accel = 40
 var mouse_sense = 0.1
