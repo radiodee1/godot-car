@@ -1,0 +1,36 @@
+[gd_scene load_steps=7 format=3 uid="uid://eptvy56c1pg0"]
+
+[ext_resource type="PackedScene" uid="uid://cjayg8o4rnavy" path="res://src/player_collision_shape_3d.tscn" id="1_1hj40"]
+[ext_resource type="MeshLibrary" uid="uid://bug2v1rl0kwou" path="res://src/spatial-mesh.tres" id="1_ogp4j"]
+[ext_resource type="Script" path="res://src/GridMap.gd" id="2_kiij3"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_6taw2"]
+sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+ground_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+
+[sub_resource type="Sky" id="Sky_y4itt"]
+sky_material = SubResource("ProceduralSkyMaterial_6taw2")
+
+[sub_resource type="Environment" id="Environment_wf31o"]
+background_mode = 2
+sky = SubResource("Sky_y4itt")
+tonemap_mode = 2
+glow_enabled = true
+
+[node name="proceedural-terrain" type="Node3D"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_wf31o")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.866024, -0.433016, 0.250001, 0, 0.499998, 0.866026, -0.500003, 0.749999, -0.43301, 0, 2.39672, 0)
+
+[node name="GridMap" type="GridMap" parent="."]
+mesh_library = ExtResource("1_ogp4j")
+data = {
+"cells": PackedInt32Array(0, 65535, 0)
+}
+script = ExtResource("2_kiij3")
+
+[node name="CharacterBody3D" parent="." instance=ExtResource("1_1hj40")]
+transform = Transform3D(-0.967534, -0.0116535, 0.252472, -0.0251261, 0.998424, -0.0502046, -0.251489, -0.0549184, -0.966301, 1.34722, 4.32541, -8.9407e-07)
