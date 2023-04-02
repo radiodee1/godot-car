@@ -30,4 +30,5 @@ func set_cell_group(x, y, z):
 		for zz in range(z * group_size, z * group_size + group_size):
 			var i = Vector3i(xx, y, zz)
 			set_cell_item(i, 0)
+			#set_cell_item(i, 1)
 
