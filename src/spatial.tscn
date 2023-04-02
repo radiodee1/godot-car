@@ -1,12 +1,6 @@
-[gd_scene load_steps=4 format=3 uid="uid://dosiulorlh75g"]
+[gd_scene load_steps=3 format=3 uid="uid://dosiulorlh75g"]
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2uwu5"]
-vertex_color_use_as_albedo = true
-albedo_color = Color(0.0352941, 0.501961, 0.027451, 1)
-
-[sub_resource type="BoxMesh" id="BoxMesh_f5u3l"]
-material = SubResource("StandardMaterial3D_2uwu5")
-size = Vector3(0.25, 0.25, 0.25)
+[ext_resource type="ArrayMesh" uid="uid://b2kjo0itw1eu2" path="res://assets/mesh-cube.obj" id="1_tnvjx"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_pr7w2"]
 size = Vector3(0.25, 0.25, 0.25)
@@ -14,7 +8,7 @@ size = Vector3(0.25, 0.25, 0.25)
 [node name="spatial" type="Node3D"]
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-mesh = SubResource("BoxMesh_f5u3l")
+mesh = ExtResource("1_tnvjx")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="MeshInstance3D"]
 
