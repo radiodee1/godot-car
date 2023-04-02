@@ -24,9 +24,11 @@ environment = SubResource("Environment_wf31o")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(-0.866024, -0.433016, 0.250001, 0, 0.499998, 0.866026, -0.500003, 0.749999, -0.43301, 0, 2.39672, 0)
+shadow_enabled = true
 
 [node name="GridMap" type="GridMap" parent="."]
 mesh_library = ExtResource("1_m86tr")
+cell_size = Vector3(0.25, 0.25, 0.25)
 data = {
 "cells": PackedInt32Array(0, 65535, 0)
 }

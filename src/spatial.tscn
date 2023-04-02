@@ -6,10 +6,10 @@ albedo_color = Color(0.0352941, 0.501961, 0.027451, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_f5u3l"]
 material = SubResource("StandardMaterial3D_2uwu5")
-size = Vector3(2, 2, 2)
+size = Vector3(0.25, 0.25, 0.25)
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_a278x"]
-size = Vector3(2, 2, 2)
+[sub_resource type="BoxShape3D" id="BoxShape3D_pr7w2"]
+size = Vector3(0.25, 0.25, 0.25)
 
 [node name="spatial" type="Node3D"]
 
@@ -19,4 +19,4 @@ mesh = SubResource("BoxMesh_f5u3l")
 [node name="StaticBody3D" type="StaticBody3D" parent="MeshInstance3D"]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D/StaticBody3D"]
-shape = SubResource("BoxShape3D_a278x")
+shape = SubResource("BoxShape3D_pr7w2")

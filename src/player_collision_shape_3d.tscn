@@ -3,9 +3,11 @@
 [ext_resource type="Script" path="res://src/player_collision_shape_3d.gd" id="1_rqriv"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_o28w8"]
-size = Vector3(1.21475, 1, 1)
+size = Vector3(0.75, 0.75, 0.75)
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_b3bf7"]
+radius = 0.2
+height = 0.75
 
 [node name="CharacterBody3D" type="CharacterBody3D"]
 script = ExtResource("1_rqriv")

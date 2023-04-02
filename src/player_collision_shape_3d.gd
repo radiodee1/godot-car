@@ -5,7 +5,7 @@ const ACCEL_DEFAULT = 7
 const ACCEL_AIR = 1
 @onready var accel = ACCEL_DEFAULT
 var gravity_mult = 9.8
-var jump = 2.5
+var jump = 1.5
 
 var cam_accel = 40
 var mouse_sense = 0.1
@@ -38,16 +38,10 @@ func _input(event):
 
 func _process(delta):
 	#camera physics interpolation to reduce physics jitter on high refresh-rate monitors
-	if Engine.get_frames_per_second() > Engine.physics_ticks_per_second and false:
-		#camera.top_level = true # set_as_toplevel(true)
-		#camera.global_transform.origin = camera.global_transform.origin.lerp(head.global_transform.origin, cam_accel * delta)
-		#camera.rotation.y = rotation.y
-		#camera.rotation.x = head.rotation.x
-		pass
-	else:
-		camera.top_level = false #camera.set_as_toplevel(false)
-		camera.global_transform = head.global_transform
-		#global_transform = head.global_transform
+	
+	camera.top_level = false #camera.set_as_toplevel(false)
+	camera.global_transform = head.global_transform
+	#global_transform = head.global_transform
 
 func _physics_process(delta):
 	#get keyboard input
@@ -78,6 +72,11 @@ func _physics_process(delta):
 	#floor_snap_length = Vector3(float(movement), float(snap), float(0))
 	floor_snap_length = snap.y
 	#gravity = gravity_vec * gravity_mult
+	if position.y < -2500 :
+		print(position.y, " <<< endless fall")
+		get_tree().quit()
+		pass
+	
 	move_and_slide()
 	
 	#move_and_slide_with_snap(movement, snap, Vector3.UP)
