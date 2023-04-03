@@ -1,6 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://dosiulorlh75g"]
+[gd_scene load_steps=5 format=3 uid="uid://dosiulorlh75g"]
 
 [ext_resource type="ArrayMesh" uid="uid://b2kjo0itw1eu2" path="res://assets/mesh-cube.obj" id="1_tnvjx"]
+[ext_resource type="PackedScene" uid="uid://idctqkvcqq2w" path="res://src/mesh_lower.tscn" id="2_20ron"]
+[ext_resource type="PackedScene" uid="uid://ber4mb6lq0i0x" path="res://src/mesh_upper.tscn" id="3_5hcv1"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_w3fij"]
 size = Vector3(0.5, 0.5, 0.5)
@@ -14,3 +16,9 @@ mesh = ExtResource("1_tnvjx")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D/StaticBody3D"]
 shape = SubResource("BoxShape3D_w3fij")
+
+[node name="mesh-lower" parent="." instance=ExtResource("2_20ron")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.0729, 0, 0.0408964)
+
+[node name="mesh-upper" parent="." instance=ExtResource("3_5hcv1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.19561, 0, -0.0938234)

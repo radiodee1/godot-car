@@ -19,16 +19,16 @@ func _ready()->void:
 				if y < j  :
 					var i = Vector3i(x,y,z)
 					#set_cell_item(i, 0)
-					set_cell_group(x,y,z)
+					set_cell_group(x,y,z, 2)
 					if z == 0:
 						pass
 						#print(i,", ", y,", ", j )
 	#print("done.")
 	
-func set_cell_group(x, y, z):
+func set_cell_group(x, y, z, index):
 	for xx in range(x * group_size, x * group_size + group_size ):
 		for zz in range(z * group_size, z * group_size + group_size):
 			var i = Vector3i(xx, y, zz)
-			set_cell_item(i, 0)
+			set_cell_item(i, index)
 			#set_cell_item(i, 1)
 
