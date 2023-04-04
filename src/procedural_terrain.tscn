@@ -1,6 +1,6 @@
-[gd_scene load_steps=7 format=3 uid="uid://eptvy56c1pg0"]
+[gd_scene load_steps=7 format=3 uid="uid://yokclqnj4l7o"]
 
-[ext_resource type="MeshLibrary" uid="uid://cwkm7jur67mtg" path="res://src/spacial-mesh.tres" id="1_pa87o"]
+[ext_resource type="MeshLibrary" uid="uid://cwkm7jur67mtg" path="res://src/spatial-mesh.tres" id="1_ncg8f"]
 [ext_resource type="Script" path="res://src/GridMap.gd" id="2_ju2is"]
 [ext_resource type="PackedScene" uid="uid://cjayg8o4rnavy" path="res://src/player_collision_shape_3d.tscn" id="3_j5xh4"]
 
@@ -27,7 +27,7 @@ transform = Transform3D(-0.866024, -0.433016, 0.250001, 0, 0.499998, 0.866026, -
 shadow_enabled = true
 
 [node name="GridMap" type="GridMap" parent="."]
-mesh_library = ExtResource("1_pa87o")
+mesh_library = ExtResource("1_ncg8f")
 cell_size = Vector3(0.5, 0.5, 0.5)
 data = {
 "cells": PackedInt32Array(0, 65535, 0)

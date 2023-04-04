@@ -1,10 +1,10 @@
-[gd_scene load_steps=3 format=3 uid="uid://lcj3q3yltfyh"]
+[gd_scene load_steps=3 format=3 uid="uid://dx0upvrfkvuh1"]
 
-[ext_resource type="MeshLibrary" uid="uid://cwkm7jur67mtg" path="res://src/spacial-mesh.tres" id="1_ugglu"]
+[ext_resource type="MeshLibrary" uid="uid://cwkm7jur67mtg" path="res://src/spatial-mesh.tres" id="1_w8ese"]
 [ext_resource type="Script" path="res://src/GridMap-maze.gd" id="2_pt8cu"]
 
 [node name="procedural_maze" type="Node3D"]
 
 [node name="GridMap-maze" type="GridMap" parent="."]
-mesh_library = ExtResource("1_ugglu")
+mesh_library = ExtResource("1_w8ese")
 script = ExtResource("2_pt8cu")
