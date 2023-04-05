@@ -1,7 +1,10 @@
 extends GridMap
 
+var hall_padding = 1
+var hall_walkway = 3
+
 # odd number greater than 2
-var hall_width = 3
+var hall_width = hall_padding + hall_walkway + hall_padding ## 5??
 
 # must include padding around actual vectors
 var maze_w = 5
@@ -16,20 +19,34 @@ var finished_map = []
 
 var rng = RandomNumberGenerator.new()
 var astar = AStar2D.new()
+var HALL = 4
+var NONE = 0
+
+
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	
+	pass
+
+func _init():
+	
 	working_map = make_2d_grid(maze_w, maze_h)
-	show_2d_grid(working_map)
+	#show_2d_grid(working_map)
 	finished_map = make_2d_grid(maze_w * hall_width, maze_h * hall_width)
 	#show_2d_grid(finished_map)
 	start_vectors = randomize_vector2d(vectors_len, 1, 1, maze_w, maze_h )
 	print(start_vectors)
-	
+	print(' ')
 	add_to_astar(working_map, true)
+	print(" ")
 	start_vectors_index = vector_2d_to_index_list(start_vectors)
 	print(start_vectors_index)
+	print('finished')
+	#show_2d_grid(finished_map)
 	process_astar_vectors(start_vectors_index)
+	print("finished")
+	show_2d_grid(finished_map)
 	pass # Replace with function body.
 
 
@@ -104,7 +121,6 @@ func vector_to_index(v):
 
 func index_to_vector(i):
 	var v = Vector2(abs(i / maze_w), i - abs(i / maze_w) * maze_w)
-	print(v)
 	return v
 
 func process_astar_vectors(v):
@@ -116,6 +132,65 @@ func process_astar_vectors(v):
 	print(z)
 	for p in z:
 		var pp = astar.get_id_path(p[0], p[1])
-		print(pp)
-		for x in pp:
-			print(index_to_vector(x), ' ', x)
+		#pp = [12, 17, 16]
+		
+		print(pp, ' pp')
+		#pp = [26,21,16]
+		#pp.reverse()
+		hallway_in_map( pp)
+		
+		#hallway_in_map( pp)
+		break
+		
+
+func hallway_in_map(hallway):
+	
+	for h in range(hallway.size()):
+		var hh = hallway[h]
+		var v = index_to_vector(hh)
+		for j in range(v.x * hall_width + hall_padding, v.x * hall_width + hall_width - hall_padding):
+			for i in range(v.y * hall_width + hall_padding, v.y * hall_width + hall_width - hall_padding):
+				#finished_map[j][i] = HALL
+				assign_map(j, i, HALL)
+		
+		## UP
+		if finished_map[(v.x - 1) * hall_width + hall_padding + 1 ][v.y * hall_width + hall_padding  ] > NONE :
+			print("here up")
+			for j in range(v.x * hall_width , v.x * hall_width  + hall_padding ):
+				for i in range(v.y * hall_width  + hall_padding , v.y * hall_width +hall_width - hall_padding ):
+					#finished_map[j][i] = 1
+					assign_map(j,i,1)
+					pass
+							
+		## LEFT
+			
+		if finished_map[v.x * hall_width + hall_padding ][(v.y -1) * hall_width + hall_padding +1 ] > NONE:
+			print("here left")
+			for j in range(v.x * hall_width + hall_padding , v.x * hall_width + hall_width - hall_padding ):
+				for i in range(v.y * hall_width , v.y * hall_width + hall_padding ):
+					#finished_map[j][i] = 5
+					assign_map(j,i, 5)
+					pass
+		#if h < hallway.size() - 1 :
+		
+		## DOWN
+			
+		if finished_map[(v.x + 1) * hall_width + hall_padding  ][v.y * hall_width + hall_padding ] > NONE:
+			print('here down')
+			for j in range(v.x * hall_width + hall_width - hall_padding, v.x * hall_width + hall_width  ):
+				for i in range(v.y * hall_width + hall_padding, v.y * hall_width + hall_width - hall_padding ):
+					#finished_map[j][i] = 2
+					assign_map(j,i,2)
+					pass
+		## RIGHT
+			
+		if finished_map[v.x * hall_width  ][(v.y + 1) * hall_width  ] > NONE :
+			print("here right")
+			for j in range(v.x * hall_width + hall_padding , v.x * hall_width + hall_width - hall_padding ):
+				for i in range(v.y * hall_width + hall_width - hall_padding , v.y * hall_width +  hall_width  ):
+					#finished_map[j][i] = 3
+					assign_map(j,i, 3)
+					pass
+
+func assign_map(i, j, k):
+	finished_map[i][j] = k 
