@@ -47,6 +47,9 @@ func _init():
 	process_astar_vectors(start_vectors_index)
 	print("finished")
 	show_2d_grid(finished_map)
+	#var test_i = 23
+	#var test_v = index_to_vector(test_i)
+	#print('test ',test_i, ' ', test_v, ' ', vector_to_index(test_v))
 	pass # Replace with function body.
 
 
@@ -152,9 +155,14 @@ func hallway_in_map(hallway):
 			for i in range(v.y * hall_width + hall_padding, v.y * hall_width + hall_width - hall_padding):
 				#finished_map[j][i] = HALL
 				assign_map(j, i, HALL)
-		
+				working_map[v.x][v.y] = HALL
+				
+	for h in range(hallway.size()):
+		var hh = hallway[h]
+		var v = index_to_vector(hh)
 		## UP
-		if finished_map[(v.x - 1) * hall_width + hall_padding + 1 ][v.y * hall_width + hall_padding  ] > NONE :
+		if working_map[v.x -1][v.y] > NONE:
+		#if finished_map[(v.x - 1) * hall_width + hall_padding + 1 ][v.y * hall_width + hall_padding  ] > NONE :
 			print("here up")
 			for j in range(v.x * hall_width , v.x * hall_width  + hall_padding ):
 				for i in range(v.y * hall_width  + hall_padding , v.y * hall_width +hall_width - hall_padding ):
@@ -163,8 +171,8 @@ func hallway_in_map(hallway):
 					pass
 							
 		## LEFT
-			
-		if finished_map[v.x * hall_width + hall_padding ][(v.y -1) * hall_width + hall_padding +1 ] > NONE:
+		if working_map[v.x][v.y - 1] > NONE:
+		#if finished_map[v.x * hall_width + hall_padding ][(v.y -1) * hall_width + hall_padding +1 ] > NONE:
 			print("here left")
 			for j in range(v.x * hall_width + hall_padding , v.x * hall_width + hall_width - hall_padding ):
 				for i in range(v.y * hall_width , v.y * hall_width + hall_padding ):
@@ -174,8 +182,8 @@ func hallway_in_map(hallway):
 		#if h < hallway.size() - 1 :
 		
 		## DOWN
-			
-		if finished_map[(v.x + 1) * hall_width + hall_padding  ][v.y * hall_width + hall_padding ] > NONE:
+		if working_map[v.x + 1][v.y] > NONE:
+		#if finished_map[(v.x + 1) * hall_width + hall_padding  ][v.y * hall_width + hall_padding ] > NONE:
 			print('here down')
 			for j in range(v.x * hall_width + hall_width - hall_padding, v.x * hall_width + hall_width  ):
 				for i in range(v.y * hall_width + hall_padding, v.y * hall_width + hall_width - hall_padding ):
@@ -183,8 +191,8 @@ func hallway_in_map(hallway):
 					assign_map(j,i,2)
 					pass
 		## RIGHT
-			
-		if finished_map[v.x * hall_width  ][(v.y + 1) * hall_width  ] > NONE :
+		if working_map[v.x][v.y + 1] > NONE:
+		#if finished_map[v.x * hall_width + hall_padding  ][(v.y + 1) * hall_width + hall_padding +1 ] > NONE : ## this is wrong!!
 			print("here right")
 			for j in range(v.x * hall_width + hall_padding , v.x * hall_width + hall_width - hall_padding ):
 				for i in range(v.y * hall_width + hall_width - hall_padding , v.y * hall_width +  hall_width  ):
