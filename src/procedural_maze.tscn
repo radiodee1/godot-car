@@ -1,10 +1,35 @@
-[gd_scene load_steps=3 format=3 uid="uid://dx0upvrfkvuh1"]
+[gd_scene load_steps=7 format=3 uid="uid://dx0upvrfkvuh1"]
 
 [ext_resource type="MeshLibrary" uid="uid://cwkm7jur67mtg" path="res://src/spatial-mesh.tres" id="1_w8ese"]
 [ext_resource type="Script" path="res://src/GridMap-maze.gd" id="2_pt8cu"]
+[ext_resource type="PackedScene" uid="uid://cjayg8o4rnavy" path="res://src/player_collision_shape_3d.tscn" id="3_p3it0"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_n4tp4"]
+sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+ground_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+
+[sub_resource type="Sky" id="Sky_03w4c"]
+sky_material = SubResource("ProceduralSkyMaterial_n4tp4")
+
+[sub_resource type="Environment" id="Environment_e75w1"]
+background_mode = 2
+sky = SubResource("Sky_03w4c")
+tonemap_mode = 2
+glow_enabled = true
 
 [node name="procedural_maze" type="Node3D"]
 
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_e75w1")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.866024, -0.433016, 0.250001, 0, 0.499998, 0.866026, -0.500003, 0.749999, -0.43301, 0, 3.84649, 0)
+shadow_enabled = true
+
 [node name="GridMap-maze" type="GridMap" parent="."]
 mesh_library = ExtResource("1_w8ese")
+cell_size = Vector3(0.5, 0.5, 0.5)
 script = ExtResource("2_pt8cu")
+
+[node name="CharacterBody3D" parent="." instance=ExtResource("3_p3it0")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.826516, 0)
