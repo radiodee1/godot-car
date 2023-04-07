@@ -81,7 +81,25 @@ func _physics_process(delta):
 		get_tree().change_scene_to_packed(control_buttons)
 		
 		pass
-	
+	check_collision()
 	move_and_slide()
 	
 	#move_and_slide_with_snap(movement, snap, Vector3.UP)
+func check_collision():
+	for index in range(get_slide_collision_count()):
+		# We get one of the collisions with the player
+		var collision = get_slide_collision(index)
+		
+		# If the collision is with ground
+		if (collision.get_collider() == null):
+			continue
+
+		# If the collider is with a mob
+		if collision.get_collider().is_in_group("mob"):
+			var mob = collision.get_collider()
+			# we check that we are hitting it from above.
+			if Vector3.UP.dot(collision.get_normal()) > 0.1:
+				# If so, we squash it and bounce.
+				#mob.squash()
+				pass
+				#target_velocity.y = bounce_impulse

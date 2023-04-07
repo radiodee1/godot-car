@@ -25,13 +25,19 @@ var USED = -1
 
 var center_h = 0
 var center_w = 0
+var center_depth = - 10
 
+
+  
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	
 	pass
 
 func _init():
+	pass
+	
+func maze_generate():
 	
 	working_map = make_2d_grid(maze_w, maze_h)
 	
@@ -50,6 +56,7 @@ func _init():
 	copy_map_to_scene()
 	
 	print(center_h, ' ', center_w, ' center h, w')
+	#print(terrain)
 	pass # Replace with function body.
 
 
@@ -229,12 +236,19 @@ func hallway_mask_previous(hallway):
 func copy_map_to_scene():
 	for i in range(finished_map.size()):
 		for j in range(finished_map[i].size()):
-			var v = Vector3i(i - center_w ,0,j - center_h)			
+			var v = Vector3i(i - center_w , center_depth ,j - center_h)			
 			if finished_map[i][j] > 0:
 				set_cell_item(v, 1)
 			if finished_map[i][j] == 0:
-				for y in range(4):
+				for y in range(center_depth, center_depth + 4):
 					v.y = y
 					set_cell_item(v,1)
-				
-				
+
+
+func _on_grid_map_set_highest(high_vector):
+	center_depth = high_vector.y
+	center_w = high_vector.x
+	center_h = high_vector.z 
+	maze_generate()
+	print('high vector ', high_vector)
+	pass # Replace with function body.
