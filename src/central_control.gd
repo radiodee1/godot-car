@@ -12,6 +12,8 @@ func _ready():
 	btn_start.pressed.connect(self._do_start)
 	btn_quit.pressed.connect(self._do_quit)
 	btn_unpause.pressed.connect(self._do_unpause)
+	btn_unpause.disabled = true
+	btn_unpause.visible = false
 	
 
 
