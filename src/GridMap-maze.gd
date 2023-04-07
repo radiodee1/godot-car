@@ -34,24 +34,19 @@ func _ready():
 func _init():
 	
 	working_map = make_2d_grid(maze_w, maze_h)
-	#show_2d_grid(working_map)
+	
 	finished_map = make_2d_grid(maze_w * hall_width, maze_h * hall_width)
-	#show_2d_grid(finished_map)
+	
 	start_vectors = randomize_vector2d(vectors_len, 1, 1, maze_w, maze_h )
-	print(start_vectors)
-	print(' ')
+	
 	add_to_astar(working_map, true)
-	print(" ")
+	
 	start_vectors_index = vector_2d_to_index_list(start_vectors)
-	print(start_vectors_index)
-	print('finished')
-	#show_2d_grid(finished_map)
+	
 	process_astar_vectors(start_vectors_index)
 	print("finished")
 	show_2d_grid(finished_map, true)
-	#var test_i = 23
-	#var test_v = index_to_vector(test_i)
-	#print('test ',test_i, ' ', test_v, ' ', vector_to_index(test_v))
+	
 	copy_map_to_scene()
 	
 	print(center_h, ' ', center_w, ' center h, w')

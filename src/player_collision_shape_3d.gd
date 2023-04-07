@@ -1,5 +1,8 @@
 extends CharacterBody3D
 
+@onready var control_buttons = load("res://src/central_control.tscn")
+
+
 var speed = 7
 const ACCEL_DEFAULT = 7
 const ACCEL_AIR = 1
@@ -74,7 +77,9 @@ func _physics_process(delta):
 	#gravity = gravity_vec * gravity_mult
 	if position.y < -2500 :
 		print(position.y, " <<< endless fall")
-		get_tree().quit()
+		
+		get_tree().change_scene_to_packed(control_buttons)
+		
 		pass
 	
 	move_and_slide()

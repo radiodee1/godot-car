@@ -5,8 +5,8 @@
 [node name="CentralControl" type="Control"]
 layout_mode = 3
 anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
+offset_right = 989.0
+offset_bottom = 523.0
 script = ExtResource("1_i12jh")
 
 [node name="Control" type="Control" parent="."]
@@ -37,8 +37,8 @@ text = "QUIT"
 
 [node name="un_pause" type="Button" parent="Control"]
 layout_mode = 0
-offset_left = 435.0
+offset_left = 427.0
 offset_top = 190.0
-offset_right = 546.0
+offset_right = 549.0
 offset_bottom = 230.0
-text = "UN-PAUSE"
+text = "RESUME GAME"
