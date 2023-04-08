@@ -10,6 +10,7 @@ var limit_step = 1
 var group_size = 5
 
 var highest = Vector3(0,0,0)
+var scale_local = 0.5
 
 signal set_highest(high_vector:Vector3)
 
@@ -30,11 +31,12 @@ func _ready()->void:
 						#print(i,", ", y,", ", j )
 	#print("done.")
 	#print(highest)
-	highest.y += 2.0
-	highest = Vector3i(highest.x * 0.5, highest.y * 0.5, highest.z * 0.5)
+	highest.y +=  scale_local * 2
+	#highest = Vector3(highest.x * 2 * scale_local, highest.y * 2 * scale_local, highest.z * 2 * scale_local)
 	#print(highest, " terrain")
 	place_highest(highest)
 	set_highest.emit(highest)
+	print(get_tree().get_nodes_in_group('mob'))
 	
 func set_cell_group(x, y, z, index):
 	for xx in range(x * group_size, x * group_size + group_size ):
@@ -47,8 +49,25 @@ func set_cell_group(x, y, z, index):
 
 func place_highest(v):
 	var mesh_instance_3d = MeshInstance3D.new()
-	mesh_instance_3d.mesh = BoxMesh.new()
+	var box_shape = BoxMesh.new()
+	#print(v, " vector")
+	mesh_instance_3d.mesh = box_shape
 	mesh_instance_3d.add_to_group('mob')
-	self.add_child(mesh_instance_3d)
+	mesh_instance_3d.scale_object_local(Vector3(scale_local,scale_local,scale_local))
+	add_child(mesh_instance_3d)
 	mesh_instance_3d.translate(v) 
+	var static_body = StaticBody3D.new()
+	static_body.scale_object_local(Vector3(1,1,1))
+	var collision_shape = CollisionShape3D.new()
+	collision_shape.scale_object_local(Vector3(1,1,1))
+	collision_shape.add_to_group('mob')
+	collision_shape.name = 'pin'
+	
+	static_body.add_child(collision_shape)
+	static_body.add_to_group('mob')
+	static_body.name = 'pin'
+	mesh_instance_3d.add_child(static_body) 
+	mesh_instance_3d.add_to_group('mob')
+	mesh_instance_3d.name = 'pin'
+	#mesh_instance_3d.set_layer_mask_value(1,true)
 	
