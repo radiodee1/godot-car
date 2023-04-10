@@ -34,8 +34,8 @@ func _ready()->void:
 	#print("done.")
 	#print(highest)
 	highest.y +=  scale_local * 2.5
-	highest.x += scale_local
-	highest.z += scale_local
+	#highest.x += scale_local
+	#highest.z += scale_local
 	#highest = Vector3(highest.x * 2 * scale_local, highest.y * 2 * scale_local, highest.z * 2 * scale_local)
 	#print(highest, " terrain")
 	place_highest(highest)
@@ -48,7 +48,7 @@ func set_cell_group(x, y, z, index):
 			var i = Vector3(xx, y, zz)
 			set_cell_item(i, index)
 			if highest.y < i.y:
-				highest = i 
+				highest = Vector3(x * group_size + group_size / 2, i.y ,z * group_size + group_size / 2) 
 			#set_cell_item(i, 1)
 
 func place_highest(v):
