@@ -94,21 +94,11 @@ func _physics_process(delta):
 	
 	
 func check_collision():
-	#set_collision_mask_value(1,true)
-	#set_collision_layer_value(1, true)
-	#self.collision_mask = 1
-	#self.collision_layer = 1
-	#print(get_slide_collision_count(),' count')
+	
 	for index in range(get_slide_collision_count()):
 		# We get one of the collisions with the player
 		var collision = get_slide_collision(index)
-		#var candidate = str(collision)
-		#print(collision.get_collider().name)
-		
-		#if collision.get_collider().name != 'GridMap':
-		#	print(collision.get_collider().name)
-		
-		# If the collider is with a mob
+	
 		if collision.get_collider().is_in_group("mob"):
 			#var mob = collision.get_collider()
 			

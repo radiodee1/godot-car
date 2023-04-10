@@ -27,7 +27,8 @@ var center_h = 0
 var center_w = 0
 var center_depth = - 10
 
-
+var record_center_h = 0
+var record_center_w = 0
   
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -51,11 +52,15 @@ func maze_generate():
 	
 	process_astar_vectors(start_vectors_index)
 	print("finished")
+	
+	
+	center_h = record_center_h
+	center_w = record_center_w
+	print(center_h, ' ', center_w, ' center h, w  1')
+		
 	show_2d_grid(finished_map, true)
 	
 	copy_map_to_scene()
-	
-	print(center_h, ' ', center_w, ' center h, w')
 	#print(terrain)
 	pass # Replace with function body.
 
@@ -170,6 +175,7 @@ func process_astar_vectors(v):
 
 func hallway_in_map(hallway):
 	
+	
 	for h in range(hallway.size()):
 		var hh = hallway[h]
 		var v = index_to_vector(hh)
@@ -178,9 +184,9 @@ func hallway_in_map(hallway):
 				#finished_map[j][i] = HALL
 				assign_map(j, i, HALL)
 				working_map[v.x][v.y] = HALL
-				center_h = i
-				center_w = j
-				
+				record_center_h = i
+				record_center_w = j
+	
 	for h in range(hallway.size()):
 		var hh = hallway[h]
 		var v = index_to_vector(hh)
@@ -247,8 +253,9 @@ func copy_map_to_scene():
 
 func _on_grid_map_set_highest(high_vector):
 	center_depth = high_vector.y
-	center_w = high_vector.x
-	center_h = high_vector.z 
+	center_w = high_vector.z
+	center_h = high_vector.x 
+	print(center_h, ' ', center_w, ' center h, w 2')
 	maze_generate()
 	print('high vector ', high_vector)
 	pass # Replace with function body.

@@ -39,6 +39,8 @@ func _ready()->void:
 	#highest = Vector3(highest.x * 2 * scale_local, highest.y * 2 * scale_local, highest.z * 2 * scale_local)
 	#print(highest, " terrain")
 	place_highest(highest)
+	
+	#highest = Vector3(highest.z, highest.y, highest.x)
 	set_highest.emit(highest)
 	print(get_tree().get_nodes_in_group('mob'))
 	
@@ -49,7 +51,7 @@ func set_cell_group(x, y, z, index):
 			set_cell_item(i, index)
 			if highest.y < i.y:
 				highest = Vector3(x * group_size + group_size / 2, i.y ,z * group_size + group_size / 2) 
-			#set_cell_item(i, 1)
+			
 
 func place_highest(v):
 	var mesh_instance_3d = MeshInstance3D.new()
@@ -95,9 +97,9 @@ func make_hole_to_maze():
 	var LOWER = 1
 	for i in range( - highest.y * group_size,  (highest.y ) * group_size + group_size):
 		var type = get_cell_item(Vector3i(highest.x , i ,highest.z))
-		print(i, " i")
+		#print(i, " i")
 		if type == UPPER:
 			set_cell_group(highest.x / group_size -1/2 ,i, highest.z / group_size -1/2 , -1 )
-			print('type ', type)
-		else:
-			print("other ", type)
+			#print('type ', type)
+		#else:
+			#print("other ", type)
