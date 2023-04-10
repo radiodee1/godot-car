@@ -32,6 +32,10 @@ var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 func _ready():
 	#hides the cursor
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+	set_collision_mask_value(1,true)
+	set_collision_layer_value(1, true)
+	self.collision_mask = 1
+	self.collision_layer = 1
 
 func _input(event):
 	#get mouse input for camera rotation
@@ -79,16 +83,19 @@ func _physics_process(delta):
 	#gravity = gravity_vec * gravity_mult
 	if position.y < -2500 :
 		print(position.y, " <<< endless fall")
-		
-		get_tree().change_scene_to_packed(control_buttons)
-		
+		get_tree().change_scene_to_packed(control_buttons)	
 		pass
+		
 	check_collision()
 	move_and_slide()
 	
-	#move_and_slide_with_snap(movement, snap, Vector3.UP)
+	
+	
 func check_collision():
 	#set_collision_mask_value(1,true)
+	#set_collision_layer_value(1, true)
+	#self.collision_mask = 1
+	#self.collision_layer = 1
 	#print(get_slide_collision_count(),' count')
 	for index in range(get_slide_collision_count()):
 		# We get one of the collisions with the player
@@ -96,8 +103,8 @@ func check_collision():
 		#var candidate = str(collision)
 		#print(collision.get_collider().name)
 		
-		#if collision.get_collider().name == 'pin':
-		#	print('pin')
+		if collision.get_collider().name != 'GridMap':
+			print(collision.get_collider().name)
 		#	get_tree().quit()
 		#	return
 		# If the collision is with ground
@@ -112,8 +119,5 @@ func check_collision():
 			print(collision.get_collider().name)
 			get_tree().quit()
 			# here
-			if Vector3.UP.dot(collision.get_normal()) > 0.1:
-				# If so, we squash it and bounce.
-				#mob.squash()
-				pass
-				#target_velocity.y = bounce_impulse
+			
+			
