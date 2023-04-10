@@ -2,6 +2,8 @@ extends CharacterBody3D
 
 @onready var control_buttons = load("res://src/central_control.tscn")
 
+signal hole_to_maze
+var emit_hole_to_maze = 0
 
 var speed = 7
 const ACCEL_DEFAULT = 7
@@ -103,21 +105,20 @@ func check_collision():
 		#var candidate = str(collision)
 		#print(collision.get_collider().name)
 		
-		if collision.get_collider().name != 'GridMap':
-			print(collision.get_collider().name)
-		#	get_tree().quit()
-		#	return
-		# If the collision is with ground
-		#if (collision.get_collider() == null and not collision.get_collider().is_in_group("mob")):
-			#continue
-		#	pass
-
+		#if collision.get_collider().name != 'GridMap':
+		#	print(collision.get_collider().name)
+		
 		# If the collider is with a mob
 		if collision.get_collider().is_in_group("mob"):
-			var mob = collision.get_collider()
-			# we check that we are hitting it from above.
-			print(collision.get_collider().name)
-			get_tree().quit()
+			#var mob = collision.get_collider()
+			
+			if collision.get_collider().name == 'pin':
+
+				if emit_hole_to_maze == 0:
+					print(collision.get_collider().name)
+					emit_hole_to_maze += 1
+					hole_to_maze.emit()
+					print('emit num ', emit_hole_to_maze)
 			# here
 			
 			

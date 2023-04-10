@@ -42,3 +42,4 @@ transform = Transform3D(-0.967534, -0.0116535, 0.252472, -0.0251261, 0.998424, -
 script = ExtResource("4_2qm12")
 
 [connection signal="set_highest" from="GridMap" to="GridMap2-maze" method="_on_grid_map_set_highest"]
+[connection signal="hole_to_maze" from="CharacterBody3D" to="GridMap" method="_on_character_body_3d_hole_to_maze"]

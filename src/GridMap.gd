@@ -81,12 +81,23 @@ func place_highest(v):
 	mesh_instance_3d.name = 'pin'
 	#mesh_instance_3d.add_child(kinematic)
 	mesh_instance_3d.layers = 1
-	#mesh_instance_3d.collision_mask = 1
-	#mesh_instance_3d.collision_layer = 1
-	#collision_shape.collision_mask = 1
-	#collision_shape.collision_layer = 1
-	#mesh_instance_3d.set_layer_mask_value(1,true)
-	#static_body.set_collision_mask_value(1,true)	
-	#static_body.set_collision_layer_value(1,true)
+	
 	static_body.collision_mask = 1
 	static_body.collision_layer = 1
+
+
+func _on_character_body_3d_hole_to_maze():
+	make_hole_to_maze()
+	pass # Replace with function body.
+
+func make_hole_to_maze():
+	var UPPER = 2
+	var LOWER = 1
+	for i in range( - highest.y * group_size,  (highest.y ) * group_size + group_size):
+		var type = get_cell_item(Vector3i(highest.x , i ,highest.z))
+		print(i, " i")
+		if type == UPPER:
+			set_cell_group(highest.x / group_size -1/2 ,i, highest.z / group_size -1/2 , -1 )
+			print('type ', type)
+		else:
+			print("other ", type)
