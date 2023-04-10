@@ -3,6 +3,7 @@ extends GridMap
 
 var noise := FastNoiseLite.new()
 #var noise.NoiseType := FastNoiseLite.TYPE_SIMPLEX 
+var rng = RandomNumberGenerator.new()
 
 var limit_pos = 15
 var limit_neg = - 15
@@ -16,6 +17,7 @@ signal set_highest(high_vector:Vector3)
 
 # Called when the node enters the scene tree for the first time.
 func _ready()->void:
+	noise.seed = rng.randi()
 	noise.noise_type = FastNoiseLite.TYPE_SIMPLEX_SMOOTH 
 	#set_cell_item(Vector3i(0,0,0), 0)
 	for x in range(limit_neg, limit_pos, limit_step):
