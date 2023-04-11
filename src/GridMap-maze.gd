@@ -54,11 +54,11 @@ func maze_generate():
 	process_astar_vectors(start_vectors_index)
 	print("finished")
 	
-	print(center_h, ' ', center_w, ' center h, w  0')	
-	center_w = (- record_center_b ) + center_w
-	center_h = (- record_center_a ) + center_h   
-	print(center_h, ' ', center_w, ' center h, w  1')
-	print(record_center_a, " ", record_center_b, " record a, b ")
+	#print(center_h, ' ', center_w, ' center h, w  0')	
+	center_w -= (center_w + record_center_b) #) + center_w
+	center_h -= (center_h + record_center_a) # ) + center_h   
+	#print(center_h, ' ', center_w, ' center h, w  1')
+	#print(record_center_a, " ", record_center_b, " record a, b ")
 	
 	show_2d_grid(finished_map, true)
 	
@@ -251,7 +251,7 @@ func copy_map_to_scene():
 
 
 func _on_grid_map_set_highest(high_vector):
-	center_depth = high_vector.y
+	#center_depth = high_vector.y
 	center_w = high_vector.x
 	center_h = high_vector.z 
 	print(center_h, ' ', center_w, ' center h, w 2')
