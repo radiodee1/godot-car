@@ -54,7 +54,7 @@ func maze_generate():
 	process_astar_vectors(start_vectors_index)
 	print("finished")
 	
-	var m = 2.5
+	var m = 3 #2.5
 	#print(center_h, ' ', center_w, ' center h, w  0')	
 	center_w = ( + record_center_a / 2 )  - center_w + m 
 	center_h = ( + record_center_b / 2 )  - center_h + m  

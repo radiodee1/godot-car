@@ -100,7 +100,7 @@ func make_hole_to_maze():
 	var UPPER = 2
 	var LOWER = 1
 	var size = group_size
-	var xz_size = 3
+	var xz_size = 5  # 3
 	for i in range( - (highest.y * size + size),  (highest.y ) * size + size):
 		for x in range(highest.x , highest.x + xz_size):
 			for z in range(highest.z, highest.z + xz_size):
