@@ -5,8 +5,8 @@ var noise := FastNoiseLite.new()
 #var noise.NoiseType := FastNoiseLite.TYPE_SIMPLEX 
 var rng = RandomNumberGenerator.new()
 
-var limit_pos = 15
-var limit_neg = - 15
+var limit_pos = 30
+var limit_neg = 0
 var limit_step = 1
 var group_size = 5
 
@@ -17,14 +17,15 @@ signal set_highest(high_vector:Vector3)
 
 # Called when the node enters the scene tree for the first time.
 func _ready()->void:
+	
 	noise.seed = rng.randi()
 	noise.noise_type = FastNoiseLite.TYPE_SIMPLEX_SMOOTH 
 	#set_cell_item(Vector3i(0,0,0), 0)
 	for x in range(limit_neg, limit_pos, limit_step):
 		for y in range(limit_neg, limit_pos, limit_step):
 			for z in range(limit_neg, limit_pos, limit_step):
-				var j = noise.get_noise_2d(x  ,z ) * 15  #+ 15 / 2
-				if y < j  :
+				var j = noise.get_noise_2d(x - limit_pos / 2 ,z - limit_pos / 2) * 15  #+ 15 / 2
+				if y - limit_pos / 2 < j  :
 					var i = Vector3(x,y,z)
 					#set_cell_item(i, 0)
 					set_cell_group(x,y,z, 2)
@@ -95,7 +96,7 @@ func _on_character_body_3d_hole_to_maze():
 func make_hole_to_maze():
 	var UPPER = 2
 	var LOWER = 1
-	for i in range( - highest.y * group_size,  (highest.y ) * group_size + group_size):
+	for i in range( - (highest.y * group_size + group_size),  (highest.y ) * group_size + group_size):
 		var type = get_cell_item(Vector3i(highest.x , i ,highest.z))
 		#print(i, " i")
 		if type == UPPER:

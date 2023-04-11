@@ -38,6 +38,7 @@ func _ready():
 	set_collision_layer_value(1, true)
 	self.collision_mask = 1
 	self.collision_layer = 1
+	position = Vector3(15 * 5 / 2, 5 * 5 , 15 * 5 / 2)
 
 func _input(event):
 	#get mouse input for camera rotation
