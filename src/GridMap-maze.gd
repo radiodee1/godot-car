@@ -55,8 +55,8 @@ func maze_generate():
 	print("finished")
 	
 	#print(center_h, ' ', center_w, ' center h, w  0')	
-	center_w -= (center_w + record_center_b) #) + center_w
-	center_h -= (center_h + record_center_a) # ) + center_h   
+	center_w = ( + record_center_a / 2)  - center_w 
+	center_h = ( + record_center_b / 2)  - center_h     
 	#print(center_h, ' ', center_w, ' center h, w  1')
 	#print(record_center_a, " ", record_center_b, " record a, b ")
 	
