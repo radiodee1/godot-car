@@ -29,6 +29,8 @@ var center_depth = - 5
 
 var record_center_a = 0
 var record_center_b = 0
+
+var h_vector = Vector2(0,0)
   
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -54,18 +56,15 @@ func maze_generate():
 	process_astar_vectors(start_vectors_index)
 	print("finished")
 	
-	var m = 3 #2.5
-	#print(center_h, ' ', center_w, ' center h, w  0')	
-	center_w = ( + record_center_a / 2 )  - center_w + m 
-	center_h = ( + record_center_b / 2 )  - center_h + m  
-	#print(center_h, ' ', center_w, ' center h, w  1')
-	#print(record_center_a, " ", record_center_b, " record a, b ")
+	
+	var n = find_map()
+	center_w = n.x
+	center_h = n.y 
 	
 	show_2d_grid(finished_map, true)
 	
 	copy_map_to_scene()
-	#print(terrain)
-	pass # Replace with function body.
+	pass 
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -232,12 +231,9 @@ func hallway_mask_previous(hallway):
 	for h in range(hallway.size()):
 		var hh = hallway[h]
 		var v = index_to_vector(hh)
-		#working_map[v.x][v.y] = USED
-		#print(hh)
-		if true : # h != 0 and h < hallway.size() - 1:
-			#print("disable ", hh)
-			working_map[v.x][v.y] = USED
-			astar.set_point_disabled(hh)
+		
+		working_map[v.x][v.y] = USED
+		astar.set_point_disabled(hh)
 
 func copy_map_to_scene():
 	for i in range(finished_map.size()):
@@ -250,9 +246,29 @@ func copy_map_to_scene():
 					v.y = y
 					set_cell_item(v,1)
 
+func find_map():
+	#print(h_vector, " h_vector")
+	var i = - (hall_padding  + 1.5)
+	var j = 0
+	var center_in_w = ( + record_center_a / 2 )  - center_w  
+	var center_in_h = ( + record_center_b / 2 )  - center_h   
+	
+	for a in range(working_map.size() ):
+		for b in range(working_map[0].size() ):
+			
+			var cc = clamp(a, 0,  working_map.size() -1 )
+			var dd = clamp(b, 0,  working_map[0].size() -1 )  
+			print(cc,' ', dd, ' clamp')
+			var type = working_map[dd][cc]
+			if type == HALL or type == USED:
+				var r = Vector2(dd * hall_width + center_in_w + i, cc * hall_width + center_in_h + j )
+				print("found ", r)
+				return r
+	print("not found ", center_in_w, center_in_h)
+	return Vector2(center_in_w, center_in_h)
 
 func _on_grid_map_set_highest(high_vector):
-	
+	h_vector = high_vector	
 	center_w = high_vector.x
 	center_h = high_vector.z 
 	#print(center_h, ' ', center_w, ' center h, w 2')

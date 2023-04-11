@@ -31,9 +31,7 @@ func _ready()->void:
 					var i = Vector3(x,y,z)
 					#set_cell_item(i, 0)
 					set_cell_group(x,y,z, 2, true)
-					if z == 0:
-						pass
-						#print(i,", ", y,", ", j )
+					
 	#print("done.")
 	#print(highest)
 	highest.y +=  scale_local * 2.5
@@ -57,15 +55,17 @@ func set_cell_group(x, y, z, index, check_highest=false):
 			
 
 func place_highest(v):
+	#mesh_instance_3d.mesh = load("res://assets/altar.obj")
 	mesh_instance_3d = MeshInstance3D.new()
-	var box_mesh = BoxMesh.new()
+	#var box_mesh = BoxMesh.new()
+	var box_mesh = load("res://assets/altar.obj")
 	#print(v, " vector")
 	var box_shape = BoxShape3D.new()
 	box_shape.size = Vector3(0.5,0.5,0.5)
-	box_mesh.size = Vector3(0.5,0.5,0.5)
+	#box_mesh.size = Vector3(0.5,0.5,0.5)
 	mesh_instance_3d.mesh = box_mesh
 	mesh_instance_3d.add_to_group('mob')
-	mesh_instance_3d.scale_object_local(Vector3(scale_local,scale_local,scale_local))
+	mesh_instance_3d.scale_object_local(Vector3(scale_local, scale_local ,scale_local))
 	add_child(mesh_instance_3d)
 	mesh_instance_3d.translate(v) 
 	var static_body = StaticBody3D.new()
