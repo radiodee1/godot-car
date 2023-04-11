@@ -100,16 +100,17 @@ func check_collision():
 		# We get one of the collisions with the player
 		var collision = get_slide_collision(index)
 	
-		if collision.get_collider().is_in_group("mob"):
+		if collision != null and collision.get_collider() != null:
+			if collision.get_collider().is_in_group("mob"):
 			#var mob = collision.get_collider()
 			
-			if collision.get_collider().name == 'pin':
+				if collision.get_collider().name == 'pin':
 
-				if emit_hole_to_maze == 0:
-					print(collision.get_collider().name)
-					emit_hole_to_maze += 1
-					hole_to_maze.emit()
-					print('emit num ', emit_hole_to_maze)
+					if emit_hole_to_maze == 0:
+						print(collision.get_collider().name)
+						emit_hole_to_maze += 1
+						hole_to_maze.emit()
+						print('emit num ', emit_hole_to_maze)
 			# here
 			
 			

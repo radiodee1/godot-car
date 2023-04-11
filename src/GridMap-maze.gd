@@ -25,7 +25,7 @@ var USED = -1
 
 var center_h = 0
 var center_w = 0
-var center_depth = - 50
+var center_depth = - 5
 
 var record_center_a = 0
 var record_center_b = 0
@@ -54,9 +54,10 @@ func maze_generate():
 	process_astar_vectors(start_vectors_index)
 	print("finished")
 	
+	var m = 2.5
 	#print(center_h, ' ', center_w, ' center h, w  0')	
-	center_w = ( + record_center_a / 2)  - center_w 
-	center_h = ( + record_center_b / 2)  - center_h     
+	center_w = ( + record_center_a / 2 )  - center_w + m 
+	center_h = ( + record_center_b / 2 )  - center_h + m  
 	#print(center_h, ' ', center_w, ' center h, w  1')
 	#print(record_center_a, " ", record_center_b, " record a, b ")
 	
@@ -251,10 +252,10 @@ func copy_map_to_scene():
 
 
 func _on_grid_map_set_highest(high_vector):
-	#center_depth = high_vector.y
+	
 	center_w = high_vector.x
 	center_h = high_vector.z 
-	print(center_h, ' ', center_w, ' center h, w 2')
+	#print(center_h, ' ', center_w, ' center h, w 2')
 	maze_generate()
 	print('high vector ', high_vector)
 	

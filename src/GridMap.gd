@@ -15,6 +15,8 @@ var scale_local = 0.5
 
 signal set_highest(high_vector:Vector3)
 
+var mesh_instance_3d 
+
 # Called when the node enters the scene tree for the first time.
 func _ready()->void:
 	
@@ -28,7 +30,7 @@ func _ready()->void:
 				if y - limit_pos / 2 < j  :
 					var i = Vector3(x,y,z)
 					#set_cell_item(i, 0)
-					set_cell_group(x,y,z, 2)
+					set_cell_group(x,y,z, 2, true)
 					if z == 0:
 						pass
 						#print(i,", ", y,", ", j )
@@ -37,7 +39,7 @@ func _ready()->void:
 	highest.y +=  scale_local * 2.5
 	#highest.x += scale_local
 	#highest.z += scale_local
-	#highest = Vector3(highest.x * 2 * scale_local, highest.y * 2 * scale_local, highest.z * 2 * scale_local)
+	highest = Vector3(highest.x + 1, highest.y , highest.z + 1 )
 	#print(highest, " terrain")
 	place_highest(highest)
 	
@@ -45,17 +47,17 @@ func _ready()->void:
 	set_highest.emit(highest)
 	print(get_tree().get_nodes_in_group('mob'))
 	
-func set_cell_group(x, y, z, index):
+func set_cell_group(x, y, z, index, check_highest=false):
 	for xx in range(x * group_size, x * group_size + group_size ):
 		for zz in range(z * group_size, z * group_size + group_size):
 			var i = Vector3(xx, y, zz)
 			set_cell_item(i, index)
-			if highest.y < i.y:
+			if check_highest and highest.y < i.y:
 				highest = Vector3(x * group_size + group_size / 2, i.y ,z * group_size + group_size / 2) 
 			
 
 func place_highest(v):
-	var mesh_instance_3d = MeshInstance3D.new()
+	mesh_instance_3d = MeshInstance3D.new()
 	var box_mesh = BoxMesh.new()
 	#print(v, " vector")
 	var box_shape = BoxShape3D.new()
@@ -94,13 +96,23 @@ func _on_character_body_3d_hole_to_maze():
 	pass # Replace with function body.
 
 func make_hole_to_maze():
+	mesh_instance_3d.queue_free()
 	var UPPER = 2
 	var LOWER = 1
-	for i in range( - (highest.y * group_size + group_size),  (highest.y ) * group_size + group_size):
-		var type = get_cell_item(Vector3i(highest.x , i ,highest.z))
-		#print(i, " i")
-		if type == UPPER:
-			set_cell_group(highest.x / group_size -1/2 ,i, highest.z / group_size -1/2 , -1 )
-			#print('type ', type)
-		#else:
-			#print("other ", type)
+	var size = group_size
+	var xz_size = 3
+	for i in range( - (highest.y * size + size),  (highest.y ) * size + size):
+		for x in range(highest.x , highest.x + xz_size):
+			for z in range(highest.z, highest.z + xz_size):
+				pass
+				var xx = x - xz_size / 2
+				var zz = z - xz_size / 2
+				var type = get_cell_item(Vector3i(xx , i , zz))
+				#print(i, " i")
+				if type == UPPER:
+					#var some_x = highest.x / group_size - 0.5
+					#var some_z = highest.z / group_size - 0.5
+					set_cell_item(Vector3(xx, i, zz), -1)
+					#set_cell_group(some_x ,i, some_z , -1, false )
+					#print('type ', type, ' ', xx, ' ' , zz)
+		
