@@ -249,7 +249,7 @@ func copy_map_to_scene():
 func find_map(skip_loops = false):
 	#print(h_vector, " h_vector")
 	var i = - (hall_padding + 1.5)
-	var j = - (hall_padding + 0)
+	var j = - hall_padding
 	var div = 1 ## 2
 	var center_in_w = ( + record_center_a / div )  - center_w  
 	var center_in_h = ( + record_center_b / div )  - center_h  
