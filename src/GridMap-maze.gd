@@ -25,7 +25,7 @@ var USED = -1
 
 var center_h = 0
 var center_w = 0
-var center_depth = - 5
+var center_depth = - 6 # - 5
 
 var record_center_a = 0
 var record_center_b = 0
@@ -57,7 +57,7 @@ func maze_generate():
 	print("finished")
 	
 	
-	var n = find_map()
+	var n = find_map(true) ## skip loops!!
 	center_w = n.x
 	center_h = n.y 
 	
@@ -246,26 +246,30 @@ func copy_map_to_scene():
 					v.y = y
 					set_cell_item(v,1)
 
-func find_map():
+func find_map(skip_loops = false):
 	#print(h_vector, " h_vector")
-	var i = - (hall_padding  + 1.5)
-	var j = 0
-	var center_in_w = ( + record_center_a / 2 )  - center_w  
-	var center_in_h = ( + record_center_b / 2 )  - center_h   
+	var i = - (hall_padding + 1.5)
+	var j = - (hall_padding + 0)
+	var div = 1 ## 2
+	var center_in_w = ( + record_center_a / div )  - center_w  
+	var center_in_h = ( + record_center_b / div )  - center_h  
 	
-	for a in range(working_map.size() ):
-		for b in range(working_map[0].size() ):
-			
-			var cc = clamp(a, 0,  working_map.size() -1 )
-			var dd = clamp(b, 0,  working_map[0].size() -1 )  
-			print(cc,' ', dd, ' clamp')
-			var type = working_map[dd][cc]
-			if type == HALL or type == USED:
-				var r = Vector2(dd * hall_width + center_in_w + i, cc * hall_width + center_in_h + j )
-				print("found ", r)
-				return r
-	print("not found ", center_in_w, center_in_h)
-	return Vector2(center_in_w, center_in_h)
+	print(center_in_w,' ', center_in_h, ' in')
+	if not skip_loops:
+		for a in range(working_map.size() ):
+			for b in range(working_map[0].size() ):
+				
+				var cc = clamp(a, 0,  working_map.size() -1 )
+				var dd = clamp(b, 0,  working_map[0].size() -1 )  
+				print(cc,' ', dd, ' clamp')
+				var type = working_map[dd][cc]
+				if type == HALL or type == USED:
+					var r = Vector2(dd * hall_width + center_in_w  + i, cc * hall_width + center_in_h + j )
+					print("found ", r)
+					return r
+	print("not found ", center_in_w,' ', center_in_h)
+	var r =  Vector2(center_in_w + i, center_in_h + j)
+	return r
 
 func _on_grid_map_set_highest(high_vector):
 	h_vector = high_vector	
