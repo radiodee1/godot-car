@@ -238,7 +238,7 @@ func hallway_mask_previous(hallway):
 func copy_map_to_scene():
 	for i in range(finished_map.size()):
 		for j in range(finished_map[i].size()):
-			var v = Vector3i(i - center_w , center_depth ,j - center_h)			
+			var v = Vector3(i - center_w , center_depth ,j - center_h)			
 			if finished_map[i][j] > 0:
 				set_cell_item(v, 1)
 			if finished_map[i][j] == 0:
@@ -248,8 +248,9 @@ func copy_map_to_scene():
 
 func find_map(skip_loops = false):
 	#print(h_vector, " h_vector")
-	var i = - (hall_padding + 1.5)
-	var j = - hall_padding
+	var hall = hall_padding -1
+	var i = - (hall + 1.5) #1.5
+	var j = - (hall + 1.5)
 	var div = 1 ## 0.5
 	var center_in_w = ( + record_center_a * div )  - center_w  
 	var center_in_h = ( + record_center_b * div )  - center_h  
