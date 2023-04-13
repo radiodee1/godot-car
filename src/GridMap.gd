@@ -32,18 +32,18 @@ func _ready()->void:
 					#set_cell_item(i, 0)
 					set_cell_group(x,y,z, 2, true)
 					
-	#print("done.")
-	#print(highest)
-	highest.y +=  scale_local * 2.5
-	#highest.x += scale_local
-	#highest.z += scale_local
-	highest = Vector3(highest.x + 1, highest.y , highest.z + 1 )
+	var hh = Vector3(highest)
+	highest.y +=  scale_local * 2.5 ## <--
+	highest = Vector3(highest.x + 1, highest.y , highest.z + 1 ) ## <--
 	#print(highest, " terrain")
 	place_highest(highest)
 	
 	#highest = Vector3(highest.z, highest.y, highest.x)
-	set_highest.emit(highest)
-	print(get_tree().get_nodes_in_group('mob'))
+	set_highest.emit(hh)
+	#print(get_tree().get_nodes_in_group('mob'))
+	print('terrain')
+	print('highest ', hh, ' ', highest)
+	print("hx,y,z ", highest.x / 5,' ', highest.y / 5,' ', highest.z / 5)
 	
 func set_cell_group(x, y, z, index, check_highest=false):
 	for xx in range(x * group_size, x * group_size + group_size ):
@@ -51,7 +51,8 @@ func set_cell_group(x, y, z, index, check_highest=false):
 			var i = Vector3(xx, y, zz)
 			set_cell_item(i, index)
 			if check_highest and highest.y < i.y:
-				highest = Vector3(x * group_size + group_size / 2, i.y ,z * group_size + group_size / 2) 
+				#highest = Vector3(x * group_size + group_size / 2, i.y ,z * group_size + group_size / 2) 
+				highest = Vector3(x * group_size, i.y, z * group_size)
 			
 
 func place_highest(v):

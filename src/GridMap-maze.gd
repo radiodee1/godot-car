@@ -7,7 +7,7 @@ var hall_walkway = 3
 var hall_width = hall_padding + hall_walkway + hall_padding ## 5??
 
 # must include padding around actual vectors
-var maze_w = 5
+var maze_w = 10 #5
 var maze_h = 10
 
 var start_vectors = []
@@ -25,7 +25,7 @@ var USED = -1
 
 var center_h = 0
 var center_w = 0
-var center_depth = - 6 # - 5
+var center_depth = - 6 
 
 var record_center_a = 0
 var record_center_b = 0
@@ -57,14 +57,13 @@ func maze_generate():
 	process_astar_vectors(start_vectors_index)
 	print("finished")
 	
-	
 	var n = find_map(false) ## skip loops??
 	center_w = n.x
 	center_h = n.y 
 	
 	show_2d_grid(finished_map, true)
 	
-	copy_map_to_scene()
+	copy_map_to_scene(true)
 	pass 
 
 
@@ -90,12 +89,12 @@ func show_2d_grid(matrix, advance = false):
 			var line = ""
 			for j in range(matrix[h].size()):
 				if matrix[h][j] == 0:
-					line += "    " ## 4 spaces
+					line += "   " ## 3 spaces
 				else:
 					var jj = abs(j / hall_width)
 					var hh = abs(h / hall_width)
 					var line_temp = " " + str( vector_to_index(Vector2(hh,jj)) ) + "   "
-					line += line_temp.substr(0, 4)
+					line += line_temp.substr(0, 3)
 			print(line)
 
 func randomize_vector2d(length_of_array, left_padding, top_padding, width_of_map, height_of_map):
@@ -185,7 +184,7 @@ func hallway_in_map(hallway):
 				assign_map(j, i, HALL)
 				working_map[v.x][v.y] = HALL
 				record_center_a = j
-				record_center_b = i
+				record_center_b = i #+ working_map.size()
 				record_index = hh
 	
 	for h in range(hallway.size()):
@@ -237,33 +236,59 @@ func hallway_mask_previous(hallway):
 		working_map[v.x][v.y] = USED
 		astar.set_point_disabled(hh)
 
-func copy_map_to_scene():
-	for i in range( - (finished_map.size() -1), 0): ## mirror
-		for j in range( - (finished_map[i].size() -1), 0):
-			var ii = - i
-			var jj = - j
-			var v = Vector3(i - center_w + finished_map.size() , center_depth ,jj - center_h )	
-			if finished_map[ii][jj] > 0:
-				set_cell_item(v, 1)
-			if finished_map[ii][jj] == 0:
-				for y in range(center_depth, center_depth + 4):
-					v.y = y
-					set_cell_item(v,1)
+func copy_map_to_scene(flip = false):
+	if flip:
+		for i in range(- ( finished_map.size() -1),0 ): ## mirror
+			for j in range( -(finished_map[i].size() -1),0):
+				var ii =  finished_map.size() + i
+				var jj =  finished_map[0].size() + j 
+				var a =  finished_map.size()
+				var b =  finished_map[0].size()
+				var v = Vector3(i - center_w + a , center_depth ,j - center_h + b )	
+				
+				#v.x = - ii - center_w + a
+				#print(v.x, " v.x new")
+				v.z = - jj - center_h + b 
+				if finished_map[ii][jj] > 0:
+					set_cell_item(v, 1)
+				if finished_map[ii][jj] == 0:
+					for y in range(center_depth, center_depth + 4):
+						v.y = y
+						set_cell_item(v,1)
+		
+	else:	
+		for i in range( - (finished_map.size() -1), 0): ## mirror
+			for j in range(  - (finished_map[i].size() -1), 0):
+				var ii = finished_map.size() +    i
+				var jj = finished_map[0].size()  + j 
+				var a = finished_map.size()
+				var b = finished_map[0].size()
+				var v = Vector3(i - center_w + a , center_depth ,j - center_h + b )	
+				if finished_map[ii][jj] > 0:
+					set_cell_item(v, 1)
+				if finished_map[ii][jj] == 0:
+					for y in range(center_depth, center_depth + 4):
+						v.y = y
+						set_cell_item(v,1)
 
 func find_map(skip_loops = false):
 	#print(h_vector, " h_vector")
-	var hall = 0 #hall_width #hall_padding
-	var i =  (hall + hall_width ) #1.5
-	var j = - (hall + hall_width)
+	var hall = hall_width #/ 2 #hall_padding
+	var i = - (hall ) #1.5
+	var j = - (hall )
 	var div = 1 # 0.5
-	var center_in_h =  ( + record_center_a * div   - center_h)  
-	var center_in_w =  ( + record_center_b * div   - center_w) # - finished_map[0].size()
-	
-	print(record_center_a,' ', record_center_b, ' in')
+	var center_in_h = ( + record_center_a * div   - center_h)  
+	var center_in_w = ( + record_center_b * div   - center_w) # - finished_map[0].size()
+	print(center_w,' ', center_h, ' h in')	
+	print(record_center_a,' ', record_center_b, ' c in')
 	if not skip_loops:
+		print('record index ', record_index)
 		var vec = index_to_vector(record_index)
-		var r = Vector2(vec.x * hall_width - center_w + i, vec.y * hall_width - center_h + j)
-		print(r, " skip loops value")
+		vec.x -= center_w / hall_width ## <-- keep w
+		vec.y -= center_h / hall_width
+		var r = Vector2(vec.x * hall_width  + i , vec.y * hall_width  + j)
+		print(r, " loops value ", center_w / hall_width, ' ', center_h / hall_width)
+		print("revector vector ", vector_to_index(Vector2(r.x, r.y)))
 		return r 
 
 	print("not found ", center_in_w,' ', center_in_h)
