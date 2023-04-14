@@ -57,13 +57,13 @@ func maze_generate():
 	process_astar_vectors(start_vectors_index)
 	print("finished")
 	
-	var n = find_map(false) ## skip loops??
+	show_2d_grid(finished_map, true)
+	
+	var n = find_map() 
 	center_w = n.x
 	center_h = n.y 
 	
-	show_2d_grid(finished_map, true)
-	
-	copy_map_to_scene(true)
+	copy_map_to_scene()
 	pass 
 
 
@@ -236,64 +236,54 @@ func hallway_mask_previous(hallway):
 		working_map[v.x][v.y] = USED
 		astar.set_point_disabled(hh)
 
-func copy_map_to_scene(flip = false):
-	if flip:
-		for i in range(- ( finished_map.size() -1),0 ): ## mirror
-			for j in range( -(finished_map[i].size() -1),0):
-				var ii =  finished_map.size() + i
-				var jj =  finished_map[0].size() + j 
-				var a =  finished_map.size()
-				var b =  finished_map[0].size()
-				var v = Vector3(i - center_w + a , center_depth ,j - center_h + b )	
-				
-				#v.x = - ii - center_w + a
-				#print(v.x, " v.x new")
-				v.z = - jj - center_h + b 
-				if finished_map[ii][jj] > 0:
-					set_cell_item(v, 1)
-				if finished_map[ii][jj] == 0:
-					for y in range(center_depth, center_depth + 4):
-						v.y = y
-						set_cell_item(v,1)
+func copy_map_to_scene():
+
+	for i in range(- ( finished_map.size() -1),0 ): ## mirror
+		for j in range( -(finished_map[i].size() -1),0):
+			var ii =  finished_map.size() + i
+			var jj =  finished_map[0].size() + j 
+			var a =  finished_map.size()
+			var b =  finished_map[0].size()
+			var v = Vector3(i - center_w + a , center_depth ,j - center_h + b )	
+			
+			#v.x = - ii - center_w + a
+			#print(v.x, " v.x new")
+			v.z = - jj - center_h + b 
+			if finished_map[ii][jj] > 0:
+				set_cell_item(v, 1)
+			if finished_map[ii][jj] == 0:
+				for y in range(center_depth, center_depth + 4):
+					v.y = y
+					set_cell_item(v,1)
 		
-	else:	
-		for i in range( - (finished_map.size() -1), 0): ## mirror
-			for j in range(  - (finished_map[i].size() -1), 0):
-				var ii = finished_map.size() +    i
-				var jj = finished_map[0].size()  + j 
-				var a = finished_map.size()
-				var b = finished_map[0].size()
-				var v = Vector3(i - center_w + a , center_depth ,j - center_h + b )	
-				if finished_map[ii][jj] > 0:
-					set_cell_item(v, 1)
-				if finished_map[ii][jj] == 0:
-					for y in range(center_depth, center_depth + 4):
-						v.y = y
-						set_cell_item(v,1)
 
-func find_map(skip_loops = false):
-	#print(h_vector, " h_vector")
-	var hall = hall_width #/ 2 #hall_padding
-	var i = - (hall ) #1.5
-	var j = - (hall )
-	var div = 1 # 0.5
-	var center_in_h = ( + record_center_a * div   - center_h)  
-	var center_in_w = ( + record_center_b * div   - center_w) # - finished_map[0].size()
-	print(center_w,' ', center_h, ' h in')	
-	print(record_center_a,' ', record_center_b, ' c in')
-	if not skip_loops:
-		print('record index ', record_index)
-		var vec = index_to_vector(record_index)
-		vec.x -= center_w / hall_width ## <-- keep w
-		vec.y -= center_h / hall_width
-		var r = Vector2(vec.x * hall_width  + i , vec.y * hall_width  + j)
-		print(r, " loops value ", center_w / hall_width, ' ', center_h / hall_width)
-		print("revector vector ", vector_to_index(Vector2(r.x, r.y)))
-		return r 
+func find_map():
+	#if not skip_loops:
+	print('record index ', record_index)
+	var hall = hall_width / 2 
+	var i =  hall
+	var j =  hall
+	
+	var vec = index_to_vector(record_index)
+	#print(Vector2(h_vector.x / hall_width / 2, h_vector.z / hall_width / 2 ) , ' ' , vec, ' ' , "vectors")
+	var sign_h = sign(h_vector.x / hall_width * 2 - vec.x  ) * 1
+	var sign_w = sign(h_vector.z / hall_width * 2 - vec.y  ) * 1 
+	
+	i *= sign_w 
+	j *= sign_h
+		
+	print(sign_w,' ', sign_h, ' signs i,j')
+	#print(center_w, ' ' , center_h, ' w,h')
+	var a = center_w  #hall_width  
+	var b = center_h  #hall_width
+	
+	var c = center_w / 1 
+	var d = center_h / 1 
+	var r = Vector2(vec.x * hall_width / 1 - c + i , vec.y * hall_width / 1 - d + j)
+	#var r = Vector2(vec.x * hall_width - a + i , vec.y * hall_width - b + j)
+	
+	return r 
 
-	print("not found ", center_in_w,' ', center_in_h)
-	var r =  Vector2(center_in_w + i, center_in_h + j)
-	return r
 
 func _on_grid_map_set_highest(high_vector):
 	h_vector = high_vector	
