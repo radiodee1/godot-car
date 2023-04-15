@@ -260,28 +260,32 @@ func copy_map_to_scene():
 func find_map():
 	#if not skip_loops:
 	print('record index ', record_index)
-	var hall = hall_width / 2 
+	var hall = 2# hall_width * .5
 	var i =  hall
-	var j =  hall
-	
+	var j =  hall 
+
 	var vec = index_to_vector(record_index)
 	#print(Vector2(h_vector.x / hall_width / 2, h_vector.z / hall_width / 2 ) , ' ' , vec, ' ' , "vectors")
-	var sign_h = sign(h_vector.x / hall_width * 2 - vec.x  ) * 1
-	var sign_w = sign(h_vector.z / hall_width * 2 - vec.y  ) * 1 
+	var sign_h = sign(h_vector.x / hall_width  - vec.x  ) * 1
+	var sign_w = sign(h_vector.z / hall_width  - vec.y  ) * 1 
 	
 	i *= sign_w 
-	j *= sign_h
-		
-	print(sign_w,' ', sign_h, ' signs i,j')
+	j *= sign_h 
+	#print(i, ' ', j, " values i,j")		
+	#print(sign_w,' ', sign_h, ' signs i,j')
 	#print(center_w, ' ' , center_h, ' w,h')
 	var a = center_w  #hall_width  
 	var b = center_h  #hall_width
-	
-	var c = center_w / 1 
-	var d = center_h / 1 
-	var r = Vector2(vec.x * hall_width / 1 - c + i , vec.y * hall_width / 1 - d + j)
-	#var r = Vector2(vec.x * hall_width - a + i , vec.y * hall_width - b + j)
-	
+	#h_vector.x *= sign_w
+	#h_vector.y *= sign_h
+	#vec.x *= sign_w
+	#vec.y *= sign_h
+	var c = center_w 
+	var d = center_h 
+	#print(c, ' ', d, ' center w,h ' , vec )
+	#var r = Vector2(vec.x * hall_width / 1 - c + i , vec.y * hall_width / 1 - d + j)
+	var r = Vector2( vec.x * hall_width + i -c , vec.y * hall_width + j -d )
+	#print(r, " r ", h_vector)
 	return r 
 
 
