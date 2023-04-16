@@ -48,9 +48,9 @@ func set_cell_group(x, y, z, index, check_highest=false):
 			var i = Vector3(xx, y, zz)
 			set_cell_item(i, index)
 			if check_highest and highest.y < i.y:
-				#highest = Vector3(x * group_size + group_size / 2, i.y ,z * group_size + group_size / 2) 
+				
 				highest = Vector3(x * group_size, i.y, z * group_size)
-			
+				#highest = Vector3(x,y,z)
 
 func place_highest(v):
 	#mesh_instance_3d.mesh = load("res://assets/altar.obj")

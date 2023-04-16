@@ -60,10 +60,10 @@ func maze_generate():
 	show_2d_grid(finished_map, true)
 	
 	var n = find_map() 
-	center_w = n.x
-	center_h = n.y 
+	#center_w = n.x
+	#center_h = n.y 
 	
-	copy_map_to_scene()
+	copy_map_to_scene(n)
 	pass 
 
 
@@ -236,19 +236,19 @@ func hallway_mask_previous(hallway):
 		working_map[v.x][v.y] = USED
 		astar.set_point_disabled(hh)
 
-func copy_map_to_scene():
-
+func copy_map_to_scene(n:Vector2):
+	#print('h_vector now ', h_vector)
 	for i in range(- ( finished_map.size() -1),0 ): ## mirror
 		for j in range( -(finished_map[i].size() -1),0):
 			var ii =  finished_map.size() + i
 			var jj =  finished_map[0].size() + j 
 			var a =  finished_map.size()
 			var b =  finished_map[0].size()
-			var v = Vector3(i - center_w + a , center_depth ,j - center_h + b )	
+			var v = Vector3(i - n.x + a , center_depth ,j - n.y + b )	
 			
-			#v.x = - ii - center_w + a
 			#print(v.x, " v.x new")
-			v.z = - jj - center_h + b 
+			
+			v.z = - jj - n.y + b ## <--
 			if finished_map[ii][jj] > 0:
 				set_cell_item(v, 1)
 			if finished_map[ii][jj] == 0:
@@ -260,39 +260,37 @@ func copy_map_to_scene():
 func find_map():
 	#if not skip_loops:
 	print('record index ', record_index)
-	var hall = 2# hall_width * .5
-	var i =  hall
-	var j =  hall 
-
 	var vec = index_to_vector(record_index)
-	#print(Vector2(h_vector.x / hall_width / 2, h_vector.z / hall_width / 2 ) , ' ' , vec, ' ' , "vectors")
-	var sign_h = sign(h_vector.x / hall_width  - vec.x  ) * 1
-	var sign_w = sign(h_vector.z / hall_width  - vec.y  ) * 1 
+	var hall =  2
+	var i =   hall 
+	var j =   hall
+
+	var sign_w = 0
+	var sign_h = 0 
 	
-	i *= sign_w 
-	j *= sign_h 
-	#print(i, ' ', j, " values i,j")		
-	#print(sign_w,' ', sign_h, ' signs i,j')
-	#print(center_w, ' ' , center_h, ' w,h')
-	var a = center_w  #hall_width  
-	var b = center_h  #hall_width
-	#h_vector.x *= sign_w
-	#h_vector.y *= sign_h
-	#vec.x *= sign_w
-	#vec.y *= sign_h
-	var c = center_w 
-	var d = center_h 
-	#print(c, ' ', d, ' center w,h ' , vec )
-	#var r = Vector2(vec.x * hall_width / 1 - c + i , vec.y * hall_width / 1 - d + j)
-	var r = Vector2( vec.x * hall_width + i -c , vec.y * hall_width + j -d )
-	#print(r, " r ", h_vector)
-	return r 
+
+	var c =  h_vector.x 
+	var d =  h_vector.z 
+	#c *= sign_w
+	#d *= sign_h
+	
+	var width_h = hall_width 
+	var width_w = hall_width 
+	#print(c, ' ', d, ' c/d w,h ' , vec )
+	var r = Vector2(  ( vec.x * width_w  - c)  ,  (  vec.y * width_h  - d)   )
+	sign_w = sign(r.x) * -1
+	sign_h = sign(r.y) * 1
+	r.x += i * sign_w
+	r.y += j * sign_h
+	print(i,' ', j, ' signs i,j')
+	print(r, " r ", h_vector, ' ' , vec)
+	return r
 
 
 func _on_grid_map_set_highest(high_vector):
 	h_vector = high_vector	
-	center_w = high_vector.x
-	center_h = high_vector.z 
+	#center_w = high_vector.x
+	#center_h = high_vector.z 
 	#print(center_h, ' ', center_w, ' center h, w 2')
 	maze_generate()
 	print('high vector ', high_vector)
