@@ -35,7 +35,7 @@ func _ready()->void:
 	#var hh = Vector3(highest)
 	highest.y +=  scale_local * 2.5 ## <--
 	highest = Vector3(highest.x + 1, highest.y , highest.z + 1 ) ## <--
-	#print(highest, " terrain")
+	print(highest, " terrain")
 	place_highest(highest)
 	
 	#highest = Vector3(highest.z, highest.y, highest.x)
@@ -51,6 +51,7 @@ func set_cell_group(x, y, z, index, check_highest=false):
 				
 				highest = Vector3(x * group_size, i.y, z * group_size)
 				#highest = Vector3(x,y,z)
+				print(highest)
 
 func place_highest(v):
 	#mesh_instance_3d.mesh = load("res://assets/altar.obj")
@@ -99,12 +100,15 @@ func make_hole_to_maze():
 	var LOWER = 1
 	var size = group_size
 	var xz_size = 5  # 3
+	var xz_size_half = xz_size / 2
 	for i in range( - (highest.y * size + size),  (highest.y ) * size + size):
-		for x in range(highest.x , highest.x + xz_size):
-			for z in range(highest.z, highest.z + xz_size):
+		for x in range(highest.x - xz_size_half, highest.x + xz_size - xz_size_half):
+			for z in range(highest.z - xz_size_half, highest.z + xz_size - xz_size_half):
 				pass
-				var xx = x - xz_size / 2
-				var zz = z - xz_size / 2
+				var xx = x #- xz_size / 2
+				var zz = z #- xz_size / 2
+				#xx = ceil(xx)
+				#zz = ceil(zz)
 				var type = get_cell_item(Vector3i(xx , i , zz))
 				#print(i, " i")
 				if type == UPPER:

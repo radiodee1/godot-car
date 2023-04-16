@@ -31,7 +31,7 @@ var record_center_a = 0
 var record_center_b = 0
 var record_index = 0
 
-var h_vector = Vector2(0,0)
+var h_vector = Vector3(0,0,0)
   
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -60,8 +60,6 @@ func maze_generate():
 	show_2d_grid(finished_map, true)
 	
 	var n = find_map() 
-	#center_w = n.x
-	#center_h = n.y 
 	
 	copy_map_to_scene(n)
 	pass 
@@ -248,7 +246,7 @@ func copy_map_to_scene(n:Vector2):
 			
 			#print(v.x, " v.x new")
 			
-			v.z = - jj - n.y + b ## <--
+			v.z = - jj - n.y + b 
 			if finished_map[ii][jj] > 0:
 				set_cell_item(v, 1)
 			if finished_map[ii][jj] == 0:
@@ -261,14 +259,13 @@ func find_map():
 	#if not skip_loops:
 	print('record index ', record_index)
 	var vec = index_to_vector(record_index)
-	var hall =  2
+	var hall =  2 
 	var i =   hall 
 	var j =   hall
 
 	var sign_w = 0
 	var sign_h = 0 
 	
-
 	var c =  h_vector.x 
 	var d =  h_vector.z 
 	#c *= sign_w
