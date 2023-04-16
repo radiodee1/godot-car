@@ -11,7 +11,7 @@ var maze_w = 10 #5
 var maze_h = 10
 
 var start_vectors = []
-var vectors_len = 3# + 10
+var vectors_len = 3 + 10
 var start_vectors_index = []
 
 var working_map = []
