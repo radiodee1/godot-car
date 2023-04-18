@@ -1,4 +1,6 @@
-extends GridMap
+#extends GridMap
+
+extends Resource
 
 var hall_padding = 1
 var hall_walkway = 3
@@ -11,7 +13,7 @@ var maze_w = 10 #5
 var maze_h = 10
 
 var start_vectors = []
-var vectors_len = 3 + 10
+var vectors_len = 3 #+ 10
 var start_vectors_index = []
 
 var working_map = []
@@ -31,7 +33,9 @@ var record_center_a = 0
 var record_center_b = 0
 var record_index = 0
 
-var h_vector = Vector3(0,0,0)
+var h_vector: Vector3 #= Vector3(0,0,0)
+
+var set_cell_item: Callable
   
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -41,8 +45,9 @@ func _ready():
 func _init():
 	pass
 	
-func maze_generate():
+func maze_generate(hvec=Vector3(0,0,0)):
 	#print(center_h, ' ', center_w, ' center h, w  0')
+	h_vector = hvec
 
 	working_map = make_2d_grid(maze_w, maze_h)
 	
@@ -236,30 +241,31 @@ func hallway_mask_previous(hallway):
 
 func copy_map_to_scene(n:Vector2):
 	#print('h_vector now ', h_vector)
+	
 	for i in range(- ( finished_map.size() -1),0 ): ## mirror
 		for j in range( -(finished_map[i].size() -1),0):
 			var ii =  finished_map.size() + i
 			var jj =  finished_map[0].size() + j 
 			var a =  finished_map.size()
 			var b =  finished_map[0].size()
-			var v = Vector3(i - n.x + a , center_depth ,j - n.y + b )	
+			var v = Vector3(i - n.x + a , center_depth ,j - n.y + b  )	
 			
 			#print(v.x, " v.x new")
 			
 			v.z = - jj - n.y + b 
 			if finished_map[ii][jj] > 0:
-				set_cell_item(v, 1)
+				set_cell_item.call(v, 1)
 			if finished_map[ii][jj] == 0:
 				for y in range(center_depth, center_depth + 4):
 					v.y = y
-					set_cell_item(v,1)
+					set_cell_item.call(v,1)
 		
 
 func find_map():
 	#if not skip_loops:
 	print('record index ', record_index)
 	var vec = index_to_vector(record_index)
-	var hall =  2 
+	var hall =  3
 	var i =   hall 
 	var j =   hall
 
@@ -275,20 +281,25 @@ func find_map():
 	var width_w = hall_width 
 	#print(c, ' ', d, ' c/d w,h ' , vec )
 	var r = Vector2(  ( vec.x * width_w  - c)  ,  (  vec.y * width_h  - d)   )
-	sign_w = sign(r.x) * -1
-	sign_h = sign(r.y) * 1
-	r.x += i * sign_w
-	r.y += j * sign_h
+	#var rr = Vector2(- r.x - vec.x * width_w, - r.y -  vec.y * width_h)
+	sign_w = sign(r.x) *  1
+	sign_h = sign(r.y) *  1
+	
+	#var rr = Vector2(abs(r.x), abs(r.y))
+	
+	
+	r.x += (i) # * sign_w
+	r.y += (j) # * sign_h
+	
 	print(i,' ', j, ' signs i,j')
-	print(r, " r ", h_vector, ' ' , vec)
-	return r
+	print(r, " r ", h_vector, ' ' , vec,' ')
+	
+	return  r
 
 
-func _on_grid_map_set_highest(high_vector):
-	h_vector = high_vector	
-	#center_w = high_vector.x
-	#center_h = high_vector.z 
-	#print(center_h, ' ', center_w, ' center h, w 2')
-	maze_generate()
-	print('high vector ', high_vector)
+
+func set_callable(set_cell: Callable):
+	set_cell_item = set_cell
+
+
 	

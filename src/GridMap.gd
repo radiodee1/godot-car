@@ -17,6 +17,8 @@ signal set_highest(high_vector:Vector3)
 
 var mesh_instance_3d 
 
+@onready var maze = preload("res://src/GridMap-maze.gd").new()
+
 # Called when the node enters the scene tree for the first time.
 func _ready()->void:
 	
@@ -38,8 +40,13 @@ func _ready()->void:
 	print(highest, " terrain")
 	place_highest(highest)
 	
-	#highest = Vector3(highest.z, highest.y, highest.x)
-	set_highest.emit(highest) ## <-- hh
+	maze.set_callable(set_cell_item)
+	#maze.set_h_vector(highest)
+	#maze.h_vector = highest
+	maze.maze_generate(highest)
+	
+	
+	#set_highest.emit(highest) ## <-- 
 	#
 	
 func set_cell_group(x, y, z, index, check_highest=false):
@@ -51,7 +58,7 @@ func set_cell_group(x, y, z, index, check_highest=false):
 				
 				highest = Vector3(x * group_size, i.y, z * group_size)
 				#highest = Vector3(x,y,z)
-				print(highest)
+				#print(highest, ' print highest')
 
 func place_highest(v):
 	#mesh_instance_3d.mesh = load("res://assets/altar.obj")
@@ -109,7 +116,7 @@ func make_hole_to_maze():
 				var zz = z #- xz_size / 2
 				#xx = ceil(xx)
 				#zz = ceil(zz)
-				var type = get_cell_item(Vector3i(xx , i , zz))
+				var type = get_cell_item(Vector3(xx , i , zz)) ##<-- Vector3i
 				#print(i, " i")
 				if type == UPPER:
 					#var some_x = highest.x / group_size - 0.5
