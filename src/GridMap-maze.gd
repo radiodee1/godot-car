@@ -51,14 +51,14 @@ func maze_generate(hvec=Vector3(0,0,0)):
 
 	working_map = make_2d_grid(maze_w, maze_h)
 	
-	working_map = prepare_working_map(working_map)
-	
 	finished_map = make_2d_grid(maze_w * hall_width, maze_h * hall_width)
 	
 	start_vectors = randomize_vector2d(vectors_len, 1, 1, maze_w, maze_h )
 	
 	add_to_astar(working_map, true)
 	
+	prepare_working_map()
+		
 	start_vectors_index = vector_2d_to_index_list(start_vectors)
 	
 	process_astar_vectors(start_vectors_index)
@@ -92,8 +92,13 @@ func show_2d_grid(matrix, advance = false):
 		for h in matrix:
 			print(h)
 	else:
+		var line = "|"
 		for h in range(matrix.size()):
-			var line = ""
+			line += "---"
+		line += "|"
+		print(line)	
+		for h in range(matrix.size()):
+			line = "|"
 			for j in range(matrix[h].size()):
 				if matrix[h][j] == 0:
 					line += "   " ## 3 spaces
@@ -102,9 +107,16 @@ func show_2d_grid(matrix, advance = false):
 					var hh = abs(h / hall_width)
 					var line_temp = " " + str( vector_to_index(Vector2(hh,jj)) ) + "   "
 					line += line_temp.substr(0, 3)
+			line += "|"
 			print(line)
+		line = "|"
+		for h in range(matrix.size()):
+			line += "---"
+		line += "|"
+		print(line)			
 
-func prepare_working_map(map):
+func prepare_working_map():
+	var map = working_map
 	for i in range(map.size()):
 		for j in range(map[i].size()):
 			if i == 0:
@@ -115,7 +127,11 @@ func prepare_working_map(map):
 				map[i][j] = USED
 			if j == map[i].size() - 1:
 				map[i][j] = USED
-	return map 
+				
+			if map[i][j] == USED:
+				astar.set_point_disabled(vector_to_index(Vector2(j,i)))
+			## assume x-size equals y-size
+	
 
 
 func randomize_vector2d(length_of_array, left_padding, top_padding, width_of_map, height_of_map):

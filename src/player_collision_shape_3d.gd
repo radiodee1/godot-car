@@ -47,6 +47,7 @@ func _input(event):
 		#rotation.x = deg_to_rad(- event.relative.x * mouse_sense)
 		head.rotate_x(deg_to_rad(-event.relative.y * mouse_sense))
 		head.rotation.x = clamp(head.rotation.x, deg_to_rad(-69), deg_to_rad(69))
+	
 
 func _process(delta):
 	#camera physics interpolation to reduce physics jitter on high refresh-rate monitors
@@ -62,6 +63,8 @@ func _physics_process(delta):
 	var f_input = Input.get_action_strength("move_backward") - Input.get_action_strength("move_forward")
 	var h_input = Input.get_action_strength("move_right") - Input.get_action_strength("move_left")
 	direction = Vector3(h_input, 0, f_input).rotated(Vector3.UP, h_rot).normalized()
+	
+	check_joystick()
 	
 	#jumping and gravity
 	if is_on_floor():
@@ -93,6 +96,17 @@ func _physics_process(delta):
 	move_and_slide()
 	
 	
+func check_joystick():
+	
+	var stick_left = Input.get_action_strength("stick_left")
+	var stick_right = Input.get_action_strength("stick_right")
+	var stick_up = Input.get_action_strength("stick_up")
+	var stick_down = Input.get_action_strength("stick_down")
+	#print(stick_down, ' ' , stick_up)
+	rotate_y(- (stick_right - stick_left) * deg_to_rad(2))
+	head.rotate_x((stick_down - stick_up) * deg_to_rad(1) )
+	head.rotation.x = clamp(head.rotation.x, deg_to_rad(-69), deg_to_rad(69))
+	pass 
 	
 func check_collision():
 	
