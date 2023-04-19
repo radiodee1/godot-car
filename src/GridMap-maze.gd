@@ -51,6 +51,8 @@ func maze_generate(hvec=Vector3(0,0,0)):
 
 	working_map = make_2d_grid(maze_w, maze_h)
 	
+	working_map = prepare_working_map(working_map)
+	
 	finished_map = make_2d_grid(maze_w * hall_width, maze_h * hall_width)
 	
 	start_vectors = randomize_vector2d(vectors_len, 1, 1, maze_w, maze_h )
@@ -61,6 +63,8 @@ func maze_generate(hvec=Vector3(0,0,0)):
 	
 	process_astar_vectors(start_vectors_index)
 	print("finished")
+	
+	#show_2d_grid(working_map)
 	
 	show_2d_grid(finished_map, true)
 	
@@ -99,6 +103,20 @@ func show_2d_grid(matrix, advance = false):
 					var line_temp = " " + str( vector_to_index(Vector2(hh,jj)) ) + "   "
 					line += line_temp.substr(0, 3)
 			print(line)
+
+func prepare_working_map(map):
+	for i in range(map.size()):
+		for j in range(map[i].size()):
+			if i == 0:
+				map[i][j] = USED
+			if i == map.size() - 1:
+				map[i][j] = USED
+			if j == 0:
+				map[i][j] = USED
+			if j == map[i].size() - 1:
+				map[i][j] = USED
+	return map 
+
 
 func randomize_vector2d(length_of_array, left_padding, top_padding, width_of_map, height_of_map):
 	var v = []
@@ -284,9 +302,6 @@ func find_map():
 	#var rr = Vector2(- r.x - vec.x * width_w, - r.y -  vec.y * width_h)
 	sign_w = sign(r.x) *  1
 	sign_h = sign(r.y) *  1
-	
-	#var rr = Vector2(abs(r.x), abs(r.y))
-	
 	
 	r.x += (i) # * sign_w
 	r.y += (j) # * sign_h
