@@ -110,10 +110,10 @@ func check_collision():
 						print(collision.get_collider().name)
 						emit_hole_to_maze += 1
 						hole_to_maze.emit()
-						print('emit num ', emit_hole_to_maze)
-						print("player")
-						print('position ', position)
-						print("x,y,z ", position.x / 5, ' ', position.y / 5, ' ', position.z / 5)
+						#print('emit num ', emit_hole_to_maze)
+						#print("player")
+						#print('position ', position)
+						#print("x,y,z ", position.x / 5, ' ', position.y / 5, ' ', position.z / 5)
 			# here
 			
 			

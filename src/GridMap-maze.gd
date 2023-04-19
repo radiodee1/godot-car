@@ -306,8 +306,8 @@ func find_map():
 	r.x += (i) # * sign_w
 	r.y += (j) # * sign_h
 	
-	print(i,' ', j, ' signs i,j')
-	print(r, " r ", h_vector, ' ' , vec,' ')
+	#print(i,' ', j, ' signs i,j')
+	#print(r, " r ", h_vector, ' ' , vec,' ')
 	
 	return  r
 

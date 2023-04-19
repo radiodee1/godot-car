@@ -37,7 +37,7 @@ func _ready()->void:
 	#var hh = Vector3(highest)
 	highest.y +=  scale_local * 2.5 ## <--
 	highest = Vector3(highest.x + 1, highest.y , highest.z + 1 ) ## <--
-	print(highest, " terrain")
+	#print(highest, " terrain")
 	place_highest(highest)
 	
 	maze.set_callable(set_cell_item)
