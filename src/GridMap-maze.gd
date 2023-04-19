@@ -13,7 +13,7 @@ var maze_w = 10 #5
 var maze_h = 10
 
 var start_vectors = []
-var vectors_len = 3 + 10
+var vectors_len = 3 #+ 10
 var start_vectors_index = []
 
 var working_map = []
@@ -298,7 +298,7 @@ func find_map():
 	#if not skip_loops:
 	print('record index ', record_index)
 	var vec = index_to_vector(record_index)
-	var hall =  3
+	var hall =  4
 	var i =   hall 
 	var j =   hall
 
@@ -318,8 +318,8 @@ func find_map():
 	sign_w = sign(r.x) *  1
 	sign_h = sign(r.y) *  1
 	
-	r.x += (i) # * sign_w
-	r.y += (j) # * sign_h
+	r.x += (i) * sign_w
+	r.y += (j) * sign_h
 	
 	#print(i,' ', j, ' signs i,j')
 	#print(r, " r ", h_vector, ' ' , vec,' ')

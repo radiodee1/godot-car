@@ -35,10 +35,15 @@ func _ready()->void:
 					set_cell_group(x,y,z, 2, true)
 					
 	#var hh = Vector3(highest)
-	highest.y +=  scale_local * 2.5 ## <--
-	highest = Vector3(highest.x + 1, highest.y , highest.z + 1 ) ## <--
-	#print(highest, " terrain")
+	#highest.y += scale_local * 2.5 ## <--
+	#highest = Vector3(highest.x + 1, highest.y , highest.z + 1 ) ## <--
+	print(highest, " before")
+	
 	place_highest(highest)
+	highest = change_highest(highest)
+	
+	print(highest, " terrain")
+	#place_highest(highest)
 	
 	maze.set_callable(set_cell_item)
 	#maze.set_h_vector(highest)
@@ -50,22 +55,39 @@ func _ready()->void:
 	#
 	
 func set_cell_group(x, y, z, index, check_highest=false):
+	#if x / group_size * group_size != x : print(x, " group settings")
 	for xx in range(x * group_size, x * group_size + group_size ):
 		for zz in range(z * group_size, z * group_size + group_size):
-			var i = Vector3(xx, y, zz)
+			var i_x = xx 
+			var i_z = zz
+			#if i_x != xx / group_size * group_size: print(i_x, ' ', xx, ' group settings')
+			var i = Vector3(i_x, y, i_z)
 			set_cell_item(i, index)
 			if check_highest and highest.y < i.y:
-				
-				highest = Vector3(x * group_size, i.y, z * group_size)
+				var group_x = x * group_size
+				var group_z = z * group_size
+				highest = Vector3(group_x, i.y, group_z)
 				#highest = Vector3(x,y,z)
 				#print(highest, ' print highest')
 
+func change_highest(high):
+	var x: int = int(high.x) / group_size * group_size
+	var y: int = int(high.y) / group_size * group_size
+	var z: int = int(high.z) / group_size * group_size
+	if x != high.x or z != high.z:
+		print(x, ' ', high.x, ' ', z , ' ', high.z)
+	var vec = Vector3(x, y, z)
+	return vec 
+
 func place_highest(v):
-	#mesh_instance_3d.mesh = load("res://assets/altar.obj")
+	v.x += 1
+	v.y += scale_local * 2.5
+	v.z += 1
+	
 	mesh_instance_3d = MeshInstance3D.new()
-	#var box_mesh = BoxMesh.new()
+	
 	var box_mesh = load("res://assets/altar.obj")
-	#print(v, " vector")
+	print(v, " vector")
 	var box_shape = BoxShape3D.new()
 	box_shape.size = Vector3(0.5,0.5,0.5)
 	#box_mesh.size = Vector3(0.5,0.5,0.5)
