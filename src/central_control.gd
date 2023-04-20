@@ -8,10 +8,9 @@ extends Control
 @onready var terrain = $"procedural-terrain"
 #@onready var start_scene = load("res://src/procedural_terrain.tscn")
 
-@onready var first_run = true
+#@onready var first_run = true
 
-func _init():
-	first_run = true
+
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -21,14 +20,7 @@ func _ready():
 	btn_unpause.pressed.connect(self._do_unpause)
 	btn_unpause.disabled = true
 	btn_unpause.visible = false
-	print("here!! ", get_tree().paused, ' ', first_run)
-	if not first_run :
-		btn_unpause.disabled = false
-		btn_unpause.visible = true
-		btn_unpause.show()
-		print('show button')
-	first_run = false
-
+	
 	process_mode = Node.PROCESS_MODE_WHEN_PAUSED
 	get_tree().paused = true 	
 	
