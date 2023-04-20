@@ -3,6 +3,8 @@ extends CharacterBody3D
 @onready var control_buttons = load("res://src/central_control.tscn")
 
 signal hole_to_maze
+#signal pause_from_terrain
+
 var emit_hole_to_maze = 0
 
 var speed = 7
@@ -29,6 +31,8 @@ const JUMP_VELOCITY = 4.5
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 
+@onready var control = $/root/CentralControl/Control
+@onready var un_pause = $/root/CentralControl/Control/un_pause
 
 
 func _ready():
@@ -39,6 +43,8 @@ func _ready():
 	self.collision_mask = 1
 	self.collision_layer = 1
 	position = Vector3(15 * 5 / 2, 5 * 5 , 15 * 5 / 2)
+	process_mode = Node.PROCESS_MODE_PAUSABLE
+	#get_tree().paused = true
 
 func _input(event):
 	#get mouse input for camera rotation
@@ -65,6 +71,7 @@ func _physics_process(delta):
 	direction = Vector3(h_input, 0, f_input).rotated(Vector3.UP, h_rot).normalized()
 	
 	check_joystick()
+	check_escape()
 	
 	#jumping and gravity
 	if is_on_floor():
@@ -107,6 +114,20 @@ func check_joystick():
 	head.rotate_x((stick_down - stick_up) * deg_to_rad(1) )
 	head.rotation.x = clamp(head.rotation.x, deg_to_rad(-69), deg_to_rad(69))
 	pass 
+	
+func check_escape():
+	## temporary game stop ##
+	var escape = Input.get_action_strength("escape")
+	if escape >= .5:
+		#add_child(control.instantiate())
+		control.show()
+		get_tree().paused = true
+		print("also here ", get_tree().paused)
+		un_pause.show()
+		un_pause.visible = true 
+		un_pause.disabled = false
+		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE) 
+	pass
 	
 func check_collision():
 	

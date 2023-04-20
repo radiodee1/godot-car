@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://bgy0bp8jhg55s"]
+[gd_scene load_steps=3 format=3 uid="uid://bgy0bp8jhg55s"]
 
 [ext_resource type="Script" path="res://src/central_control.gd" id="1_i12jh"]
+[ext_resource type="PackedScene" uid="uid://yokclqnj4l7o" path="res://src/procedural_terrain.tscn" id="2_khndm"]
 
 [node name="CentralControl" type="Control"]
 layout_mode = 3
@@ -52,3 +53,5 @@ offset_top = 190.0
 offset_right = 549.0
 offset_bottom = 230.0
 text = "RESUME GAME"
+
+[node name="procedural-terrain" parent="." instance=ExtResource("2_khndm")]

@@ -303,7 +303,7 @@ func find_map():
 	var j =   hall
 
 	var sign_w = 0
-	var sign_h = 0 
+	var sign_h = 1 
 	
 	var c =  h_vector.x 
 	var d =  h_vector.z 
@@ -315,14 +315,14 @@ func find_map():
 	#print(c, ' ', d, ' c/d w,h ' , vec )
 	var r = Vector2(  ( vec.x * width_w  - c)  ,  (  vec.y * width_h  - d)   )
 	#var rr = Vector2(- r.x - vec.x * width_w, - r.y -  vec.y * width_h)
-	sign_w = sign(r.x) *  1
-	sign_h = sign(r.y) *  1
+	#sign_w = sign(r.x) *  1
+	#sign_h = sign(r.y) *  1
 	
-	r.x += (i) * sign_w
-	r.y += (j) * sign_h
+	#r.x += -(i) * sign_w
+	#r.y += -(j) * sign_h
 	
 	#print(i,' ', j, ' signs i,j')
-	#print(r, " r ", h_vector, ' ' , vec,' ')
+	print(r, " r ", h_vector, ' ' , vec,' ')
 	
 	return  r
 
