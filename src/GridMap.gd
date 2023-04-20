@@ -1,8 +1,7 @@
 extends GridMap
 
-
 var noise := FastNoiseLite.new()
-#var noise.NoiseType := FastNoiseLite.TYPE_SIMPLEX 
+ 
 var rng = RandomNumberGenerator.new()
 
 var limit_pos = 30
@@ -147,3 +146,4 @@ func make_hole_to_maze():
 					#set_cell_group(some_x ,i, some_z , -1, false )
 					#print('type ', type, ' ', xx, ' ' , zz)
 		
+

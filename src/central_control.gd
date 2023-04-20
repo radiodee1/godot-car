@@ -6,7 +6,7 @@ extends Control
 @onready var control_buttons = $Control
 
 @onready var terrain = $"procedural-terrain"
-#@onready var start_scene = load("res://src/procedural_terrain.tscn")
+@onready var start_scene = load("res://src/procedural_terrain.tscn")
 
 #@onready var first_run = true
 
@@ -34,10 +34,12 @@ func _do_start():
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	get_tree().paused = false
 	#control_buttons.queue_free()
-	#add_child(start_scene.instantiate())
-	#process_mode = Node.PROCESS_MODE_DISABLED
-	#get_tree().paused = false
-	
+	#terrain.free()
+	#terrain.request_ready()
+	#get_node("procedural-terrain/GridMap").queue_free()
+	#get_node("procedural-terrain").add_child(get_node('procedural-terrain/GridMap') )
+	#get_node("procedural-terrain/GridMap").request_ready()
+	#print_tree_pretty()
 	control_buttons.hide()
 	
 func _do_quit():
@@ -55,3 +57,5 @@ func _do_unpause():
 	control_buttons.visible = false
 	#control_buttons.hide()
 	print("unpause")
+
+

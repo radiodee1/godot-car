@@ -96,7 +96,8 @@ func _physics_process(delta):
 	#gravity = gravity_vec * gravity_mult
 	if position.y < -2500 :
 		print(position.y, " <<< endless fall")
-		get_tree().change_scene_to_packed(control_buttons)	
+		#get_tree().change_scene_to_packed(control_buttons)	
+		control_show()
 		pass
 		
 	check_collision()
@@ -120,13 +121,17 @@ func check_escape():
 	var escape = Input.get_action_strength("escape")
 	if escape >= .5:
 		#add_child(control.instantiate())
-		control.show()
-		get_tree().paused = true
-		print("also here ", get_tree().paused)
-		un_pause.show()
-		un_pause.visible = true 
-		un_pause.disabled = false
-		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE) 
+		#get_tree().change_scene_to_file("/root/CentralControl/Control")
+		control_show()
+
+func control_show():
+	control.show()
+	get_tree().paused = true
+	#print("also here ", get_tree().paused)
+	un_pause.show()
+	un_pause.visible = true 
+	un_pause.disabled = false
+	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE) 
 	pass
 	
 func check_collision():
