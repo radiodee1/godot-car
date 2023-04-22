@@ -44,6 +44,8 @@ func _ready():
 	self.collision_layer = 1
 	position = Vector3(15 * 5 / 2, 5 * 5 , 15 * 5 / 2)
 	process_mode = Node.PROCESS_MODE_PAUSABLE
+	
+	get_node("/root/CentralControl").connect("restart_player", _on_central_control_restart_player)
 	#get_tree().paused = true
 
 func _input(event):
@@ -156,4 +158,6 @@ func check_collision():
 						#print("x,y,z ", position.x / 5, ' ', position.y / 5, ' ', position.z / 5)
 			# here
 			
-			
+func _on_central_control_restart_player():
+	position = Vector3(15 * 5 / 2, 5 * 5 , 15 * 5 / 2)
+	pass

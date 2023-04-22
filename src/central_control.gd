@@ -9,8 +9,8 @@ extends Control
 @onready var start_scene = load("res://src/procedural_terrain.tscn")
 
 #@onready var first_run = true
-
-
+signal restart_terrain
+signal restart_player
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -36,6 +36,9 @@ func _do_start():
 	#control_buttons.queue_free()
 	#terrain.free()
 	#terrain.request_ready()
+	
+	restart_terrain.emit()
+	restart_player.emit()
 	#get_node("procedural-terrain/GridMap").queue_free()
 	#get_node("procedural-terrain").add_child(get_node('procedural-terrain/GridMap') )
 	#get_node("procedural-terrain/GridMap").request_ready()

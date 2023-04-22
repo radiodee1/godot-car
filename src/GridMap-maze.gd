@@ -13,7 +13,7 @@ var maze_w = 10 #5
 var maze_h = 10
 
 var start_vectors = []
-var vectors_len = 3 + 7 #+ 10
+var vectors_len =  7 #+ 10
 var start_vectors_index = []
 
 var working_map = []
@@ -41,11 +41,33 @@ var set_cell_item: Callable
 func _ready():
 	pass
 
-func _init():
+func clear_variables():
+	start_vectors = []
+	vectors_len =  7 #+ 10
+	start_vectors_index = []
+
+	working_map = []
+	finished_map = []
+
+	center_h = 0
+	center_w = 0
+	center_depth = - 6 
+
+	record_center_a = 0
+	record_center_b = 0
+	record_index = 0
+
+	h_vector = Vector3(0,0,0)
+	astar = AStar2D.new()
+	
 	pass
+
 	
 func maze_generate(hvec=Vector3(0,0,0)):
 	#print(center_h, ' ', center_w, ' center h, w  0')
+	
+	clear_variables()
+	
 	h_vector = hvec
 
 	working_map = make_2d_grid(maze_w, maze_h)

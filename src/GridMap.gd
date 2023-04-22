@@ -20,7 +20,12 @@ var mesh_instance_3d
 
 # Called when the node enters the scene tree for the first time.
 func _ready()->void:
+	get_node("/root/CentralControl").connect("restart_terrain", _on_central_control_restart_terrain)
+	hill_generate()
+	pass
 	
+func hill_generate():	
+	highest = Vector3(0,0,0)
 	noise.seed = rng.randi()
 	noise.noise_type = FastNoiseLite.TYPE_SIMPLEX_SMOOTH 
 	#set_cell_item(Vector3i(0,0,0), 0)
@@ -36,12 +41,12 @@ func _ready()->void:
 	#var hh = Vector3(highest)
 	#highest.y += scale_local * 2.5 ## <--
 	#highest = Vector3(highest.x + 1, highest.y , highest.z + 1 ) ## <--
-	print(highest, " before")
+	#print(highest, " before")
 	
 	place_highest(highest)
 	highest = change_highest(highest)
 	
-	print(highest, " terrain")
+	#print(highest, " terrain")
 	#place_highest(highest)
 	
 	maze.set_callable(set_cell_item)
@@ -86,7 +91,7 @@ func place_highest(v):
 	mesh_instance_3d = MeshInstance3D.new()
 	
 	var box_mesh = load("res://assets/altar.obj")
-	print(v, " vector")
+	#print(v, " vector")
 	var box_shape = BoxShape3D.new()
 	box_shape.size = Vector3(0.5,0.5,0.5)
 	#box_mesh.size = Vector3(0.5,0.5,0.5)
@@ -146,4 +151,9 @@ func make_hole_to_maze():
 					#set_cell_group(some_x ,i, some_z , -1, false )
 					#print('type ', type, ' ', xx, ' ' , zz)
 		
-
+func _on_central_control_restart_terrain():
+	if mesh_instance_3d != null:
+		mesh_instance_3d.queue_free()
+	clear()
+	hill_generate()
+	pass
