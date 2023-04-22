@@ -15,6 +15,10 @@ var scale_local = 0.5
 signal set_highest(high_vector:Vector3)
 
 var mesh_instance_3d 
+var box_mesh
+var box_shape
+var static_body
+var collision_shape
 
 @onready var maze = preload("res://src/GridMap-maze.gd").new()
 
@@ -90,9 +94,9 @@ func place_highest(v):
 	
 	mesh_instance_3d = MeshInstance3D.new()
 	
-	var box_mesh = load("res://assets/altar.obj")
+	box_mesh = load("res://assets/altar.obj")
 	#print(v, " vector")
-	var box_shape = BoxShape3D.new()
+	box_shape = BoxShape3D.new()
 	box_shape.size = Vector3(0.5,0.5,0.5)
 	#box_mesh.size = Vector3(0.5,0.5,0.5)
 	mesh_instance_3d.mesh = box_mesh
@@ -100,9 +104,9 @@ func place_highest(v):
 	mesh_instance_3d.scale_object_local(Vector3(scale_local, scale_local ,scale_local))
 	add_child(mesh_instance_3d)
 	mesh_instance_3d.translate(v) 
-	var static_body = StaticBody3D.new()
+	static_body = StaticBody3D.new()
 	static_body.scale_object_local(Vector3(1,1,1))
-	var collision_shape = CollisionShape3D.new()
+	collision_shape = CollisionShape3D.new()
 	collision_shape.scale_object_local(Vector3(1,1,1))
 	collision_shape.add_to_group('mob')
 	collision_shape.name = 'pin'
@@ -122,13 +126,21 @@ func place_highest(v):
 	static_body.collision_mask = 1
 	static_body.collision_layer = 1
 
+func remove_highest():
+	if mesh_instance_3d != null:
+		mesh_instance_3d.queue_free()
+		box_mesh = null #.free()
+		box_shape = null #.free()
+		static_body.free()
+		#collision_shape.queue_free()
 
 func _on_character_body_3d_hole_to_maze():
 	make_hole_to_maze()
 	pass # Replace with function body.
 
 func make_hole_to_maze():
-	mesh_instance_3d.queue_free()
+	remove_highest()
+	#mesh_instance_3d.queue_free()
 	var UPPER = 2
 	var LOWER = 1
 	var size = group_size
@@ -153,7 +165,7 @@ func make_hole_to_maze():
 		
 func _on_central_control_restart_terrain():
 	if mesh_instance_3d != null:
-		mesh_instance_3d.queue_free()
+		remove_highest()
 	clear()
 	hill_generate()
 	pass
