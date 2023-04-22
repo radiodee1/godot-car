@@ -5,7 +5,7 @@ extends CharacterBody3D
 signal hole_to_maze
 #signal pause_from_terrain
 
-var emit_hole_to_maze = 0
+
 
 var speed = 7
 const ACCEL_DEFAULT = 7
@@ -148,10 +148,10 @@ func check_collision():
 			
 				if collision.get_collider().name == 'pin':
 
-					if emit_hole_to_maze == 0:
-						print(collision.get_collider().name)
-						emit_hole_to_maze += 1
-						hole_to_maze.emit()
+
+					print(collision.get_collider().name)
+					
+					hole_to_maze.emit()
 						#print('emit num ', emit_hole_to_maze)
 						#print("player")
 						#print('position ', position)
