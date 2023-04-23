@@ -121,7 +121,6 @@ func make_hole_to_maze():
 		
 func _on_central_control_restart_terrain():
 	if mesh_instance_3d != null:
-		
 		include.remove_altar()
 	clear()
 	hill_generate()
