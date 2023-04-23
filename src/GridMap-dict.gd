@@ -6,6 +6,7 @@ var game = {
 			'name': 'starters',
 			'elements': {
 				'hill': {
+					'type': 'hill',
 					'width_x': 30,
 					'height_z': 30,
 					'depth_y': 30,
@@ -16,6 +17,7 @@ var game = {
 					'includes': ['ALTAR', 'TRAPDOOR']
 				},
 				'maze': {
+					'type': 'maze',
 					'width_x': 10,
 					'height_z': 10,
 					'depth_y': -6,
@@ -27,6 +29,7 @@ var game = {
 					'includes': ['ALTAR', 'TRAPDOOR', 'KEY']
 				},
 				'player': {
+					'type': 'player',
 					'x': 15 * 5 / 2,
 					'y': 5 * 5 ,
 					'z': 15 * 5 / 2
@@ -38,6 +41,7 @@ var game = {
 			'name': 'midway',
 			'elements': {
 				'hill': {
+					'type': 'hill',
 					'width_x': 30,
 					'height_z': 30,
 					'depth_y': 30,
@@ -48,6 +52,7 @@ var game = {
 					'includes': ['ALTAR', 'TRAPDOOR']
 				},
 				'maze': {
+					'type': 'maze',
 					'width_x': 10,
 					'height_z': 10,
 					'depth_y': -6,
@@ -59,6 +64,7 @@ var game = {
 					'includes': ['ALTAR', 'TRAPDOOR', 'KEY', 'PRISON']
 				},
 				'player': {
+					'type': 'player',
 					'x': 15 * 5 / 2,
 					'y': 5 * 5 ,
 					'z': 15 * 5 / 2
@@ -70,6 +76,7 @@ var game = {
 			'name': 'difficult',
 			'elements': {
 				'hill': {
+					'type': 'hill',
 					'width_x': 30,
 					'height_z': 30,
 					'depth_y': 30,
@@ -80,6 +87,7 @@ var game = {
 					'includes': ['ALTAR', 'TRAPDOOR']
 				},
 				'maze': {
+					'type': 'maze',
 					'width_x': 10,
 					'height_z': 10,
 					'depth_y': -6,
@@ -91,6 +99,7 @@ var game = {
 					'includes': ['ALTAR', 'TRAPDOOR', 'KEY', 'PRISON']
 				},
 				'player': {
+					'type': 'player',
 					'x': 15 * 5 / 2,
 					'y': 5 * 5 ,
 					'z': 15 * 5 / 2
