@@ -100,6 +100,8 @@ func _physics_process(delta):
 		print(position.y, " <<< endless fall")
 		#get_tree().change_scene_to_packed(control_buttons)	
 		control_show()
+		un_pause.hide()
+		_on_central_control_restart_player()
 		pass
 		
 	check_collision()

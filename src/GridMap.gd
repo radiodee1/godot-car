@@ -42,12 +42,14 @@ func hill_generate():
 					#set_cell_item(i, 0)
 					set_cell_group(x,y,z, 2, true)
 					
-	#var hh = Vector3(highest)
+	var hh = Vector3(highest)
 	#highest.y += scale_local * 2.5 ## <--
 	#highest = Vector3(highest.x + 1, highest.y , highest.z + 1 ) ## <--
 	#print(highest, " before")
-	
-	place_highest(highest)
+	hh.x += 1
+	hh.y += scale_local * 2.5
+	hh.z += 1
+	place_altar(hh)
 	highest = change_highest(highest)
 	
 	#print(highest, " terrain")
@@ -87,10 +89,7 @@ func change_highest(high):
 	var vec = Vector3(x, y, z)
 	return vec 
 
-func place_highest(v):
-	v.x += 1
-	v.y += scale_local * 2.5
-	v.z += 1
+func place_altar(v):
 	
 	mesh_instance_3d = MeshInstance3D.new()
 	
