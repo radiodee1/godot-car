@@ -34,6 +34,7 @@ var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 @onready var control = $/root/CentralControl/Control
 @onready var un_pause = $/root/CentralControl/Control/un_pause
 
+var start_player: Vector3 = Vector3( 15 * 5 / 2, 5 * 5, 15 * 5 / 2)
 
 func _ready():
 	#hides the cursor
@@ -161,5 +162,9 @@ func check_collision():
 			# here
 			
 func _on_central_control_restart_player():
-	position = Vector3(15 * 5 / 2, 5 * 5 , 15 * 5 / 2)
+	position = Vector3(start_player.x , start_player.y , start_player.z)
 	pass
+
+func set_player_start(x,y,z):
+	start_player = Vector3( x, y, z)
+	

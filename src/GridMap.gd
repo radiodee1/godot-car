@@ -9,6 +9,8 @@ var limit_neg = 0
 var limit_step = 1
 var group_size = 5
 
+var limit_origin = Vector3(0,0,0)
+
 var highest = Vector3(0,0,0)
 var scale_local = 0.5
 
@@ -22,11 +24,14 @@ var collision_shape
 
 @onready var maze = preload("res://src/GridMap-maze.gd").new()
 @onready var include = preload("res://src/GridMap-include.gd").new()
+@onready var dict = preload("res://src/GridMap-dict.gd").new()
 
 # Called when the node enters the scene tree for the first time.
 func _ready()->void:
 	maze.set_callable(set_cell_item)
 	include.set_callable(add_child)
+	
+	#set_hill_size(30,0,0,0,0,0)
 	
 	get_node("/root/CentralControl").connect("restart_terrain", _on_central_control_restart_terrain)
 	hill_generate()
@@ -38,9 +43,9 @@ func hill_generate():
 	noise.seed = rng.randi()
 	noise.noise_type = FastNoiseLite.TYPE_SIMPLEX_SMOOTH 
 	#set_cell_item(Vector3i(0,0,0), 0)
-	for x in range(limit_neg, limit_pos, limit_step):
-		for y in range(limit_neg, limit_pos, limit_step):
-			for z in range(limit_neg, limit_pos, limit_step):
+	for x in range( limit_neg,  limit_pos, limit_step):
+		for y in range( limit_neg,  limit_pos, limit_step):
+			for z in range( limit_neg, limit_pos, limit_step):
 				var j = noise.get_noise_2d(x - limit_pos / 2 ,z - limit_pos / 2) * 15  #+ 15 / 2
 				if y - limit_pos / 2 < j  :
 					var i = Vector3(x,y,z)
@@ -61,10 +66,16 @@ func hill_generate():
 	#maze.set_callable(set_cell_item)
 	
 	maze.maze_generate(highest)
+	
+	#print(dict.game)
 
 	
 func set_cell_group(x, y, z, index, check_highest=false):
 	#if x / group_size * group_size != x : print(x, " group settings")
+	var g = limit_origin
+	x += g.x
+	y += g.y
+	z += g.z 
 	for xx in range(x * group_size, x * group_size + group_size ):
 		for zz in range(z * group_size, z * group_size + group_size):
 			var i_x = xx 
@@ -125,3 +136,10 @@ func _on_central_control_restart_terrain():
 	clear()
 	hill_generate()
 	pass
+
+func set_hill_size(left, right, depth, x, y, z):
+	if left != right or left != depth or right != depth:
+		print('maze uses same size for all elements!!')
+	limit_origin = Vector3(x,y,z)
+	limit_pos = max ( left, right, depth)
+	limit_neg = 0

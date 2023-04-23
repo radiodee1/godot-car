@@ -8,6 +8,8 @@ var box_shape
 var box_mesh
 var static_body
 
+var dict = preload("res://src/GridMap-dict.gd").new()
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	pass # Replace with function body.

@@ -347,7 +347,14 @@ func find_map():
 	
 	return  r
 
-
+func set_maze_size(left, right, depth, x, y, z):
+	print('maze location is set dynamically!!')
+	center_depth = depth
+	print('maze width should match height and div by 5')
+	var dim = max(left, right) / hall_width
+	maze_h = dim
+	maze_w = dim
+	pass
 
 func set_callable(set_cell: Callable):
 	set_cell_item = set_cell

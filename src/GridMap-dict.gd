@@ -6,25 +6,31 @@ var game = {
 			'name': 'starters',
 			'elements': {
 				'hill': {
-					'width': 0,
-					'height': 0,
-					'depth': 0,
+					'width_x': 30,
+					'height_z': 30,
+					'depth_y': 30,
 					'x': 0,
 					'y': 0,
 					'z': 0,
-					'mesh': 0,
+					'mesh': 2,
 					'includes': ['ALTAR', 'TRAPDOOR']
 				},
 				'maze': {
-					'width': 0,
-					'height': 0,
-					'depth': 0,
+					'width_x': 10,
+					'height_z': 10,
+					'depth_y': -6,
 					'x': 0,
 					'y': 0,
 					'z': 0,
-					'mesh': 0,
+					'mesh': 1,
 					'endpoints': 7,
 					'includes': ['ALTAR', 'TRAPDOOR', 'KEY']
+				},
+				'player': {
+					'x': 15 * 5 / 2,
+					'y': 5 * 5 ,
+					'z': 15 * 5 / 2
+					
 				}
 			}
 		},
@@ -32,25 +38,31 @@ var game = {
 			'name': 'midway',
 			'elements': {
 				'hill': {
-					'width': 0,
-					'height': 0,
-					'depth': 0,
+					'width_x': 30,
+					'height_z': 30,
+					'depth_y': 30,
 					'x': 0,
 					'y': 0,
 					'z': 0,
-					'mesh': 0,
+					'mesh': 2,
 					'includes': ['ALTAR', 'TRAPDOOR']
 				},
 				'maze': {
-					'width': 0,
-					'height': 0,
-					'depth': 0,
+					'width_x': 10,
+					'height_z': 10,
+					'depth_y': -6,
 					'x': 0,
 					'y': 0,
 					'z': 0,
-					'mesh': 0,
+					'mesh': 1,
 					'endpoints': 10,
-					'includes': ['ALTAR', 'TRAPDOOR', 'KEY']
+					'includes': ['ALTAR', 'TRAPDOOR', 'KEY', 'PRISON']
+				},
+				'player': {
+					'x': 15 * 5 / 2,
+					'y': 5 * 5 ,
+					'z': 15 * 5 / 2
+					
 				}
 			}
 		},
@@ -58,25 +70,31 @@ var game = {
 			'name': 'difficult',
 			'elements': {
 				'hill': {
-					'width': 0,
-					'height': 0,
-					'depth': 0,
+					'width_x': 30,
+					'height_z': 30,
+					'depth_y': 30,
 					'x': 0,
 					'y': 0,
 					'z': 0,
-					'mesh': 0,
+					'mesh': 2,
 					'includes': ['ALTAR', 'TRAPDOOR']
 				},
 				'maze': {
-					'width': 0,
-					'height': 0,
-					'depth': 0,
+					'width_x': 10,
+					'height_z': 10,
+					'depth_y': -6,
 					'x': 0,
 					'y': 0,
 					'z': 0,
-					'mesh': 0,
+					'mesh': 1,
 					'endpoints': 10,
-					'includes': ['ALTAR', 'TRAPDOOR', 'KEY']
+					'includes': ['ALTAR', 'TRAPDOOR', 'KEY', 'PRISON']
+				},
+				'player': {
+					'x': 15 * 5 / 2,
+					'y': 5 * 5 ,
+					'z': 15 * 5 / 2
+					
 				}
 			}
 		}
