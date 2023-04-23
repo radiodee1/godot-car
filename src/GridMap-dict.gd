@@ -4,8 +4,8 @@ var game = {
 	'level': [
 		{
 			'name': 'starters',
-			'elements': {
-				'hill': {
+			'elements': [
+				{
 					'type': 'hill',
 					'width_x': 30,
 					'height_z': 30,
@@ -16,7 +16,7 @@ var game = {
 					'mesh': 2,
 					'includes': ['ALTAR', 'TRAPDOOR']
 				},
-				'maze': {
+				{
 					'type': 'maze',
 					'width_x': 10,
 					'height_z': 10,
@@ -28,19 +28,19 @@ var game = {
 					'endpoints': 7,
 					'includes': ['ALTAR', 'TRAPDOOR', 'KEY']
 				},
-				'player': {
+				{
 					'type': 'player',
 					'x': 15 * 5 / 2,
 					'y': 5 * 5 ,
 					'z': 15 * 5 / 2
 					
 				}
-			}
+			] ## <--
 		},
 		{
 			'name': 'midway',
-			'elements': {
-				'hill': {
+			'elements': [
+				{
 					'type': 'hill',
 					'width_x': 30,
 					'height_z': 30,
@@ -51,7 +51,7 @@ var game = {
 					'mesh': 2,
 					'includes': ['ALTAR', 'TRAPDOOR']
 				},
-				'maze': {
+				{
 					'type': 'maze',
 					'width_x': 10,
 					'height_z': 10,
@@ -63,19 +63,19 @@ var game = {
 					'endpoints': 10,
 					'includes': ['ALTAR', 'TRAPDOOR', 'KEY', 'PRISON']
 				},
-				'player': {
+				{
 					'type': 'player',
 					'x': 15 * 5 / 2,
 					'y': 5 * 5 ,
 					'z': 15 * 5 / 2
 					
 				}
-			}
+			] ##<--
 		},
 		{
 			'name': 'difficult',
-			'elements': {
-				'hill': {
+			'elements': [
+				{
 					'type': 'hill',
 					'width_x': 30,
 					'height_z': 30,
@@ -86,7 +86,7 @@ var game = {
 					'mesh': 2,
 					'includes': ['ALTAR', 'TRAPDOOR']
 				},
-				'maze': {
+				{
 					'type': 'maze',
 					'width_x': 10,
 					'height_z': 10,
@@ -98,14 +98,14 @@ var game = {
 					'endpoints': 10,
 					'includes': ['ALTAR', 'TRAPDOOR', 'KEY', 'PRISON']
 				},
-				'player': {
+				{
 					'type': 'player',
 					'x': 15 * 5 / 2,
 					'y': 5 * 5 ,
 					'z': 15 * 5 / 2
 					
 				}
-			}
+			] ## <--
 		}
 	]
 	
