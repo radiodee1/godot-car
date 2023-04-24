@@ -87,7 +87,7 @@ func maze_generate(hvec=Vector3(0,0,0), block_num=1):
 	
 	#show_2d_grid(working_map)
 	
-	show_2d_grid(finished_map, true)
+	show_2d_grid(finished_map, true, 2)
 	
 	var n = find_map() 
 	
@@ -108,31 +108,32 @@ func make_2d_grid(width, height):
 			pass
 	return matrix
 	
-func show_2d_grid(matrix, advance = false):
+func show_2d_grid(matrix, advance = false, line_size=3):
 	if not advance:
 		for h in matrix:
 			print(h)
 	else:
 		var line = "|"
 		for h in range(matrix.size()):
-			line += "---"
+			line += "-----".substr(0, line_size)
 		line += "|"
 		print(line)	
 		for h in range(matrix.size()):
 			line = "|"
 			for j in range(matrix[h].size()):
 				if matrix[h][j] == 0:
-					line += "   " ## 3 spaces
+					var three = '     ' # 5 spaces
+					line += three.substr(0, line_size) ## 3 spaces
 				else:
 					var jj = abs(j / hall_width)
 					var hh = abs(h / hall_width)
 					var line_temp = " " + str( vector_to_index(Vector2(hh,jj)) ) + "   "
-					line += line_temp.substr(0, 3)
+					line += line_temp.substr(0, line_size)
 			line += "|"
 			print(line)
 		line = "|"
 		for h in range(matrix.size()):
-			line += "---"
+			line += "-----".substr(0, line_size)
 		line += "|"
 		print(line)			
 
@@ -343,7 +344,7 @@ func find_map():
 	#r.y += -(j) * sign_h
 	
 	#print(i,' ', j, ' signs i,j')
-	print(r, " r ", h_vector, ' ' , vec,' ')
+	#print(r, " r ", h_vector, ' ' , vec,' ')
 	
 	return  r
 
