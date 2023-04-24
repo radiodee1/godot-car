@@ -63,7 +63,7 @@ func clear_variables():
 	pass
 
 	
-func maze_generate(hvec=Vector3(0,0,0)):
+func maze_generate(hvec=Vector3(0,0,0), block_num=1):
 	#print(center_h, ' ', center_w, ' center h, w  0')
 	
 	clear_variables()
@@ -91,7 +91,7 @@ func maze_generate(hvec=Vector3(0,0,0)):
 	
 	var n = find_map() 
 	
-	copy_map_to_scene(n)
+	copy_map_to_scene(n, block_num)
 	pass 
 
 
@@ -294,7 +294,7 @@ func hallway_mask_previous(hallway):
 		working_map[v.x][v.y] = USED
 		astar.set_point_disabled(hh)
 
-func copy_map_to_scene(n:Vector2):
+func copy_map_to_scene(n:Vector2, block_num=1):
 	#print('h_vector now ', h_vector)
 	
 	for i in range(- ( finished_map.size() -1),0 ): ## mirror
@@ -308,11 +308,11 @@ func copy_map_to_scene(n:Vector2):
 			#print(v.x, " v.x new")
 			v.z = - jj - n.y + b 
 			if finished_map[ii][jj] > 0:
-				set_cell_item.call(v, 1)
+				set_cell_item.call(v, block_num)
 			if finished_map[ii][jj] == 0:
 				for y in range(center_depth, center_depth + 4):
 					v.y = y
-					set_cell_item.call(v,1)
+					set_cell_item.call(v, block_num)
 		
 
 func find_map():

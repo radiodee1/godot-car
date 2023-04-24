@@ -26,7 +26,7 @@ var game = {
 					'z': 0,
 					'mesh': 1,
 					'endpoints': 7,
-					'includes': ['ALTAR', 'TRAPDOOR', 'KEY']
+					'includes': ['ALTAR', 'TRAPDOOR', 'KEY', 'NEXTLEVEL']
 				},
 				{
 					'type': 'player',
@@ -61,7 +61,7 @@ var game = {
 					'z': 0,
 					'mesh': 1,
 					'endpoints': 10,
-					'includes': ['ALTAR', 'TRAPDOOR', 'KEY', 'PRISON']
+					'includes': ['ALTAR', 'TRAPDOOR', 'KEY', 'PRISON', 'NEXTLEVEL']
 				},
 				{
 					'type': 'player',
@@ -96,7 +96,7 @@ var game = {
 					'z': 0,
 					'mesh': 1,
 					'endpoints': 10,
-					'includes': ['ALTAR', 'TRAPDOOR', 'KEY', 'PRISON']
+					'includes': ['ALTAR', 'TRAPDOOR', 'KEY', 'PRISON', 'NEXTLEVEL']
 				},
 				{
 					'type': 'player',

@@ -12,15 +12,17 @@ var group_size = 5
 var limit_origin = Vector3(0,0,0)
 
 var highest = Vector3(0,0,0)
+var lowest = Vector3(0,0,0)
+
 var scale_local = 0.5
 
 signal set_highest(high_vector:Vector3)
 
-var mesh_instance_3d 
-var box_mesh
-var box_shape
-var static_body
-var collision_shape
+#var mesh_instance_3d 
+#var box_mesh
+#var box_shape
+#var static_body
+#var collision_shape
 
 var level_frame = 0
 
@@ -43,7 +45,7 @@ func _ready()->void:
 	setup_level_frame() ## <<-- test me!!
 	pass
 	
-func hill_generate():	
+func hill_generate(block_num=2):	
 	highest = Vector3(0,0,0)
 	noise.seed = rng.randi()
 	noise.noise_type = FastNoiseLite.TYPE_SIMPLEX_SMOOTH 
@@ -55,21 +57,15 @@ func hill_generate():
 				if y - limit_pos / 2 < j  :
 					var i = Vector3(x,y,z)
 					#set_cell_item(i, 0)
-					set_cell_group(x,y,z, 2, true)
+					set_cell_group(x,y,z, block_num, true)
 					
 	var hh = Vector3(highest)
 	#highest.y += scale_local * 2.5 ## <--
 	#highest = Vector3(highest.x + 1, highest.y , highest.z + 1 ) ## <--
 	#print(highest, " before")
-	hh.x += 1
-	hh.y += scale_local * 2.5
-	hh.z += 1
-	include.place_altar(hh)
 	
 	highest = change_highest(highest)
-		
-	#maze.set_callable(set_cell_item)
-	
+	#print(highest, " next")
 	#maze.maze_generate(highest)
 	
 	#print(dict.game)
@@ -97,7 +93,7 @@ func set_cell_group(x, y, z, index, check_highest=false):
 
 func change_highest(high):
 	var x: int = int(high.x) / group_size * group_size
-	var y: int = int(high.y) / group_size * group_size
+	var y: int = high.y # int(high.y) / group_size * group_size
 	var z: int = int(high.z) / group_size * group_size
 	if x != high.x or z != high.z:
 		print(x, ' ', high.x, ' ', z , ' ', high.z)
@@ -107,14 +103,16 @@ func change_highest(high):
 
 
 func _on_character_body_3d_hole_to_maze():
+	#if mesh_instance_3d != null:
+	include.remove_altar()
 	include.make_hole_to_maze(highest)
 	pass # Replace with function body.
 
 
 		
 func _on_central_control_restart_terrain():
-	if mesh_instance_3d != null:
-		include.remove_altar()
+	#if mesh_instance_3d != null:
+	include.remove_altar()
 	clear()
 	#hill_generate()
 	level_frame = 0
@@ -142,12 +140,16 @@ func setup_level_frame():
 		if e['type'] == 'hill':
 			include.remove_altar()
 			set_hill_size(e['width_x'], e['height_z'], e['depth_y'], e['x'], e['y'], e['z'])
-			hill_generate()
+			hill_generate(e['mesh'])
+			for ii in e['includes']:
+				include.place_object(ii, 'RANDOM', 'HILL', level_frame, highest, lowest)
 			pass
 		if e['type'] == 'maze':
 			maze.set_maze_size(e['width_x'], e['height_z'], e['depth_y'], e['x'], e['y'], e['z'])			
 			maze.maze_generate(highest)
-			print('highest ', highest)
+			#print('highest ', highest)
+			for ii in e['includes']:
+				include.place_object(ii, 'RANDOM', 'MAZE', level_frame)
 			pass
 		if e['type'] == 'player':
 			print('player handled by central_control!!')

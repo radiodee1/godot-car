@@ -22,9 +22,7 @@ func _process(delta):
 	pass
 
 func place_altar(v):
-	
 	mesh_instance_3d = MeshInstance3D.new()
-	
 	box_mesh = load("res://assets/altar.obj")
 	#print(v, " vector")
 	box_shape = BoxShape3D.new()
@@ -66,10 +64,8 @@ func remove_altar():
 		#collision_shape.queue_free()
 
 
-func make_hole_to_maze(highest, group_size=5):
-	remove_altar()
-	#mesh_instance_3d.queue_free()
-	var UPPER = 2
+func make_hole_to_maze(highest, group_size=5, remove_type=2):
+	var UPPER = remove_type
 	var LOWER = 1
 	var size = group_size
 	var xz_size = 5  # 3
@@ -78,20 +74,43 @@ func make_hole_to_maze(highest, group_size=5):
 		for x in range(highest.x - xz_size_half, highest.x + xz_size - xz_size_half):
 			for z in range(highest.z - xz_size_half, highest.z + xz_size - xz_size_half):
 				pass
-				var xx = x #- xz_size / 2
-				var zz = z #- xz_size / 2
-				#xx = ceil(xx)
-				#zz = ceil(zz)
-				var type = get_cell_item.call(Vector3(xx , i , zz)) ##<-- Vector3i
-				#print(i, " i")
-				if type == UPPER:
-					#var some_x = highest.x / group_size - 0.5
-					#var some_z = highest.z / group_size - 0.5
+				var xx = x 
+				var zz = z 
+				var type = get_cell_item.call(Vector3(xx , i , zz)) ##<-- Vector3
+				if type == UPPER:	
 					set_cell_item.call(Vector3(xx, i, zz), -1)
-					#set_cell_group(some_x ,i, some_z , -1, false )
-					#print('type ', type, ' ', xx, ' ' , zz)
+					
 
-func place_object(name, strategy, layer, frame_num):
+func place_object(name, strategy, layer, frame_num, vector_high=Vector3(0,0,0), vector_low=Vector3(0,0,0)):
+	
+	if layer == "HILL":
+		if name == 'ALTAR':
+			var hh = Vector3(vector_high)
+			hh.x += 1
+			hh.y += scale_local * 2.5
+			hh.z += 1
+			place_altar(hh)
+			#print(hh, " altar here.")
+			pass
+		if name == 'TRAPDOOR':
+			pass
+		if name == 'KEY':
+			pass
+		if name == 'PRISON':
+			pass
+		if name == 'NEXTLEVEL':
+			pass
+	if layer == "MAZE":
+		if name == 'ALTAR':
+			pass
+		if name == 'TRAPDOOR':
+			pass
+		if name == 'KEY':
+			pass
+		if name == 'PRISON':
+			pass
+		if name == 'NEXTLEVEL':
+			pass
 	pass
 
 
