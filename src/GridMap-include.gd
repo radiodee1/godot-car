@@ -3,12 +3,14 @@ extends Resource
 var mesh_instance_3d
 var scale_local = 0.5
 var add_child: Callable
+var set_cell_item: Callable
+var get_cell_item: Callable
 
 var box_shape
 var box_mesh
 var static_body
 
-var dict = preload("res://src/GridMap-dict.gd").new()
+#var dict = preload("res://src/GridMap-dict.gd").new()
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -60,8 +62,44 @@ func remove_altar():
 		mesh_instance_3d.queue_free()
 		box_mesh = null #.free()
 		box_shape = null #.free()
-		static_body.free()
+		static_body = null
 		#collision_shape.queue_free()
+
+
+func make_hole_to_maze(highest, group_size=5):
+	remove_altar()
+	#mesh_instance_3d.queue_free()
+	var UPPER = 2
+	var LOWER = 1
+	var size = group_size
+	var xz_size = 5  # 3
+	var xz_size_half = xz_size / 2
+	for i in range( - (highest.y * size + size),  (highest.y ) * size + size):
+		for x in range(highest.x - xz_size_half, highest.x + xz_size - xz_size_half):
+			for z in range(highest.z - xz_size_half, highest.z + xz_size - xz_size_half):
+				pass
+				var xx = x #- xz_size / 2
+				var zz = z #- xz_size / 2
+				#xx = ceil(xx)
+				#zz = ceil(zz)
+				var type = get_cell_item.call(Vector3(xx , i , zz)) ##<-- Vector3i
+				#print(i, " i")
+				if type == UPPER:
+					#var some_x = highest.x / group_size - 0.5
+					#var some_z = highest.z / group_size - 0.5
+					set_cell_item.call(Vector3(xx, i, zz), -1)
+					#set_cell_group(some_x ,i, some_z , -1, false )
+					#print('type ', type, ' ', xx, ' ' , zz)
+
+func place_object(name, strategy, layer, frame_num):
+	pass
+
 
 func set_callable(set_add: Callable):
 	add_child = set_add
+
+func set_callable_get_cell(set_get: Callable):
+	get_cell_item = set_get 
+
+func set_callable_set_cell(set_set: Callable):
+	set_cell_item = set_set

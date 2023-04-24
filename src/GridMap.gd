@@ -22,6 +22,8 @@ var box_shape
 var static_body
 var collision_shape
 
+var level_frame = 0
+
 @onready var maze = preload("res://src/GridMap-maze.gd").new()
 @onready var include = preload("res://src/GridMap-include.gd").new()
 @onready var dict = preload("res://src/GridMap-dict.gd").new()
@@ -30,12 +32,15 @@ var collision_shape
 func _ready()->void:
 	maze.set_callable(set_cell_item)
 	include.set_callable(add_child)
-	
+	include.set_callable_get_cell(get_cell_item)
+	include.set_callable_set_cell(set_cell_item)
 	#set_hill_size(30,0,0,0,0,0)
 	
 	get_node("/root/CentralControl").connect("restart_terrain", _on_central_control_restart_terrain)
 	hill_generate()
 	include.remove_altar()
+	
+	setup_level_frame() ## <<-- test me!!
 	pass
 	
 func hill_generate():	
@@ -65,7 +70,7 @@ func hill_generate():
 		
 	#maze.set_callable(set_cell_item)
 	
-	maze.maze_generate(highest)
+	#maze.maze_generate(highest)
 	
 	#print(dict.game)
 
@@ -102,39 +107,18 @@ func change_highest(high):
 
 
 func _on_character_body_3d_hole_to_maze():
-	make_hole_to_maze()
+	include.make_hole_to_maze(highest)
 	pass # Replace with function body.
 
-func make_hole_to_maze():
-	include.remove_altar()
-	#mesh_instance_3d.queue_free()
-	var UPPER = 2
-	var LOWER = 1
-	var size = group_size
-	var xz_size = 5  # 3
-	var xz_size_half = xz_size / 2
-	for i in range( - (highest.y * size + size),  (highest.y ) * size + size):
-		for x in range(highest.x - xz_size_half, highest.x + xz_size - xz_size_half):
-			for z in range(highest.z - xz_size_half, highest.z + xz_size - xz_size_half):
-				pass
-				var xx = x #- xz_size / 2
-				var zz = z #- xz_size / 2
-				#xx = ceil(xx)
-				#zz = ceil(zz)
-				var type = get_cell_item(Vector3(xx , i , zz)) ##<-- Vector3i
-				#print(i, " i")
-				if type == UPPER:
-					#var some_x = highest.x / group_size - 0.5
-					#var some_z = highest.z / group_size - 0.5
-					set_cell_item(Vector3(xx, i, zz), -1)
-					#set_cell_group(some_x ,i, some_z , -1, false )
-					#print('type ', type, ' ', xx, ' ' , zz)
+
 		
 func _on_central_control_restart_terrain():
 	if mesh_instance_3d != null:
 		include.remove_altar()
 	clear()
-	hill_generate()
+	#hill_generate()
+	level_frame = 0
+	setup_level_frame()
 	pass
 
 func set_hill_size(left, right, depth, x, y, z):
@@ -143,3 +127,30 @@ func set_hill_size(left, right, depth, x, y, z):
 	limit_origin = Vector3(x,y,z)
 	limit_pos = max ( left, right, depth)
 	limit_neg = 0
+
+func setup_level_frame():
+	var i = level_frame % len(dict.game['level'])
+	
+	var level = dict.game['level'][i]
+	var name = level['name']
+	#print(level)
+	#print(name)
+	var elements = level['elements']
+	#print(elements)
+	for e in elements:
+		#print(e['type'])
+		if e['type'] == 'hill':
+			include.remove_altar()
+			set_hill_size(e['width_x'], e['height_z'], e['depth_y'], e['x'], e['y'], e['z'])
+			hill_generate()
+			pass
+		if e['type'] == 'maze':
+			maze.set_maze_size(e['width_x'], e['height_z'], e['depth_y'], e['x'], e['y'], e['z'])			
+			maze.maze_generate(highest)
+			print('highest ', highest)
+			pass
+		if e['type'] == 'player':
+			print('player handled by central_control!!')
+			pass
+	level_frame += 1
+	pass

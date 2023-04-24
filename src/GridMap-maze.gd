@@ -351,7 +351,7 @@ func set_maze_size(left, right, depth, x, y, z):
 	print('maze location is set dynamically!!')
 	center_depth = depth
 	print('maze width should match height and div by 5')
-	var dim = max(left, right) / hall_width
+	var dim = max(left, right)
 	maze_h = dim
 	maze_w = dim
 	pass
