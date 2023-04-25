@@ -26,7 +26,7 @@ var game = {
 					'z': 0,
 					'mesh': 1,
 					'endpoints': 7,
-					'includes': ['ALTAR', 'TRAPDOOR', 'KEY', 'NEXTLEVEL']
+					'includes': ['ALTAR', 'TRAPDOOR', 'KEY', 'NEXTLEVEL', 'PRISON']
 				},
 				{
 					'type': 'player',
@@ -136,7 +136,7 @@ var shapes = {
 	],
 	'end': [
 		Vector2(-1,-1),
-		Vector2(1,4),
+		Vector2(-1,-4), ## Vector2(1,4)
 		Vector2(1,4),
 		Vector2(4,1),
 		Vector2(4,1)

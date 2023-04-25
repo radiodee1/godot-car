@@ -145,11 +145,17 @@ func setup_level_frame():
 				include.place_object(ii, 'RANDOM', 'HILL', level_frame, highest, lowest)
 			pass
 		if e['type'] == 'maze':
+			maze.shape_list = []
 			maze.set_maze_size(e['width_x'], e['height_z'], e['depth_y'], e['x'], e['y'], e['z'])			
-			maze.maze_generate(highest)
+			#maze.maze_generate(highest)
 			#print('highest ', highest)
 			for ii in e['includes']:
-				include.place_object(ii, 'RANDOM', 'MAZE', level_frame)
+				if ii != 'PRISON':
+					include.place_object(ii, 'RANDOM', 'MAZE', level_frame)
+				if ii == 'PRISON':
+					print('PRISON')
+					maze.add_shape(1,Vector2(-1,-1)) ## <-- this is the first prison shape!!
+			maze.maze_generate(highest) ## <-- after shapes
 			pass
 		if e['type'] == 'player':
 			print('player handled by central_control!!')

@@ -19,6 +19,8 @@ var start_vectors_index = []
 var working_map = []
 var finished_map = []
 
+var shape_list = []
+
 var rng = RandomNumberGenerator.new()
 var astar = AStar2D.new()
 var HALL = 4
@@ -37,9 +39,11 @@ var h_vector: Vector3 #= Vector3(0,0,0)
 
 var set_cell_item: Callable
   
+var dict = preload("res://src/GridMap-dict.gd").new()
+
 # Called when the node enters the scene tree for the first time.
-func _ready():
-	pass
+#func _ready():
+#	pass
 
 func clear_variables():
 	start_vectors = []
@@ -76,9 +80,20 @@ func maze_generate(hvec=Vector3(0,0,0), block_num=1):
 	
 	start_vectors = randomize_vector2d(vectors_len, 1, 1, maze_w, maze_h )
 	
+	#print(start_vectors, ' before start')
+	#print(start_vectors, ' start vectors')
+
+	print(start_vectors, ' after start')
+	
 	add_to_astar(working_map, true)
 	
 	prepare_working_map()
+	
+	shapes_to_map()
+	
+	show_2d_grid(working_map, true, 3)
+	
+	show_2d_grid(finished_map, true, 3)
 		
 	start_vectors_index = vector_2d_to_index_list(start_vectors)
 	
@@ -94,9 +109,67 @@ func maze_generate(hvec=Vector3(0,0,0), block_num=1):
 	copy_map_to_scene(n, block_num)
 	pass 
 
+func add_shape(shape_num, place=Vector2(-1,-1)):
+	var shape = [shape_num, place]	
+	shape_list.append(shape)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
+#func _process(delta):
+#	pass
+
+func shapes_to_map():
+	print(start_vectors, ' start_vectors')
+	print(working_map, ' working_map')
+	print(shape_list, ' shape_list')
+	for i in range(shape_list.size()):
+		var x = shape_list[i]
+		var layout = dict.shapes['layout'][x[0]]
+		var mesh = dict.shapes['mesh'][x[0]]
+		var start = dict.shapes['start'][x[0]]
+		var end = dict.shapes['end'][x[0]]
+		print(layout, ' shape ', mesh, ' ', start, ' ' , end)
+		if x[1].x == -1 or x[1].y == -1:
+			print('place randomly')
+			#var widths = []
+			var width = -1
+			for j in layout:
+				if j.x > width:
+					width = j.x
+			var height = -1
+			for j in layout:
+				if j.y > height:
+					height = j.y
+			var place = Vector2(-1,-1)
+			place.x = rng.randi_range(2, working_map.size() - 2 - width)
+			place.y = rng.randi_range(2, working_map[0].size() - 2 - height)
+			print(place, ' place')
+			var hallway = []
+			var hall_vec = []
+			for z in layout:
+				#working_map[place.x + z.x][place.y + z.y] = USED
+				var v = Vector2(place.x + z.x, place.y + z.y)
+				hallway.append(vector_to_index(v))
+				hall_vec.append(v)
+			print(width, ' width ', height, ' height ', hallway, ' ', hallway.size())
+			hallway_in_map(hallway)
+			hallway_mask_previous(hallway)
+			for ii in hall_vec:
+				for j in range(start_vectors.size()-1):
+					if ii.x == start_vectors[j][1].x:
+						start_vectors.remove_at(j)
+			
+			if start.x != -1 and start.y != -1:
+				start.x += place.x
+				start.y += place.y
+				var v = [vector_to_index(start), start ]
+				start_vectors.append(v)
+				
+			if end.x != -1 and end.y != -1:
+				end.x += place.x
+				end.y += place.y
+				var v = [vector_to_index(end), end ]
+				start_vectors.append(v)
+		pass
 	pass
 
 func make_2d_grid(width, height):
@@ -201,7 +274,7 @@ func add_to_astar(grid, print_rows = false):
 				line.append([ vector_to_index(v) , v])
 			num += 1
 		if print_rows:
-			print(line)
+			print(line, ' add_to_astar')
 
 func vector_2d_to_index_list(v):
 	var i = []
