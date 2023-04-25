@@ -152,6 +152,7 @@ func shapes_to_map():
 				hall_vec.append(v)
 			print(width, ' width ', height, ' height ', hallway, ' ', hallway.size())
 			hallway_in_map(hallway)
+			#hallway_in_map(hallway)
 			hallway_mask_previous(hallway)
 			for ii in hall_vec:
 				for j in range(start_vectors.size()-1):
