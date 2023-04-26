@@ -85,11 +85,13 @@ func maze_generate(hvec=Vector3(0,0,0), block_num=1):
 
 	print(start_vectors, ' after start')
 	
+	shapes_to_map()
+	
 	add_to_astar(working_map, true)
 	
-	prepare_working_map()
+	#shapes_to_map()
 	
-	shapes_to_map()
+	prepare_working_map()
 	
 	show_2d_grid(working_map, true, 3)
 	
@@ -100,9 +102,9 @@ func maze_generate(hvec=Vector3(0,0,0), block_num=1):
 	process_astar_vectors(start_vectors_index)
 	print("finished")
 	
-	#show_2d_grid(working_map)
+	show_2d_grid(working_map, true, 3)
 	
-	show_2d_grid(finished_map, true, 2)
+	show_2d_grid(finished_map, true, 3)
 	
 	var n = find_map() 
 	
@@ -140,24 +142,31 @@ func shapes_to_map():
 				if j.y > height:
 					height = j.y
 			var place = Vector2(-1,-1)
-			place.x = rng.randi_range(2, working_map.size() - 2 - width)
-			place.y = rng.randi_range(2, working_map[0].size() - 2 - height)
+			place.x = rng.randi_range(2 + 2, working_map.size() - 2 - width)
+			place.y = rng.randi_range(2 + 2, working_map[0].size() - 2 - height)
 			print(place, ' place')
 			var hallway = []
 			var hall_vec = []
 			for z in layout:
-				#working_map[place.x + z.x][place.y + z.y] = USED
 				var v = Vector2(place.x + z.x, place.y + z.y)
+				working_map[v.x][v.y] =  USED
+				
+				astar.set_point_disabled(vector_to_index(v))
 				hallway.append(vector_to_index(v))
 				hall_vec.append(v)
 			print(width, ' width ', height, ' height ', hallway, ' ', hallway.size())
 			hallway_in_map(hallway)
+			
 			#hallway_in_map(hallway)
-			hallway_mask_previous(hallway)
+			#hallway_mask_previous(hallway)
+			#process_astar_vectors(hallway)
+			var start_list = []
 			for ii in hall_vec:
 				for j in range(start_vectors.size()-1):
-					if ii.x == start_vectors[j][1].x:
-						start_vectors.remove_at(j)
+					if ii.x != start_vectors[j][1].x:
+						start_list.append(start_vectors[j])
+			
+			start_vectors = start_list
 			
 			if start.x != -1 and start.y != -1:
 				start.x += place.x
@@ -288,7 +297,7 @@ func vector_to_index(v):
 	return v.x * maze_w + v.y  
 
 func index_to_vector(i):
-	var v = Vector2(abs(i / maze_w), i - abs(i / maze_w) * maze_w)
+	var v = Vector2( int(i / maze_w), i - int(i / maze_w) * maze_w)
 	return v
 
 func process_astar_vectors(v):
@@ -300,7 +309,7 @@ func process_astar_vectors(v):
 	#print(z)
 	for p in z:
 		var pp = astar.get_id_path(p[0], p[1])	
-		print(pp, ' pp')
+		#print(pp, ' pp')
 		#pp = [26,21,16]
 		#pp.reverse()
 		hallway_in_map(pp)
