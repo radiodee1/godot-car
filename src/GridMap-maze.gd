@@ -15,6 +15,7 @@ var maze_h = 10
 var start_vectors = []
 var vectors_len =  + 20
 var start_vectors_index = []
+var group_visited = []
 
 var working_map = []
 var finished_map = []
@@ -26,6 +27,7 @@ var astar = AStar2D.new()
 var HALL = 4
 var NONE = 0
 var USED = -1
+var SHAPE = 9
 
 var center_h = 0
 var center_w = 0
@@ -47,8 +49,9 @@ var dict = preload("res://src/GridMap-dict.gd").new()
 
 func clear_variables():
 	start_vectors = []
-	vectors_len =  7 #+ 10
+	#vectors_len =  7 #+ 10
 	start_vectors_index = []
+	group_visited = []
 
 	working_map = []
 	finished_map = []
@@ -79,31 +82,23 @@ func maze_generate(hvec=Vector3(0,0,0), block_num=1):
 	finished_map = make_2d_grid(maze_w * hall_width, maze_h * hall_width)
 	
 	start_vectors = randomize_vector2d(vectors_len, 1, 1, maze_w, maze_h )
-	
-	#print(start_vectors, ' before start')
-	#print(start_vectors, ' start vectors')
 
-	print(start_vectors, ' after start')
-	
-	#shapes_to_map()
-	
+	#print(start_vectors, ' after start')
 	add_to_astar(working_map, true)
 	
 	shapes_to_map() ## after add_to_astar
 	
 	prepare_working_map()
 	
-	show_2d_grid(working_map, true, 3)
-	
-	show_2d_grid(finished_map, true, 3)
+	#show_2d_grid(working_map, true, 3)
+	#show_2d_grid(finished_map, true, 3)
 		
 	start_vectors_index = vector_2d_to_index_list(start_vectors)
 	
 	process_astar_vectors(start_vectors_index)
 	print("finished")
 	
-	show_2d_grid(working_map, true, 3)
-	
+	#show_2d_grid(working_map, true, 3)
 	show_2d_grid(finished_map, true, 3)
 	
 	var n = find_map() 
@@ -120,9 +115,9 @@ func add_shape(shape_num, place=Vector2(-1,-1)):
 #	pass
 
 func shapes_to_map():
-	print(start_vectors, ' start_vectors')
-	print(working_map, ' working_map')
-	print(shape_list, ' shape_list')
+	#print(start_vectors, ' start_vectors')
+	#print(working_map, ' working_map')
+	#print(shape_list, ' shape_list')
 	for i in range(shape_list.size()):
 		var x = shape_list[i]
 		var layout = dict.shapes['layout'][x[0]]
@@ -131,7 +126,7 @@ func shapes_to_map():
 		var end = dict.shapes['end'][x[0]]
 		print(layout, ' shape ', mesh, ' ', start, ' ' , end)
 		if x[1].x == -1 or x[1].y == -1:
-			print('place randomly')
+			#print('place randomly')
 			#var widths = []
 			var width = -1
 			for j in layout:
@@ -144,12 +139,12 @@ func shapes_to_map():
 			var place = Vector2(-1,-1)
 			place.x = rng.randi_range(2 + 2, working_map.size() - 2 - width)
 			place.y = rng.randi_range(2 + 2, working_map[0].size() - 2 - height)
-			print(place, ' place')
+			#print(place, ' place')
 			var hallway = []
 			var hall_vec = []
 			for z in layout:
 				var v = Vector2(place.x + z.x, place.y + z.y)
-				working_map[v.x][v.y] =  HALL
+				working_map[v.x][v.y] =  SHAPE
 				
 				astar.set_point_disabled(vector_to_index(v))
 				hallway.append(vector_to_index(v))
@@ -164,13 +159,23 @@ func shapes_to_map():
 						working_map[jj][mm] = USED
 						astar.set_point_disabled(vector_to_index(Vector2(jj,mm)))
 			
+			#print(start_vectors.size(), ' size before')
 			var start_list = []
 			for j in range(start_vectors.size()-1):
 				if start_vectors[j][1].y < place.y - 1 or start_vectors[j][1].y > place.y + height + 1:
 					start_list.append(start_vectors[j])
+				else:
+					var v = Vector2(start_vectors[j][1].x, start_vectors[j][1].y + height + 1)
+					start_list.append([vector_to_index(v), v])
+					
 				if start_vectors[j][1].x < place.x - 1 or start_vectors[j][1].x > place.x + width + 1:
 					start_list.append(start_vectors[j])
+				else:
+					var v = Vector2(start_vectors[j][1].x + place.x + width + 1, start_vectors[j][1].y)
+					start_list.append([vector_to_index(v), v])
+					
 			start_vectors = start_list
+			#print(start_vectors.size(), ' size after')
 			
 			if start.x != -1 or start.y != -1:
 				start.x += place.x
@@ -182,7 +187,7 @@ func shapes_to_map():
 				working_map[start.x][start.y] = USED
 				#astar.set_point_disabled(v[0])
 				astar.set_point_disabled(v[0], false)
-				print('enabled ', v, ' - ', hallway, ' - ', start_vectors)
+				#print('enabled ', v, ' - ', hallway, ' - ', start_vectors)
 				
 			if end.x != -1 or end.y != -1:
 				end.x += place.x
@@ -258,7 +263,7 @@ func prepare_working_map():
 			if j == map[i].size() - 1:
 				map[i][j] = USED
 				
-			if map[i][j]  == USED:
+			if map[i][j]  == USED or map[i][j] == SHAPE:
 				astar.set_point_disabled(vector_to_index(Vector2(i,j)))
 			#if map[i][j] == HALL:
 			#	astar.set_point_disabled(vector_to_index(Vector2(i,j)), false)
@@ -268,15 +273,12 @@ func prepare_working_map():
 
 func randomize_vector2d(length_of_array, left_padding, top_padding, width_of_map, height_of_map):
 	var v = []
-	#var amass = []
-	#var picked = []
-	#top_padding -= 1
+	
 	var interval = max( abs((width_of_map - left_padding * 2 ) / length_of_array), 1 )
 	var available = []
 	for i in range(top_padding  , height_of_map - top_padding ):
 		available.append(i)
 	
-	#available = available.slice(0, width_of_map - 1)
 	var l = min(length_of_array, available.size())
 	
 	for i in range(l):
@@ -334,7 +336,13 @@ func process_astar_vectors(v):
 			if a != b:
 				z.append([ v[a], v[b] ])
 	#print(z)
+	group_visited.append(z[0][0])
 	for p in z:
+		if p[0] not in group_visited and p[1] not in group_visited:
+			print('not in group ', p[0], ' or ', p[1])
+			continue
+		group_visited.append(p[0])
+		group_visited.append(p[1])
 		var pp = astar.get_id_path(p[0], p[1])	
 		#print(pp, ' pp')
 		#pp = [26,21,16]
