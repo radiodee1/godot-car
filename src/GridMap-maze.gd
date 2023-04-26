@@ -13,7 +13,7 @@ var maze_w = 10 #5
 var maze_h = 10
 
 var start_vectors = []
-var vectors_len =  7 #+ 10
+var vectors_len =  + 20
 var start_vectors_index = []
 
 var working_map = []
@@ -85,11 +85,11 @@ func maze_generate(hvec=Vector3(0,0,0), block_num=1):
 
 	print(start_vectors, ' after start')
 	
-	shapes_to_map()
+	#shapes_to_map()
 	
 	add_to_astar(working_map, true)
 	
-	#shapes_to_map()
+	shapes_to_map() ## after add_to_astar
 	
 	prepare_working_map()
 	
@@ -149,36 +149,61 @@ func shapes_to_map():
 			var hall_vec = []
 			for z in layout:
 				var v = Vector2(place.x + z.x, place.y + z.y)
-				working_map[v.x][v.y] =  USED
+				working_map[v.x][v.y] =  HALL
 				
 				astar.set_point_disabled(vector_to_index(v))
 				hallway.append(vector_to_index(v))
 				hall_vec.append(v)
-			print(width, ' width ', height, ' height ', hallway, ' ', hallway.size())
-			hallway_in_map(hallway)
-			
+			#print(width, ' width ', height, ' height ', hallway, ' ', hallway.size())
 			#hallway_in_map(hallway)
-			#hallway_mask_previous(hallway)
-			#process_astar_vectors(hallway)
-			var start_list = []
-			for ii in hall_vec:
-				for j in range(start_vectors.size()-1):
-					if ii.x != start_vectors[j][1].x:
-						start_list.append(start_vectors[j])
 			
+			## MASK
+			for jj in range(place.x - 1 , place.x + width + 1):
+				for mm in range(place.y - 1, place.y + height + 1):
+					if jj >= 0 and mm >= 0:
+						working_map[jj][mm] = USED
+						astar.set_point_disabled(vector_to_index(Vector2(jj,mm)))
+			
+			var start_list = []
+			for j in range(start_vectors.size()-1):
+				if start_vectors[j][1].y < place.y - 1 or start_vectors[j][1].y > place.y + height + 1:
+					start_list.append(start_vectors[j])
+				if start_vectors[j][1].x < place.x - 1 or start_vectors[j][1].x > place.x + width + 1:
+					start_list.append(start_vectors[j])
 			start_vectors = start_list
 			
-			if start.x != -1 and start.y != -1:
+			if start.x != -1 or start.y != -1:
 				start.x += place.x
 				start.y += place.y
 				var v = [vector_to_index(start), start ]
-				start_vectors.append(v)
+				#start_vectors.append(v)
+				start_vectors.push_front(v)
+				hallway.append(vector_to_index(start))
+				working_map[start.x][start.y] = USED
+				#astar.set_point_disabled(v[0])
+				astar.set_point_disabled(v[0], false)
+				print('enabled ', v, ' - ', hallway, ' - ', start_vectors)
 				
-			if end.x != -1 and end.y != -1:
+			if end.x != -1 or end.y != -1:
 				end.x += place.x
 				end.y += place.y
 				var v = [vector_to_index(end), end ]
-				start_vectors.append(v)
+				#start_vectors.append(v)
+				start_vectors.push_front(v)
+				hallway.append(vector_to_index(end))
+				working_map[end.x][end.y] = USED
+				#astar.set_point_disabled(v[0])
+				astar.set_point_disabled(v[0], false)
+				
+			var temp = []
+			for a in range(start_vectors.size() - 1):
+				if start_vectors[a] not in temp:
+					temp.append(start_vectors[a])
+			start_vectors = temp
+			
+			hallway_in_map(hallway)
+			#process_astar_vectors(hallway)
+			
 		pass
 	pass
 
@@ -233,15 +258,17 @@ func prepare_working_map():
 			if j == map[i].size() - 1:
 				map[i][j] = USED
 				
-			if map[i][j] == USED:
-				astar.set_point_disabled(vector_to_index(Vector2(j,i)))
+			if map[i][j]  == USED:
+				astar.set_point_disabled(vector_to_index(Vector2(i,j)))
+			#if map[i][j] == HALL:
+			#	astar.set_point_disabled(vector_to_index(Vector2(i,j)), false)
 			## assume x-size equals y-size
 	
 
 
 func randomize_vector2d(length_of_array, left_padding, top_padding, width_of_map, height_of_map):
 	var v = []
-
+	#var amass = []
 	#var picked = []
 	#top_padding -= 1
 	var interval = max( abs((width_of_map - left_padding * 2 ) / length_of_array), 1 )
@@ -419,15 +446,7 @@ func find_map():
 	var width_w = hall_width 
 	#print(c, ' ', d, ' c/d w,h ' , vec )
 	var r = Vector2(  ( vec.x * width_w  - c)  ,  (  vec.y * width_h  - d)   )
-	#var rr = Vector2(- r.x - vec.x * width_w, - r.y -  vec.y * width_h)
-	#sign_w = sign(r.x) *  1
-	#sign_h = sign(r.y) *  1
 	
-	#r.x += -(i) * sign_w
-	#r.y += -(j) * sign_h
-	
-	#print(i,' ', j, ' signs i,j')
-	#print(r, " r ", h_vector, ' ' , vec,' ')
 	
 	return  r
 
