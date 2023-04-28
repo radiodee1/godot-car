@@ -123,30 +123,46 @@ var shapes = {
 	'layout': [
 		[],
 		[Vector2(1,0), Vector2(1,1), Vector2(1,2), Vector2(1,3), Vector2(0,0), Vector2(0,2), Vector2(2,1)],
-		[Vector2(1,0), Vector2(1,1), Vector2(1,2), Vector2(2,0), Vector2(2,2), Vector2(0,1)],
-		[Vector2(1,0), Vector2(2,0), Vector2(3,0), Vector2(1,-1), Vector2(3,-1), Vector2(2,1)],
-		[Vector2(1,0), Vector2(2,0), Vector2(3,0), Vector2(1,1), Vector2(3,1), Vector2(2,-1)]
+		[Vector2(1,0), Vector2(1,1), Vector2(1,2), Vector2(2,0), Vector2(2,2), Vector2(0,1), Vector2(1,3)],
+
+		[Vector2(0,1), Vector2(0,2), Vector2(1,0), Vector2(1,1), Vector2(2,1), Vector2(2,2), Vector2(3,1)],
+		[Vector2(0,0), Vector2(0,1), Vector2(1,1), Vector2(1,2), Vector2(2,0), Vector2(2,1), Vector2(3,1)],
+		
+		[Vector2(0,1), Vector2(1,1), Vector2(1,2), Vector2(2,0), Vector2(2,1), Vector2(3,1), Vector2(3,2)],
+		[Vector2(0,1), Vector2(1,0), Vector2(1,1), Vector2(2,1), Vector2(2,2), Vector2(3,0), Vector2(3,1)]
 	],
 	'start': [
 		Vector2(-1,-1),
 		Vector2(1,-1),
-		Vector2(1,-1),
-		Vector2(0,0),
-		Vector2(0,0)
+		Vector2(0,-1),
+		
+		Vector2(-1,0),
+		Vector2(-1,0),
+		
+		Vector2(4,1),
+		Vector2(4,1)
 	],
 	'end': [
 		Vector2(-1,-1),
 		Vector2(-1,-4), ## Vector2(1,4)
-		Vector2(-1,4),
-		Vector2(-4,1),
-		Vector2(-4,1)
+		Vector2(-1,-4),
+		
+		Vector2(-4,-1),
+		Vector2(-4,-1),
+		
+		Vector2(-1,-1),
+		Vector2(-1,-1)
 	],
 	'name': [
 		"none",
 		'prison_a',
 		'prison_b',
+		
 		'prison_c',
-		'prison_d'
+		'prison_d',
+		
+		'prison_e',
+		'prison_f'
 	]
 }
 

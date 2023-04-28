@@ -154,7 +154,7 @@ func setup_level_frame():
 					include.place_object(ii, 'RANDOM', 'MAZE', level_frame)
 				if ii == 'PRISON':
 					print('PRISON')
-					maze.add_shape(1,Vector2(-1,-1)) ## <-- this is the first prison shape!!
+					maze.add_shape(2,Vector2(-1,-1)) ## <-- this is the first prison shape!!
 			maze.maze_generate(highest) ## <-- after shapes
 			pass
 		if e['type'] == 'player':

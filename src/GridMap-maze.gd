@@ -140,6 +140,8 @@ func shapes_to_map():
 			place.x = rng.randi_range(2 + 2, working_map.size() - 2 - width)
 			place.y = rng.randi_range(2 + 2, working_map[0].size() - 2 - height)
 			#print(place, ' place')
+			if place.x + width > working_map.size() or place.y + height > working_map[0].size():
+				continue
 			var hallway = []
 			var hall_vec = []
 			for z in layout:
