@@ -136,8 +136,8 @@ var shapes = {
 		Vector2(1,-1),
 		Vector2(0,-1),
 		
-		Vector2(-1,0),
-		Vector2(-1,0),
+		Vector2(-1,1),
+		Vector2(-1,1),
 		
 		Vector2(4,1),
 		Vector2(4,1)

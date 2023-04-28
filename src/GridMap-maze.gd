@@ -33,8 +33,9 @@ var center_h = 0
 var center_w = 0
 var center_depth = - 6 
 
-var record_center_a = 0
-var record_center_b = 0
+#var record_center_a = 0
+#var record_center_b = 0
+
 var record_index = 0
 
 var h_vector: Vector3 #= Vector3(0,0,0)
@@ -60,8 +61,8 @@ func clear_variables():
 	center_w = 0
 	center_depth = - 6 
 
-	record_center_a = 0
-	record_center_b = 0
+	#record_center_a = 0
+	#record_center_b = 0
 	record_index = 0
 
 	h_vector = Vector3(0,0,0)
@@ -143,20 +144,21 @@ func shapes_to_map():
 			if place.x + width > working_map.size() or place.y + height > working_map[0].size():
 				continue
 			var hallway = []
-			var hall_vec = []
+			#var hall_vec = []
 			for z in layout:
 				var v = Vector2(place.x + z.x, place.y + z.y)
 				working_map[v.x][v.y] =  SHAPE
 				
 				astar.set_point_disabled(vector_to_index(v))
 				hallway.append(vector_to_index(v))
-				hall_vec.append(v)
+				#hall_vec.append(v)
 			#print(width, ' width ', height, ' height ', hallway, ' ', hallway.size())
 			#hallway_in_map(hallway)
 			
 			## MASK
-			for jj in range(place.x - 1 , place.x + width + 1):
-				for mm in range(place.y - 1, place.y + height + 1):
+			var mask = 1
+			for jj in range(place.x - mask , place.x + width + mask):
+				for mm in range(place.y - mask, place.y + height + mask):
 					if jj >= 0 and mm >= 0:
 						working_map[jj][mm] = USED
 						astar.set_point_disabled(vector_to_index(Vector2(jj,mm)))
@@ -340,12 +342,17 @@ func process_astar_vectors(v):
 	#print(z)
 	group_visited.append(z[0][0])
 	for p in z:
+		
+		
 		if p[0] not in group_visited and p[1] not in group_visited:
-			print('not in group ', p[0], ' or ', p[1])
+			#print('not in group ', p[0], ' or ', p[1])
 			continue
-		group_visited.append(p[0])
-		group_visited.append(p[1])
+		
 		var pp = astar.get_id_path(p[0], p[1])	
+		if pp.size() > 0:
+			group_visited.append(p[0])
+			group_visited.append(p[1])
+		
 		#print(pp, ' pp')
 		#pp = [26,21,16]
 		#pp.reverse()
@@ -362,8 +369,8 @@ func hallway_in_map(hallway):
 				#finished_map[j][i] = HALL
 				assign_map(j, i, HALL)
 				working_map[v.x][v.y] = HALL
-				record_center_a = j
-				record_center_b = i #+ working_map.size()
+				#record_center_a = j
+				#record_center_b = i #+ working_map.size()
 				record_index = hh
 	
 	for h in range(hallway.size()):
