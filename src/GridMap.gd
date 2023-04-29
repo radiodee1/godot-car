@@ -148,14 +148,26 @@ func setup_level_frame():
 			maze.shape_list = []
 			maze.set_maze_size(e['width_x'], e['height_z'], e['depth_y'], e['x'], e['y'], e['z'])			
 			#maze.maze_generate(highest)
-			#print('highest ', highest)
+			
+			for ii in e['includes']:
+				if ii == 'PRISON' or ii == 'NEXTLEVEL' or ii == 'ALTAR':
+					#include.remove_altar()
+					print(ii)
+					maze.add_shape(4, Vector2(-1,-1), ii) ## <-- this is a prison shape!!
+			
+			maze.maze_generate(highest) ## <-- after shapes
+			
+			var altar_mapping = maze.index_to_vector(maze.get_intersection(2, false, true))
+			var altar_vec = Vector3(altar_mapping.x, e['depth_y'], altar_mapping.y)
+			altar_vec.x = 5 * altar_vec.x + 2
+			altar_vec.z = 5 * altar_vec.z + 2
+			altar_vec.y += 2
+			print('altar vec ', altar_vec)
+			
 			for ii in e['includes']:
 				if ii != 'PRISON':
-					include.place_object(ii, 'RANDOM', 'MAZE', level_frame)
-				if ii == 'PRISON':
-					print('PRISON')
-					maze.add_shape(4,Vector2(-1,-1)) ## <-- this is the first prison shape!!
-			maze.maze_generate(highest) ## <-- after shapes
+					include.place_object(ii, 'RANDOM', 'MAZE', level_frame, altar_vec)
+			
 			pass
 		if e['type'] == 'player':
 			print('player handled by central_control!!')

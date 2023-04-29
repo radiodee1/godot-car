@@ -21,6 +21,7 @@ var working_map = []
 var finished_map = []
 
 var shape_list = []
+var intersections = {}
 
 var rng = RandomNumberGenerator.new()
 var astar = AStar2D.new()
@@ -28,6 +29,7 @@ var HALL = 4
 var NONE = 0
 var USED = -1
 var SHAPE = 9
+var SPOT = 5
 
 var center_h = 0
 var center_w = 0
@@ -50,6 +52,7 @@ var dict = preload("res://src/GridMap-dict.gd").new()
 
 func clear_variables():
 	start_vectors = []
+	intersections = {}
 	#vectors_len =  7 #+ 10
 	start_vectors_index = []
 	group_visited = []
@@ -83,33 +86,41 @@ func maze_generate(hvec=Vector3(0,0,0), block_num=1):
 	finished_map = make_2d_grid(maze_w * hall_width, maze_h * hall_width)
 	
 	start_vectors = randomize_vector2d(vectors_len, 1, 1, maze_w, maze_h )
-
+	#prepare_working_map()
 	#print(start_vectors, ' after start')
-	add_to_astar(working_map, true)
-	
-	shapes_to_map() ## after add_to_astar
+	add_to_astar(working_map)
 	
 	prepare_working_map()
+	shapes_to_map() ## after add_to_astar
 	
-	#show_2d_grid(working_map, true, 3)
-	#show_2d_grid(finished_map, true, 3)
-		
+	
+	#prepare_working_map()
+	
+	
 	start_vectors_index = vector_2d_to_index_list(start_vectors)
 	
 	process_astar_vectors(start_vectors_index)
 	print("finished")
 	
 	#show_2d_grid(working_map, true, 3)
-	show_2d_grid(finished_map, true, 3)
+	#show_2d_grid(finished_map, true, 3)
 	
 	var n = find_map() 
 	
 	copy_map_to_scene(n, block_num)
+	
+	print(get_intersection(2, false, true), ' request 2')
+	print(intersections)
+	
+	show_2d_grid(finished_map, true, 3)
 	pass 
 
-func add_shape(shape_num, place=Vector2(-1,-1)):
-	var shape = [shape_num, place]	
+func add_shape(shape_num, place=Vector2(-1,-1), name="PRISON"):
+	var shape = [shape_num, place, name]	
 	shape_list.append(shape)
+	if name == 'ALTAR':
+		print(shape)
+		pass
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):
@@ -121,6 +132,8 @@ func shapes_to_map():
 	#print(shape_list, ' shape_list')
 	for i in range(shape_list.size()):
 		var x = shape_list[i]
+		if x[2] != 'PRISON' :
+			continue
 		var layout = dict.shapes['layout'][x[0]]
 		var mesh = dict.shapes['mesh'][x[0]]
 		var start = dict.shapes['start'][x[0]]
@@ -147,7 +160,7 @@ func shapes_to_map():
 			#var hall_vec = []
 			for z in layout:
 				var v = Vector2(place.x + z.x, place.y + z.y)
-				working_map[v.x][v.y] =  SHAPE
+				working_map[v.x][v.y] =   SHAPE
 				
 				astar.set_point_disabled(vector_to_index(v))
 				hallway.append(vector_to_index(v))
@@ -165,18 +178,44 @@ func shapes_to_map():
 			
 			#print(start_vectors.size(), ' size before')
 			var start_list = []
+			var mid = Vector2(0,0)
+			mid.x = int((place.x + place.x + width) / 2)
+			mid.y = int((place.y + place.y + height) / 2)
+			var vv = Vector2(0,0)
 			for j in range(start_vectors.size()-1):
+				
+				
 				if start_vectors[j][1].y < place.y - 1 or start_vectors[j][1].y > place.y + height + 1:
 					start_list.append(start_vectors[j])
 				else:
-					var v = Vector2(start_vectors[j][1].x, start_vectors[j][1].y + height + 1)
-					start_list.append([vector_to_index(v), v])
-					
+					if start_vectors[j][1].y > mid.y:
+						vv = Vector2(start_vectors[j][1].x, start_vectors[j][1].y + height + place.y + 1)
+					else:
+						vv = Vector2(start_vectors[j][1].x, start_vectors[j][1].y - height - place.y - 1)
+					#var v = Vector2(start_vectors[j][1].x, start_vectors[j][1].y + height + 1)
+					#if vv.x > 2 and vv.y > 2 and vv.x < working_map.size() - 2 and vv.y < working_map[0].size() - 2:
+					#var xx = start_vectors[j][1]
+					if vv.x < 1 or vv.y < 1 or vv.x > working_map.size() -1 or vv.y > working_map[0].size() - 1:
+						continue
+					if working_map[vv.x][vv.y] != USED:
+						start_list.append([vector_to_index(vv), vv])
+					continue
+					pass
+				
 				if start_vectors[j][1].x < place.x - 1 or start_vectors[j][1].x > place.x + width + 1:
 					start_list.append(start_vectors[j])
 				else:
-					var v = Vector2(start_vectors[j][1].x + place.x + width + 1, start_vectors[j][1].y)
-					start_list.append([vector_to_index(v), v])
+					if start_vectors[j][1].x > mid.x:
+						vv = Vector2(start_vectors[j][1].x + place.x + width, start_vectors[j][1].y)
+					else:
+						vv = Vector2(start_vectors[j][1].x - place.x - width, start_vectors[j][1].y)
+					#var v = Vector2(start_vectors[j][1].x + place.x + width + 1, start_vectors[j][1].y)
+					if vv.x < 1 or vv.y < 1 or vv.x > working_map.size() -1 or vv.y > working_map[0].size() - 1:
+						continue
+					if working_map[vv.x][vv.y] != USED:
+						# and vv.x > -1 and vv.y > -1 and vv.x < working_map.size() - 2 and vv.y < working_map[0].size() - 2:
+						start_list.append([vector_to_index(vv), vv])
+					pass
 					
 			start_vectors = start_list
 			#print(start_vectors.size(), ' size after')
@@ -216,6 +255,8 @@ func shapes_to_map():
 		pass
 	pass
 
+
+
 func make_2d_grid(width, height):
 	var matrix = []
 	for h in range(height):
@@ -225,7 +266,7 @@ func make_2d_grid(width, height):
 			pass
 	return matrix
 	
-func show_2d_grid(matrix, advance = false, line_size=3):
+func show_2d_grid(matrix, advance = false, line_size=3, show_hidden=false):
 	if not advance:
 		for h in matrix:
 			print(h)
@@ -238,6 +279,10 @@ func show_2d_grid(matrix, advance = false, line_size=3):
 		for h in range(matrix.size()):
 			line = "|"
 			for j in range(matrix[h].size()):
+				if matrix[h][j] == SPOT:
+					var line_spot = ' X  '.substr(0, line_size)
+					line += line_spot
+					continue
 				if matrix[h][j] == 0:
 					var three = '     ' # 5 spaces
 					line += three.substr(0, line_size) ## 3 spaces
@@ -342,16 +387,28 @@ func process_astar_vectors(v):
 	#print(z)
 	group_visited.append(z[0][0])
 	for p in z:
-		
-		
+		if p[0] < 0 or p[1] < 0:
+			continue
+			
+		if p[0] not in intersections:
+			intersections[p[0]] = 0
+		if p[1] not in intersections:
+			intersections[p[1]] = 0
+			
 		if p[0] not in group_visited and p[1] not in group_visited:
 			#print('not in group ', p[0], ' or ', p[1])
 			continue
+		
 		
 		var pp = astar.get_id_path(p[0], p[1])	
 		if pp.size() > 0:
 			group_visited.append(p[0])
 			group_visited.append(p[1])
+			
+			if intersections[p[0]] < 4:
+				intersections[p[0]] += 1
+			if intersections[p[1]] < 4:
+				intersections[p[1]] += 1
 		
 		#print(pp, ' pp')
 		#pp = [26,21,16]
@@ -391,7 +448,7 @@ func hallway_in_map(hallway):
 			for j in range(v.x * hall_width + hall_padding , v.x * hall_width + hall_width - hall_padding ):
 				for i in range(v.y * hall_width , v.y * hall_width + hall_padding ):
 					#finished_map[j][i] = 5
-					assign_map(j,i, 5)
+					assign_map(j,i, 4)
 					pass
 		
 		## DOWN
@@ -464,7 +521,6 @@ func find_map():
 	#print(c, ' ', d, ' c/d w,h ' , vec )
 	var r = Vector2(  ( vec.x * width_w  - c)  ,  (  vec.y * width_h  - d)   )
 	
-	
 	return  r
 
 func set_maze_size(left, right, depth, x, y, z):
@@ -479,5 +535,32 @@ func set_maze_size(left, right, depth, x, y, z):
 func set_callable(set_cell: Callable):
 	set_cell_item = set_cell
 
-
+func get_intersection(num, exact=true, mark=false):
+	print(intersections, ' intersections')
+	var out = -1
+	var index = -1
+	var tot = -1
+	for i in intersections:
+		#print(i, ' i in intersections')
+		if intersections[i] == num and exact:
+			out = i #intersections[i]
+			intersections[i] = 0
+			print(out)
+		if intersections[i] <= num and tot != 0 and tot < intersections[i] and not exact:
+			tot = intersections[i]
+			out = i #intersections[i]
+			index = i
+			#print(i, ' ' , out, ' ', index, ' ' , intersections)
+	intersections[index] = 0
+	if mark:
+		
+		var g = index_to_vector(out)
+		#finished_map[g.x * 5 + 2][g.y * 5 + 2] = 9
+		g.x = g.x * 5 + 2
+		g.y = g.y * 5 + 2
+		
+		if g.x > -1 and g.y > -1:
+			assign_map(g.x , g.y , SPOT)
+		print(out, ' ', g, ' g vector')
+	return out 
 	

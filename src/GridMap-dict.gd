@@ -134,7 +134,7 @@ var shapes = {
 	'start': [
 		Vector2(-1,-1),
 		Vector2(1,-1),
-		Vector2(0,-1),
+		Vector2(1,-1),
 		
 		Vector2(-1,1),
 		Vector2(-1,1),
