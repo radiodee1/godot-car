@@ -77,6 +77,9 @@ func clear_variables():
 func maze_generate(hvec=Vector3(0,0,0), block_num=1):
 	#print(center_h, ' ', center_w, ' center h, w  0')
 	
+	rng.seed = Time.get_ticks_usec()
+	#print(Time.get_ticks_usec())
+	
 	clear_variables()
 	
 	h_vector = hvec
@@ -109,7 +112,7 @@ func maze_generate(hvec=Vector3(0,0,0), block_num=1):
 	
 	copy_map_to_scene(n, block_num)
 	
-	print(get_intersection(2, false, true), ' request 2')
+	#print(get_intersection(2, false, true), ' request 2')
 	print(intersections)
 	
 	show_2d_grid(finished_map, true, 3)
@@ -188,6 +191,7 @@ func shapes_to_map():
 				if start_vectors[j][1].y < place.y - 1 or start_vectors[j][1].y > place.y + height + 1:
 					start_list.append(start_vectors[j])
 				else:
+					astar.set_point_disabled(start_vectors[j][0])
 					if start_vectors[j][1].y > mid.y:
 						vv = Vector2(start_vectors[j][1].x, start_vectors[j][1].y + height + place.y + 1)
 					else:
@@ -198,6 +202,7 @@ func shapes_to_map():
 					if vv.x < 1 or vv.y < 1 or vv.x > working_map.size() -1 or vv.y > working_map[0].size() - 1:
 						continue
 					if working_map[vv.x][vv.y] != USED:
+						#astar.add_point(vector_to_index(vv),vv)
 						start_list.append([vector_to_index(vv), vv])
 					continue
 					pass
@@ -205,6 +210,7 @@ func shapes_to_map():
 				if start_vectors[j][1].x < place.x - 1 or start_vectors[j][1].x > place.x + width + 1:
 					start_list.append(start_vectors[j])
 				else:
+					astar.set_point_disabled(start_vectors[j][0])
 					if start_vectors[j][1].x > mid.x:
 						vv = Vector2(start_vectors[j][1].x + place.x + width, start_vectors[j][1].y)
 					else:
@@ -213,6 +219,7 @@ func shapes_to_map():
 					if vv.x < 1 or vv.y < 1 or vv.x > working_map.size() -1 or vv.y > working_map[0].size() - 1:
 						continue
 					if working_map[vv.x][vv.y] != USED:
+						#astar.add_point(vector_to_index(vv), vv)
 						# and vv.x > -1 and vv.y > -1 and vv.x < working_map.size() - 2 and vv.y < working_map[0].size() - 2:
 						start_list.append([vector_to_index(vv), vv])
 					pass
@@ -491,7 +498,7 @@ func copy_map_to_scene(n:Vector2, block_num=1):
 			var v = Vector3(i - n.x + a , center_depth ,j - n.y + b  )	
 			
 			#print(v.x, " v.x new")
-			v.z = - jj - n.y + b 
+			#v.z = - jj - n.y + b 
 			if finished_map[ii][jj] > 0:
 				set_cell_item.call(v, block_num)
 			if finished_map[ii][jj] == 0:
@@ -552,6 +559,7 @@ func get_intersection(num, exact=true, mark=false):
 			index = i
 			#print(i, ' ' , out, ' ', index, ' ' , intersections)
 	intersections[index] = 0
+	
 	if mark:
 		
 		var g = index_to_vector(out)

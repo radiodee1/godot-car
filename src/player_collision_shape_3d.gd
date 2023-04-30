@@ -148,13 +148,13 @@ func check_collision():
 		if collision != null and collision.get_collider() != null:
 			if collision.get_collider().is_in_group("mob"):
 			#var mob = collision.get_collider()
-			
+				print(collision.get_collider().name)			
 				if collision.get_collider().name == 'pin':
-
-
-					print(collision.get_collider().name)
-					
+	
 					hole_to_maze.emit()
+					
+				if collision.get_collider().name == "NEXTLEVEL":
+					print('found NEXTLEVEL')
 						#print('emit num ', emit_hole_to_maze)
 						#print("player")
 						#print('position ', position)

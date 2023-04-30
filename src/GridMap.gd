@@ -145,27 +145,31 @@ func setup_level_frame():
 				include.place_object(ii, 'RANDOM', 'HILL', level_frame, highest, lowest)
 			pass
 		if e['type'] == 'maze':
+			include.remove_low_altar()
 			maze.shape_list = []
 			maze.set_maze_size(e['width_x'], e['height_z'], e['depth_y'], e['x'], e['y'], e['z'])			
 			#maze.maze_generate(highest)
 			
 			for ii in e['includes']:
-				if ii == 'PRISON' or ii == 'NEXTLEVEL' or ii == 'ALTAR':
+				if ii == 'PRISON' : #or ii == 'NEXTLEVEL' or ii == 'ALTAR':
 					#include.remove_altar()
 					print(ii)
 					maze.add_shape(4, Vector2(-1,-1), ii) ## <-- this is a prison shape!!
 			
 			maze.maze_generate(highest) ## <-- after shapes
 			
+			var size = Vector2(maze.maze_w , maze.maze_h )
+			var map_location = maze.find_map()
 			var altar_mapping = maze.index_to_vector(maze.get_intersection(2, false, true))
-			var altar_vec = Vector3(altar_mapping.x, e['depth_y'], altar_mapping.y)
-			altar_vec.x = 5 * altar_vec.x + 2
-			altar_vec.z = 5 * altar_vec.z + 2
-			altar_vec.y += 2
+			var altar_vec = Vector3(altar_mapping.x , e['depth_y'], altar_mapping.y )
+			altar_vec.x = maze.hall_width * altar_vec.x + 2 - map_location.x + size.x
+			altar_vec.z = maze.hall_width * altar_vec.z + 2 - map_location.y + size.y ## -?
+			altar_vec.y =  altar_vec.y + 5
+			maze.show_2d_grid(maze.finished_map, true, 3)
 			print('altar vec ', altar_vec)
 			
 			for ii in e['includes']:
-				if ii != 'PRISON':
+				if ii == 'ALTAR':
 					include.place_object(ii, 'RANDOM', 'MAZE', level_frame, altar_vec)
 			
 			pass

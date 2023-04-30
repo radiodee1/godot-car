@@ -77,10 +77,10 @@ func place_low_altar(v, name='pin', group='mob'):
 	low_box_shape = BoxShape3D.new()
 	low_box_shape.size = Vector3(0.5,0.5,0.5)
 	#box_mesh.size = Vector3(0.5,0.5,0.5)
-	low_mesh_instance_3d.mesh = box_mesh
+	low_mesh_instance_3d.mesh = low_box_mesh
 	low_mesh_instance_3d.add_to_group(group)
 	low_mesh_instance_3d.scale_object_local(Vector3(scale_local, scale_local ,scale_local))
-	add_child.call(mesh_instance_3d)
+	add_child.call(low_mesh_instance_3d)
 	low_mesh_instance_3d.translate(v) 
 	low_static_body = StaticBody3D.new()
 	low_static_body.scale_object_local(Vector3(1,1,1))
@@ -88,14 +88,14 @@ func place_low_altar(v, name='pin', group='mob'):
 	collision_shape.scale_object_local(Vector3(1,1,1))
 	collision_shape.add_to_group(group)
 	collision_shape.name = name
-	collision_shape.shape = box_shape
+	collision_shape.shape = low_box_shape
 	collision_shape.disabled = false
 	low_static_body.add_child(collision_shape)
 	low_static_body.add_to_group(group)
 	low_static_body.name = name
 	low_static_body.set_collision_layer_value(1, true)
 	low_static_body.set_collision_mask_value(1, true)
-	low_mesh_instance_3d.add_child(static_body) 
+	low_mesh_instance_3d.add_child(low_static_body) 
 	low_mesh_instance_3d.add_to_group(group)
 	low_mesh_instance_3d.name = name
 	#mesh_instance_3d.add_child(kinematic)
@@ -155,7 +155,7 @@ func place_object(name, strategy, layer, frame_num, vector_high=Vector3(0,0,0), 
 			#hh.y += 2.5
 			#hh.z += 2
 			print(vector_high, ' vector_high')
-			place_low_altar(vector_high)
+			place_low_altar(vector_high, "NEXTLEVEL")
 			pass
 		if name == 'TRAPDOOR':
 			pass
