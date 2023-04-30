@@ -89,15 +89,12 @@ func maze_generate(hvec=Vector3(0,0,0), block_num=1):
 	finished_map = make_2d_grid(maze_w * hall_width, maze_h * hall_width)
 	
 	start_vectors = randomize_vector2d(vectors_len, 2, 2, maze_w , maze_h  )
-	#prepare_working_map()
+	
 	#print(start_vectors, ' after start')
 	add_to_astar(working_map)
 	
 	prepare_working_map()
 	shapes_to_map() ## after add_to_astar
-	
-	
-	#prepare_working_map()
 	
 	
 	start_vectors_index = vector_2d_to_index_list(start_vectors)
@@ -129,7 +126,7 @@ func add_shape(shape_num, place=Vector2(-1,-1), name="PRISON"):
 #func _process(delta):
 #	pass
 
-func shapes_to_map():
+func shapes_to_map(move_old_vectors=false):
 	#print(start_vectors, ' start_vectors')
 	#print(working_map, ' working_map')
 	#print(shape_list, ' shape_list')
@@ -141,7 +138,7 @@ func shapes_to_map():
 		var mesh = dict.shapes['mesh'][x[0]]
 		var start = dict.shapes['start'][x[0]]
 		var end = dict.shapes['end'][x[0]]
-		print(layout, ' shape ', mesh, ' ', start, ' ' , end)
+		#print(layout, ' shape ', mesh, ' ', start, ' ' , end)
 		if x[1].x == -1 or x[1].y == -1:
 			#print('place randomly')
 			#var widths = []
@@ -156,7 +153,7 @@ func shapes_to_map():
 			var place = Vector2(-1,-1)
 			place.x = rng.randi_range(2 + 2, working_map.size() - 2 - width)
 			place.y = rng.randi_range(2 + 2, working_map[0].size() - 2 - height)
-			#print(place, ' place')
+			print(place, ' place')
 			if place.x + width > working_map.size() or place.y + height > working_map[0].size():
 				continue
 			var hallway = []
@@ -179,51 +176,53 @@ func shapes_to_map():
 						astar.set_point_disabled(vector_to_index(Vector2(jj,mm)))
 			
 			#print(start_vectors.size(), ' size before')
-			var start_list = []
-			var mid = Vector2(0,0)
-			mid.x = int((place.x + place.x + width) / 2)
-			mid.y = int((place.y + place.y + height) / 2)
-			var vv = Vector2(0,0)
-			for j in range(start_vectors.size()-1):
+			if move_old_vectors:
+				
+				var start_list = []
+				var mid = Vector2(0,0)
+				mid.x = int((place.x + place.x + width) / 2)
+				mid.y = int((place.y + place.y + height) / 2)
+				var vv = Vector2(0,0)
+				for j in range(start_vectors.size()-1):
 				
 				
-				if start_vectors[j][1].y < place.y - 1 or start_vectors[j][1].y > place.y + height + 1:
-					start_list.append(start_vectors[j])
-				else:
-					astar.set_point_disabled(start_vectors[j][0])
-					if start_vectors[j][1].y > mid.y:
-						vv = Vector2(start_vectors[j][1].x, start_vectors[j][1].y + height + place.y + 1)
+					if start_vectors[j][1].y < place.y - 1 or start_vectors[j][1].y > place.y + height + 1:
+						start_list.append(start_vectors[j])
 					else:
-						vv = Vector2(start_vectors[j][1].x, start_vectors[j][1].y - height - place.y - 1)
-					#var v = Vector2(start_vectors[j][1].x, start_vectors[j][1].y + height + 1)
-					#if vv.x > 2 and vv.y > 2 and vv.x < working_map.size() - 2 and vv.y < working_map[0].size() - 2:
-					#var xx = start_vectors[j][1]
-					if vv.x < 2 or vv.y < 2 or vv.x > working_map.size() -1 or vv.y > working_map[0].size() - 1:
-						continue
-					if working_map[vv.x][vv.y] != USED:
-						#astar.add_point(vector_to_index(vv),vv)
-						start_list.append([vector_to_index(vv), vv])
-						continue
-					pass
+						astar.set_point_disabled(start_vectors[j][0])
+						if start_vectors[j][1].y > mid.y:
+							vv = Vector2(start_vectors[j][1].x, start_vectors[j][1].y + height + place.y + 1)
+						else:
+							vv = Vector2(start_vectors[j][1].x, start_vectors[j][1].y - height - place.y - 1)
+						#var v = Vector2(start_vectors[j][1].x, start_vectors[j][1].y + height + 1)
+						#if vv.x > 2 and vv.y > 2 and vv.x < working_map.size() - 2 and vv.y < working_map[0].size() - 2:
+						#var xx = start_vectors[j][1]
+						if vv.x < 2 or vv.y < 2 or vv.x > working_map.size() -1 or vv.y > working_map[0].size() - 1:
+							continue
+						if working_map[vv.x][vv.y] != USED:
+							#astar.add_point(vector_to_index(vv),vv)
+							start_list.append([vector_to_index(vv), vv])
+							continue
+						pass
 				
-				if start_vectors[j][1].x < place.x - 1 or start_vectors[j][1].x > place.x + width + 1:
-					start_list.append(start_vectors[j])
-				else:
-					astar.set_point_disabled(start_vectors[j][0])
-					if start_vectors[j][1].x > mid.x:
-						vv = Vector2(start_vectors[j][1].x + place.x + width, start_vectors[j][1].y)
+					if start_vectors[j][1].x < place.x - 1 or start_vectors[j][1].x > place.x + width + 1:
+						start_list.append(start_vectors[j])
 					else:
-						vv = Vector2(start_vectors[j][1].x - place.x - width, start_vectors[j][1].y)
-					#var v = Vector2(start_vectors[j][1].x + place.x + width + 1, start_vectors[j][1].y)
-					if vv.x < 2 or vv.y < 2 or vv.x > working_map.size() -1 or vv.y > working_map[0].size() - 1:
-						continue
-					if working_map[vv.x][vv.y] != USED:
-						#astar.add_point(vector_to_index(vv), vv)
-						# and vv.x > -1 and vv.y > -1 and vv.x < working_map.size() - 2 and vv.y < working_map[0].size() - 2:
-						start_list.append([vector_to_index(vv), vv])
-					pass
-					
-			start_vectors = start_list
+						astar.set_point_disabled(start_vectors[j][0])
+						if start_vectors[j][1].x > mid.x:
+							vv = Vector2(start_vectors[j][1].x + place.x + width, start_vectors[j][1].y)
+						else:
+							vv = Vector2(start_vectors[j][1].x - place.x - width, start_vectors[j][1].y)
+						#var v = Vector2(start_vectors[j][1].x + place.x + width + 1, start_vectors[j][1].y)
+						if vv.x < 2 or vv.y < 2 or vv.x > working_map.size() -1 or vv.y > working_map[0].size() - 1:
+							continue
+						if working_map[vv.x][vv.y] != USED:
+							#astar.add_point(vector_to_index(vv), vv)
+							# and vv.x > -1 and vv.y > -1 and vv.x < working_map.size() - 2 and vv.y < working_map[0].size() - 2:
+							start_list.append([vector_to_index(vv), vv])
+						pass
+						
+				start_vectors = start_list
 			#print(start_vectors.size(), ' size after')
 			
 			if start.x != -1 or start.y != -1:
@@ -237,7 +236,7 @@ func shapes_to_map():
 				#astar.set_point_disabled(v[0])
 				astar.set_point_disabled(v[0], false)
 				intersections[v[0]] = 1
-				#print('enabled ', v, ' - ', hallway, ' - ', start_vectors)
+				print('enabled ', v, ' - ', hallway, ' - ', start_vectors)
 				
 			if end.x != -1 or end.y != -1:
 				end.x += place.x
@@ -257,11 +256,8 @@ func shapes_to_map():
 			start_vectors = temp
 			
 			hallway_in_map(hallway)
-			#process_astar_vectors(hallway)
-			
 		pass
 	pass
-
 
 
 func make_2d_grid(width, height):
@@ -308,19 +304,25 @@ func show_2d_grid(matrix, advance = false, line_size=3, show_hidden=false):
 
 func prepare_working_map():
 	var map = working_map
+	var hallway = []
 	for i in range(map.size()):
 		for j in range(map[i].size()):
 			if i == 0:
 				map[i][j] = USED
+				#hallway.append(Vector2(i,j))
 			if i == map.size() - 1:
 				map[i][j] = USED
+				#hallway.append(Vector2(i,j))
 			if j == 0:
 				map[i][j] = USED
+				
 			if j == map[i].size() - 1:
 				map[i][j] = USED
 				
 			if map[i][j]  == USED or map[i][j] == SHAPE:
+				
 				astar.set_point_disabled(vector_to_index(Vector2(i,j)))
+				pass
 			#if map[i][j] == HALL:
 			#	astar.set_point_disabled(vector_to_index(Vector2(i,j)), false)
 			## assume x-size equals y-size
@@ -336,7 +338,7 @@ func randomize_vector2d(length_of_array, left_padding, top_padding, width_of_map
 		available.append(i)
 	
 	var l = min(length_of_array, available.size())
-	
+	print(available, ' available')
 	for i in range(l):
 		#print(available)
 		#print(length_of_array," ", width_of_map, " length, width")
@@ -348,20 +350,21 @@ func randomize_vector2d(length_of_array, left_padding, top_padding, width_of_map
 		var x = Vector2(k, ii + left_padding) ## 
 		v.append([ vector_to_index(x) ,x]) ## 
 		available.remove_at(j)
+	print(v, ' avail out')
 	return v
 
-func add_to_astar(grid, print_rows = false):
+func add_to_astar(grid, print_rows = false, w_limit=1, h_limit=1):
 	var num = 0
-	for i in range(grid.size()):
+	for i in range(w_limit, grid.size() - w_limit):
 		var line = []
-		for j in range(grid[i].size()):
+		for j in range(h_limit, grid[i].size() - h_limit):
 			var v = Vector2(i, j)
 			astar.add_point(vector_to_index(v), v)
-			if i > 0:
+			if i > 0 + w_limit:
 				var v_prev = Vector2(i - 1, j)
 				astar.connect_points(vector_to_index(v), vector_to_index(v_prev), true)
 				pass
-			if j > 0:
+			if j > 0 + h_limit:
 				var v_prev = Vector2(i, j-1)
 				astar.connect_points(vector_to_index(v), vector_to_index(v_prev), true)
 				pass
@@ -487,6 +490,8 @@ func hallway_mask_previous(hallway):
 		
 		working_map[v.x][v.y] = USED
 		astar.set_point_disabled(hh)
+		if v.y < 2 or v.x < 2:
+			print(v, ' low')
 
 func copy_map_to_scene(n:Vector2, block_num=1):
 	#print('h_vector now ', h_vector)
