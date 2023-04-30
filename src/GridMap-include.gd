@@ -15,6 +15,7 @@ var low_mesh_instance_3d
 var low_box_shape
 var low_box_mesh
 var low_static_body
+var low_collision_shape
 #var dict = preload("res://src/GridMap-dict.gd").new()
 
 # Called when the node enters the scene tree for the first time.
@@ -84,13 +85,13 @@ func place_low_altar(v, name='pin', group='mob'):
 	low_mesh_instance_3d.translate(v) 
 	low_static_body = StaticBody3D.new()
 	low_static_body.scale_object_local(Vector3(1,1,1))
-	var collision_shape = CollisionShape3D.new()
-	collision_shape.scale_object_local(Vector3(1,1,1))
-	collision_shape.add_to_group(group)
-	collision_shape.name = name
-	collision_shape.shape = low_box_shape
-	collision_shape.disabled = false
-	low_static_body.add_child(collision_shape)
+	low_collision_shape = CollisionShape3D.new()
+	low_collision_shape.scale_object_local(Vector3(1,1,1))
+	low_collision_shape.add_to_group(group)
+	low_collision_shape.name = name
+	low_collision_shape.shape = low_box_shape
+	low_collision_shape.disabled = false
+	low_static_body.add_child(low_collision_shape)
 	low_static_body.add_to_group(group)
 	low_static_body.name = name
 	low_static_body.set_collision_layer_value(1, true)
@@ -150,10 +151,6 @@ func place_object(name, strategy, layer, frame_num, vector_high=Vector3(0,0,0), 
 			pass
 	if layer == "MAZE":
 		if name == 'ALTAR':
-			#var hh = Vector3(vector_high)
-			#hh.x += 2
-			#hh.y += 2.5
-			#hh.z += 2
 			print(vector_high, ' vector_high')
 			place_low_altar(vector_high, "NEXTLEVEL")
 			pass
