@@ -97,9 +97,10 @@ func maze_generate(hvec=Vector3(0,0,0), block_num=1):
 	shapes_to_map() ## after add_to_astar
 	
 	
-	start_vectors_index = vector_2d_to_index_list(start_vectors)
+	#start_vectors_index = vector_2d_to_index_list(start_vectors)
 	
-	process_astar_vectors(start_vectors_index)
+	#process_astar_vectors(start_vectors_index)
+	process_astar_vectors(start_vectors)
 	print("finished")
 	
 	#show_2d_grid(working_map, true, 3)
@@ -236,7 +237,7 @@ func shapes_to_map(move_old_vectors=false):
 				#astar.set_point_disabled(v[0])
 				astar.set_point_disabled(v[0], false)
 				intersections[v[0]] = 1
-				print('enabled ', v, ' - ', hallway, ' - ', start_vectors)
+				#print('enabled ', v, ' - ', hallway, ' - ', start_vectors)
 				
 			if end.x != -1 or end.y != -1:
 				end.x += place.x
@@ -374,12 +375,8 @@ func add_to_astar(grid, print_rows = false, w_limit=1, h_limit=1):
 		if print_rows:
 			print(line, ' add_to_astar')
 
-func vector_2d_to_index_list(v):
-	var i = []
-	for j in v:
-		var k = vector_to_index(j[1]) # j[1].y * maze_w + j[1].x
-		i.append(k)
-	return i
+
+
 		
 func vector_to_index(v):
 	return v.x * maze_w + v.y  
@@ -389,11 +386,17 @@ func index_to_vector(i):
 	return v
 
 func process_astar_vectors(v):
+	var vv = []
+	for g in range(v.size()):
+		var f = vector_to_index(v[g][1])
+		vv.append(f)
+		pass
+	
 	var z = []
-	for a in range(v.size()):
-		for b in range(a, v.size()):
+	for a in range(vv.size()):
+		for b in range(a, vv.size()):
 			if a != b:
-				z.append([ v[a], v[b] ])
+				z.append([ vv[a], vv[b] ])
 				#z.append([ v[b], v[a] ])
 	#z.reverse()
 	print(z)
@@ -550,7 +553,7 @@ func set_callable(set_cell: Callable):
 	set_cell_item = set_cell
 
 func get_intersection(num, exact=true, mark=false):
-	print(intersections, ' intersections')
+	#print(intersections, ' intersections')
 	var out = -1
 	var index = -1
 	var tot = -1
@@ -570,8 +573,8 @@ func get_intersection(num, exact=true, mark=false):
 	if mark:
 		var g = index_to_vector(out)
 		#finished_map[g.x * 5 + 2][g.y * 5 + 2] = 9
-		g.x = g.x * 5 + 2 + maze_w
-		g.y = g.y * 5 + 2 + maze_h
+		g.x = g.x * 5 + 2 #+ maze_w
+		g.y = g.y * 5 + 2 #+ maze_h
 		if g.x > -1 and g.y > -1:
 			assign_map(g.x , g.y , SPOT)
 		print(out, ' ', g, ' g vector')

@@ -151,14 +151,14 @@ func setup_level_frame():
 			#maze.maze_generate(highest)
 			
 			for ii in e['includes']:
-				if ii == 'PRISON' : #or ii == 'NEXTLEVEL' or ii == 'ALTAR':
+				if ii == 'PRISON' : 
 					#include.remove_altar()
 					print(ii)
 					maze.add_shape(4, Vector2(-1,-1), ii) ## <-- this is a prison shape!!
 			
 			maze.maze_generate(highest) ## <-- after shapes
 			
-			var size = Vector2(maze.maze_w , maze.maze_h )
+			#var size = Vector2(maze.maze_w , maze.maze_h )
 			var map_location = maze.find_map()
 			var altar_mapping = maze.index_to_vector(maze.get_intersection(2, false, true))
 			var altar_vec = Vector3(altar_mapping.x , e['depth_y'], altar_mapping.y )
