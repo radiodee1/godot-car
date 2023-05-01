@@ -14,7 +14,7 @@ var maze_h = 10
 
 var start_vectors = []
 var vectors_len =  + 20
-var start_vectors_index = []
+#var start_vectors_index = []
 var group_visited = []
 
 var working_map = []
@@ -54,7 +54,7 @@ func clear_variables():
 	start_vectors = []
 	intersections = {}
 	#vectors_len =  7 #+ 10
-	start_vectors_index = []
+	#start_vectors_index = []
 	group_visited = []
 
 	working_map = []
@@ -75,10 +75,8 @@ func clear_variables():
 
 	
 func maze_generate(hvec=Vector3(0,0,0), block_num=1):
-	#print(center_h, ' ', center_w, ' center h, w  0')
 	
 	rng.seed = Time.get_ticks_usec()
-	#print(Time.get_ticks_usec())
 	
 	clear_variables()
 	
@@ -96,24 +94,13 @@ func maze_generate(hvec=Vector3(0,0,0), block_num=1):
 	prepare_working_map()
 	shapes_to_map() ## after add_to_astar
 	
-	
-	#start_vectors_index = vector_2d_to_index_list(start_vectors)
-	
-	#process_astar_vectors(start_vectors_index)
 	process_astar_vectors(start_vectors)
 	print("finished")
-	
-	#show_2d_grid(working_map, true, 3)
-	#show_2d_grid(finished_map, true, 3)
 	
 	var n = find_map() 
 	
 	copy_map_to_scene(n, block_num)
 	
-	#print(get_intersection(2, false, true), ' request 2')
-	print(intersections)
-	
-	#show_2d_grid(finished_map, true, 3)
 	pass 
 
 func add_shape(shape_num, place=Vector2(-1,-1), name="PRISON"):
@@ -123,9 +110,7 @@ func add_shape(shape_num, place=Vector2(-1,-1), name="PRISON"):
 		print(shape)
 		pass
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta):
-#	pass
+
 
 func shapes_to_map(move_old_vectors=false):
 	#print(start_vectors, ' start_vectors')
@@ -154,7 +139,7 @@ func shapes_to_map(move_old_vectors=false):
 			var place = Vector2(-1,-1)
 			place.x = rng.randi_range(2 + 2, working_map.size() - 2 - width)
 			place.y = rng.randi_range(2 + 2, working_map[0].size() - 2 - height)
-			print(place, ' place')
+			#print(place, ' place')
 			if place.x + width > working_map.size() or place.y + height > working_map[0].size():
 				continue
 			var hallway = []
@@ -187,7 +172,7 @@ func shapes_to_map(move_old_vectors=false):
 				for j in range(start_vectors.size()-1):
 				
 				
-					if start_vectors[j][1].y < place.y - 1 or start_vectors[j][1].y > place.y + height + 1:
+					if start_vectors[j][1].y < place.y - 1 - mask or start_vectors[j][1].y > place.y + height + 1 + mask:
 						start_list.append(start_vectors[j])
 					else:
 						astar.set_point_disabled(start_vectors[j][0])
@@ -206,7 +191,7 @@ func shapes_to_map(move_old_vectors=false):
 							continue
 						pass
 				
-					if start_vectors[j][1].x < place.x - 1 or start_vectors[j][1].x > place.x + width + 1:
+					if start_vectors[j][1].x < place.x - 1 - mask or start_vectors[j][1].x > place.x + width + 1 + mask:
 						start_list.append(start_vectors[j])
 					else:
 						astar.set_point_disabled(start_vectors[j][0])
