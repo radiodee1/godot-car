@@ -39,6 +39,7 @@ func _ready()->void:
 	#set_hill_size(30,0,0,0,0,0)
 	
 	get_node("/root/CentralControl").connect("restart_terrain", _on_central_control_restart_terrain)
+	
 	hill_generate()
 	include.remove_altar()
 	
@@ -108,14 +109,21 @@ func _on_character_body_3d_hole_to_maze():
 	include.make_hole_to_maze(highest)
 	pass # Replace with function body.
 
+func _on_character_body_3d_hole_to_nextlevel():
+	print('on hole to nextlevel')
+	include.remove_low_altar()
+	include.make_hole_to_nextlevel(5, 1)
+	pass
 
 		
 func _on_central_control_restart_terrain():
 	#if mesh_instance_3d != null:
+	Global.level += 1
+	
 	include.remove_altar()
 	clear()
 	#hill_generate()
-	level_frame = 0
+	level_frame = Global.level - 1
 	setup_level_frame()
 	pass
 
@@ -140,7 +148,9 @@ func setup_level_frame():
 		if e['type'] == 'hill':
 			include.remove_altar()
 			set_hill_size(e['width_x'], e['height_z'], e['depth_y'], e['x'], e['y'], e['z'])
+			#if not Global.do_nextlevel_transition:
 			hill_generate(e['mesh'])
+			
 			for ii in e['includes']:
 				include.place_object(ii, 'RANDOM', 'HILL', level_frame, highest, lowest)
 			pass
@@ -152,11 +162,14 @@ func setup_level_frame():
 			
 			for ii in e['includes']:
 				if ii == 'PRISON' : 
-					var prison_num = rng.randi_range(0, len(dict.shapes['mesh']))
+					var prison_num = rng.randi_range(0, len(dict.shapes['mesh']) - 1)
 					#print(len(dict.shapes['mesh']), ' len ', prison_num)
 					maze.add_shape(prison_num, Vector2(-1,-1), ii) ## <-- this is a prison shape!!
 			
+			#if not Global.do_nextlevel_transition:
 			maze.maze_generate(highest) ## <-- after shapes
+			#else:
+			#	Global.do_nextlevel_transition = false
 			
 			#var size = Vector2(maze.maze_w , maze.maze_h )
 			var map_location = maze.find_map()

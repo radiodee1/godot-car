@@ -38,3 +38,4 @@ script = ExtResource("2_ju2is")
 transform = Transform3D(-0.967534, -0.0116535, 0.252472, -0.0251261, 0.998424, -0.0502046, -0.251489, -0.0549184, -0.966301, 1.34722, 4.32541, -8.9407e-07)
 
 [connection signal="hole_to_maze" from="CharacterBody3D" to="GridMap" method="_on_character_body_3d_hole_to_maze"]
+[connection signal="hole_to_nextlevel" from="CharacterBody3D" to="GridMap" method="_on_character_body_3d_hole_to_nextlevel"]

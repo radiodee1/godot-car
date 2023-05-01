@@ -3,8 +3,7 @@ extends CharacterBody3D
 @onready var control_buttons = load("res://src/central_control.tscn")
 
 signal hole_to_maze
-#signal pause_from_terrain
-
+signal hole_to_nextlevel
 
 
 var speed = 7
@@ -33,6 +32,8 @@ var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 
 @onready var control = $/root/CentralControl/Control
 @onready var un_pause = $/root/CentralControl/Control/un_pause
+@onready var start = $/root/CentralControl/Control/start
+@onready var central = $/root/CentralControl
 
 var start_player: Vector3 = Vector3( 15 * 5 / 2, 5 * 5, 15 * 5 / 2)
 
@@ -48,6 +49,7 @@ func _ready():
 	
 	get_node("/root/CentralControl").connect("restart_player", _on_central_control_restart_player)
 	#get_tree().paused = true
+	Global.set_score_allowed(true)
 
 func _input(event):
 	#get mouse input for camera rotation
@@ -97,12 +99,18 @@ func _physics_process(delta):
 	#floor_snap_length = Vector3(float(movement), float(snap), float(0))
 	floor_snap_length = snap.y
 	#gravity = gravity_vec * gravity_mult
-	if position.y < -2500 :
+	if position.y < -500 : ## 2500
 		print(position.y, " <<< endless fall")
 		#get_tree().change_scene_to_packed(control_buttons)	
-		control_show()
-		un_pause.hide()
-		_on_central_control_restart_player()
+		if not Global.do_nextlevel_transition:
+			control_show()
+			un_pause.hide()
+			_on_central_control_restart_player()
+		else:
+			Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE) 
+			central._do_nextlevel()
+			Global.do_nextlevel_transition = false
+			pass
 		pass
 		
 	check_collision()
@@ -127,6 +135,7 @@ func check_escape():
 	if escape >= .5:
 		#add_child(control.instantiate())
 		#get_tree().change_scene_to_file("/root/CentralControl/Control")
+		start.text = 'NEW-GAME'
 		control_show()
 
 func control_show():
@@ -150,11 +159,21 @@ func check_collision():
 			#var mob = collision.get_collider()
 				print(collision.get_collider().name)			
 				if collision.get_collider().name == 'pin':
-	
+					#Global.items_temp.append('ALTAR')
+					Global.add_to_items_temp('ALTAR')
+					
+					Global.add_to_score(10)
 					hole_to_maze.emit()
 					
 				if collision.get_collider().name == "NEXTLEVEL":
-					print('found NEXTLEVEL')
+					#Global.items_temp.append("NEXTLEVEL")
+					Global.add_to_items_temp("NEXTLEVEL")
+					
+					Global.add_to_score(10)
+					Global.do_nextlevel_transition = true
+					hole_to_nextlevel.emit()
+					
+					print('found ', Global.items_temp, ' score ', Global.score, ' level ', Global.level)
 						#print('emit num ', emit_hole_to_maze)
 						#print("player")
 						#print('position ', position)

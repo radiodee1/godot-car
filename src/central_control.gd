@@ -53,6 +53,7 @@ func _do_unpause():
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	#if get_tree().paused == true:
 	#process_mode = Node.PROCESS_MODE_INHERIT
+	btn_start.show()
 	get_tree().paused = false
 	control_buttons.hide()
 	#control_buttons.queue_free()
@@ -61,4 +62,14 @@ func _do_unpause():
 	#control_buttons.hide()
 	print("unpause")
 
-
+func _do_nextlevel():
+	btn_start.hide()
+	btn_unpause.show()
+	get_tree().paused = true
+	
+	restart_terrain.emit()
+	restart_player.emit()
+	control_buttons.show()
+	control_buttons.visible = true 
+	btn_unpause.visible = true
+	btn_unpause.disabled = false

@@ -16,6 +16,8 @@ var low_box_shape
 var low_box_mesh
 var low_static_body
 var low_collision_shape
+
+var low_location_vec
 #var dict = preload("res://src/GridMap-dict.gd").new()
 
 # Called when the node enters the scene tree for the first time.
@@ -72,6 +74,7 @@ func remove_altar():
 
 
 func place_low_altar(v, name='pin', group='mob'):
+	low_location_vec = v 
 	low_mesh_instance_3d = MeshInstance3D.new()
 	low_box_mesh = load("res://assets/altar.obj")
 	#print(v, " vector")
@@ -113,22 +116,30 @@ func remove_low_altar():
 		low_static_body = null
 		#collision_shape.queue_free()
 
-func make_hole_to_maze(highest, group_size=5, remove_type=2):
+func make_hole_to_maze(highest, group_size=5, remove_type=2, print_output=false):
+	Global.set_score_allowed(true)
 	var UPPER = remove_type
 	var LOWER = 1
 	var size = group_size
 	var xz_size = 5  # 3
 	var xz_size_half = xz_size / 2
-	for i in range( - (highest.y * size + size),  (highest.y ) * size + size):
+	var increment = sign(highest.y)
+	for i in range( - (highest.y * size + size),  (highest.y ) * size + size, increment):
 		for x in range(highest.x - xz_size_half, highest.x + xz_size - xz_size_half):
 			for z in range(highest.z - xz_size_half, highest.z + xz_size - xz_size_half):
 				pass
 				var xx = x 
 				var zz = z 
 				var type = get_cell_item.call(Vector3(xx , i , zz)) ##<-- Vector3
+				if print_output: print(type, ' type')
 				if type == UPPER:	
 					set_cell_item.call(Vector3(xx, i, zz), -1)
 					
+
+func make_hole_to_nextlevel(group_size=5, remove_type=1):
+	var ll = low_location_vec
+	
+	make_hole_to_maze(ll, group_size, remove_type)
 
 func place_object(name, strategy, layer, frame_num, vector_high=Vector3(0,0,0), vector_low=Vector3(0,0,0)):
 	
