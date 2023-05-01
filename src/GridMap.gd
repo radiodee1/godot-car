@@ -152,9 +152,9 @@ func setup_level_frame():
 			
 			for ii in e['includes']:
 				if ii == 'PRISON' : 
-					#include.remove_altar()
-					print(ii)
-					maze.add_shape(4, Vector2(-1,-1), ii) ## <-- this is a prison shape!!
+					var prison_num = rng.randi_range(0, len(dict.shapes['mesh']))
+					#print(len(dict.shapes['mesh']), ' len ', prison_num)
+					maze.add_shape(prison_num, Vector2(-1,-1), ii) ## <-- this is a prison shape!!
 			
 			maze.maze_generate(highest) ## <-- after shapes
 			
@@ -165,9 +165,9 @@ func setup_level_frame():
 			altar_vec.x = maze.hall_width * altar_vec.x + 2 - map_location.x #+ size.x
 			altar_vec.z = maze.hall_width * altar_vec.z + 2 - map_location.y #+ size.y ## -?
 			altar_vec.y =  altar_vec.y + 1.5 #+ 4
-			print(map_location, ' map location')
+			#print(map_location, ' map location')
 			maze.show_2d_grid(maze.finished_map, true, 3)
-			print(maze.intersections, ' intersections here')
+			#print(maze.intersections, ' intersections here')
 			print('altar vec ', altar_vec)
 			
 			for ii in e['includes']:

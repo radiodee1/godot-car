@@ -86,7 +86,7 @@ func maze_generate(hvec=Vector3(0,0,0), block_num=1):
 	
 	finished_map = make_2d_grid(maze_w * hall_width, maze_h * hall_width)
 	
-	start_vectors = randomize_vector2d(vectors_len, 2, 2, maze_w , maze_h  )
+	start_vectors = randomize_vector2d(vectors_len, 2, 2, maze_w , maze_h )
 	
 	#print(start_vectors, ' after start')
 	add_to_astar(working_map)
@@ -104,6 +104,8 @@ func maze_generate(hvec=Vector3(0,0,0), block_num=1):
 	pass 
 
 func add_shape(shape_num, place=Vector2(-1,-1), name="PRISON"):
+	if shape_num == 0:
+		return
 	var shape = [shape_num, place, name]	
 	shape_list.append(shape)
 	if name == 'ALTAR':
@@ -336,7 +338,7 @@ func randomize_vector2d(length_of_array, left_padding, top_padding, width_of_map
 		var x = Vector2(k, ii + left_padding) ## 
 		v.append([ vector_to_index(x) ,x]) ## 
 		available.remove_at(j)
-	print(v, ' avail out')
+	#print(v, ' avail out')
 	return v
 
 func add_to_astar(grid, print_rows = false, w_limit=1, h_limit=1):
@@ -384,7 +386,7 @@ func process_astar_vectors(v):
 				z.append([ vv[a], vv[b] ])
 				#z.append([ v[b], v[a] ])
 	#z.reverse()
-	print(z)
+	#print(z)
 	group_visited.append(z[0][0])
 	for p in z:
 		if p[0] < 0 or p[1] < 0:
@@ -410,9 +412,8 @@ func process_astar_vectors(v):
 			if intersections[p[1]] < 4:
 				intersections[p[1]] += 1
 		
-			print(pp, ' pp')
-		#pp = [26,21,16]
-		#pp.reverse()
+			#print(pp, ' pp')
+
 			hallway_in_map(pp)
 			hallway_mask_previous(pp)
 		
@@ -479,7 +480,8 @@ func hallway_mask_previous(hallway):
 		working_map[v.x][v.y] = USED
 		astar.set_point_disabled(hh)
 		if v.y < 2 or v.x < 2:
-			print(v, ' low')
+			#print(v, ' low')
+			pass
 
 func copy_map_to_scene(n:Vector2, block_num=1):
 	#print('h_vector now ', h_vector)

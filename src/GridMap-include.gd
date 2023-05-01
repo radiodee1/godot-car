@@ -151,7 +151,7 @@ func place_object(name, strategy, layer, frame_num, vector_high=Vector3(0,0,0), 
 			pass
 	if layer == "MAZE":
 		if name == 'ALTAR':
-			print(vector_high, ' vector_high')
+			#print(vector_high, ' vector_high')
 			place_low_altar(vector_high, "NEXTLEVEL")
 			pass
 		if name == 'TRAPDOOR':
