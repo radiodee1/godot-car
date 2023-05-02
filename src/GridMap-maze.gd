@@ -16,6 +16,7 @@ var start_vectors = []
 var vectors_len =  + 20
 #var start_vectors_index = []
 var group_visited = []
+var decorate = []
 
 var working_map = []
 var finished_map = []
@@ -60,6 +61,7 @@ func clear_variables():
 	#vectors_len =  7 #+ 10
 	#start_vectors_index = []
 	group_visited = []
+	decorate = []
 
 	working_map = []
 	finished_map = []
@@ -99,6 +101,9 @@ func maze_generate(hvec=Vector3(0,0,0), block_num=1):
 	shapes_to_map() ## after add_to_astar
 	
 	process_astar_vectors(start_vectors)
+	
+	hallway_decorate()
+	
 	print("finished")
 	
 	var n = find_map() 
@@ -116,6 +121,13 @@ func add_shape(shape_num, place=Vector2(-1,-1), name="PRISON"):
 		print(shape)
 		pass
 
+func add_mesh_hallways(hallway_array, block_num):
+	var temp = {
+		"mesh": block_num,
+		"nodes": hallway_array
+	}
+	decorate.append(temp)
+	print(decorate)
 
 
 func shapes_to_map(move_old_vectors=false):
@@ -158,14 +170,19 @@ func shapes_to_map(move_old_vectors=false):
 				
 			#print(width, ' width ', height, ' height ', hallway, ' ', hallway.size())
 			hallway_in_map(hallway)
+			#hallway_mask_previous(hallway)
 			
 			## MASK
 			var mask = 1
-			for jj in range(place.x - mask , place.x + width + mask):
-				for mm in range(place.y - mask, place.y + height + mask):
+			var mesh_list = []
+			var mesh_num = 3
+			for jj in range(place.x - mask , place.x + width + mask ):
+				for mm in range(place.y - mask , place.y + height + mask ):
 					if jj >= 0 and mm >= 0:
 						working_map[jj][mm] = USED
+						mesh_list.append(Vector2(jj , mm  ))
 						astar.set_point_disabled(vector_to_index(Vector2(jj,mm)))
+			add_mesh_hallways(mesh_list, mesh_num)
 			
 			#print(start_vectors.size(), ' size before')
 			if move_old_vectors:
@@ -217,6 +234,7 @@ func shapes_to_map(move_old_vectors=false):
 				start_vectors = start_list
 			#print(start_vectors.size(), ' size after')
 			
+			
 			if start.x != -1 or start.y != -1:
 				start.x += place.x
 				start.y += place.y
@@ -248,9 +266,44 @@ func shapes_to_map(move_old_vectors=false):
 			start_vectors = temp
 			
 			hallway_in_map(hallway)
+			#hallway_mask_previous(hallway)
 		pass
 	pass
 
+func hallway_decorate():
+	for i in decorate:
+		var low_h = maze_h * hall_width
+		var low_w = maze_w * hall_width
+		var high_h = 0
+		var high_w = 0
+		var block_num = MAZE_BRICK
+		var hallway = i['nodes']
+		print(hallway)
+		for j in hallway:
+			if j.y < low_h :
+				low_h = j.y
+			if j.x < low_w :
+				low_w = j.x
+			if j.y > high_h:
+				high_h = j.y 
+			if j.x > high_w:
+				high_w = j.x 
+		for j in hallway:
+			for ww in range(j.x * hall_width , j.x * hall_width + hall_width ):
+				for hh in range(j.y * hall_width , j.y * hall_width + hall_width ):
+					
+					if ww > high_w * hall_width + hall_width - 1 or hh > high_h * hall_width + hall_width - 1:
+						print(ww,' ', hh, ' high')
+						continue
+					if ww < low_w * hall_width + 0 or hh < low_h * hall_width + 0:
+						print(ww, ' ', hh, ' low')
+						continue
+					var v = Vector2(ww,hh)
+					#print(v)
+					if finished_map[v.x][v.y] == 0: ##MAZE_OTHER or finished_map[v.x][v.y] == 0:
+						assign_map(v.x, v.y, block_num)
+						#print(v, ' v ', block_num)
+						
 
 func make_2d_grid(width, height):
 	var matrix = []
