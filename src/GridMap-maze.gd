@@ -31,6 +31,10 @@ var USED = -1
 var SHAPE = 9
 var SPOT = 5
 
+var MAZE_WALKWAY = 2000
+var MAZE_BRICK = 2001
+var MAZE_OTHER = 2002
+
 var center_h = 0
 var center_w = 0
 var center_depth = - 6 
@@ -425,7 +429,7 @@ func hallway_in_map(hallway):
 		for j in range(v.x * hall_width + hall_padding, v.x * hall_width + hall_width - hall_padding):
 			for i in range(v.y * hall_width + hall_padding, v.y * hall_width + hall_width - hall_padding):
 				#finished_map[j][i] = HALL
-				assign_map(j, i, HALL)
+				assign_map(j, i, MAZE_WALKWAY)
 				working_map[v.x][v.y] = HALL
 				#record_center_a = j
 				#record_center_b = i #+ working_map.size()
@@ -440,7 +444,7 @@ func hallway_in_map(hallway):
 			for j in range(v.x * hall_width , v.x * hall_width  + hall_padding ):
 				for i in range(v.y * hall_width  + hall_padding , v.y * hall_width +hall_width - hall_padding ):
 					#finished_map[j][i] = 1
-					assign_map(j,i,1)
+					assign_map(j,i, MAZE_WALKWAY)
 					pass
 							
 		## LEFT
@@ -449,7 +453,7 @@ func hallway_in_map(hallway):
 			for j in range(v.x * hall_width + hall_padding , v.x * hall_width + hall_width - hall_padding ):
 				for i in range(v.y * hall_width , v.y * hall_width + hall_padding ):
 					#finished_map[j][i] = 5
-					assign_map(j,i, 4)
+					assign_map(j,i, MAZE_WALKWAY)
 					pass
 		
 		## DOWN
@@ -458,7 +462,7 @@ func hallway_in_map(hallway):
 			for j in range(v.x * hall_width + hall_width - hall_padding, v.x * hall_width + hall_width  ):
 				for i in range(v.y * hall_width + hall_padding, v.y * hall_width + hall_width - hall_padding ):
 					#finished_map[j][i] = 2
-					assign_map(j,i,2)
+					assign_map(j,i, MAZE_WALKWAY)
 					pass
 		## RIGHT
 		if  v.y < maze_w - 1 and  working_map[v.x][v.y + 1] == HALL:
@@ -466,7 +470,7 @@ func hallway_in_map(hallway):
 			for j in range(v.x * hall_width + hall_padding , v.x * hall_width + hall_width - hall_padding ):
 				for i in range(v.y * hall_width + hall_width - hall_padding , v.y * hall_width +  hall_width  ):
 					#finished_map[j][i] = 3
-					assign_map(j,i, 3)
+					assign_map(j,i, MAZE_WALKWAY)
 					pass
 
 func assign_map(i, j, k):
@@ -485,7 +489,6 @@ func hallway_mask_previous(hallway):
 
 func copy_map_to_scene(n:Vector2, block_num=1):
 	#print('h_vector now ', h_vector)
-	
 	for i in range(- ( finished_map.size() -1),0 ): ## mirror
 		for j in range( -(finished_map[i].size() -1),0):
 			var ii =  finished_map.size() + i
@@ -493,15 +496,20 @@ func copy_map_to_scene(n:Vector2, block_num=1):
 			var a =  finished_map.size()
 			var b =  finished_map[0].size()
 			var v = Vector3(i - n.x + a , center_depth ,j - n.y + b  )	
-			
 			#print(v.x, " v.x new")
 			#v.z = - jj - n.y + b 
-			if finished_map[ii][jj] > 0:
+			if finished_map[ii][jj] == MAZE_WALKWAY:
+				block_num = 1
 				set_cell_item.call(v, block_num)
-			if finished_map[ii][jj] == 0:
-				for y in range(center_depth, center_depth + 4):
-					v.y = y
-					set_cell_item.call(v, block_num)
+				continue
+			if finished_map[ii][jj] == MAZE_OTHER:
+				block_num = 2
+			if finished_map[ii][jj] == MAZE_BRICK:
+				block_num = 3
+				
+			for y in range(center_depth, center_depth + 4):
+				v.y = y
+				set_cell_item.call(v, block_num)
 		
 
 func find_map():
