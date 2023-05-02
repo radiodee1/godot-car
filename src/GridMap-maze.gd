@@ -110,6 +110,8 @@ func maze_generate(hvec=Vector3(0,0,0), block_num=1):
 	
 	copy_map_to_scene(n, block_num)
 	
+	#hallway_decorate()
+	
 	pass 
 
 func add_shape(shape_num, place=Vector2(-1,-1), name="PRISON"):
@@ -164,7 +166,7 @@ func shapes_to_map(move_old_vectors=false):
 			#var hall_vec = []
 			for z in layout:
 				var v = Vector2(place.x + z.x, place.y + z.y)
-				#working_map[v.x][v.y] =   SHAPE
+				working_map[v.x][v.y] = HALL #  SHAPE
 				#astar.set_point_disabled(vector_to_index(v))
 				hallway.append(vector_to_index(v))
 				
@@ -176,8 +178,8 @@ func shapes_to_map(move_old_vectors=false):
 			var mask = 1
 			var mesh_list = []
 			var mesh_num = 3
-			for jj in range(place.x - mask , place.x + width + mask ):
-				for mm in range(place.y - mask , place.y + height + mask ):
+			for jj in range(place.x - 0 , place.x + width + mask ):
+				for mm in range(place.y - 0 , place.y + height + mask ):
 					if jj >= 0 and mm >= 0:
 						working_map[jj][mm] = USED
 						mesh_list.append(Vector2(jj , mm  ))
@@ -289,18 +291,24 @@ func hallway_decorate():
 			if j.x > high_w:
 				high_w = j.x 
 		for j in hallway:
-			for ww in range(j.x * hall_width , j.x * hall_width + hall_width ):
-				for hh in range(j.y * hall_width , j.y * hall_width + hall_width ):
+			var end_h = hall_width
+			var end_w = hall_width
+			var start_h = 0
+			var start_w = 0
+			if j.y == low_h:
+				start_h = 1
+			if j.x == low_w:
+				start_w = 1
+			if j.y == high_h:
+				end_h = hall_width - 1
+			if j.x == high_w:
+				end_w = hall_width - 1
+			for ww in range(j.x * hall_width + start_w, j.x * hall_width + end_w ):
+				for hh in range(j.y * hall_width + start_h, j.y * hall_width + end_h ):
 					
-					if ww > high_w * hall_width + hall_width - 1 or hh > high_h * hall_width + hall_width - 1:
-						print(ww,' ', hh, ' high')
-						continue
-					if ww < low_w * hall_width + 0 or hh < low_h * hall_width + 0:
-						print(ww, ' ', hh, ' low')
-						continue
 					var v = Vector2(ww,hh)
 					#print(v)
-					if finished_map[v.x][v.y] == 0: ##MAZE_OTHER or finished_map[v.x][v.y] == 0:
+					if finished_map[v.x][v.y] == MAZE_OTHER or finished_map[v.x][v.y] == 0:
 						assign_map(v.x, v.y, block_num)
 						#print(v, ' v ', block_num)
 						
