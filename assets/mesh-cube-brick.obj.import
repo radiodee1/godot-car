@@ -1,0 +1,21 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://bx4iqou60h62"
+path="res://.godot/imported/mesh-cube-brick.obj-176f4f9c2213ec5e9bbe7cc33c6bc255.mesh"
+
+[deps]
+
+files=["res://.godot/imported/mesh-cube-brick.obj-176f4f9c2213ec5e9bbe7cc33c6bc255.mesh"]
+
+source_file="res://assets/mesh-cube-brick.obj"
+dest_files=["res://.godot/imported/mesh-cube-brick.obj-176f4f9c2213ec5e9bbe7cc33c6bc255.mesh", "res://.godot/imported/mesh-cube-brick.obj-176f4f9c2213ec5e9bbe7cc33c6bc255.mesh"]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+optimize_mesh=true
