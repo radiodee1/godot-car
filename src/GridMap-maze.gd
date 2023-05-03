@@ -498,59 +498,6 @@ func process_astar_vectors(v):
 
 			hallway_in_map(pp)
 			hallway_mask_previous(pp)
-		
-func hallway_in_map_xx(hallway, skip_walkway=false):
-	
-	for h in range(hallway.size()):
-		var hh = hallway[h]
-		var v = index_to_vector(hh)
-		for j in range(v.x * hall_width + hall_padding, v.x * hall_width + hall_width - hall_padding):
-			for i in range(v.y * hall_width + hall_padding, v.y * hall_width + hall_width - hall_padding):
-				#finished_map[j][i] = HALL
-				assign_map(j, i, MAZE_WALKWAY)
-				if not skip_walkway:
-					working_map[v.x][v.y] = HALL
-				#record_center_a = j
-				#record_center_b = i #+ working_map.size()
-				record_index = hh
-	
-	for h in range(hallway.size()):
-		var hh = hallway[h]
-		var v = index_to_vector(hh)
-		## UP
-		if v.x > 0 and working_map[v.x -1][v.y] == HALL:
-			#print("here up")
-			for j in range(v.x * hall_width , v.x * hall_width  + hall_padding ):
-				for i in range(v.y * hall_width  + hall_padding , v.y * hall_width +hall_width - hall_padding ):
-					#finished_map[j][i] = 1
-					assign_map(j,i, MAZE_WALKWAY)
-					pass
-							
-		## LEFT
-		if v.y > 0 and working_map[v.x][v.y - 1] == HALL:
-			#print("here left")
-			for j in range(v.x * hall_width + hall_padding , v.x * hall_width + hall_width - hall_padding ):
-				for i in range(v.y * hall_width , v.y * hall_width + hall_padding ):
-					#finished_map[j][i] = 5
-					assign_map(j,i, MAZE_WALKWAY)
-					pass
-		
-		## DOWN
-		if v.x <  maze_h -1 and working_map[v.x + 1][v.y] == HALL:
-			#print('here down')
-			for j in range(v.x * hall_width + hall_width - hall_padding, v.x * hall_width + hall_width  ):
-				for i in range(v.y * hall_width + hall_padding, v.y * hall_width + hall_width - hall_padding ):
-					#finished_map[j][i] = 2
-					assign_map(j,i, MAZE_WALKWAY)
-					pass
-		## RIGHT
-		if  v.y < maze_w - 1 and  working_map[v.x][v.y + 1] == HALL:
-			#print("here right")
-			for j in range(v.x * hall_width + hall_padding , v.x * hall_width + hall_width - hall_padding ):
-				for i in range(v.y * hall_width + hall_width - hall_padding , v.y * hall_width +  hall_width  ):
-					#finished_map[j][i] = 3
-					assign_map(j,i, MAZE_WALKWAY)
-					pass
 
 		
 func hallway_in_map(hallway, skip_walkway=false):
