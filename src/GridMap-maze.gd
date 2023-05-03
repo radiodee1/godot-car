@@ -96,15 +96,18 @@ func maze_generate(hvec=Vector3(0,0,0), block_num=1):
 	
 	start_vectors = randomize_vector2d(vectors_len, 2, 2, maze_w , maze_h )
 	
+	#shapes_to_map()
+	
 	#print(start_vectors, ' after start')
 	add_to_astar(working_map)
 	
 	prepare_working_map()
+	
 	shapes_to_map() ## after add_to_astar
 	
 	process_astar_vectors(start_vectors)
 	
-	#hallway_decorate()
+	hallway_decorate()
 	
 	print("finished")
 	
@@ -169,20 +172,20 @@ func shapes_to_map(move_old_vectors=false):
 			for z in layout:
 				var v = Vector2(place.x + z.x, place.y + z.y)
 				working_map[v.x][v.y] = USED #  SHAPE
-				#astar.set_point_disabled(vector_to_index(v))
+				astar.set_point_disabled(vector_to_index(v))
 				hallway.append(vector_to_index(v))
 				
 			#print(width, ' width ', height, ' height ', hallway, ' ', hallway.size())
-			hallway_in_map(hallway, true)
-			hallway_mask_previous(hallway)
+			#hallway_in_map(hallway, true)
+			#hallway_mask_previous(hallway)
 			
 			## MASK
-			var mask = 1
+			var mask = start.size() ## 2 !!
 			var mesh_list = []
 			var local_hallway = []
 			var mesh_num = 3
-			for jj in range(place.x - 0 , place.x + width + mask ):
-				for mm in range(place.y - 0 , place.y + height + mask ):
+			for jj in range(place.x - mask + 1 , place.x + width + mask ):
+				for mm in range(place.y - mask + 1 , place.y + height + mask ):
 					if jj >= 0 and mm >= 0:
 						working_map[jj][mm] = USED
 						
@@ -192,7 +195,7 @@ func shapes_to_map(move_old_vectors=false):
 						local_hallway.append(vector_to_index(Vector2(jj,mm)))
 			add_mesh_hallways(mesh_list, mesh_num)
 			#hallway_in_map(local_hallway)
-			hallway_mask_previous(local_hallway)
+			#hallway_mask_previous(local_hallway)
 			
 			#print(start_vectors.size(), ' size before')
 			if move_old_vectors:
@@ -244,29 +247,31 @@ func shapes_to_map(move_old_vectors=false):
 			#print(start_vectors.size(), ' size after')
 			
 			
-			if start.x != -1 or start.y != -1:
-				start.x += place.x
-				start.y += place.y
-				var v = [vector_to_index(start), start ]
-				#start_vectors.append(v)
-				start_vectors.push_front(v)
-				hallway.append(vector_to_index(start))
-				working_map[start.x][start.y] = USED
-				#astar.set_point_disabled(v[0])
-				astar.set_point_disabled(v[0], false)
-				intersections[v[0]] = 1
-				#print('enabled ', v, ' - ', hallway, ' - ', start_vectors)
+			if start[0].x != -1 or start[0].y != -1:
+				for st in start:
+					st.x += place.x
+					st.y += place.y
+					var v = [vector_to_index(st), st ]
+					#start_vectors.append(v)
+					start_vectors.push_front(v)
+					hallway.append(vector_to_index(st))
+					working_map[st.x][st.y] = USED
+					#astar.set_point_disabled(v[0])
+					astar.set_point_disabled(v[0], false)
+					intersections[v[0]] = 1
+					#print('enabled ', v, ' - ', hallway, ' - ', start_vectors)
 				
-			if end.x != -1 or end.y != -1:
-				end.x += place.x
-				end.y += place.y
-				var v = [vector_to_index(end), end ]
-				#start_vectors.append(v)
-				start_vectors.push_front(v)
-				hallway.append(vector_to_index(end))
-				working_map[end.x][end.y] = USED
-				#astar.set_point_disabled(v[0])
-				astar.set_point_disabled(v[0], false)
+			if end[0].x != -1 or end[0].y != -1:
+				for en in end:
+					en.x += place.x
+					en.y += place.y
+					var v = [vector_to_index(en), en ]
+					#start_vectors.append(v)
+					start_vectors.push_front(v)
+					hallway.append(vector_to_index(en))
+					working_map[en.x][en.y] = USED
+					#astar.set_point_disabled(v[0])
+					astar.set_point_disabled(v[0], false)
 				
 			var temp = []
 			for a in range(start_vectors.size() - 1):
@@ -384,9 +389,7 @@ func prepare_working_map():
 				
 				astar.set_point_disabled(vector_to_index(Vector2(i,j)))
 				pass
-			#if map[i][j] == HALL:
-			#	astar.set_point_disabled(vector_to_index(Vector2(i,j)), false)
-			## assume x-size equals y-size
+			
 	
 
 
@@ -420,6 +423,10 @@ func add_to_astar(grid, print_rows = false, w_limit=1, h_limit=1):
 		var line = []
 		for j in range(h_limit, grid[i].size() - h_limit):
 			var v = Vector2(i, j)
+			#var z = vector_to_index(v)
+			#if z in mask_list:
+			#	print(' z ', z)
+			#	continue
 			astar.add_point(vector_to_index(v), v)
 			if i > 0 + w_limit:
 				var v_prev = Vector2(i - 1, j)
@@ -492,7 +499,7 @@ func process_astar_vectors(v):
 			hallway_in_map(pp)
 			hallway_mask_previous(pp)
 		
-func hallway_in_map(hallway, skip_walkway=false):
+func hallway_in_map_xx(hallway, skip_walkway=false):
 	
 	for h in range(hallway.size()):
 		var hh = hallway[h]
@@ -545,6 +552,59 @@ func hallway_in_map(hallway, skip_walkway=false):
 					assign_map(j,i, MAZE_WALKWAY)
 					pass
 
+		
+func hallway_in_map(hallway, skip_walkway=false):
+	
+	for h in range(hallway.size()):
+		var hh = hallway[h]
+		var v = index_to_vector(hh)
+		for j in range(v.x * hall_width + hall_padding, v.x * hall_width + hall_width - hall_padding):
+			for i in range(v.y * hall_width + hall_padding, v.y * hall_width + hall_width - hall_padding):
+				#finished_map[j][i] = HALL
+				assign_map(j, i, MAZE_WALKWAY)
+				if not skip_walkway:
+					working_map[v.x][v.y] = HALL
+				#record_center_a = j
+				#record_center_b = i #+ working_map.size()
+				record_index = hh
+	
+	for h in range(hallway.size()):
+		var hh = hallway[h]
+		var v = index_to_vector(hh)
+		## UP
+		if v.y > 0 and working_map[v.x ][v.y - 1] == HALL:
+			#print("here up")
+			for j in range(v.y * hall_width , v.y * hall_width  + hall_padding ):
+				for i in range(v.x * hall_width  + hall_padding , v.x * hall_width +hall_width - hall_padding ):
+					#finished_map[j][i] = 1
+					assign_map(i,j, MAZE_WALKWAY)
+					pass
+							
+		## LEFT
+		if v.x > 0 and working_map[v.x - 1][v.y ] == HALL:
+			#print("here left")
+			for j in range(v.y * hall_width + hall_padding , v.y * hall_width + hall_width - hall_padding ):
+				for i in range(v.x * hall_width , v.x * hall_width + hall_padding ):
+					#finished_map[j][i] = 5
+					assign_map(i,j, MAZE_WALKWAY)
+					pass
+		
+		## DOWN
+		if v.y <  maze_h -1 and working_map[v.x ][v.y + 1] == HALL:
+			#print('here down')
+			for j in range(v.y * hall_width + hall_width - hall_padding, v.y * hall_width + hall_width  ):
+				for i in range(v.x * hall_width + hall_padding, v.x * hall_width + hall_width - hall_padding ):
+					#finished_map[j][i] = 2
+					assign_map(i,j, MAZE_WALKWAY)
+					pass
+		## RIGHT
+		if  v.x < maze_w - 1 and  working_map[v.x + 1][v.y ] == HALL:
+			#print("here right")
+			for j in range(v.y * hall_width + hall_padding , v.y * hall_width + hall_width - hall_padding ):
+				for i in range(v.x * hall_width + hall_width - hall_padding , v.x * hall_width +  hall_width  ):
+					#finished_map[j][i] = 3
+					assign_map(i,j, MAZE_WALKWAY)
+					pass
 
 
 func assign_map(i, j, k):
