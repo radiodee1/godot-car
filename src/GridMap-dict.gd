@@ -18,8 +18,8 @@ var game = {
 				},
 				{
 					'type': 'maze',
-					'width_x': 10,
-					'height_z': 10,
+					'width_x': 15,
+					'height_z': 15,
 					'depth_y': -6,
 					'x': 0,
 					'y': 0,

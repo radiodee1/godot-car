@@ -109,13 +109,15 @@ func maze_generate(hvec=Vector3(0,0,0), block_num=1):
 	
 	hallway_decorate()
 	
+	#show_2d_grid(finished_map, true)	
+	
 	print("finished")
 	
 	var n = find_map() 
 	
 	copy_map_to_scene(n, block_num)
 	
-	show_2d_grid(working_map, true)
+	#show_2d_grid(working_map, true)
 	
 	pass 
 
@@ -125,7 +127,7 @@ func add_shape(shape_num, place=Vector2(-1,-1), name="PRISON"):
 	var shape = [shape_num, place, name]	
 	shape_list.append(shape)
 	if name == 'ALTAR':
-		print(shape)
+		#print(shape)
 		pass
 
 func add_mesh_hallways(hallway_array, block_num):
@@ -134,7 +136,7 @@ func add_mesh_hallways(hallway_array, block_num):
 		"nodes": hallway_array
 	}
 	decorate.append(temp)
-	print(decorate)
+	#print(decorate)
 
 
 func shapes_to_map(move_old_vectors=false):
@@ -265,14 +267,14 @@ func hallway_decorate():
 			var start_h = 0
 			var start_w = 0
 			if j.y == low_h :
-				start_h = 2 
+				start_h =  2 
 			if j.x == low_w :
-				start_w = 2 
+				start_w =  2 
 			if j.y == high_h :
-				end_h = hall_width - 2
+				end_h = 2 #hall_width - 2
 				#print(' y consider')
 			if j.x == high_w :
-				end_w = hall_width - 2
+				end_w = 2 #hall_width - 2
 				#print(' x consider')
 			for ww in range(j.x * hall_width + start_w, j.x * hall_width + end_w ):
 				for hh in range(j.y * hall_width + start_h, j.y * hall_width + end_h ):
@@ -308,6 +310,10 @@ func show_2d_grid(matrix, advance = false, line_size=3, show_hidden=false):
 			for j in range(matrix[h].size()):
 				if matrix[h][j] == SPOT:
 					var line_spot = ' X  '.substr(0, line_size)
+					line += line_spot
+					continue
+				if matrix[h][j] == MAZE_OTHER: # or matrix[h][j] == 0:
+					var line_spot = ' H  '.substr(0, line_size)
 					line += line_spot
 					continue
 				if matrix[h][j] == 0 :
@@ -587,7 +593,7 @@ func set_callable(set_cell: Callable):
 	set_cell_item = set_cell
 
 func get_intersection(num, exact=true, mark=false):
-	#print(intersections, ' intersections')
+	print(intersections, ' intersections')
 	var out = -1
 	var index = -1
 	var tot = -1

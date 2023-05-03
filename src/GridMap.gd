@@ -181,7 +181,7 @@ func setup_level_frame():
 			altar_vec.z = maze.hall_width * altar_vec.z + 2 - map_location.y #+ size.y ## -?
 			altar_vec.y =  altar_vec.y + 1.5 #+ 4
 			#print(map_location, ' map location')
-			maze.show_2d_grid(maze.finished_map, true, 3)
+			maze.show_2d_grid(maze.finished_map, true, 2)
 			#print(maze.intersections, ' intersections here')
 			print('altar vec ', altar_vec)
 			
