@@ -92,7 +92,7 @@ func maze_generate(hvec=Vector3(0,0,0), block_num=1):
 
 	working_map = make_2d_grid(maze_w, maze_h)
 	
-	finished_map = make_2d_grid(maze_w * hall_width, maze_h * hall_width)
+	finished_map = make_2d_grid(maze_w * hall_width, maze_h * hall_width, MAZE_OTHER)
 	
 	start_vectors = randomize_vector2d(vectors_len, 2, 2, maze_w , maze_h )
 	
@@ -202,55 +202,6 @@ func shapes_to_map(move_old_vectors=false):
 			#hallway_in_map(local_hallway) ## <-- not good
 			hallway_mask_previous(local_hallway)
 			
-			#print(start_vectors.size(), ' size before')
-			if move_old_vectors:
-				var start_list = []
-				var mid = Vector2(0,0)
-				mid.x = int((place.x + place.x + width) / 2)
-				mid.y = int((place.y + place.y + height) / 2)
-				var vv = Vector2(0,0)
-				for j in range(start_vectors.size()-1):
-				
-				
-					if start_vectors[j][1].y < place.y - 1 - mask or start_vectors[j][1].y > place.y + height + 1 + mask:
-						start_list.append(start_vectors[j])
-					else:
-						astar.set_point_disabled(start_vectors[j][0])
-						if start_vectors[j][1].y > mid.y:
-							vv = Vector2(start_vectors[j][1].x, start_vectors[j][1].y + height + place.y + 1)
-						else:
-							vv = Vector2(start_vectors[j][1].x, start_vectors[j][1].y - height - place.y - 1)
-						#var v = Vector2(start_vectors[j][1].x, start_vectors[j][1].y + height + 1)
-						#if vv.x > 2 and vv.y > 2 and vv.x < working_map.size() - 2 and vv.y < working_map[0].size() - 2:
-						#var xx = start_vectors[j][1]
-						if vv.x < 2 or vv.y < 2 or vv.x > working_map.size() -1 or vv.y > working_map[0].size() - 1:
-							continue
-						if working_map[vv.x][vv.y] != USED:
-							#astar.add_point(vector_to_index(vv),vv)
-							start_list.append([vector_to_index(vv), vv])
-							continue
-						pass
-				
-					if start_vectors[j][1].x < place.x - 1 - mask or start_vectors[j][1].x > place.x + width + 1 + mask:
-						start_list.append(start_vectors[j])
-					else:
-						astar.set_point_disabled(start_vectors[j][0])
-						if start_vectors[j][1].x > mid.x:
-							vv = Vector2(start_vectors[j][1].x + place.x + width, start_vectors[j][1].y)
-						else:
-							vv = Vector2(start_vectors[j][1].x - place.x - width, start_vectors[j][1].y)
-						#var v = Vector2(start_vectors[j][1].x + place.x + width + 1, start_vectors[j][1].y)
-						if vv.x < 2 or vv.y < 2 or vv.x > working_map.size() -1 or vv.y > working_map[0].size() - 1:
-							continue
-						if working_map[vv.x][vv.y] != USED:
-							#astar.add_point(vector_to_index(vv), vv)
-							# and vv.x > -1 and vv.y > -1 and vv.x < working_map.size() - 2 and vv.y < working_map[0].size() - 2:
-							start_list.append([vector_to_index(vv), vv])
-						pass
-						
-				start_vectors = start_list
-			#print(start_vectors.size(), ' size after')
-			
 			
 			if start[0].x != -1 or start[0].y != -1:
 				for st in start:
@@ -313,16 +264,16 @@ func hallway_decorate():
 			var end_w = hall_width
 			var start_h = 0
 			var start_w = 0
-			if j.y == low_h:
+			if j.y == low_h :
 				start_h = 2 
-			if j.x == low_w:
+			if j.x == low_w :
 				start_w = 2 
-			if j.y == high_h:
+			if j.y == high_h :
 				end_h = hall_width - 2
-				print(' y consider')
-			if j.x == high_w:
+				#print(' y consider')
+			if j.x == high_w :
 				end_w = hall_width - 2
-				print(' x consider')
+				#print(' x consider')
 			for ww in range(j.x * hall_width + start_w, j.x * hall_width + end_w ):
 				for hh in range(j.y * hall_width + start_h, j.y * hall_width + end_h ):
 					
@@ -333,7 +284,7 @@ func hallway_decorate():
 						#print(v, ' v ', block_num)
 						
 
-func make_2d_grid(width, height):
+func make_2d_grid(width, height, fill_with=0):
 	var matrix = []
 	for h in range(height):
 		matrix.append([])
@@ -509,17 +460,11 @@ func process_astar_vectors(v):
 		
 func hallway_in_map(hallway, skip_walkway=false):
 	
+	
+		
 	for h in range(hallway.size()):
 		var hh = hallway[h]
 		var v = index_to_vector(hh)
-		
-		#for j in range(v.x * hall_width , v.x * hall_width + hall_width):
-		#	for i in range(v.y * hall_width, v.y * hall_width + hall_width):
-		#		if not skip_walkway:
-		#			assign_map(j,i, MAZE_OTHER)
-					#working_map[v.x][v.y] = HALL
-		
-		
 		for j in range(v.x * hall_width + hall_padding, v.x * hall_width + hall_width - hall_padding):
 			for i in range(v.y * hall_width + hall_padding, v.y * hall_width + hall_width - hall_padding):
 				#finished_map[j][i] = HALL
