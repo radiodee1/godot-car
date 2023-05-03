@@ -115,7 +115,7 @@ func maze_generate(hvec=Vector3(0,0,0), block_num=1):
 	
 	copy_map_to_scene(n, block_num)
 	
-	#hallway_decorate()
+	show_2d_grid(working_map, true)
 	
 	pass 
 
@@ -176,8 +176,8 @@ func shapes_to_map(move_old_vectors=false):
 				hallway.append(vector_to_index(v))
 				
 			#print(width, ' width ', height, ' height ', hallway, ' ', hallway.size())
-			#hallway_in_map(hallway, true)
-			#hallway_mask_previous(hallway)
+			hallway_in_map(hallway)
+			hallway_mask_previous(hallway)
 			
 			## MASK
 			var mask = start.size() ## 2 !!
@@ -193,13 +193,14 @@ func shapes_to_map(move_old_vectors=false):
 							
 					if jj >= 0 and mm >= 0:
 						working_map[jj][mm] = USED
-						
+						#mesh_list.append(Vector2(jj , mm  ))
 						mask_list.append(vector_to_index(Vector2(jj,mm)))
 						astar.set_point_disabled(vector_to_index(Vector2(jj,mm)))
 						local_hallway.append(vector_to_index(Vector2(jj,mm)))
 			add_mesh_hallways(mesh_list, mesh_num)
-			#hallway_in_map(local_hallway)
-			#hallway_mask_previous(local_hallway)
+			
+			#hallway_in_map(local_hallway) ## <-- not good
+			hallway_mask_previous(local_hallway)
 			
 			#print(start_vectors.size(), ' size before')
 			if move_old_vectors:
@@ -358,7 +359,7 @@ func show_2d_grid(matrix, advance = false, line_size=3, show_hidden=false):
 					var line_spot = ' X  '.substr(0, line_size)
 					line += line_spot
 					continue
-				if matrix[h][j] == 0:
+				if matrix[h][j] == 0 :
 					var three = '     ' # 5 spaces
 					line += three.substr(0, line_size) ## 3 spaces
 				else:
@@ -511,6 +512,14 @@ func hallway_in_map(hallway, skip_walkway=false):
 	for h in range(hallway.size()):
 		var hh = hallway[h]
 		var v = index_to_vector(hh)
+		
+		#for j in range(v.x * hall_width , v.x * hall_width + hall_width):
+		#	for i in range(v.y * hall_width, v.y * hall_width + hall_width):
+		#		if not skip_walkway:
+		#			assign_map(j,i, MAZE_OTHER)
+					#working_map[v.x][v.y] = HALL
+		
+		
 		for j in range(v.x * hall_width + hall_padding, v.x * hall_width + hall_width - hall_padding):
 			for i in range(v.y * hall_width + hall_padding, v.y * hall_width + hall_width - hall_padding):
 				#finished_map[j][i] = HALL
