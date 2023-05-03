@@ -124,6 +124,7 @@ func _on_central_control_restart_terrain():
 	clear()
 	#hill_generate()
 	level_frame = Global.level - 1
+	print('level ', level_frame)
 	setup_level_frame()
 	pass
 
