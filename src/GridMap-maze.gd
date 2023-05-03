@@ -186,10 +186,14 @@ func shapes_to_map(move_old_vectors=false):
 			var mesh_num = 3
 			for jj in range(place.x - mask + 1 , place.x + width + mask ):
 				for mm in range(place.y - mask + 1 , place.y + height + mask ):
+					## decorate
+					if jj != 0 and mm != 0:
+						if jj != place.x + width + mask and mm != place.y + height + mask:
+							mesh_list.append(Vector2(jj , mm  ))
+							
 					if jj >= 0 and mm >= 0:
 						working_map[jj][mm] = USED
 						
-						mesh_list.append(Vector2(jj , mm  ))
 						mask_list.append(vector_to_index(Vector2(jj,mm)))
 						astar.set_point_disabled(vector_to_index(Vector2(jj,mm)))
 						local_hallway.append(vector_to_index(Vector2(jj,mm)))
@@ -309,13 +313,15 @@ func hallway_decorate():
 			var start_h = 0
 			var start_w = 0
 			if j.y == low_h:
-				start_h = 1 
+				start_h = 2 
 			if j.x == low_w:
-				start_w = 1 
+				start_w = 2 
 			if j.y == high_h:
-				end_h = hall_width - 1
+				end_h = hall_width - 2
+				print(' y consider')
 			if j.x == high_w:
-				end_w = hall_width - 1
+				end_w = hall_width - 2
+				print(' x consider')
 			for ww in range(j.x * hall_width + start_w, j.x * hall_width + end_w ):
 				for hh in range(j.y * hall_width + start_h, j.y * hall_width + end_h ):
 					

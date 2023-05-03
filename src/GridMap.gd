@@ -118,7 +118,7 @@ func _on_character_body_3d_hole_to_nextlevel():
 		
 func _on_central_control_restart_terrain():
 	#if mesh_instance_3d != null:
-	Global.level += 1
+	#Global.level += 1
 	
 	include.remove_altar()
 	clear()
@@ -126,6 +126,7 @@ func _on_central_control_restart_terrain():
 	level_frame = Global.level - 1
 	print('level ', level_frame)
 	setup_level_frame()
+	Global.level += 1
 	pass
 
 func set_hill_size(left, right, depth, x, y, z):
