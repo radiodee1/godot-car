@@ -116,7 +116,7 @@ func remove_low_altar():
 		low_static_body = null
 		#collision_shape.queue_free()
 
-func make_hole_to_maze(highest, group_size=5, remove_type=2, print_output=false):
+func make_hole_to_maze(highest, group_size=5, remove_type=4, print_output=false):
 	Global.set_score_allowed(true)
 	var UPPER = remove_type
 	var LOWER = 1

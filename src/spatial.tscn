@@ -1,9 +1,10 @@
-[gd_scene load_steps=6 format=3 uid="uid://dosiulorlh75g"]
+[gd_scene load_steps=7 format=3 uid="uid://dosiulorlh75g"]
 
 [ext_resource type="ArrayMesh" uid="uid://b2kjo0itw1eu2" path="res://assets/mesh-cube.obj" id="1_tnvjx"]
 [ext_resource type="PackedScene" uid="uid://idctqkvcqq2w" path="res://src/mesh_lower.tscn" id="2_20ron"]
 [ext_resource type="PackedScene" uid="uid://ber4mb6lq0i0x" path="res://src/mesh_upper.tscn" id="3_5hcv1"]
 [ext_resource type="PackedScene" uid="uid://38uojq8mjkfq" path="res://src/mesh_brick.tscn" id="4_ctubb"]
+[ext_resource type="PackedScene" uid="uid://be10fgel8pguf" path="res://src/mesh_upper_lines.tscn" id="5_1knvj"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_w3fij"]
 size = Vector3(0.5, 0.5, 0.5)
@@ -26,3 +27,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.19561, 0, -0.0938234)
 
 [node name="mesh-brick" parent="." instance=ExtResource("4_ctubb")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1.11425)
+
+[node name="mesh-upper-lined" parent="." instance=ExtResource("5_1knvj")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1.63786)

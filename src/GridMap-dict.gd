@@ -13,7 +13,7 @@ var game = {
 					'x': 0,
 					'y': 0,
 					'z': 0,
-					'mesh': 2,
+					'mesh': 4, ## 2
 					'includes': ['ALTAR', 'TRAPDOOR']
 				},
 				{
@@ -48,7 +48,7 @@ var game = {
 					'x': 0,
 					'y': 0,
 					'z': 0,
-					'mesh': 2,
+					'mesh': 4,
 					'includes': ['ALTAR', 'TRAPDOOR']
 				},
 				{
@@ -83,7 +83,7 @@ var game = {
 					'x': 0,
 					'y': 0,
 					'z': 0,
-					'mesh': 2,
+					'mesh': 4,
 					'includes': ['ALTAR', 'TRAPDOOR']
 				},
 				{

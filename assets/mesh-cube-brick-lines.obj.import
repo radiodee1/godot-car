@@ -1,0 +1,21 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://bheajdt1o8i5f"
+path="res://.godot/imported/mesh-cube-brick-lines.obj-ad993733785236f098a2dfba70f4616c.mesh"
+
+[deps]
+
+files=["res://.godot/imported/mesh-cube-brick-lines.obj-ad993733785236f098a2dfba70f4616c.mesh"]
+
+source_file="res://assets/mesh-cube-brick-lines.obj"
+dest_files=["res://.godot/imported/mesh-cube-brick-lines.obj-ad993733785236f098a2dfba70f4616c.mesh", "res://.godot/imported/mesh-cube-brick-lines.obj-ad993733785236f098a2dfba70f4616c.mesh"]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+optimize_mesh=true

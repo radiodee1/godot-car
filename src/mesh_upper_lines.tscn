@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=3 uid="uid://be10fgel8pguf"]
+
+[ext_resource type="ArrayMesh" uid="uid://bheajdt1o8i5f" path="res://assets/mesh-cube-brick-lines.obj" id="1_7arjx"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_7ecde"]
+size = Vector3(0.5, 0.5, 0.5)
+
+[node name="mesh-brick" type="MeshInstance3D"]
+mesh = ExtResource("1_7arjx")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+shape = SubResource("BoxShape3D_7ecde")
