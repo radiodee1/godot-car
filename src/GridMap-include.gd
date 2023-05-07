@@ -19,6 +19,8 @@ var low_box_mesh
 var low_static_body
 var low_collision_shape
 
+var low_scene_instance
+
 var low_location_vec
 #var dict = preload("res://src/GridMap-dict.gd").new()
 
@@ -34,28 +36,22 @@ func _process(delta):
 func place_altar(v, name='pin', group='mob'):
 	scene_instance = load("res://src/altar_moving.tscn").instantiate()
 	#scene_instance = load_scene
-	
+	v.x *= .5
+	v.y *= .5
+	v.z *= .5
 	add_child.call(scene_instance)
-	scene_instance.scale = Vector3(0.5,0.5,0.5)
+	#scene_instance.scale = Vector3(1,1,1)
 	scene_instance.translate(v)
-	#var player = scene_instance.get_node("altar-copy/AnimationPlayer")
-	
-	return 
-	
-	
-	mesh_instance_3d = MeshInstance3D.new()
-	#mesh_instance_3d = preload("res://src/altar_moving.tscn")
-	box_mesh = load("res://assets/altar.obj")
 	
 	#print(v, " vector")
 	box_shape = BoxShape3D.new()
 	box_shape.size = Vector3(0.5,0.5,0.5)
 	
-	mesh_instance_3d.mesh = box_mesh
-	mesh_instance_3d.add_to_group(group)
-	mesh_instance_3d.scale_object_local(Vector3(scale_local, scale_local ,scale_local))
-	add_child.call(mesh_instance_3d)
-	mesh_instance_3d.translate(v) 
+	#mesh_instance_3d.mesh = box_mesh
+	#scene_instance.add_to_group(group)
+	scene_instance.scale_object_local(Vector3(scale_local, scale_local ,scale_local))
+	#add_child.call(mesh_instance_3d)
+	#mesh_instance_3d.translate(v) 
 	static_body = StaticBody3D.new()
 	static_body.scale_object_local(Vector3(1,1,1))
 	var collision_shape = CollisionShape3D.new()
@@ -69,16 +65,21 @@ func place_altar(v, name='pin', group='mob'):
 	static_body.name = name
 	static_body.set_collision_layer_value(1, true)
 	static_body.set_collision_mask_value(1, true)
-	mesh_instance_3d.add_child(static_body) 
-	mesh_instance_3d.add_to_group(group)
-	mesh_instance_3d.name = name
+	scene_instance.add_child(static_body) 
+	scene_instance.add_to_group(group)
+	scene_instance.name = name
 
-	mesh_instance_3d.layers = 1
+	#static_body.layers = 1
 	
 	static_body.collision_mask = 1
 	static_body.collision_layer = 1
 
 func remove_altar():
+	if scene_instance != null:
+		scene_instance.queue_free()
+		scene_instance = null
+		print('altar removed.')
+	
 	if mesh_instance_3d != null:
 		mesh_instance_3d.queue_free()
 		box_mesh = null #.free()
@@ -90,40 +91,55 @@ func remove_altar():
 
 func place_low_altar(v, name='pin', group='mob'):
 	low_location_vec = v 
-	low_mesh_instance_3d = MeshInstance3D.new()
-	low_box_mesh = load("res://assets/altar.obj")
+	low_scene_instance = load("res://src/altar_moving.tscn").instantiate()
+	#scene_instance = load_scene
+	v.x *= .5
+	v.y *= .5
+	v.z *= .5
+	
+	add_child.call(low_scene_instance)
+	#scene_instance.scale = Vector3(1,1,1)
+	low_scene_instance.translate(v)
+	
 	#print(v, " vector")
 	low_box_shape = BoxShape3D.new()
 	low_box_shape.size = Vector3(0.5,0.5,0.5)
-	#box_mesh.size = Vector3(0.5,0.5,0.5)
-	low_mesh_instance_3d.mesh = low_box_mesh
-	low_mesh_instance_3d.add_to_group(group)
-	low_mesh_instance_3d.scale_object_local(Vector3(scale_local, scale_local ,scale_local))
-	add_child.call(low_mesh_instance_3d)
-	low_mesh_instance_3d.translate(v) 
+	
+	#mesh_instance_3d.mesh = box_mesh
+	#scene_instance.add_to_group(group)
+	low_scene_instance.scale_object_local(Vector3(scale_local, scale_local ,scale_local))
+	#add_child.call(mesh_instance_3d)
+	#mesh_instance_3d.translate(v) 
 	low_static_body = StaticBody3D.new()
 	low_static_body.scale_object_local(Vector3(1,1,1))
-	low_collision_shape = CollisionShape3D.new()
-	low_collision_shape.scale_object_local(Vector3(1,1,1))
-	low_collision_shape.add_to_group(group)
-	low_collision_shape.name = name
-	low_collision_shape.shape = low_box_shape
-	low_collision_shape.disabled = false
-	low_static_body.add_child(low_collision_shape)
+	var collision_shape = CollisionShape3D.new()
+	collision_shape.scale_object_local(Vector3(1,1,1))
+	collision_shape.add_to_group(group)
+	collision_shape.name = name
+	collision_shape.shape = box_shape
+	collision_shape.disabled = false
+	low_static_body.add_child(collision_shape)
 	low_static_body.add_to_group(group)
 	low_static_body.name = name
 	low_static_body.set_collision_layer_value(1, true)
 	low_static_body.set_collision_mask_value(1, true)
-	low_mesh_instance_3d.add_child(low_static_body) 
-	low_mesh_instance_3d.add_to_group(group)
-	low_mesh_instance_3d.name = name
-	#mesh_instance_3d.add_child(kinematic)
-	low_mesh_instance_3d.layers = 1
+	low_scene_instance.add_child(low_static_body) 
+	low_scene_instance.add_to_group(group)
+	low_scene_instance.name = name
+
+	#static_body.layers = 1
 	
 	low_static_body.collision_mask = 1
 	low_static_body.collision_layer = 1
+	
+	return
 
 func remove_low_altar():
+	if low_scene_instance != null:
+		low_scene_instance.queue_free()
+		low_scene_instance = null
+		print('low altar removed.')
+		
 	if low_mesh_instance_3d != null:
 		low_mesh_instance_3d.queue_free()
 		low_box_mesh = null #.free()
