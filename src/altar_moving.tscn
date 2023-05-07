@@ -1,0 +1,22 @@
+[gd_scene load_steps=4 format=3 uid="uid://b5ummad0yqxhe"]
+
+[ext_resource type="Script" path="res://src/altar_moving.gd" id="1_gop5b"]
+[ext_resource type="PackedScene" uid="uid://cnlhmhsxp2rup" path="res://assets/altar-copy.gltf" id="2_igwpe"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_d1i8a"]
+
+[node name="altar-moving" type="CharacterBody3D"]
+script = ExtResource("1_gop5b")
+
+[node name="altar-copy" parent="." instance=ExtResource("2_igwpe")]
+
+[node name="altar" parent="altar-copy" index="0"]
+transform = Transform3D(1, -6.245e-17, 2.72978e-24, 0, -4.37114e-08, -1, 6.245e-17, 1, -4.37114e-08, 0.00554812, 0.243333, 0)
+
+[node name="AnimationPlayer" parent="altar-copy" index="1"]
+autoplay = "altarAction002"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("BoxShape3D_d1i8a")
+
+[editable path="altar-copy"]
