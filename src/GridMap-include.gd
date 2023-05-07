@@ -11,6 +11,8 @@ var box_shape
 var box_mesh
 var static_body
 
+var scene_instance
+
 var low_mesh_instance_3d
 var low_box_shape
 var low_box_mesh
@@ -30,12 +32,25 @@ func _process(delta):
 	pass
 
 func place_altar(v, name='pin', group='mob'):
+	scene_instance = load("res://src/altar_moving.tscn").instantiate()
+	#scene_instance = load_scene
+	
+	add_child.call(scene_instance)
+	scene_instance.scale = Vector3(0.5,0.5,0.5)
+	scene_instance.translate(v)
+	#var player = scene_instance.get_node("altar-copy/AnimationPlayer")
+	
+	return 
+	
+	
 	mesh_instance_3d = MeshInstance3D.new()
+	#mesh_instance_3d = preload("res://src/altar_moving.tscn")
 	box_mesh = load("res://assets/altar.obj")
+	
 	#print(v, " vector")
 	box_shape = BoxShape3D.new()
 	box_shape.size = Vector3(0.5,0.5,0.5)
-	#box_mesh.size = Vector3(0.5,0.5,0.5)
+	
 	mesh_instance_3d.mesh = box_mesh
 	mesh_instance_3d.add_to_group(group)
 	mesh_instance_3d.scale_object_local(Vector3(scale_local, scale_local ,scale_local))
@@ -57,7 +72,7 @@ func place_altar(v, name='pin', group='mob'):
 	mesh_instance_3d.add_child(static_body) 
 	mesh_instance_3d.add_to_group(group)
 	mesh_instance_3d.name = name
-	#mesh_instance_3d.add_child(kinematic)
+
 	mesh_instance_3d.layers = 1
 	
 	static_body.collision_mask = 1
