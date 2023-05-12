@@ -9,7 +9,15 @@ var score_allowed = true
 var do_nextlevel_transition = false
 
 var level = 1
-# Called when the node enters the scene tree for the first time.
+
+## maze data ##
+var intersections = {}
+var segments = []
+
+var maze_w = 0
+var maze_h = 0
+var hall_width = 0
+
 func _ready():
 	pass # Replace with function body.
 
@@ -34,3 +42,32 @@ func add_to_score(num):
 func set_score_allowed(allowed=true):
 	score_allowed = allowed
 	
+##############################
+
+func vector_to_index(v):
+	return v.x * maze_w + v.y  
+
+func index_to_vector(i):
+	var v = Vector2( int(i / maze_w), i - int(i / maze_w) * maze_w)
+	return v
+
+##############################
+func clear_maze_data():
+	intersections = {}
+	segments = []
+	
+func add_maze_segments(segment):
+	var d = {
+		"type": "empty",
+		"segment": segment,
+		"length": segment.size(),
+		#"status": "normal"
+	}
+	segments.append(d)
+	
+func print_maze_data():
+	print("++++")
+	print(intersections)
+	print(segments)
+	print("len ", segments.size())
+	print("++++")

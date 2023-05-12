@@ -156,8 +156,8 @@ func check_collision():
 	
 		if collision != null and collision.get_collider() != null:
 			if collision.get_collider().is_in_group("mob"):
-			#var mob = collision.get_collider()
-				print(collision.get_collider().name)			
+				
+				#print(collision.get_collider().name)			
 				if collision.get_collider().name == 'pin':
 					#Global.items_temp.append('ALTAR')
 					Global.add_to_items_temp('ALTAR')
@@ -165,7 +165,7 @@ func check_collision():
 					Global.add_to_score(10)
 					hole_to_maze.emit()
 					
-				if collision.get_collider().name == "NEXTLEVEL":
+				if collision.get_collider().name == "NEXTLEVEL" and false:
 					#Global.items_temp.append("NEXTLEVEL")
 					Global.add_to_items_temp("NEXTLEVEL")
 					
@@ -178,8 +178,13 @@ func check_collision():
 						#print("player")
 						#print('position ', position)
 						#print("x,y,z ", position.x / 5, ' ', position.y / 5, ' ', position.z / 5)
-			# here
-			
+				if collision.get_collider().name == "KEY":
+					Global.add_to_items_temp("KEY")
+					Global.add_to_score(10)
+					print('found ', Global.items_temp, ' score ', Global.score, ' level ', Global.level)
+					
+					
+								
 func _on_central_control_restart_player():
 	position = Vector3(start_player.x , start_player.y , start_player.z)
 	pass

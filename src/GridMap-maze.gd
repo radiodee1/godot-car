@@ -13,7 +13,7 @@ var maze_w = 10 #5
 var maze_h = 10
 
 var start_vectors = []
-var vectors_len = 3# + 20
+var vectors_len =  + 20
 #var start_vectors_index = []
 var group_visited = []
 var decorate = []
@@ -406,8 +406,6 @@ func add_to_astar(grid, print_rows = false, w_limit=1, h_limit=1):
 		if print_rows:
 			print(line, ' add_to_astar')
 
-
-
 		
 func vector_to_index(v):
 	return v.x * maze_w + v.y  
@@ -417,6 +415,8 @@ func index_to_vector(i):
 	return v
 
 func process_astar_vectors(v):
+	Global.clear_maze_data()
+	
 	var vv = []
 	for g in range(v.size()):
 		var f = vector_to_index(v[g][1])
@@ -462,11 +462,13 @@ func process_astar_vectors(v):
 
 			hallway_in_map(pp)
 			hallway_mask_previous(pp)
+			
+			Global.add_maze_segments(pp)
+			
+	Global.intersections = intersections
 
 		
 func hallway_in_map(hallway, skip_walkway=false):
-	
-	
 		
 	for h in range(hallway.size()):
 		var hh = hallway[h]
@@ -580,43 +582,31 @@ func find_map():
 	
 	return  r
 
-func set_maze_size(left, right, depth, x, y, z):
+func set_maze_size(left, right, depth, x, y, z, endpoints):
 	print('maze location is set dynamically!!')
 	center_depth = depth
 	print('maze width should match height and div by 5')
 	var dim = max(left, right)
 	maze_h = dim
 	maze_w = dim
+	vectors_len = endpoints
+	Global.maze_h = dim 
+	Global.maze_w = dim 
+	Global.hall_width = hall_width
 	pass
 
 func set_callable(set_cell: Callable):
 	set_cell_item = set_cell
 
-func get_intersection(num, exact=true, mark=false):
-	print(intersections, ' intersections')
-	var out = -1
-	var index = -1
-	var tot = -1
-	for i in intersections:
-		#print(i, ' i in intersections')
-		if intersections[i] == num and exact:
-			out = i #intersections[i]
-			intersections[i] = 0
-			print(out)
-		if intersections[i] <= num and tot != 0 and tot < intersections[i] and not exact:
-			tot = intersections[i]
-			out = i #intersections[i]
-			index = i
-			#print(i, ' ' , out, ' ', index, ' ' , intersections)
-	intersections[index] = 0
-	
-	if mark:
-		var g = index_to_vector(out)
-		#finished_map[g.x * 5 + 2][g.y * 5 + 2] = 9
-		g.x = g.x * 5 + 2 #+ maze_w
-		g.y = g.y * 5 + 2 #+ maze_h
-		if g.x > -1 and g.y > -1:
-			assign_map(g.x , g.y , SPOT)
-		print(out, ' ', g, ' g vector')
+
+func mark_intersection(out):
+	var g = index_to_vector(out)
+	#finished_map[g.x * 5 + 2][g.y * 5 + 2] = 9
+	g.x = g.x * 5 + 2 #+ maze_w
+	g.y = g.y * 5 + 2 #+ maze_h
+	if g.x > -1 and g.y > -1:
+		assign_map(g.x , g.y , SPOT)
+	print(out, ' ', g, ' g vector')
 	return out 
 	
+

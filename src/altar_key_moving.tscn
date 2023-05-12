@@ -1,18 +1,17 @@
-[gd_scene load_steps=2 format=3 uid="uid://bq207npaohso3"]
+[gd_scene load_steps=3 format=3 uid="uid://bq207npaohso3"]
 
 [ext_resource type="PackedScene" uid="uid://balrig1lx5b07" path="res://assets/altar_key_moving.gltf" id="1_6mi1m"]
+[ext_resource type="Script" path="res://src/altar_key_moving.gd" id="1_8aqd4"]
 
 [node name="altar_key_moving" type="Node3D"]
+script = ExtResource("1_8aqd4")
 
 [node name="altar_key_moving" parent="." instance=ExtResource("1_6mi1m")]
 
-[node name="altar" parent="altar_key_moving" index="0"]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0.25, 0)
+[node name="Key_01" parent="altar_key_moving" index="0"]
+transform = Transform3D(0.05, 0, 0, 0, -2.18557e-09, -0.05, 0, 0.05, -2.18557e-09, 0, 0.8, 0)
 
-[node name="Key_01" parent="altar_key_moving" index="1"]
-transform = Transform3D(0.0223268, 0.0447383, -1.95557e-09, 0, -2.18557e-09, -0.05, -0.0447383, 0.0223268, -9.75936e-10, 0, 0.8, 0)
-
-[node name="AnimationPlayer" parent="altar_key_moving" index="2"]
+[node name="AnimationPlayer" parent="altar_key_moving" index="1"]
 autoplay = "Key_01Action"
 
 [editable path="altar_key_moving"]

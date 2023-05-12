@@ -25,7 +25,7 @@ var game = {
 					'y': 0,
 					'z': 0,
 					'mesh': 1,
-					'endpoints': 7,
+					'endpoints': 5 , #10,
 					'includes': ['ALTAR', 'TRAPDOOR', 'KEY', 'NEXTLEVEL', 'PRISON']
 				},
 				{

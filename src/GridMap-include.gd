@@ -116,7 +116,7 @@ func place_low_altar(v, name='pin', group='mob'):
 	collision_shape.scale_object_local(Vector3(1,1,1))
 	collision_shape.add_to_group(group)
 	collision_shape.name = name
-	collision_shape.shape = box_shape
+	collision_shape.shape = low_box_shape
 	collision_shape.disabled = false
 	low_static_body.add_child(collision_shape)
 	low_static_body.add_to_group(group)
@@ -147,6 +147,20 @@ func remove_low_altar():
 		low_static_body = null
 		#collision_shape.queue_free()
 
+func place_altar_key(v: Vector3, description: String):
+	#var intersection_index = get_intersection(2, false)
+	#var vec = Global.index_to_vector(intersection_index)
+	#var vec3 = Vector3(vec.x, v.y, vec.y)
+	#vec3.x = 
+	#vec3.y = 
+	#vec3.z = 	
+	var altar_w_key = load("res://src/altar_key_moving.tscn")
+	var altar_key = altar_w_key.instantiate()
+	altar_key.init(v, 'KEY')
+	add_child.call(altar_key)
+	print(v, ' vec3 ', Global.intersections)
+	pass
+
 func make_hole_to_maze(highest, group_size=5, remove_type=4, print_output=false):
 	Global.set_score_allowed(true)
 	var UPPER = remove_type
@@ -156,8 +170,8 @@ func make_hole_to_maze(highest, group_size=5, remove_type=4, print_output=false)
 	var xz_size_half = xz_size / 2
 	var increment = sign(highest.y)
 	for i in range( - (highest.y * size + size),  (highest.y ) * size + size, increment):
-		for x in range(highest.x - xz_size_half, highest.x + xz_size - xz_size_half):
-			for z in range(highest.z - xz_size_half, highest.z + xz_size - xz_size_half):
+		for x in range(highest.x - xz_size_half - 1, highest.x + xz_size - xz_size_half):
+			for z in range(highest.z - xz_size_half - 1, highest.z + xz_size - xz_size_half):
 				pass
 				var xx = x 
 				var zz = z 
@@ -171,6 +185,31 @@ func make_hole_to_nextlevel(group_size=5, remove_type=1):
 	var ll = low_location_vec
 	
 	make_hole_to_maze(ll, group_size, remove_type)
+
+
+func get_intersection(num, exact=true):
+	#var intersections = Global.intersections
+	print(Global.intersections, ' intersections')
+	var out = -1
+	var index = -1
+	var tot = -1
+	for i in Global.intersections:
+		#print(i, ' i in intersections')
+		if Global.intersections[i] == num and exact:
+			out = i #intersections[i]
+			Global.intersections[i] = 0
+			print(out)
+		if Global.intersections[i] <= num and tot != 0 and tot < Global.intersections[i] and not exact:
+			tot = Global.intersections[i]
+			out = i #intersections[i]
+			index = i
+			#print(i, ' ' , out, ' ', index, ' ' , intersections)
+	Global.intersections[index] = 0
+	
+	return out 
+	
+
+
 
 func place_object(name, strategy, layer, frame_num, vector_high=Vector3(0,0,0), vector_low=Vector3(0,0,0)):
 	
@@ -199,6 +238,8 @@ func place_object(name, strategy, layer, frame_num, vector_high=Vector3(0,0,0), 
 		if name == 'TRAPDOOR':
 			pass
 		if name == 'KEY':
+			#print(name, ' here!!')
+			place_altar_key(vector_high, "KEY")
 			pass
 		if name == 'PRISON':
 			pass
