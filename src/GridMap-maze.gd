@@ -33,6 +33,8 @@ var USED = -1
 var SHAPE = 9
 var SPOT = 5
 
+var PRINTOUT_SYMBOL = 'X'
+
 var MAZE_WALKWAY = 2000
 var MAZE_BRICK = 2001
 var MAZE_OTHER = 2002
@@ -310,6 +312,8 @@ func show_2d_grid(matrix, advance = false, line_size=3, show_hidden=false):
 			for j in range(matrix[h].size()):
 				if matrix[h][j] == SPOT:
 					var line_spot = ' X  '.substr(0, line_size)
+					#var line_spot = ' ' + PRINTOUT_SYMBOL + ' '
+					#var line_spot_mod = line_spot.substr(0, line_size)
 					line += line_spot
 					continue
 				if matrix[h][j] == MAZE_OTHER: # or matrix[h][j] == 0:
@@ -600,6 +604,7 @@ func set_callable(set_cell: Callable):
 
 
 func mark_intersection(out):
+	#PRINTOUT_SYMBOL = symbol
 	var g = index_to_vector(out)
 	#finished_map[g.x * 5 + 2][g.y * 5 + 2] = 9
 	g.x = g.x * 5 + 2 #+ maze_w

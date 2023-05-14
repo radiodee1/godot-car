@@ -169,16 +169,20 @@ func check_collision():
 					#Global.items_temp.append("NEXTLEVEL")
 					Global.add_to_items_temp("NEXTLEVEL")
 					
-					Global.add_to_score(10)
-					Global.do_nextlevel_transition = true
-					hole_to_nextlevel.emit()
+					var items_placed = Global.count_list_items(Global.placed_items, "KEY")
+					var items_found = Global.count_list_items(Global.items_temp, "KEY")
+					if items_found >= items_placed:
+					
+						Global.add_to_score(10)
+						Global.do_nextlevel_transition = true
+						hole_to_nextlevel.emit()
 					
 					print('found ', Global.items_temp, ' score ', Global.score, ' level ', Global.level)
-						#print('emit num ', emit_hole_to_maze)
-						#print("player")
-						#print('position ', position)
-						#print("x,y,z ", position.x / 5, ' ', position.y / 5, ' ', position.z / 5)
-				if collision.get_collider().name == "KEY":
+						
+				if collision.get_collider().name.begins_with("KEY"): # == "KEY":
+					var hash = collision.get_collider().name.substr(len("KEY")+ 1, -1)
+					print("hash = ", hash)
+					
 					Global.add_to_items_temp("KEY")
 					Global.add_to_score(10)
 					print('found ', Global.items_temp, ' score ', Global.score, ' level ', Global.level)

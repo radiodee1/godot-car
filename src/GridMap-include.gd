@@ -148,15 +148,10 @@ func remove_low_altar():
 		#collision_shape.queue_free()
 
 func place_altar_key(v: Vector3, description: String):
-	#var intersection_index = get_intersection(2, false)
-	#var vec = Global.index_to_vector(intersection_index)
-	#var vec3 = Vector3(vec.x, v.y, vec.y)
-	#vec3.x = 
-	#vec3.y = 
-	#vec3.z = 	
+	
 	var altar_w_key = load("res://src/altar_key_moving.tscn")
 	var altar_key = altar_w_key.instantiate()
-	altar_key.init(v, 'KEY')
+	altar_key.init(v, description)
 	add_child.call(altar_key)
 	print(v, ' vec3 ', Global.intersections)
 	pass
@@ -204,7 +199,7 @@ func get_intersection(num, exact=true):
 			out = i #intersections[i]
 			index = i
 			#print(i, ' ' , out, ' ', index, ' ' , intersections)
-	Global.intersections[index] = 0
+			Global.intersections[index] = 0
 	
 	return out 
 	
@@ -237,9 +232,9 @@ func place_object(name, strategy, layer, frame_num, vector_high=Vector3(0,0,0), 
 			pass
 		if name == 'TRAPDOOR':
 			pass
-		if name == 'KEY':
+		if name.begins_with("KEY"):# == 'KEY':
 			#print(name, ' here!!')
-			place_altar_key(vector_high, "KEY")
+			place_altar_key(vector_high, name)
 			pass
 		if name == 'PRISON':
 			pass

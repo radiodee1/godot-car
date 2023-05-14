@@ -139,6 +139,8 @@ func set_hill_size(left, right, depth, x, y, z):
 	limit_neg = 0
 
 func setup_level_frame():
+	Global.clear_list_data()
+	
 	var i = level_frame % len(dict.game['level'])
 	
 	var level = dict.game['level'][i]
@@ -182,38 +184,39 @@ func setup_level_frame():
 				if ii == 'ALTAR':
 					var map_location = maze.find_map()
 					var intersection_index = include.get_intersection(2, false)
-					maze.mark_intersection(intersection_index)
-					var altar_mapping = maze.index_to_vector(intersection_index)
-					var altar_vec = Vector3(altar_mapping.x , e['depth_y'], altar_mapping.y )
-					altar_vec.x = maze.hall_width * altar_vec.x + 2 - map_location.x #+ size.x
-					altar_vec.z = maze.hall_width * altar_vec.z + 2 - map_location.y #+ size.y ## -?
-					altar_vec.y =  altar_vec.y + 1.5 #+ 4
-					#print(map_location, ' map location')
-					#maze.show_2d_grid(maze.finished_map, true, 2)
-					#print(maze.intersections, ' intersections here')
-					print('altar vec ', altar_vec)
-					
-					include.place_object(ii, 'RANDOM', 'MAZE', level_frame, altar_vec)
+					if intersection_index != -1 :
+						maze.mark_intersection(intersection_index)
+						var altar_mapping = maze.index_to_vector(intersection_index)
+						var altar_vec = Vector3(altar_mapping.x , e['depth_y'], altar_mapping.y )
+						altar_vec.x = maze.hall_width * altar_vec.x + 2 - map_location.x #+ size.x
+						altar_vec.z = maze.hall_width * altar_vec.z + 2 - map_location.y #+ size.y ## -?
+						altar_vec.y =  altar_vec.y + 1.5 #+ 4
+						#print(map_location, ' map location')
+						
+						include.place_object(ii, 'RANDOM', 'MAZE', level_frame, altar_vec)
+						Global.placed_items.append(ii)
+						
 				if ii == "KEY":
 					var map_location = maze.find_map()
 					var intersection_index = include.get_intersection(2, false)
-					maze.mark_intersection(intersection_index)
-					var altar_mapping = maze.index_to_vector(intersection_index)
-					var altar_vec = Vector3(altar_mapping.x , e['depth_y'], altar_mapping.y )
-					altar_vec.x = maze.hall_width * altar_vec.x + 2 - map_location.x #+ size.x
-					altar_vec.z = maze.hall_width * altar_vec.z + 2 - map_location.y #+ size.y ## -?
-					altar_vec.y =  altar_vec.y + 1.5 #+ 4
-					#print(map_location, ' map location')
-
-					#print(maze.intersections, ' intersections here')
-					print('altar vec ', altar_vec)
-					
-					include.place_object(ii, 'RANDOM', 'MAZE', level_frame, altar_vec)
+					if intersection_index != -1 :
+						maze.mark_intersection(intersection_index)
+						var altar_mapping = maze.index_to_vector(intersection_index)
+						var altar_vec = Vector3(altar_mapping.x , e['depth_y'], altar_mapping.y )
+						altar_vec.x = maze.hall_width * altar_vec.x + 2 - map_location.x #+ size.x
+						altar_vec.z = maze.hall_width * altar_vec.z + 2 - map_location.y #+ size.y ## -?
+						altar_vec.y =  altar_vec.y + 1.5 #+ 4
+						var hashed_name = ii + "-" + str(intersection_index)
+						include.place_object(hashed_name, 'RANDOM', 'MAZE', level_frame, altar_vec)
+						Global.placed_items.append(hashed_name)
+					else:
+						print(ii, ' skip here.')
 			
 			pass
 		if e['type'] == 'player':
 			print('player handled by central_control!!')
 			pass
 	maze.show_2d_grid(maze.finished_map, true, 2)
+	print('level ', Global.level, ', frame ', i, ' placed ', Global.placed_items)
 	#level_frame += 1
 	pass
