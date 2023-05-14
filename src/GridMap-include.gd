@@ -1,5 +1,6 @@
 extends Resource
 
+var placed = []
 
 var scale_local = 0.5
 var add_child: Callable
@@ -148,11 +149,11 @@ func remove_low_altar():
 		#collision_shape.queue_free()
 
 func place_altar_key(v: Vector3, description: String):
-	
 	var altar_w_key = load("res://src/altar_key_moving.tscn")
 	var altar_key = altar_w_key.instantiate()
 	altar_key.init(v, description)
 	add_child.call(altar_key)
+	add_to_placed(altar_key)
 	print(v, ' vec3 ', Global.intersections)
 	pass
 
@@ -178,7 +179,6 @@ func make_hole_to_maze(highest, group_size=5, remove_type=4, print_output=false)
 
 func make_hole_to_nextlevel(group_size=5, remove_type=1):
 	var ll = low_location_vec
-	
 	make_hole_to_maze(ll, group_size, remove_type)
 
 
@@ -203,8 +203,30 @@ func get_intersection(num, exact=true):
 	
 	return out 
 	
+func add_to_placed(instance):
+	var d = {
+		'instance': instance,
+		'name': str(instance.name),
+		'status': 'NEW'
+	}
+	placed.append(d)
 
+func get_placed_node(name):
+	var out = null
+	for i in placed:
+		if i['name'] == name and i['status'] != "CANCEL":
+			out = i
+			return out
+	return out
 
+func dequeue_placed_node(name):
+	print('before ', placed)
+	var x = get_placed_node(name)
+	if x != null:
+		x['instance'].queue_free()
+		x['status'] = 'CANCEL'	
+	pass
+	print('after ', placed)
 
 func place_object(name, strategy, layer, frame_num, vector_high=Vector3(0,0,0), vector_low=Vector3(0,0,0)):
 	

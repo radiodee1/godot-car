@@ -220,3 +220,10 @@ func setup_level_frame():
 	print('level ', Global.level, ', frame ', i, ' placed ', Global.placed_items)
 	#level_frame += 1
 	pass
+
+
+func _on_character_body_3d_remove_child(name):
+	include.dequeue_placed_node(name)
+	#var node = get_node( name)
+	#print(node, ' node')
+	pass # Replace with function body.

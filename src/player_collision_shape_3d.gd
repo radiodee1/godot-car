@@ -4,7 +4,7 @@ extends CharacterBody3D
 
 signal hole_to_maze
 signal hole_to_nextlevel
-
+signal remove_child(name)
 
 var speed = 7
 const ACCEL_DEFAULT = 7
@@ -165,7 +165,7 @@ func check_collision():
 					Global.add_to_score(10)
 					hole_to_maze.emit()
 					
-				if collision.get_collider().name == "NEXTLEVEL" and false:
+				if collision.get_collider().name == "NEXTLEVEL" :
 					#Global.items_temp.append("NEXTLEVEL")
 					Global.add_to_items_temp("NEXTLEVEL")
 					
@@ -183,8 +183,11 @@ func check_collision():
 					var hash = collision.get_collider().name.substr(len("KEY")+ 1, -1)
 					print("hash = ", hash)
 					
-					Global.add_to_items_temp("KEY")
+					Global.add_to_items_temp(str(collision.get_collider().name))
 					Global.add_to_score(10)
+					
+					remove_child.emit(collision.get_collider().name)
+					
 					print('found ', Global.items_temp, ' score ', Global.score, ' level ', Global.level)
 					
 					
