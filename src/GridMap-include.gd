@@ -194,16 +194,24 @@ func get_intersection(num, exact=true):
 			out = i #intersections[i]
 			Global.intersections[i] = 0
 			print(out)
-		if Global.intersections[i] <= num and tot != 0 and tot < Global.intersections[i] and not exact:
-			tot = Global.intersections[i]
-			out = i #intersections[i]
-			index = i
-			#print(i, ' ' , out, ' ', index, ' ' , intersections)
-			Global.intersections[index] = 0
+		if Global.intersections[i] <= num and Global.intersections[i] != 0 :
+			if tot < Global.intersections[i] and not exact:
+				tot = Global.intersections[i]
+				out = i #intersections[i]
+				index = i
+				#print(i, ' ' , out, ' ', index, ' ' , intersections)
+				Global.intersections[index] = 0
 	
 	return out 
 	
+func clear_placed():
+	placed = []
+	
 func add_to_placed(instance):
+	for i in placed:
+		if str(i['name']) == str(instance.name):
+			return
+	
 	var d = {
 		'instance': instance,
 		'name': str(instance.name),
@@ -250,7 +258,7 @@ func place_object(name, strategy, layer, frame_num, vector_high=Vector3(0,0,0), 
 	if layer == "MAZE":
 		if name == 'ALTAR':
 			#print(vector_high, ' vector_high')
-			place_low_altar(vector_high, "NEXTLEVEL")
+			#place_low_altar(vector_high, "NEXTLEVEL")
 			pass
 		if name == 'TRAPDOOR':
 			pass
@@ -261,6 +269,7 @@ func place_object(name, strategy, layer, frame_num, vector_high=Vector3(0,0,0), 
 		if name == 'PRISON':
 			pass
 		if name == 'NEXTLEVEL':
+			place_low_altar(vector_high, name)
 			pass
 	pass
 

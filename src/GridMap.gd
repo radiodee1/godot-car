@@ -140,6 +140,7 @@ func set_hill_size(left, right, depth, x, y, z):
 
 func setup_level_frame():
 	Global.clear_list_data()
+	include.clear_placed()
 	
 	var i = level_frame % len(dict.game['level'])
 	
@@ -181,7 +182,7 @@ func setup_level_frame():
 			
 			
 			for ii in e['includes']:
-				if ii == 'ALTAR':
+				if ii == 'NEXTLEVEL':
 					var map_location = maze.find_map()
 					var intersection_index = include.get_intersection(2, false)
 					if intersection_index != -1 :
@@ -198,15 +199,15 @@ func setup_level_frame():
 						
 				if ii == "KEY":
 					var map_location = maze.find_map()
-					var intersection_index = include.get_intersection(2, false)
-					if intersection_index != -1 :
-						maze.mark_intersection(intersection_index)
-						var altar_mapping = maze.index_to_vector(intersection_index)
+					var intersection_i = include.get_intersection(2, false)
+					if intersection_i != -1 :
+						maze.mark_intersection(intersection_i)
+						var altar_mapping = maze.index_to_vector(intersection_i)
 						var altar_vec = Vector3(altar_mapping.x , e['depth_y'], altar_mapping.y )
 						altar_vec.x = maze.hall_width * altar_vec.x + 2 - map_location.x #+ size.x
 						altar_vec.z = maze.hall_width * altar_vec.z + 2 - map_location.y #+ size.y ## -?
 						altar_vec.y =  altar_vec.y + 1.5 #+ 4
-						var hashed_name = ii + "-" + str(intersection_index)
+						var hashed_name = ii + "-" + str(intersection_i)
 						include.place_object(hashed_name, 'RANDOM', 'MAZE', level_frame, altar_vec)
 						Global.placed_items.append(hashed_name)
 					else:

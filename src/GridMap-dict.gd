@@ -14,7 +14,7 @@ var game = {
 					'y': 0,
 					'z': 0,
 					'mesh': 4, ## 2
-					'includes': ['ALTAR', 'TRAPDOOR']
+					'includes': ['ALTAR']
 				},
 				{
 					'type': 'maze',
@@ -26,7 +26,7 @@ var game = {
 					'z': 0,
 					'mesh': 1,
 					'endpoints': 3 , #10,
-					'includes': ['ALTAR', 'TRAPDOOR', 'KEY', 'NEXTLEVEL', 'PRISON']
+					'includes': [ 'KEY', 'NEXTLEVEL', 'PRISON', 'KEY']
 				},
 				{
 					'type': 'player',
@@ -49,7 +49,7 @@ var game = {
 					'y': 0,
 					'z': 0,
 					'mesh': 4,
-					'includes': ['ALTAR', 'TRAPDOOR']
+					'includes': ['ALTAR']
 				},
 				{
 					'type': 'maze',
@@ -61,7 +61,7 @@ var game = {
 					'z': 0,
 					'mesh': 1,
 					'endpoints': 3,
-					'includes': ['ALTAR', 'TRAPDOOR', 'KEY', 'PRISON', 'NEXTLEVEL']
+					'includes': [ 'KEY', 'PRISON', 'NEXTLEVEL', 'KEY']
 				},
 				{
 					'type': 'player',
@@ -84,7 +84,7 @@ var game = {
 					'y': 0,
 					'z': 0,
 					'mesh': 4,
-					'includes': ['ALTAR', 'TRAPDOOR']
+					'includes': ['ALTAR']
 				},
 				{
 					'type': 'maze',
@@ -96,7 +96,7 @@ var game = {
 					'z': 0,
 					'mesh': 1,
 					'endpoints': 3, #10,
-					'includes': ['ALTAR', 'TRAPDOOR', 'KEY', 'PRISON', 'NEXTLEVEL']
+					'includes': [ 'KEY', 'PRISON', 'NEXTLEVEL']
 				},
 				{
 					'type': 'player',
