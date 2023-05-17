@@ -178,7 +178,7 @@ func check_collision():
 					var items_placed = Global.count_list_items(Global.placed_items, "KEY")
 					var items_found = Global.count_list_items(Global.items_temp, "KEY")
 					if items_found >= items_placed:
-					
+						Global.level += 1
 						Global.add_to_score(10)
 						Global.do_nextlevel_transition = true
 						hole_to_nextlevel.emit()

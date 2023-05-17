@@ -113,6 +113,7 @@ func _on_character_body_3d_hole_to_nextlevel():
 	print('on hole to nextlevel')
 	include.remove_low_altar()
 	include.make_hole_to_nextlevel(5, 1)
+	setup_level_frame()
 	pass
 
 		
@@ -123,6 +124,7 @@ func _on_central_control_restart_terrain():
 	#hill_generate()
 	#level_frame = Global.level - 1
 	#print('level ', level_frame)
+	#Global.level += 1
 	setup_level_frame()
 	
 	Global.print_maze_data()
@@ -218,7 +220,7 @@ func setup_level_frame():
 			pass
 	maze.show_2d_grid(maze.finished_map, true, 2)
 	print('level ', Global.level, ', frame ', i, ' placed ', Global.placed_items)
-	Global.level += 1
+	#Global.level += 1
 	pass
 
 

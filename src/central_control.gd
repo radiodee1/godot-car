@@ -39,7 +39,7 @@ func _do_start():
 	#terrain.free()
 	#terrain.request_ready()
 	Global.level = 0
-	#hud.set_text_stat("hill")
+	hud.set_text_stat("hill")
 	restart_terrain.emit()
 	restart_player.emit()
 	#get_node("procedural-terrain/GridMap").queue_free()

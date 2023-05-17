@@ -25,7 +25,7 @@ func set_text_msg(group='start', msg=0):
 	
 func set_text_stat(msg='start'):
 	var line = ""
-	line += "Level: " + str(Global.level) + " - "
+	line += "Level: " + str(Global.level + 1) + " - "
 	if msg == 'start':
 		line += 'start'
 	if msg == "hill":
