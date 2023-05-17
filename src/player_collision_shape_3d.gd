@@ -159,6 +159,8 @@ func check_collision():
 		if collision != null and collision.get_collider() != null:
 			if collision.get_collider().is_in_group("mob"):
 				
+				var key_items_placed = Global.count_list_items(Global.placed_items, "KEY")
+				var key_items_found = Global.count_list_items(Global.items_temp, "KEY")
 				#print(collision.get_collider().name)			
 				if collision.get_collider().name == 'pin':
 					#Global.items_temp.append('ALTAR')
@@ -175,14 +177,13 @@ func check_collision():
 					#Global.items_temp.append("NEXTLEVEL")
 					Global.add_to_items_temp("NEXTLEVEL")
 					
-					var items_placed = Global.count_list_items(Global.placed_items, "KEY")
-					var items_found = Global.count_list_items(Global.items_temp, "KEY")
-					if items_found >= items_placed:
+					if key_items_found >= key_items_placed:
 						Global.level += 1
 						Global.add_to_score(10)
 						Global.do_nextlevel_transition = true
 						hole_to_nextlevel.emit()
 						
+						hud.set_text_msg('hill')
 						hud.set_text_stat("hill")
 					print('found ', Global.items_temp, ' score ', Global.score, ' level ', Global.level)
 						
@@ -193,12 +194,13 @@ func check_collision():
 					Global.add_to_items_temp(str(collision.get_collider().name))
 					Global.add_to_score(10)
 					
-					#hud.set_text_stat("maze")
-					
 					remove_child.emit(collision.get_collider().name)
 					
 					hud.set_text_stat("maze")
 					
+					if key_items_found >= key_items_placed - 1: ## new key was just found!!
+						hud.set_text_msg('keys', 1)
+						
 					print('found ', Global.items_temp, ' score ', Global.score, ' level ', Global.level)
 					
 					
