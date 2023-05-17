@@ -20,7 +20,10 @@ var maze_w = 0
 var maze_h = 0
 var hall_width = 0
 
+
+
 func _ready():
+	print_tree_pretty()
 	pass # Replace with function body.
 
 

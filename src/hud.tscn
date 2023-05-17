@@ -1,0 +1,56 @@
+[gd_scene load_steps=3 format=3 uid="uid://cdhf7f7e54wft"]
+
+[ext_resource type="Script" path="res://src/hud.gd" id="1_cntor"]
+
+[sub_resource type="Theme" id="Theme_1fk2o"]
+
+[node name="HUD" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_cntor")
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -546.5
+offset_top = -64.0
+offset_right = 546.5
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="message" type="Button" parent="Control"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -570.5
+offset_right = 576.5
+offset_bottom = 31.0
+grow_horizontal = 2
+theme = SubResource("Theme_1fk2o")
+theme_override_constants/outline_size = 0
+text = "message here
+"
+
+[node name="status" type="Button" parent="Control"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -570.5
+offset_top = -31.0
+offset_right = 573.5
+grow_horizontal = 2
+grow_vertical = 0
+text = "keys, etc
+"

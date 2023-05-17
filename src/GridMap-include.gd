@@ -228,13 +228,13 @@ func get_placed_node(name):
 	return out
 
 func dequeue_placed_node(name):
-	print('before ', placed)
+	#print('before ', placed)
 	var x = get_placed_node(name)
 	if x != null:
 		x['instance'].queue_free()
 		x['status'] = 'CANCEL'	
 	pass
-	print('after ', placed)
+	#print('after ', placed)
 
 func place_object(name, strategy, layer, frame_num, vector_high=Vector3(0,0,0), vector_low=Vector3(0,0,0)):
 	

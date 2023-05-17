@@ -1,8 +1,9 @@
-[gd_scene load_steps=7 format=3 uid="uid://yokclqnj4l7o"]
+[gd_scene load_steps=8 format=3 uid="uid://yokclqnj4l7o"]
 
 [ext_resource type="MeshLibrary" uid="uid://cwkm7jur67mtg" path="res://src/spatial-mesh.tres" id="1_ncg8f"]
 [ext_resource type="Script" path="res://src/GridMap.gd" id="2_ju2is"]
 [ext_resource type="PackedScene" uid="uid://cjayg8o4rnavy" path="res://src/player_collision_shape_3d.tscn" id="3_j5xh4"]
+[ext_resource type="PackedScene" uid="uid://cdhf7f7e54wft" path="res://src/hud.tscn" id="4_vhd0m"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_6taw2"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
@@ -36,6 +37,13 @@ script = ExtResource("2_ju2is")
 
 [node name="CharacterBody3D" parent="." instance=ExtResource("3_j5xh4")]
 transform = Transform3D(-0.967534, -0.0116535, 0.252472, -0.0251261, 0.998424, -0.0502046, -0.251489, -0.0549184, -0.966301, 1.34722, 4.32541, -8.9407e-07)
+
+[node name="HUD" parent="." instance=ExtResource("4_vhd0m")]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+grow_vertical = 0
 
 [connection signal="hole_to_maze" from="CharacterBody3D" to="GridMap" method="_on_character_body_3d_hole_to_maze"]
 [connection signal="hole_to_nextlevel" from="CharacterBody3D" to="GridMap" method="_on_character_body_3d_hole_to_nextlevel"]

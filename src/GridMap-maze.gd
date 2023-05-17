@@ -430,7 +430,7 @@ func process_astar_vectors(v):
 	var z = []
 	for a in range(vv.size()):
 		for b in range(a, vv.size()):
-			if a != b:
+			if a != b and vv[a] != vv[b]:
 				z.append([ vv[a], vv[b] ])
 				#z.append([ v[b], v[a] ])
 	#z.reverse()
