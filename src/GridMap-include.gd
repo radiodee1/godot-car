@@ -222,7 +222,7 @@ func add_to_placed(instance):
 func get_placed_node(name):
 	var out = null
 	for i in placed:
-		if i['name'] == name and i['status'] != "CANCEL":
+		if i['name'] == name: # and i['status'] != "CANCEL":
 			out = i
 			return out
 	return out
