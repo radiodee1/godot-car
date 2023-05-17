@@ -35,6 +35,8 @@ var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 @onready var start = $/root/CentralControl/Control/start
 @onready var central = $/root/CentralControl
 
+@onready var hud = $"/root/CentralControl/procedural-terrain/HUD"
+
 var start_player: Vector3 = Vector3( 15 * 5 / 2, 5 * 5, 15 * 5 / 2)
 
 func _ready():
@@ -160,6 +162,10 @@ func check_collision():
 				#print(collision.get_collider().name)			
 				if collision.get_collider().name == 'pin':
 					#Global.items_temp.append('ALTAR')
+					#print_tree_pretty()
+					
+					hud.set_text_stat("maze")
+					
 					Global.add_to_items_temp('ALTAR')
 					
 					Global.add_to_score(10)
@@ -176,17 +182,22 @@ func check_collision():
 						Global.add_to_score(10)
 						Global.do_nextlevel_transition = true
 						hole_to_nextlevel.emit()
-					
+						
+						hud.set_text_stat("hill")
 					print('found ', Global.items_temp, ' score ', Global.score, ' level ', Global.level)
 						
-				if collision.get_collider().name.begins_with("KEY"): # == "KEY":
+				if collision.get_collider().name.begins_with("KEY"): 
 					var hash = collision.get_collider().name.substr(len("KEY")+ 1, -1)
 					print("hash = ", hash)
 					
 					Global.add_to_items_temp(str(collision.get_collider().name))
 					Global.add_to_score(10)
 					
+					#hud.set_text_stat("maze")
+					
 					remove_child.emit(collision.get_collider().name)
+					
+					hud.set_text_stat("maze")
 					
 					print('found ', Global.items_temp, ' score ', Global.score, ' level ', Global.level)
 					

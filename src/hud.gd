@@ -7,8 +7,11 @@ extends Control
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	text_msg.text = "Hi."
-	text_stat.text = "Start"
+	#text_msg.text = "Hi."
+	set_text_msg('start', 0)
+	
+	#text_stat.text = "Start"
+	set_text_stat('hill')
 	pass # Replace with function body.
 
 
@@ -17,7 +20,17 @@ func _process(delta):
 	pass
 
 func set_text_msg(group='start', msg=0):
+	text_msg.text = dict.message[group][msg]
 	pass 
 	
 func set_text_stat(msg='start'):
-	pass 
+	var line = ""
+	if msg == 'start':
+		line = 'start'
+	if msg == "hill":
+		line = 'objective: high altar'
+	if msg == "maze":
+		line = 'keys :' + str(Global.count_list_items(Global.items_temp, 'KEY')) 
+		line += "/" + str(Global.count_list_items(Global.placed_items, "KEY"))
+	
+	text_stat.text = line

@@ -166,6 +166,21 @@ var shapes = {
 	]
 }
 
+var message = {
+	'start': {
+		0: "welcome",
+		1: "greetings",
+		2: "greetings and salutations"
+	},
+	'keys': {
+		0: "get the keys!!",
+		1: "get the last altar"
+	},
+	'hill': {
+		0: "find the high altar!"
+	}
+}
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	pass # Replace with function body.
