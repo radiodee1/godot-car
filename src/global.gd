@@ -10,7 +10,7 @@ var placed_items = []
 var score_allowed = true
 var do_nextlevel_transition = false
 
-var level = 1
+var level = 0
 
 ## maze data ##
 var intersections = {}

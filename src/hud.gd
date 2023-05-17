@@ -25,12 +25,13 @@ func set_text_msg(group='start', msg=0):
 	
 func set_text_stat(msg='start'):
 	var line = ""
+	line += "Level: " + str(Global.level) + " - "
 	if msg == 'start':
-		line = 'start'
+		line += 'start'
 	if msg == "hill":
-		line = 'objective: high altar'
+		line += 'objective: high altar'
 	if msg == "maze":
-		line = 'keys :' + str(Global.count_list_items(Global.items_temp, 'KEY')) 
+		line += 'Keys :' + str(Global.count_list_items(Global.items_temp, 'KEY')) 
 		line += "/" + str(Global.count_list_items(Global.placed_items, "KEY"))
 	
 	text_stat.text = line

@@ -24,7 +24,7 @@ signal set_highest(high_vector:Vector3)
 #var static_body
 #var collision_shape
 
-var level_frame = 0
+#var level_frame = 0
 
 @onready var maze = preload("res://src/GridMap-maze.gd").new()
 @onready var include = preload("res://src/GridMap-include.gd").new()
@@ -117,16 +117,13 @@ func _on_character_body_3d_hole_to_nextlevel():
 
 		
 func _on_central_control_restart_terrain():
-	#if mesh_instance_3d != null:
-	#Global.level += 1
 	
 	include.remove_altar()
 	clear()
 	#hill_generate()
-	level_frame = Global.level - 1
-	print('level ', level_frame)
+	#level_frame = Global.level - 1
+	#print('level ', level_frame)
 	setup_level_frame()
-	Global.level += 1
 	
 	Global.print_maze_data()
 	pass
@@ -140,9 +137,11 @@ func set_hill_size(left, right, depth, x, y, z):
 
 func setup_level_frame():
 	Global.clear_list_data()
+	Global.clear_maze_data()
+	
 	include.clear_placed()
 	
-	var i = level_frame % len(dict.game['level'])
+	var i = Global.level % len(dict.game['level'])
 	
 	var level = dict.game['level'][i]
 	var name = level['name']
@@ -159,7 +158,7 @@ func setup_level_frame():
 			hill_generate(e['mesh'])
 			
 			for ii in e['includes']:
-				include.place_object(ii, 'RANDOM', 'HILL', level_frame, highest, lowest)
+				include.place_object(ii, 'RANDOM', 'HILL', Global.level, highest, lowest)
 			pass
 		if e['type'] == 'maze':
 			include.remove_low_altar()
@@ -194,7 +193,7 @@ func setup_level_frame():
 						altar_vec.y =  altar_vec.y + 1.5 #+ 4
 						#print(map_location, ' map location')
 						
-						include.place_object(ii, 'RANDOM', 'MAZE', level_frame, altar_vec)
+						include.place_object(ii, 'RANDOM', 'MAZE', Global.level, altar_vec)
 						Global.placed_items.append(ii)
 						
 				if ii == "KEY":
@@ -208,7 +207,7 @@ func setup_level_frame():
 						altar_vec.z = maze.hall_width * altar_vec.z + 2 - map_location.y #+ size.y ## -?
 						altar_vec.y =  altar_vec.y + 1.5 #+ 4
 						var hashed_name = ii + "-" + str(intersection_i)
-						include.place_object(hashed_name, 'RANDOM', 'MAZE', level_frame, altar_vec)
+						include.place_object(hashed_name, 'RANDOM', 'MAZE', Global.level, altar_vec)
 						Global.placed_items.append(hashed_name)
 					else:
 						print(ii, ' skip here.')
@@ -219,7 +218,7 @@ func setup_level_frame():
 			pass
 	maze.show_2d_grid(maze.finished_map, true, 2)
 	print('level ', Global.level, ', frame ', i, ' placed ', Global.placed_items)
-	#level_frame += 1
+	Global.level += 1
 	pass
 
 
