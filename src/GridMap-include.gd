@@ -205,6 +205,9 @@ func get_intersection(num, exact=true):
 	return out 
 	
 func clear_placed():
+	for i in placed:
+		if i['instance'] != null:
+			i['instance'].queue_free()
 	placed = []
 	
 func add_to_placed(instance):

@@ -5,7 +5,7 @@ var altar_name = 'Key_01Action'
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	var altar_name = animation_player.get_assigned_animation()
+	altar_name = animation_player.get_assigned_animation()
 	#print(altar_name, " altar_name")
 	animation_player.play(altar_name )
 	animation_player.connect("animation_finished", self.play)

@@ -38,7 +38,9 @@ func _do_start():
 	#control_buttons.queue_free()
 	#terrain.free()
 	#terrain.request_ready()
-	Global.level = 0
+	#Global.level = 0
+	Global.clear_score_lives_health()
+	
 	hud.set_text_stat("hill")
 	restart_terrain.emit()
 	restart_player.emit()

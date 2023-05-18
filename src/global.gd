@@ -2,6 +2,7 @@ extends Node
 
 var health = 30
 var score = 0
+var lives = 3
 var items = []
 var items_temp = []
 
@@ -89,3 +90,9 @@ func print_maze_data():
 	print(segments)
 	print("len ", segments.size())
 	print("++++")
+
+func clear_score_lives_health():
+	score = 0
+	lives = 3
+	health = 30
+	level = 0

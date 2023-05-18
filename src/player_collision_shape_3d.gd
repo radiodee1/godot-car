@@ -151,12 +151,16 @@ func control_show():
 	pass
 	
 func check_collision():
+	#Global.set_score_allowed(true)
+	var try = 0
 	
 	for index in range(get_slide_collision_count()):
 		# We get one of the collisions with the player
 		var collision = get_slide_collision(index)
 	
 		if collision != null and collision.get_collider() != null:
+			#Global.set_score_allowed(true)
+			
 			if collision.get_collider().is_in_group("mob"):
 				
 				var key_items_placed = Global.count_list_items(Global.placed_items, "KEY")
@@ -165,19 +169,21 @@ func check_collision():
 				if collision.get_collider().name == 'pin':
 					#Global.items_temp.append('ALTAR')
 					#print_tree_pretty()
+					#Global.set_score_allowed(true)
+					Global.add_to_score(10)
 					
 					hud.set_text_stat("maze")
 					
 					Global.add_to_items_temp('ALTAR')
 					
-					Global.add_to_score(10)
+					
 					hole_to_maze.emit()
 					
 				if collision.get_collider().name == "NEXTLEVEL" :
 					#Global.items_temp.append("NEXTLEVEL")
 					Global.add_to_items_temp("NEXTLEVEL")
 					
-					if key_items_found >= key_items_placed:
+					if key_items_found >= key_items_placed and try == 0:
 						Global.level += 1
 						Global.add_to_score(10)
 						Global.do_nextlevel_transition = true
@@ -185,6 +191,7 @@ func check_collision():
 						
 						hud.set_text_msg('hill')
 						hud.set_text_stat("hill")
+						try = 1
 					print('found ', Global.items_temp, ' score ', Global.score, ' level ', Global.level)
 						
 				if collision.get_collider().name.begins_with("KEY"): 

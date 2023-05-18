@@ -26,6 +26,9 @@ func set_text_msg(group='start', msg=0):
 func set_text_stat(msg='start'):
 	var line = ""
 	line += "Level: " + str(Global.level + 1) + " - "
+	line += "Score: " + str(Global.score) + " - "
+	line += "Health: " + str(Global.health) + " - "
+	line += "Lives: " + str(Global.lives) + " - "
 	if msg == 'start':
 		line += 'start'
 	if msg == "hill":
