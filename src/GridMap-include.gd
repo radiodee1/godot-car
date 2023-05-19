@@ -26,13 +26,13 @@ var low_location_vec
 #var dict = preload("res://src/GridMap-dict.gd").new()
 
 # Called when the node enters the scene tree for the first time.
-func _ready():
-	pass # Replace with function body.
+#func _ready():
+#	pass # Replace with function body.
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	pass
+#func _process(delta):
+#	pass
 
 func place_altar(v, name='pin', group='mob'):
 	scene_instance = load("res://src/altar_moving.tscn").instantiate()
@@ -182,25 +182,34 @@ func make_hole_to_nextlevel(group_size=5, remove_type=1):
 	make_hole_to_maze(ll, group_size, remove_type)
 
 
-func get_intersection(num, exact=true):
+func get_intersection(num, exact=true, skip_record_index=-1):
 	#var intersections = Global.intersections
 	print(Global.intersections, ' intersections')
 	var out = -1
 	var index = -1
 	var tot = -1
-	for i in Global.intersections:
+	
+	if skip_record_index != -1 and  Global.intersections.has(skip_record_index):
+		Global.intersections[skip_record_index] = 0
+	
+	for i in Global.intersections.keys():
 		#print(i, ' i in intersections')
-		if Global.intersections[i] == num and exact:
+		if i == skip_record_index:
+			#Global.intersections[skip_record_index] = 0
+			continue
+		if Global.intersections[i] == num and num != 0 and exact:
 			out = i #intersections[i]
 			Global.intersections[i] = 0
 			print(out)
+			return out
 		if Global.intersections[i] <= num and Global.intersections[i] != 0 :
-			if tot < Global.intersections[i] and not exact:
+			if tot < Global.intersections[i] and num != 0 and not exact:
 				tot = Global.intersections[i]
 				out = i #intersections[i]
 				index = i
 				#print(i, ' ' , out, ' ', index, ' ' , intersections)
-				Global.intersections[index] = 0
+				Global.intersections[i] = 0
+				return out 
 	
 	return out 
 	

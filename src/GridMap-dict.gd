@@ -25,7 +25,7 @@ var game = {
 					'y': 0,
 					'z': 0,
 					'mesh': 1,
-					'endpoints': 3 , #10,
+					'endpoints': 4 , #10,
 					'includes': [ 'KEY', 'NEXTLEVEL', 'PRISON', 'KEY']
 				},
 				{
@@ -60,7 +60,7 @@ var game = {
 					'y': 0,
 					'z': 0,
 					'mesh': 1,
-					'endpoints': 3,
+					'endpoints': 4,
 					'includes': [ 'KEY', 'PRISON', 'NEXTLEVEL', 'KEY']
 				},
 				{
@@ -95,7 +95,7 @@ var game = {
 					'y': 0,
 					'z': 0,
 					'mesh': 1,
-					'endpoints': 3, #10,
+					'endpoints': 4, #10,
 					'includes': [ 'KEY', 'PRISON', 'NEXTLEVEL']
 				},
 				{
@@ -182,10 +182,3 @@ var message = {
 }
 
 # Called when the node enters the scene tree for the first time.
-func _ready():
-	pass # Replace with function body.
-
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	pass

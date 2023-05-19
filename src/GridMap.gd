@@ -196,7 +196,8 @@ func setup_level_frame():
 			for ii in e['includes']:
 				if ii == 'NEXTLEVEL':
 					var map_location = maze.find_map()
-					var intersection_index = include.get_intersection(2, false)
+					var recorded_index = maze.get_record_index()
+					var intersection_index = include.get_intersection(2, false, recorded_index)
 					if intersection_index != -1 :
 						maze.mark_intersection(intersection_index)
 						var altar_mapping = maze.index_to_vector(intersection_index)
@@ -211,7 +212,8 @@ func setup_level_frame():
 						
 				if ii == "KEY":
 					var map_location = maze.find_map()
-					var intersection_i = include.get_intersection(2, false)
+					var recorded_index = maze.get_record_index()
+					var intersection_i = include.get_intersection(2, false, recorded_index)
 					if intersection_i != -1 :
 						maze.mark_intersection(intersection_i)
 						var altar_mapping = maze.index_to_vector(intersection_i)

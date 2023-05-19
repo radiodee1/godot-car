@@ -23,7 +23,7 @@ var working_map = []
 var finished_map = []
 
 var shape_list = []
-var intersections = {}
+#var intersections = {}
 
 var rng = RandomNumberGenerator.new()
 var astar = AStar2D.new()
@@ -60,7 +60,7 @@ var dict = preload("res://src/GridMap-dict.gd").new()
 
 func clear_variables():
 	start_vectors = []
-	intersections = {}
+	Global.intersections = {}
 	#vectors_len =  7 #+ 10
 	#start_vectors_index = []
 	group_visited = []
@@ -218,7 +218,9 @@ func shapes_to_map(move_old_vectors=false):
 					working_map[st.x][st.y] = USED
 					#astar.set_point_disabled(v[0])
 					astar.set_point_disabled(v[0], false)
-					intersections[v[0]] = 1
+					#if str(v[0]) not in Global.intersections.keys():
+					if not Global.intersections.has(v[0]):
+						Global.intersections[str(v[0])] = 1
 					#print('enabled ', v, ' - ', hallway, ' - ', start_vectors)
 				
 			if end[0].x != -1 or end[0].y != -1:
@@ -452,15 +454,17 @@ func process_astar_vectors(v):
 			group_visited.append(p[0])
 			group_visited.append(p[1])
 			
-			if p[0] not in intersections:
-				intersections[p[0]] = 0
-			if p[1] not in intersections:
-				intersections[p[1]] = 0
+			if not Global.intersections.has(p[0]):
+				#if p[0] not in Global.intersections.keys():
+				Global.intersections[p[0]] = 0
+			if not Global.intersections.has(p[1]):
+				#if p[1] not in Global.intersections.keys():
+				Global.intersections[p[1]] = 0
 				
-			if intersections[p[0]] < 4:
-				intersections[p[0]] += 1
-			if intersections[p[1]] < 4:
-				intersections[p[1]] += 1
+			if Global.intersections[p[0]] < 4 and p[0] in Global.intersections.keys():
+				Global.intersections[p[0]] += 1
+			if Global.intersections[p[1]] < 4 and p[1] in Global.intersections.keys():
+				Global.intersections[p[1]] += 1
 		
 			#print(pp, ' pp')
 
@@ -469,7 +473,7 @@ func process_astar_vectors(v):
 			
 			Global.add_maze_segments(pp)
 			
-	Global.intersections = intersections
+	#Global.intersections = intersections
 
 		
 func hallway_in_map(hallway, skip_walkway=false):
@@ -615,3 +619,5 @@ func mark_intersection(out):
 	return out 
 	
 
+func get_record_index():
+	return record_index
