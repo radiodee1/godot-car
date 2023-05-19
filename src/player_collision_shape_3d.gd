@@ -6,6 +6,9 @@ extends CharacterBody3D
 #signal hole_to_nextlevel
 #signal remove_child(name)
 
+var land_in_maze = false
+var hit_high_altar = false
+
 var speed = 7
 const ACCEL_DEFAULT = 7
 const ACCEL_AIR = 1
@@ -103,10 +106,27 @@ func _physics_process(delta):
 	#floor_snap_length = Vector3(float(movement), float(snap), float(0))
 	floor_snap_length = snap.y
 	#gravity = gravity_vec * gravity_mult
-	if position.y < -500 : ## 2500
+	
+	if position.y < -1 and  is_on_floor() and not land_in_maze and not hit_high_altar:
+		hud.set_text_stat("maze")
+		hud.set_text_msg('maze', 0)
+							
+		#get_tree().quit()
+		#control_show()
+		#un_pause.hide()
+		#_on_central_control_restart_player()
+		land_in_maze = true
+		print("here we are...")
+		pass
+			
+	
+	elif position.y < -500 : ## 2500
 		print(position.y, " <<< endless fall")
 		#get_tree().change_scene_to_packed(control_buttons)	
+		hud.set_text_msg("start", 0)
+		
 		if not Global.do_nextlevel_transition:
+			set_player_start(5, 100, 5)
 			control_show()
 			un_pause.hide()
 			_on_central_control_restart_player()
@@ -114,9 +134,11 @@ func _physics_process(delta):
 			Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE) 
 			central._do_nextlevel()
 			Global.do_nextlevel_transition = false
+			hud.set_text_msg('start', 0)
 			pass
 		pass
 		
+	
 	check_collision()
 	move_and_slide()
 	
@@ -167,6 +189,8 @@ func check_collision():
 				
 				var key_items_placed = Global.count_list_items(Global.placed_items, "KEY")
 				var key_items_found = Global.count_list_items(Global.items_temp, "KEY")
+				var nextlevel_item_count = Global.count_list_items(Global.placed_items, 'NEXTLEVEL')
+				
 				#print(collision.get_collider().name)			
 				if collision.get_collider().name == 'pin':
 					#Global.items_temp.append('ALTAR')
@@ -177,6 +201,8 @@ func check_collision():
 					hud.set_text_stat("maze")
 					
 					Global.add_to_items_temp('ALTAR')
+					
+					hit_high_altar = true
 					
 					gridmap.hole_to_maze()
 					#hole_to_maze.emit()
@@ -190,6 +216,8 @@ func check_collision():
 						Global.add_to_score(10)
 						Global.do_nextlevel_transition = true
 						
+						#hit_high_altar = false
+						
 						hud.set_text_msg('hill')
 						hud.set_text_stat("hill")
 						#hole_to_nextlevel.emit()
@@ -197,9 +225,10 @@ func check_collision():
 						
 						#hud.set_text_msg('hill')
 						#hud.set_text_stat("hill")
+						set_player_start(5, 100, 5)
 						
 						try = 1
-					print('found ', Global.items_temp, ' score ', Global.score, ' level ', Global.level)
+					
 						
 				if collision.get_collider().name.begins_with("KEY"): 
 					var hash = collision.get_collider().name.substr(len("KEY")+ 1, -1)
@@ -216,9 +245,26 @@ func check_collision():
 					if key_items_found >= key_items_placed - 1: ## new key was just found!!
 						hud.set_text_msg('keys', 1)
 						
-					print('found ', Global.items_temp, ' score ', Global.score, ' level ', Global.level)
-					
-					
+						if nextlevel_item_count == 0 and try == 0:
+							
+							Global.level += 1
+							#Global.add_to_score(10)
+							Global.do_nextlevel_transition = true
+							
+							#hit_high_altar = false
+							
+							hud.set_text_msg('hill')
+							hud.set_text_stat("hill")
+							#hole_to_nextlevel.emit()
+
+							
+							#hud.set_text_msg('hill')
+							#hud.set_text_stat("hill")
+							set_player_start(5, 100, 5)
+							gridmap.hole_to_nextlevel()	
+														
+							try = 1
+								
 								
 func _on_central_control_restart_player():
 	restart_player()
@@ -229,5 +275,7 @@ func restart_player():
 	pass
 
 func set_player_start(x,y,z):
+	land_in_maze = false
+	hit_high_altar = false
 	start_player = Vector3( x, y, z)
 	

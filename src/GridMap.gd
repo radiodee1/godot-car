@@ -60,10 +60,7 @@ func hill_generate(block_num=2):
 					#set_cell_item(i, 0)
 					set_cell_group(x,y,z, block_num, true)
 					
-	var hh = Vector3(highest)
-	#highest.y += scale_local * 2.5 ## <--
-	#highest = Vector3(highest.x + 1, highest.y , highest.z + 1 ) ## <--
-	#print(highest, " before")
+	#var hh = Vector3(highest)
 	
 	highest = change_highest(highest)
 	#print(highest, " next")
@@ -237,9 +234,9 @@ func setup_level_frame():
 	pass
 
 
-func _on_character_body_3d_remove_child(name):
-	remove_named_child(name)
-	pass
+#func _on_character_body_3d_remove_child(name):
+#	remove_named_child(name)
+#	pass
 	
 func remove_named_child(name):
 	include.dequeue_placed_node(name)

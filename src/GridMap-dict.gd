@@ -25,8 +25,8 @@ var game = {
 					'y': 0,
 					'z': 0,
 					'mesh': 1,
-					'endpoints': 4 , #10,
-					'includes': [ 'KEY', 'NEXTLEVEL', 'PRISON', 'KEY']
+					'endpoints': 2 , #10,
+					'includes': [ 'KEY', 'NEXTLEVEL', 'KEY'] # 'PRISON' ]
 				},
 				{
 					'type': 'player',
@@ -60,7 +60,7 @@ var game = {
 					'y': 0,
 					'z': 0,
 					'mesh': 1,
-					'endpoints': 4,
+					'endpoints': 2,
 					'includes': [ 'KEY', 'PRISON', 'NEXTLEVEL', 'KEY']
 				},
 				{
@@ -95,8 +95,8 @@ var game = {
 					'y': 0,
 					'z': 0,
 					'mesh': 1,
-					'endpoints': 4, #10,
-					'includes': [ 'KEY', 'PRISON', 'NEXTLEVEL']
+					'endpoints': 2, #10,
+					'includes': [ 'KEY', 'PRISON', 'NEXTLEVEL'] #, 'PRISON']
 				},
 				{
 					'type': 'player',
@@ -174,10 +174,13 @@ var message = {
 	},
 	'keys': {
 		0: "get the keys!!",
-		1: "get the last altar"
+		1: "get the last bare altar"
 	},
 	'hill': {
 		0: "find the high altar!"
+	},
+	'maze': {
+		0: "you skipped something??"
 	}
 }
 

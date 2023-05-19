@@ -149,6 +149,9 @@ func remove_low_altar():
 		#collision_shape.queue_free()
 
 func place_altar_key(v: Vector3, description: String):
+	if Global.count_list_items(Global.placed_items, 'NEXTLEVEL') == 0:
+		low_location_vec = v
+		
 	var altar_w_key = load("res://src/altar_key_moving.tscn")
 	var altar_key = altar_w_key.instantiate()
 	altar_key.init(v, description)
