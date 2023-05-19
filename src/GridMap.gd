@@ -125,9 +125,9 @@ func hole_to_nextlevel():
 	pass
 
 		
-func _on_central_control_restart_terrain():
-	restart_terrain()
-	pass
+#func _on_central_control_restart_terrain():
+#	restart_terrain()
+#	pass
 	
 func restart_terrain():
 	include.remove_altar()
