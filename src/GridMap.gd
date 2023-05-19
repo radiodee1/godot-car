@@ -38,7 +38,7 @@ func _ready()->void:
 	include.set_callable_set_cell(set_cell_item)
 	#set_hill_size(30,0,0,0,0,0)
 	
-	get_node("/root/CentralControl").connect("restart_terrain", _on_central_control_restart_terrain)
+	#get_node("/root/CentralControl").connect("restart_terrain", _on_central_control_restart_terrain)
 	
 	hill_generate()
 	include.remove_altar()
@@ -103,9 +103,9 @@ func change_highest(high):
 
 
 
-func _on_character_body_3d_hole_to_maze():
-	hole_to_maze()
-	pass
+#func _on_character_body_3d_hole_to_maze():
+#	hole_to_maze()
+#	pass
 	
 func hole_to_maze():
 	#if mesh_instance_3d != null:
@@ -113,9 +113,9 @@ func hole_to_maze():
 	include.make_hole_to_maze(highest)
 	pass # Replace with function body.
 
-func _on_character_body_3d_hole_to_nextlevel():
-	hole_to_nextlevel()
-	pass
+#func _on_character_body_3d_hole_to_nextlevel():
+#	hole_to_nextlevel()
+#	pass
 	
 func hole_to_nextlevel():
 	print('on hole to nextlevel')
@@ -126,7 +126,10 @@ func hole_to_nextlevel():
 
 		
 func _on_central_control_restart_terrain():
+	restart_terrain()
+	pass
 	
+func restart_terrain():
 	include.remove_altar()
 	clear()
 	#hill_generate()

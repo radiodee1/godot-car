@@ -9,10 +9,11 @@ extends Control
 @onready var start_scene = load("res://src/procedural_terrain.tscn")
 
 @onready var hud = $"/root/CentralControl/procedural-terrain/HUD"
-
+@onready var gridmap = $"/root/CentralControl/procedural-terrain/GridMap"
+@onready var player = $"/root/CentralControl/procedural-terrain/CharacterBody3D"
 #@onready var first_run = true
-signal restart_terrain
-signal restart_player
+#signal restart_terrain
+#signal restart_player
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -30,7 +31,6 @@ func _ready():
 func _process(delta):
 	pass
 
-
 func _do_start():
 	print("start")
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
@@ -42,8 +42,10 @@ func _do_start():
 	Global.clear_score_lives_health()
 	
 	hud.set_text_stat("hill")
-	restart_terrain.emit()
-	restart_player.emit()
+	#restart_terrain.emit()
+	gridmap.restart_terrain()
+	#restart_player.emit()
+	player.restart_player()
 	#get_node("procedural-terrain/GridMap").queue_free()
 	#get_node("procedural-terrain").add_child(get_node('procedural-terrain/GridMap') )
 	#get_node("procedural-terrain/GridMap").request_ready()
@@ -74,8 +76,10 @@ func _do_nextlevel():
 	
 	hud.set_text_stat("hill")
 	
-	restart_terrain.emit()
-	restart_player.emit()
+	#restart_terrain.emit()
+	gridmap.restart_terrain()
+	#restart_player.emit()
+	player.restart_player()
 	control_buttons.show()
 	control_buttons.visible = true 
 	btn_unpause.visible = true

@@ -51,7 +51,7 @@ func _ready():
 	position = Vector3(15 * 5 / 2, 5 * 5 , 15 * 5 / 2)
 	process_mode = Node.PROCESS_MODE_PAUSABLE
 	
-	get_node("/root/CentralControl").connect("restart_player", _on_central_control_restart_player)
+	#get_node("/root/CentralControl").connect("restart_player", _on_central_control_restart_player)
 	#get_tree().paused = true
 	Global.set_score_allowed(true)
 
@@ -221,6 +221,10 @@ func check_collision():
 					
 								
 func _on_central_control_restart_player():
+	restart_player()
+	pass 
+	
+func restart_player():
 	position = Vector3(start_player.x , start_player.y , start_player.z)
 	pass
 
