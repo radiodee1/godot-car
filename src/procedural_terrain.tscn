@@ -44,7 +44,3 @@ anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 grow_vertical = 0
-
-[connection signal="hole_to_maze" from="CharacterBody3D" to="GridMap" method="_on_character_body_3d_hole_to_maze"]
-[connection signal="hole_to_nextlevel" from="CharacterBody3D" to="GridMap" method="_on_character_body_3d_hole_to_nextlevel"]
-[connection signal="remove_child" from="CharacterBody3D" to="GridMap" method="_on_character_body_3d_remove_child"]

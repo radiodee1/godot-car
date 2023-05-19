@@ -2,9 +2,9 @@ extends CharacterBody3D
 
 @onready var control_buttons = load("res://src/central_control.tscn")
 
-signal hole_to_maze
-signal hole_to_nextlevel
-signal remove_child(name)
+#signal hole_to_maze
+#signal hole_to_nextlevel
+#signal remove_child(name)
 
 var speed = 7
 const ACCEL_DEFAULT = 7
@@ -36,6 +36,8 @@ var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 @onready var central = $/root/CentralControl
 
 @onready var hud = $"/root/CentralControl/procedural-terrain/HUD"
+
+@onready var gridmap = $"/root/CentralControl/procedural-terrain/GridMap"
 
 var start_player: Vector3 = Vector3( 15 * 5 / 2, 5 * 5, 15 * 5 / 2)
 
@@ -176,8 +178,8 @@ func check_collision():
 					
 					Global.add_to_items_temp('ALTAR')
 					
-					
-					hole_to_maze.emit()
+					gridmap.hole_to_maze()
+					#hole_to_maze.emit()
 					
 				if collision.get_collider().name == "NEXTLEVEL" :
 					#Global.items_temp.append("NEXTLEVEL")
@@ -187,10 +189,15 @@ func check_collision():
 						Global.level += 1
 						Global.add_to_score(10)
 						Global.do_nextlevel_transition = true
-						hole_to_nextlevel.emit()
 						
 						hud.set_text_msg('hill')
 						hud.set_text_stat("hill")
+						#hole_to_nextlevel.emit()
+						gridmap.hole_to_nextlevel()	
+						
+						#hud.set_text_msg('hill')
+						#hud.set_text_stat("hill")
+						
 						try = 1
 					print('found ', Global.items_temp, ' score ', Global.score, ' level ', Global.level)
 						
@@ -201,9 +208,10 @@ func check_collision():
 					Global.add_to_items_temp(str(collision.get_collider().name))
 					Global.add_to_score(10)
 					
-					remove_child.emit(collision.get_collider().name)
+					hud.set_text_stat("maze")					
 					
-					hud.set_text_stat("maze")
+					gridmap.remove_named_child(collision.get_collider().name)
+					#remove_child.emit(collision.get_collider().name)
 					
 					if key_items_found >= key_items_placed - 1: ## new key was just found!!
 						hud.set_text_msg('keys', 1)

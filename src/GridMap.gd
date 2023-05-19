@@ -104,12 +104,20 @@ func change_highest(high):
 
 
 func _on_character_body_3d_hole_to_maze():
+	hole_to_maze()
+	pass
+	
+func hole_to_maze():
 	#if mesh_instance_3d != null:
 	include.remove_altar()
 	include.make_hole_to_maze(highest)
 	pass # Replace with function body.
 
 func _on_character_body_3d_hole_to_nextlevel():
+	hole_to_nextlevel()
+	pass
+	
+func hole_to_nextlevel():
 	print('on hole to nextlevel')
 	include.remove_low_altar()
 	include.make_hole_to_nextlevel(5, 1)
@@ -225,6 +233,10 @@ func setup_level_frame():
 
 
 func _on_character_body_3d_remove_child(name):
+	remove_named_child(name)
+	pass
+	
+func remove_named_child(name):
 	include.dequeue_placed_node(name)
 	#var node = get_node( name)
 	#print(node, ' node')
