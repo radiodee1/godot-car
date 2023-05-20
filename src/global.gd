@@ -37,7 +37,8 @@ func add_to_items(name):
 		items.append(name)
 		
 func  add_to_items_temp(name):
-	if name not in items_temp:
+	if not items_temp.has(name):
+	#if name not in items_temp:
 		items_temp.append(name)
 
 func add_to_score(num):
@@ -89,6 +90,8 @@ func print_maze_data():
 	print(intersections)
 	print(segments)
 	print("len ", segments.size())
+	print('placed ', placed_items)
+	print("temp ", items_temp)
 	print("++++")
 
 func clear_score_lives_health():

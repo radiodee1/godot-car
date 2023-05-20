@@ -241,6 +241,7 @@ func check_collision():
 					
 					gridmap.remove_named_child(collision.get_collider().name)
 					#remove_child.emit(collision.get_collider().name)
+					Global.print_maze_data()
 					
 					if key_items_found >= key_items_placed - 1: ## new key was just found!!
 						hud.set_text_msg('keys', 1)

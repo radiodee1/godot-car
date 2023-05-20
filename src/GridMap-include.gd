@@ -220,6 +220,9 @@ func clear_placed():
 	for i in placed:
 		if i['instance'] != null:
 			i['instance'].queue_free()
+	#for i in placed:
+	#	if i['instance'] != null:
+	#		i['instance'].free()
 	placed = []
 	
 func add_to_placed(instance):
