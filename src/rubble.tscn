@@ -1,0 +1,42 @@
+[gd_scene load_steps=6 format=3 uid="uid://b4u5sl8epqsos"]
+
+[ext_resource type="Script" path="res://src/rubble.gd" id="1_y1xtn"]
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_x3vxt"]
+lifetime_randomness = 1.0
+emission_shape = 3
+emission_box_extents = Vector3(0.5, 0.5, 0.5)
+direction = Vector3(1, 1, 1)
+spread = 100.0
+gravity = Vector3(0, 20, 0)
+radial_accel_min = 20.0
+radial_accel_max = 20.0
+tangential_accel_min = 5.0
+tangential_accel_max = 5.0
+angle_min = -150.0
+angle_max = 150.0
+color = Color(1, 1, 0.137255, 1)
+turbulence_enabled = true
+turbulence_noise_speed = Vector3(1, 1, 1)
+turbulence_noise_speed_random = 5.0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fai38"]
+albedo_color = Color(1, 0.6, 0.333333, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_qhsd8"]
+material = SubResource("StandardMaterial3D_fai38")
+
+[sub_resource type="Skin" id="Skin_8nvkr"]
+
+[node name="rubble" type="Node3D"]
+script = ExtResource("1_y1xtn")
+
+[node name="GPUParticles3D" type="GPUParticles3D" parent="."]
+emitting = false
+amount = 100
+lifetime = 1.5
+one_shot = true
+transform_align = 3
+process_material = SubResource("ParticleProcessMaterial_x3vxt")
+draw_pass_1 = SubResource("BoxMesh_qhsd8")
+draw_skin = SubResource("Skin_8nvkr")

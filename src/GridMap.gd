@@ -106,6 +106,8 @@ func change_highest(high):
 	
 func hole_to_maze():
 	#if mesh_instance_3d != null:
+	include.place_rubble(highest)
+	include.emit_rubble()
 	include.remove_altar()
 	include.make_hole_to_maze(highest)
 	pass # Replace with function body.
@@ -166,7 +168,7 @@ func setup_level_frame():
 			set_hill_size(e['width_x'], e['height_z'], e['depth_y'], e['x'], e['y'], e['z'])
 			#if not Global.do_nextlevel_transition:
 			hill_generate(e['mesh'])
-			
+			#include.place_rubble(highest)
 			for ii in e['includes']:
 				include.place_object(ii, 'RANDOM', 'HILL', Global.level, highest, lowest)
 			pass

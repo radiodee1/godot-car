@@ -14,6 +14,9 @@ var static_body
 
 var scene_instance
 
+var rubble_instance = null
+#var rubble_old_vector = null
+
 var low_mesh_instance_3d
 var low_box_shape
 var low_box_mesh
@@ -25,14 +28,20 @@ var low_scene_instance
 var low_location_vec
 #var dict = preload("res://src/GridMap-dict.gd").new()
 
-# Called when the node enters the scene tree for the first time.
-#func _ready():
-#	pass # Replace with function body.
+func place_rubble(v):
+	if rubble_instance == null:
+		rubble_instance = load("res://src/rubble.tscn").instantiate()
+		add_child.call(rubble_instance)
+			
+	v.x *= 0.5
+	v.y *= 0.5
+	v.z *= 0.5
+	rubble_instance.set_translate(v)		
+	
+	pass
 
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta):
-#	pass
+func emit_rubble():
+	rubble_instance.set_emitting(true)
 
 func place_altar(v, name='pin', group='mob'):
 	scene_instance = load("res://src/altar_moving.tscn").instantiate()
