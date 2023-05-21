@@ -6,6 +6,7 @@ extends Node3D
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	process_mode = Node.PROCESS_MODE_ALWAYS
+	particles.process_mode = Node.PROCESS_MODE_ALWAYS
 	pass 
 
 
@@ -15,7 +16,8 @@ func _process(delta):
 	pass
 
 func set_translate(v: Vector3):
-	particles.translate(v)
+	translate(v)
+	#particles.translate(v)
 	
 func set_emitting(emit):
 	print("emitting!!")

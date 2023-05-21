@@ -239,7 +239,7 @@ func check_collision():
 					
 					hud.set_text_stat("maze")					
 					
-					gridmap.remove_named_child(collision.get_collider().name)
+					gridmap.remove_named_child(collision.get_collider().name, true)
 					#remove_child.emit(collision.get_collider().name)
 					Global.print_maze_data()
 					

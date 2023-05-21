@@ -118,6 +118,9 @@ func hole_to_maze():
 	
 func hole_to_nextlevel():
 	print('on hole to nextlevel')
+	include.place_low_rubble()
+	include.emit_rubble()
+	
 	include.remove_low_altar()
 	include.make_hole_to_nextlevel(5, 1)
 	setup_level_frame()
@@ -240,8 +243,8 @@ func setup_level_frame():
 #	remove_named_child(name)
 #	pass
 	
-func remove_named_child(name):
-	include.dequeue_placed_node(name)
+func remove_named_child(name, animate=false):
+	include.dequeue_placed_node(name, animate)
 	#var node = get_node( name)
 	#print(node, ' node')
 	pass # Replace with function body.

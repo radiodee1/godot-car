@@ -15,7 +15,7 @@ var static_body
 var scene_instance
 
 var rubble_instance = null
-#var rubble_old_vector = null
+
 
 var low_mesh_instance_3d
 var low_box_shape
@@ -32,7 +32,8 @@ func place_rubble(v):
 	if rubble_instance == null:
 		rubble_instance = load("res://src/rubble.tscn").instantiate()
 		add_child.call(rubble_instance)
-			
+		
+		# IF IT'S THE FIRST TIME!! (HILL TOP)
 	v.x *= 0.5
 	v.y *= 0.5
 	v.z *= 0.5
@@ -42,6 +43,13 @@ func place_rubble(v):
 
 func emit_rubble():
 	rubble_instance.set_emitting(true)
+
+func place_low_rubble():
+	var ll = Vector3(low_location_vec)
+	#ll.x *= 2
+	#ll.y *= 2
+	#ll.z *= 2
+	place_rubble(ll)
 
 func place_altar(v, name='pin', group='mob'):
 	scene_instance = load("res://src/altar_moving.tscn").instantiate()
@@ -254,12 +262,17 @@ func get_placed_node(name):
 			return out
 	return out
 
-func dequeue_placed_node(name):
+func dequeue_placed_node(name, animate=false):
 	#print('before ', placed)
 	var x = get_placed_node(name)
 	if x != null:
+		var v = Vector3(x['instance'].position)
 		x['instance'].queue_free()
 		x['status'] = 'CANCEL'	
+		if animate:
+			print(v, " rubble!!")
+			place_rubble(v)
+			emit_rubble()
 	pass
 	#print('after ', placed)
 
