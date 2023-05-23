@@ -28,28 +28,44 @@ var low_scene_instance
 var low_location_vec
 #var dict = preload("res://src/GridMap-dict.gd").new()
 
-func place_rubble(v):
+func place_high_rubble(v):
+	var vv = Vector3(v)
 	if rubble_instance == null:
 		rubble_instance = load("res://src/rubble.tscn").instantiate()
 		add_child.call(rubble_instance)
 		
 		# IF IT'S THE FIRST TIME!! (HILL TOP)
-	v.x *= 0.5
-	v.y *= 0.5
-	v.z *= 0.5
-	rubble_instance.set_translate(v)		
+		vv.x *= 0.5
+		vv.y *= 0.5
+		vv.z *= 0.5
+		rubble_instance.set_translate(vv)
+		return
+	else :
+		vv.x *= 0.5
+		vv.y *= 0.5
+		vv.z *= 0.5
+		rubble_instance.set_translate(vv)		
 	
 	pass
+
+func place_low_rubble():
+	var ll = Vector3(low_location_vec)
+	ll.x *= 0.5
+	ll.y *= 0.5
+	ll.z *= 0.5
+	rubble_instance.set_translate(ll)
+
+func place_key_rubble(v):
+	var vv = Vector3(v)
+	vv.x *= 0.5
+	vv.y *= 0.5
+	vv.z *= 0.5
+	rubble_instance.set_translate(vv)
 
 func emit_rubble():
 	rubble_instance.set_emitting(true)
 
-func place_low_rubble():
-	var ll = Vector3(low_location_vec)
-	#ll.x *= 2
-	#ll.y *= 2
-	#ll.z *= 2
-	place_rubble(ll)
+
 
 func place_altar(v, name='pin', group='mob'):
 	scene_instance = load("res://src/altar_moving.tscn").instantiate()
@@ -271,7 +287,7 @@ func dequeue_placed_node(name, animate=false):
 		x['status'] = 'CANCEL'	
 		if animate:
 			print(v, " rubble!!")
-			place_rubble(v)
+			place_key_rubble(v)
 			emit_rubble()
 	pass
 	#print('after ', placed)

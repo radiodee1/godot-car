@@ -106,7 +106,7 @@ func change_highest(high):
 	
 func hole_to_maze():
 	#if mesh_instance_3d != null:
-	include.place_rubble(highest)
+	include.place_high_rubble(highest)
 	include.emit_rubble()
 	include.remove_altar()
 	include.make_hole_to_maze(highest)
