@@ -33,33 +33,16 @@ func place_high_rubble(v):
 	if rubble_instance == null:
 		rubble_instance = load("res://src/rubble.tscn").instantiate()
 		add_child.call(rubble_instance)
-		
-		# IF IT'S THE FIRST TIME!! (HILL TOP)
-		vv.x *= 0.5
-		vv.y *= 0.5
-		vv.z *= 0.5
-		rubble_instance.set_translate(vv)
-		return
-	else :
-		vv.x *= 0.5
-		vv.y *= 0.5
-		vv.z *= 0.5
-		rubble_instance.set_translate(vv)		
-	
-	pass
+	vv.y = -4
+	rubble_instance.set_translate(vv, true)
 
 func place_low_rubble():
 	var ll = Vector3(low_location_vec)
-	ll.x *= 0.5
-	ll.y *= 0.5
-	ll.z *= 0.5
-	rubble_instance.set_translate(ll)
+	rubble_instance.set_translate(ll, true)
 
 func place_key_rubble(v):
 	var vv = Vector3(v)
-	vv.x *= 0.5
-	vv.y *= 0.5
-	vv.z *= 0.5
+	rubble_instance.set_lifetime(3)
 	rubble_instance.set_translate(vv)
 
 func emit_rubble():
@@ -183,14 +166,14 @@ func remove_low_altar():
 
 func place_altar_key(v: Vector3, description: String):
 	if Global.count_list_items(Global.placed_items, 'NEXTLEVEL') == 0:
-		low_location_vec = v
+		low_location_vec = Vector3(v)
 		
 	var altar_w_key = load("res://src/altar_key_moving.tscn")
 	var altar_key = altar_w_key.instantiate()
 	altar_key.init(v, description)
 	add_child.call(altar_key)
 	add_to_placed(altar_key)
-	print(v, ' vec3 ', Global.intersections)
+	#print(v, ' vec3 ', Global.intersections)
 	pass
 
 func make_hole_to_maze(highest, group_size=5, remove_type=4, print_output=false):
@@ -214,7 +197,7 @@ func make_hole_to_maze(highest, group_size=5, remove_type=4, print_output=false)
 					
 
 func make_hole_to_nextlevel(group_size=5, remove_type=1):
-	var ll = low_location_vec
+	var ll = Vector3(low_location_vec)
 	make_hole_to_maze(ll, group_size, remove_type)
 
 
@@ -253,9 +236,7 @@ func clear_placed():
 	for i in placed:
 		if i['instance'] != null:
 			i['instance'].queue_free()
-	#for i in placed:
-	#	if i['instance'] != null:
-	#		i['instance'].free()
+	
 	placed = []
 	
 func add_to_placed(instance):
@@ -286,7 +267,7 @@ func dequeue_placed_node(name, animate=false):
 		x['instance'].queue_free()
 		x['status'] = 'CANCEL'	
 		if animate:
-			print(v, " rubble!!")
+			print(v, " rubble!! ", Global.level)
 			place_key_rubble(v)
 			emit_rubble()
 	pass
@@ -313,8 +294,6 @@ func place_object(name, strategy, layer, frame_num, vector_high=Vector3(0,0,0), 
 			pass
 	if layer == "MAZE":
 		if name == 'ALTAR':
-			#print(vector_high, ' vector_high')
-			#place_low_altar(vector_high, "NEXTLEVEL")
 			pass
 		if name == 'TRAPDOOR':
 			pass

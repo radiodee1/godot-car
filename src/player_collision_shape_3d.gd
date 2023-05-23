@@ -192,7 +192,7 @@ func check_collision():
 				var nextlevel_item_count = Global.count_list_items(Global.placed_items, 'NEXTLEVEL')
 				
 				#print(collision.get_collider().name)			
-				if collision.get_collider().name == 'pin':
+				if collision.get_collider().name == 'pin' and try == 0:
 					#Global.items_temp.append('ALTAR')
 					#print_tree_pretty()
 					#Global.set_score_allowed(true)
@@ -205,7 +205,9 @@ func check_collision():
 					hit_high_altar = true
 					
 					gridmap.hole_to_maze()
-					#hole_to_maze.emit()
+					
+					try = 1 
+					
 					
 				if collision.get_collider().name == "NEXTLEVEL" :
 					#Global.items_temp.append("NEXTLEVEL")
