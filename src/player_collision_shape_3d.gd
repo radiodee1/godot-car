@@ -129,7 +129,8 @@ func _physics_process(delta):
 			set_player_start(5, 100, 5)
 			control_show()
 			un_pause.hide()
-			_on_central_control_restart_player()
+			#_on_central_control_restart_player()
+			restart_player()
 		else:
 			Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE) 
 			central._do_nextlevel()
@@ -269,9 +270,9 @@ func check_collision():
 							try = 1
 								
 								
-func _on_central_control_restart_player():
-	restart_player()
-	pass 
+#func _on_central_control_restart_player():
+#	restart_player()
+#	pass 
 	
 func restart_player():
 	position = Vector3(start_player.x , start_player.y , start_player.z)
