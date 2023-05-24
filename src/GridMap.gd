@@ -40,7 +40,7 @@ func _ready()->void:
 	
 	#get_node("/root/CentralControl").connect("restart_terrain", _on_central_control_restart_terrain)
 	
-	hill_generate()
+	#hill_generate()
 	include.remove_altar()
 	
 	setup_level_frame() ## <<-- test me!!
@@ -248,3 +248,6 @@ func remove_named_child(name, animate=false):
 	#var node = get_node( name)
 	#print(node, ' node')
 	pass # Replace with function body.
+
+func place_follow_rubble(follow):
+	include.place_high_rubble(follow)
