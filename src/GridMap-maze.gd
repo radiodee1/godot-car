@@ -255,39 +255,53 @@ func hallway_decorate():
 		var high_w = 0
 		var block_num = MAZE_BRICK
 		var hallway = i['nodes']
-		print(hallway)
+		print(hallway, ' hallway_decorate')
+		var k = Vector2(0,0)
+		var m = Vector2(0,0)
 		for j in hallway:
 			if j.y < low_h :
 				low_h = j.y
+				k.y = j.y
 			if j.x < low_w :
 				low_w = j.x
+				k.x = j.x
 			if j.y > high_h:
-				high_h = j.y 
+				high_h = j.y
+				m.y = j.y 
 			if j.x > high_w:
-				high_w = j.x 
+				high_w = j.x
+				m.x = j.x 
 		for j in hallway:
 			var end_h = hall_width
 			var end_w = hall_width
 			var start_h = 0
 			var start_w = 0
 			if j.y == low_h :
-				start_h =  2 
+				start_h = hall_width # 2
+	
 			if j.x == low_w :
-				start_w =  2 
+				start_w = hall_width # 2 
 			if j.y == high_h :
-				end_h = 2 #hall_width - 2
+				end_h = - hall_width # 2
 				#print(' y consider')
 			if j.x == high_w :
-				end_w = 2 #hall_width - 2
+				end_w = - hall_width  # 2
 				#print(' x consider')
-			for ww in range(j.x * hall_width + start_w, j.x * hall_width + end_w ):
-				for hh in range(j.y * hall_width + start_h, j.y * hall_width + end_h ):
-					
-					var v = Vector2(ww,hh)
-					#print(v)
-					if finished_map[v.x][v.y] == MAZE_OTHER or finished_map[v.x][v.y] == 0:
-						assign_map(v.x, v.y, block_num)
-						#print(v, ' v ', block_num)
+			
+		k.x += 1
+		m.x -= 1
+		k.y += 1
+		m.y -= 1
+			
+		for ww in range(k.x * hall_width, m.x * hall_width):
+			#for ww in range(j.x * hall_width + start_w, j.x * hall_width + end_w ):
+			#for hh in range(j.y * hall_width + start_h, j.y * hall_width + end_h ):
+			for hh in range(k.y * hall_width, m.y * hall_width):	
+				var v = Vector2(ww,hh)
+				#print(v)
+				if finished_map[v.x][v.y] == MAZE_OTHER or finished_map[v.x][v.y] == 0:
+					assign_map(v.x, v.y, block_num)
+					#print(v, ' v ', block_num)
 						
 
 func make_2d_grid(width, height, fill_with=0):
@@ -565,6 +579,10 @@ func copy_map_to_scene(n:Vector2, block_num=1):
 			for y in range(center_depth, center_depth + 4):
 				v.y = y
 				set_cell_item.call(v, block_num)
+				
+			#for y in range(center_depth + 4, center_depth + 6):
+			#	v.y = y
+			#	set_cell_item.call(v, 1)
 		
 
 func find_map():

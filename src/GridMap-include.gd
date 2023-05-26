@@ -176,7 +176,7 @@ func place_altar_key(v: Vector3, description: String):
 	#print(v, ' vec3 ', Global.intersections)
 	pass
 
-func make_hole_to_maze(highest, group_size=5, remove_type=4, print_output=false):
+func make_hole_to_maze(highest, group_size=5, remove_type=[4], print_output=false):
 	Global.set_score_allowed(true)
 	var UPPER = remove_type
 	var LOWER = 1
@@ -192,11 +192,11 @@ func make_hole_to_maze(highest, group_size=5, remove_type=4, print_output=false)
 				var zz = z 
 				var type = get_cell_item.call(Vector3(xx , i , zz)) ##<-- Vector3
 				if print_output: print(type, ' type')
-				if type == UPPER:	
+				if type in UPPER :	
 					set_cell_item.call(Vector3(xx, i, zz), -1)
 					
 
-func make_hole_to_nextlevel(group_size=5, remove_type=1):
+func make_hole_to_nextlevel(group_size=5, remove_type=[1]):
 	var ll = Vector3(low_location_vec)
 	make_hole_to_maze(ll, group_size, remove_type)
 

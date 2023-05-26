@@ -122,7 +122,7 @@ func hole_to_nextlevel():
 	include.emit_rubble()
 	
 	include.remove_low_altar()
-	include.make_hole_to_nextlevel(5, 1)
+	include.make_hole_to_nextlevel(5,[2, 1])
 	setup_level_frame()
 	pass
 
