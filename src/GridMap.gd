@@ -33,6 +33,7 @@ signal set_highest(high_vector:Vector3)
 # Called when the node enters the scene tree for the first time.
 func _ready()->void:
 	maze.set_callable(set_cell_item)
+	maze.set_callable_get_cell(get_cell_item)
 	include.set_callable(add_child)
 	include.set_callable_get_cell(get_cell_item)
 	include.set_callable_set_cell(set_cell_item)
@@ -233,7 +234,7 @@ func setup_level_frame():
 		if e['type'] == 'player':
 			print('player handled by central_control!!')
 			pass
-	maze.show_2d_grid(maze.finished_map, true, 2)
+	maze.show_2d_grid(maze.finished_map, true, 2, false, true)
 	print('level ', Global.level, ', frame ', i, ' placed ', Global.placed_items)
 	#Global.level += 1
 	pass

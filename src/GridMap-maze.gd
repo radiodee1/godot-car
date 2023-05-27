@@ -51,6 +51,7 @@ var record_index = 0
 var h_vector: Vector3 #= Vector3(0,0,0)
 
 var set_cell_item: Callable
+var get_cell_item: Callable
   
 var dict = preload("res://src/GridMap-dict.gd").new()
 
@@ -254,48 +255,34 @@ func hallway_decorate():
 		var high_h = 0
 		var high_w = 0
 		var block_num = MAZE_BRICK
+		#for i in decorate:
 		var hallway = i['nodes']
 		print(hallway, ' hallway_decorate')
-		var k = Vector2(0,0)
-		var m = Vector2(0,0)
+		var k = Vector2(low_w, low_h)
+		var m = Vector2(high_w, high_h)
 		for j in hallway:
-			if j.y < low_h :
+			if j.y <= low_h :
 				low_h = j.y
 				k.y = j.y
-			if j.x < low_w :
+			if j.x <= low_w :
 				low_w = j.x
 				k.x = j.x
-			if j.y > high_h:
+			if j.y >= high_h:
 				high_h = j.y
 				m.y = j.y 
-			if j.x > high_w:
+			if j.x >= high_w:
 				high_w = j.x
 				m.x = j.x 
-		for j in hallway:
-			var end_h = hall_width
-			var end_w = hall_width
-			var start_h = 0
-			var start_w = 0
-			if j.y == low_h :
-				start_h = hall_width # 2
-	
-			if j.x == low_w :
-				start_w = hall_width # 2 
-			if j.y == high_h :
-				end_h = - hall_width # 2
-				#print(' y consider')
-			if j.x == high_w :
-				end_w = - hall_width  # 2
-				#print(' x consider')
-			
-		k.x += 1
-		m.x -= 1
-		k.y += 1
-		m.y -= 1
+		
+		var large_piece = 0.8
+		var small_piece = 0.2
+		k.x += large_piece
+		m.x += small_piece
+		k.y += large_piece
+		m.y += small_piece
 			
 		for ww in range(k.x * hall_width, m.x * hall_width):
-			#for ww in range(j.x * hall_width + start_w, j.x * hall_width + end_w ):
-			#for hh in range(j.y * hall_width + start_h, j.y * hall_width + end_h ):
+			
 			for hh in range(k.y * hall_width, m.y * hall_width):	
 				var v = Vector2(ww,hh)
 				#print(v)
@@ -313,7 +300,8 @@ func make_2d_grid(width, height, fill_with=0):
 			pass
 	return matrix
 	
-func show_2d_grid(matrix, advance = false, line_size=3, show_hidden=false):
+func show_2d_grid(matrix, advance = false, line_size=3, show_hidden=false, show_mesh=false):
+	var map_location = find_map()
 	if not advance:
 		for h in matrix:
 			print(h)
@@ -339,10 +327,20 @@ func show_2d_grid(matrix, advance = false, line_size=3, show_hidden=false):
 				if matrix[h][j] == 0 :
 					var three = '     ' # 5 spaces
 					line += three.substr(0, line_size) ## 3 spaces
-				else:
+				elif not show_mesh:
 					var jj = abs(j / hall_width)
 					var hh = abs(h / hall_width)
 					var line_temp = " " + str( vector_to_index(Vector2(hh,jj)) ) + "   "
+					line += line_temp.substr(0, line_size)
+				else :
+					#var jj = (j / hall_width)
+					#var hh = (h / hall_width)
+					var vec = Vector3(0,0,0)
+					vec.x = j + 2 - map_location.x #+ size.x
+					vec.z = h + 2 - map_location.y #+ size.y ## -?
+					vec.y =  vec.y - 6
+					var type = get_cell_item.call(vec)
+					var line_temp = str( type ) + "   "
 					line += line_temp.substr(0, line_size)
 			line += "|"
 			print(line)
@@ -624,6 +622,11 @@ func set_maze_size(left, right, depth, x, y, z, endpoints):
 func set_callable(set_cell: Callable):
 	set_cell_item = set_cell
 
+func set_callable_get_cell(set_get: Callable):
+	get_cell_item = set_get 
+
+#func set_callable_set_cell(set_set: Callable):
+#	set_cell_item = set_set
 
 func mark_intersection(out):
 	#PRINTOUT_SYMBOL = symbol
