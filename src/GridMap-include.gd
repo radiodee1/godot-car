@@ -212,23 +212,24 @@ func get_intersection(num, exact=true, skip_record_index=-1):
 		Global.intersections[skip_record_index] = 0
 	
 	for i in Global.intersections.keys():
-		#print(i, ' i in intersections')
+		
 		if i == skip_record_index:
-			#Global.intersections[skip_record_index] = 0
+			
 			continue
 		if Global.intersections[i] == num and num != 0 and exact:
-			out = i #intersections[i]
+			out = i 
 			Global.intersections[i] = 0
 			print(out)
 			return out
 		if Global.intersections[i] <= num and Global.intersections[i] != 0 :
 			if tot < Global.intersections[i] and num != 0 and not exact:
-				tot = Global.intersections[i]
-				out = i #intersections[i]
-				index = i
-				#print(i, ' ' , out, ' ', index, ' ' , intersections)
-				Global.intersections[i] = 0
-				return out 
+				if Global.group_visited.has(i):
+					tot = Global.intersections[i]
+					out = i #intersections[i]
+					index = i
+					#print(i, ' ' , out, ' ', index, ' ' , intersections)
+					Global.intersections[i] = 0
+					return out 
 	
 	return out 
 	

@@ -26,6 +26,7 @@ var game = {
 					'z': 0,
 					'mesh': 1,
 					'endpoints': 3 , #10,
+					'multiplier': - 1,
 					'includes': [ 'KEY', 'NEXTLEVEL', 'KEY', 'PRISON' ]
 				},
 				{
@@ -61,6 +62,7 @@ var game = {
 					'z': 0,
 					'mesh': 1,
 					'endpoints': 3,
+					'multiplier': 1.5,
 					'includes': [ 'KEY', 'PRISON', 'NEXTLEVEL', 'KEY']
 				},
 				{
@@ -96,6 +98,7 @@ var game = {
 					'z': 0,
 					'mesh': 1,
 					'endpoints': 3, #10,
+					'multiplier': 1.5,
 					'includes': [ 'KEY', 'PRISON', 'NEXTLEVEL'] #, 'PRISON']
 				},
 				{

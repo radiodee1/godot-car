@@ -21,7 +21,7 @@ var maze_w = 0
 var maze_h = 0
 var hall_width = 0
 
-
+var group_visited = []
 
 func _ready():
 	print_tree_pretty()
@@ -61,7 +61,7 @@ func count_list_items(list, item):
 ##############################
 
 func vector_to_index(v):
-	return v.x * maze_w + v.y  
+	return int(v.x * maze_w + v.y)  
 
 func index_to_vector(i):
 	var v = Vector2( int(i / maze_w), i - int(i / maze_w) * maze_w)

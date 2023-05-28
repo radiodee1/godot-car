@@ -15,7 +15,7 @@ var maze_h = 10
 var start_vectors = []
 var vectors_len =  + 20
 #var start_vectors_index = []
-var group_visited = []
+#var group_visited = []
 var decorate = []
 var mask_list = []
 
@@ -63,7 +63,7 @@ func clear_variables():
 	Global.intersections = {}
 	#vectors_len =  7 #+ 10
 	#start_vectors_index = []
-	group_visited = []
+	Global.group_visited = []
 	decorate = []
 	mask_list = []
 
@@ -423,7 +423,7 @@ func add_to_astar(grid, print_rows = false, w_limit=1, h_limit=1):
 
 		
 func vector_to_index(v):
-	return v.x * maze_w + v.y  
+	return int(v.x * maze_w + v.y)  
 
 func index_to_vector(i):
 	var v = Vector2( int(i / maze_w), i - int(i / maze_w) * maze_w)
@@ -446,15 +446,14 @@ func process_astar_vectors(v):
 				#z.append([ v[b], v[a] ])
 	#z.reverse()
 	#print(z)
-	group_visited.append(z[0][0])
+	
+	#Global.group_visited.append(z[0][0])
 	for p in z:
 		if p[0] < 0 or p[1] < 0:
 			#continue
 			pass
 		
-		#if p[0] not in group_visited and p[1] not in group_visited:
-			#print('not in group ', p[0], ' or ', p[1])
-		#	continue
+		
 		if p[0] in mask_list or p[1] in mask_list:
 			continue
 				
@@ -462,10 +461,11 @@ func process_astar_vectors(v):
 		
 		if len(pp) > 0 and pp[0] == pp[-1]:
 			continue
+			pass
 			
 		if pp.size() > 0:
-			group_visited.append(p[0])
-			group_visited.append(p[1])
+			Global.group_visited.append(p[0])
+			Global.group_visited.append(p[1])
 			
 			if not Global.intersections.has(p[0]):
 				#if p[0] not in Global.intersections.keys():

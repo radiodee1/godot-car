@@ -177,9 +177,13 @@ func setup_level_frame():
 				include.place_object(ii, 'RANDOM', 'HILL', Global.level, highest, lowest)
 			pass
 		if e['type'] == 'maze':
+			var multiplier = float(e['multiplier'])
+			var endpoints = float(e['endpoints'])
+			if int(multiplier) != -1:
+				endpoints = int(Global.level * multiplier + endpoints)
 			include.remove_low_altar()
 			maze.shape_list = []
-			maze.set_maze_size(e['width_x'], e['height_z'], e['depth_y'], e['x'], e['y'], e['z'], e['endpoints'])			
+			maze.set_maze_size(e['width_x'], e['height_z'], e['depth_y'], e['x'], e['y'], e['z'], endpoints)			
 			#maze.maze_generate(highest)
 			
 			for ii in e['includes']:
@@ -201,7 +205,8 @@ func setup_level_frame():
 					var map_location = maze.find_map()
 					var recorded_index = maze.get_record_index()
 					var intersection_index = include.get_intersection(2, false, recorded_index)
-					if intersection_index != -1 :
+					#print(maze.group_visited, ' group_visited')
+					if intersection_index != -1 and intersection_index in Global.group_visited :
 						maze.mark_intersection(intersection_index)
 						var altar_mapping = maze.index_to_vector(intersection_index)
 						var altar_vec = Vector3(altar_mapping.x , e['depth_y'], altar_mapping.y )
@@ -217,7 +222,7 @@ func setup_level_frame():
 					var map_location = maze.find_map()
 					var recorded_index = maze.get_record_index()
 					var intersection_i = include.get_intersection(2, false, recorded_index)
-					if intersection_i != -1 :
+					if intersection_i != -1 and intersection_i in Global.group_visited:
 						maze.mark_intersection(intersection_i)
 						var altar_mapping = maze.index_to_vector(intersection_i)
 						var altar_vec = Vector3(altar_mapping.x , e['depth_y'], altar_mapping.y )
