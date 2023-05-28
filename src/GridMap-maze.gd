@@ -459,6 +459,10 @@ func process_astar_vectors(v):
 			continue
 				
 		var pp = astar.get_id_path(p[0], p[1])	
+		
+		if len(pp) > 0 and pp[0] == pp[-1]:
+			continue
+			
 		if pp.size() > 0:
 			group_visited.append(p[0])
 			group_visited.append(p[1])

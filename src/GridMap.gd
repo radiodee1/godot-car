@@ -234,7 +234,7 @@ func setup_level_frame():
 		if e['type'] == 'player':
 			print('player handled by central_control!!')
 			pass
-	maze.show_2d_grid(maze.finished_map, true, 2, false, true)
+	maze.show_2d_grid(maze.finished_map, true, 2, false, false)
 	print('level ', Global.level, ', frame ', i, ' placed ', Global.placed_items)
 	#Global.level += 1
 	pass
