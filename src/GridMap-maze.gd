@@ -35,16 +35,15 @@ var SPOT = 5
 
 var PRINTOUT_SYMBOL = 'X'
 
-var MAZE_WALKWAY = 2000
-var MAZE_BRICK = 2001
-var MAZE_OTHER = 2002
+var MAZE_BASE = 2000
+var MAZE_WALKWAY = 1 + MAZE_BASE
+var MAZE_BRICK = 3 + MAZE_BASE
+var MAZE_OTHER = 2 + MAZE_BASE
 
 var center_h = 0
 var center_w = 0
 var center_depth = - 6 
 
-#var record_center_a = 0
-#var record_center_b = 0
 
 var record_index = 0
 
@@ -188,7 +187,7 @@ func shapes_to_map(move_old_vectors=false):
 			var mask = start.size() ## 2 !!
 			var mesh_list = []
 			var local_hallway = []
-			var mesh_num = 3
+			var mesh_num = MAZE_BRICK #3 
 			for jj in range(place.x - mask + 1 , place.x + width + mask ):
 				for mm in range(place.y - mask + 1 , place.y + height + mask ):
 					## decorate
@@ -324,7 +323,7 @@ func show_2d_grid(matrix, advance = false, line_size=3, show_hidden=false, show_
 					var line_spot = ' H  '.substr(0, line_size)
 					line += line_spot
 					continue
-				if matrix[h][j] == 0 :
+				if matrix[h][j] == 0 and not show_mesh:
 					var three = '     ' # 5 spaces
 					line += three.substr(0, line_size) ## 3 spaces
 				elif not show_mesh:
@@ -335,12 +334,10 @@ func show_2d_grid(matrix, advance = false, line_size=3, show_hidden=false, show_
 				else :
 					#var jj = (j / hall_width)
 					#var hh = (h / hall_width)
+					var w = matrix[h][j] -  MAZE_BASE
 					var vec = Vector3(0,0,0)
-					vec.x = j + 2 - map_location.x #+ size.x
-					vec.z = h + 2 - map_location.y #+ size.y ## -?
-					vec.y =  vec.y - 6
-					var type = get_cell_item.call(vec)
-					var line_temp = str( type ) + "   "
+					
+					var line_temp = str( w ) + "   "
 					line += line_temp.substr(0, line_size)
 			line += "|"
 			print(line)
@@ -554,7 +551,7 @@ func hallway_mask_previous(hallway):
 		astar.set_point_disabled(hh)
 		
 
-func copy_map_to_scene(n:Vector2, block_num=1):
+func copy_map_to_scene(n:Vector2, block_num=2):
 	#print('h_vector now ', h_vector)
 	for i in range(- ( finished_map.size() -1),0 ): ## mirror
 		for j in range( -(finished_map[i].size() -1),0):
@@ -565,12 +562,13 @@ func copy_map_to_scene(n:Vector2, block_num=1):
 			var v = Vector3(i - n.x + a , center_depth ,j - n.y + b  )	
 			#print(v.x, " v.x new")
 			#v.z = - jj - n.y + b 
+			
 			if finished_map[ii][jj] == MAZE_WALKWAY:
 				block_num = 1
 				set_cell_item.call(v, block_num)
 				continue
-			if finished_map[ii][jj] == MAZE_OTHER:
-				block_num = 2
+			if finished_map[ii][jj] == MAZE_OTHER or finished_map[ii][jj] == 0:
+				block_num = 1 #2
 			if finished_map[ii][jj] == MAZE_BRICK:
 				block_num = 3
 				
