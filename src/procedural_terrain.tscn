@@ -1,9 +1,10 @@
-[gd_scene load_steps=8 format=3 uid="uid://yokclqnj4l7o"]
+[gd_scene load_steps=9 format=3 uid="uid://yokclqnj4l7o"]
 
 [ext_resource type="MeshLibrary" uid="uid://cwkm7jur67mtg" path="res://src/spatial-mesh.tres" id="1_ncg8f"]
 [ext_resource type="Script" path="res://src/GridMap.gd" id="2_ju2is"]
 [ext_resource type="PackedScene" uid="uid://cjayg8o4rnavy" path="res://src/player_collision_shape_3d.tscn" id="3_j5xh4"]
 [ext_resource type="PackedScene" uid="uid://cdhf7f7e54wft" path="res://src/hud.tscn" id="4_vhd0m"]
+[ext_resource type="Script" path="res://src/map.gd" id="5_kei3y"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_6taw2"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
@@ -44,3 +45,6 @@ anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 grow_vertical = 0
+
+[node name="map" type="Node2D" parent="."]
+script = ExtResource("5_kei3y")

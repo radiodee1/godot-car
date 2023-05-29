@@ -30,6 +30,8 @@ signal set_highest(high_vector:Vector3)
 @onready var include = preload("res://src/GridMap-include.gd").new()
 @onready var dict = preload("res://src/GridMap-dict.gd").new()
 
+@onready var hud_map = $"../map/"
+
 # Called when the node enters the scene tree for the first time.
 func _ready()->void:
 	maze.set_callable(set_cell_item)
@@ -111,6 +113,7 @@ func hole_to_maze():
 	include.emit_rubble()
 	include.remove_altar()
 	include.make_hole_to_maze(highest)
+	
 	pass # Replace with function body.
 
 #func _on_character_body_3d_hole_to_nextlevel():
@@ -142,6 +145,9 @@ func restart_terrain():
 	setup_level_frame()
 	
 	Global.print_maze_data()
+	
+	hud_map_start()
+	hud_map_update(0, -1)
 	pass
 
 func set_hill_size(left, right, depth, x, y, z):
@@ -257,3 +263,17 @@ func remove_named_child(name, animate=false):
 
 func place_follow_rubble(follow):
 	include.place_high_rubble(follow)
+	
+func hud_map_start():
+	
+	hud_map.init(maze.finished_map, 2)
+	hud_map.set_visibility(true)
+	hud_map.queue_redraw()
+	pass
+
+func hud_map_update(deg, pos):
+	## negative values use default vals
+	hud_map.set_draw_position(pos)
+	hud_map.set_draw_rotation(deg)
+	
+	pass
