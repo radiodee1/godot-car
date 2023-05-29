@@ -44,6 +44,8 @@ var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 
 var start_player: Vector3 = Vector3( 15 * 5 / 2, 5 * 5, 15 * 5 / 2)
 
+var player_rotation = 0
+
 func _ready():
 	#hides the cursor
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
@@ -73,6 +75,7 @@ func _process(delta):
 	camera.top_level = false #camera.set_as_toplevel(false)
 	camera.global_transform = head.global_transform
 	#global_transform = head.global_transform
+	player_rotation = rotation.y
 
 func _physics_process(delta):
 	#get keyboard input
@@ -283,3 +286,8 @@ func set_player_start(x,y,z):
 	hit_high_altar = false
 	start_player = Vector3( x, y, z)
 	
+func get_player_rotation():
+	return player_rotation
+
+func get_player_position():
+	return position

@@ -31,7 +31,7 @@ var HALL = 4
 var NONE = 0
 var USED = -1
 var SHAPE = 9
-var SPOT = 5
+var SPOT = 5 + 2000
 
 var PRINTOUT_SYMBOL = 'X'
 

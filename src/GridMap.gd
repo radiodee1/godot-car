@@ -277,3 +277,6 @@ func hud_map_update(deg, pos):
 	hud_map.set_draw_rotation(deg)
 	
 	pass
+
+func hud_map_get_map_loc():
+	return maze.find_map()
