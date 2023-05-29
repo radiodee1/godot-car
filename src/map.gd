@@ -28,15 +28,14 @@ func _process(delta):
 	rot = character.get_player_rotation()
 	
 	var pos3 = character.get_player_position()
-	pos = Vector2(pos3.x, pos3.z)
+	pos = Vector2(pos3.x, pos3.z) ## not used!!
 	
 	set_draw_position(-1)
 	
-	long_delta += delta
-	
-	if long_delta > 1:
-		queue_redraw()
-		long_delta = 0
+	#long_delta += delta
+	#if long_delta > 1:
+	#	queue_redraw()
+	#	long_delta = 0
 	pass
 
 func init(matrix, size):
@@ -59,9 +58,10 @@ func _draw():
 					pass
 				elif type > 2000:
 					color = Color.WHITE
-				#if i == int(pos.x) and j == int(pos.y) or 
-				if is_match(Vector2(i,j), pos):
-					color = Color.RED 
+				
+				#if is_match(Vector2(i,j), pos):
+					#color = Color.RED
+					
 				var from = Vector2(line_width * i, line_width * j)
 				var to = Vector2(line_width * i + line_width, line_width * j + line_width)
 				from.x -= line_width * len(mat) / 2 
@@ -92,7 +92,7 @@ func is_match(altar_vec:Vector2, world_vec:Vector2):
 	var map_location = gridmap.hud_map_get_map_loc()	
 	altar_vec.x = ((5 * altar_vec.x - map_location.x)) / (2*2)#+ size.x
 	altar_vec.y = ((5 * altar_vec.y - map_location.y)) / (2*2)#+ size.y ## -?
-	print(altar_vec, world_vec, map_location)
+	#print(altar_vec, world_vec, map_location)
 	if abs(altar_vec.x - world_vec.x) < closenes and abs(altar_vec.y - world_vec.y) < closenes:
 		return true
 	return false
