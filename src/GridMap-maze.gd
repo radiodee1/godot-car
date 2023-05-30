@@ -51,6 +51,8 @@ var h_vector: Vector3 #= Vector3(0,0,0)
 
 var set_cell_item: Callable
 var get_cell_item: Callable
+var local_to_map: Callable
+var map_to_local: Callable
   
 var dict = preload("res://src/GridMap-dict.gd").new()
 
@@ -627,8 +629,17 @@ func set_callable(set_cell: Callable):
 func set_callable_get_cell(set_get: Callable):
 	get_cell_item = set_get 
 
-#func set_callable_set_cell(set_set: Callable):
-#	set_cell_item = set_set
+func set_callable_local_to_map(get_map: Callable):
+	local_to_map = get_map
+
+func set_callable_map_to_local(get_local: Callable):
+	map_to_local = get_local
+
+func get_local_to_map(vec):
+	return local_to_map.call(vec)
+
+func get_map_to_local(vec):
+	return map_to_local.call(vec)
 
 func mark_intersection(out):
 	#PRINTOUT_SYMBOL = symbol
