@@ -106,17 +106,20 @@ func is_match(altar_vec:Vector2, world_vec:Vector2):
 	pass
 
 func draw_red_dot(world_vec:Vector3):
-	#var map_local = gridmap.hud_map_get_map_loc()
+	var map_local = gridmap.hud_map_get_map_loc()
+	#map_local = Vector3(map_local.x , 0, map_local.y )
+	map_local = gridmap.to_local(map_local)
+	map_local = gridmap.local_to_map(map_local)
+	
 	var map_location = gridmap.to_local(world_vec)
 	var vec_out = gridmap.local_to_map(map_location)
 	
 	var vec = Vector2(0,0)
-	#vec.x /=  hall_width 
-	#vec.y /=  hall_width 
-	vec.x = vec_out.x / 2
-	vec.y = vec_out.z / 2
-	
-	print(vec_out, ' map ')	
+	vec.x =  vec_out.x 
+	vec.y =  vec_out.z
+	vec.x -= map_local.x /2
+	vec.y -= map_local.z /2
+		
 	vec.x = int(vec.x)
 	vec.y = int(vec.y)
 

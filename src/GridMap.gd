@@ -36,8 +36,8 @@ signal set_highest(high_vector:Vector3)
 func _ready()->void:
 	maze.set_callable(set_cell_item)
 	maze.set_callable_get_cell(get_cell_item)
-	maze.set_callable_local_to_map(local_to_map) ## <-- local_to_map
-	maze.set_callable_map_to_local(map_to_local)
+	#maze.set_callable_local_to_map(local_to_map) ## <-- local_to_map
+	#maze.set_callable_map_to_local(map_to_local)
 	include.set_callable(add_child)
 	include.set_callable_get_cell(get_cell_item)
 	include.set_callable_set_cell(set_cell_item)
@@ -281,12 +281,13 @@ func hud_map_update(deg, pos):
 	pass
 
 func hud_map_get_map_loc():
-	return maze.find_map()
+	#return maze.find_map()
+	return maze.map_start
 
-func hud_map_get_local_to_map(vec):
-	var vec_local = to_local(vec)
-	return maze.get_local_to_map(vec_local)
+#func hud_map_get_local_to_map(vec):
+#	var vec_local = to_local(vec)
+#	return maze.get_local_to_map(vec_local)
 	
-func hud_map_get_map_to_local(vec):
+#func hud_map_get_map_to_local(vec):
 	
-	return maze.get_map_to_local(vec)
+#	return maze.get_map_to_local(vec)

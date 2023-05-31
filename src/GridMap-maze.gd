@@ -46,13 +46,14 @@ var center_depth = - 6
 
 
 var record_index = 0
+var map_start = Vector3(0,0,0)
 
 var h_vector: Vector3 #= Vector3(0,0,0)
 
 var set_cell_item: Callable
 var get_cell_item: Callable
-var local_to_map: Callable
-var map_to_local: Callable
+#var local_to_map: Callable
+#var map_to_local: Callable
   
 var dict = preload("res://src/GridMap-dict.gd").new()
 
@@ -79,6 +80,7 @@ func clear_variables():
 	#record_center_a = 0
 	#record_center_b = 0
 	record_index = 0
+	map_start = Vector3(0,0,0)
 
 	h_vector = Vector3(0,0,0)
 	astar = AStar2D.new()
@@ -559,6 +561,7 @@ func hallway_mask_previous(hallway):
 
 func copy_map_to_scene(n:Vector2, block_num=2):
 	#print('h_vector now ', h_vector)
+	map_start = null
 	for i in range(- ( finished_map.size() -1),0 ): ## mirror
 		for j in range( -(finished_map[i].size() -1),0):
 			var ii =  finished_map.size() + i
@@ -568,7 +571,8 @@ func copy_map_to_scene(n:Vector2, block_num=2):
 			var v = Vector3(i - n.x + a , center_depth ,j - n.y + b  )	
 			#print(v.x, " v.x new")
 			#v.z = - jj - n.y + b 
-			
+			if map_start == null:
+				map_start = Vector3( i - n.x + a, center_depth, j - n.y + b)
 			if finished_map[ii][jj] == MAZE_WALKWAY:
 				block_num = 1
 				set_cell_item.call(v, block_num)
@@ -629,17 +633,17 @@ func set_callable(set_cell: Callable):
 func set_callable_get_cell(set_get: Callable):
 	get_cell_item = set_get 
 
-func set_callable_local_to_map(get_map: Callable):
-	local_to_map = get_map
+#func set_callable_local_to_map(get_map: Callable):
+#	local_to_map = get_map
 
-func set_callable_map_to_local(get_local: Callable):
-	map_to_local = get_local
+#func set_callable_map_to_local(get_local: Callable):
+#	map_to_local = get_local
 
-func get_local_to_map(vec):
-	return local_to_map.call(vec)
+#func get_local_to_map(vec):
+#	return local_to_map.call(vec)
 
-func get_map_to_local(vec):
-	return map_to_local.call(vec)
+#func get_map_to_local(vec):
+#	return map_to_local.call(vec)
 
 func mark_intersection(out):
 	#PRINTOUT_SYMBOL = symbol
