@@ -94,16 +94,7 @@ func set_draw_position(pp):
 func set_draw_rotation(r):
 	rot = r
 
-func is_match(altar_vec:Vector2, world_vec:Vector2):
-	var closeness = line_width
-	var map_location = gridmap.hud_map_get_map_loc()	
-	altar_vec.x = ((5 * altar_vec.x - map_location.x)) / (2)#+ size.x
-	altar_vec.y = ((5 * altar_vec.y - map_location.y)) / (2)#+ size.y ## -?
-	#print(altar_vec, world_vec, map_location)
-	if abs(altar_vec.x - world_vec.x) < closeness and abs(altar_vec.y - world_vec.y) < closeness:
-		return true
-	return false
-	pass
+
 
 func draw_red_dot(world_vec:Vector3):
 	var map_local = gridmap.hud_map_get_map_loc()
