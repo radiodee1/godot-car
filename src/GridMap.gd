@@ -115,7 +115,7 @@ func hole_to_maze():
 	include.emit_rubble()
 	include.remove_altar()
 	include.make_hole_to_maze(highest)
-	
+	hud_map.set_visibility(true)
 	pass # Replace with function body.
 
 #func _on_character_body_3d_hole_to_nextlevel():
@@ -150,6 +150,7 @@ func restart_terrain():
 	
 	hud_map_start()
 	hud_map_update(0, -1)
+	hud_map.set_visibility(false)
 	pass
 
 func set_hill_size(left, right, depth, x, y, z):
