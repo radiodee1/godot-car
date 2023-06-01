@@ -69,13 +69,14 @@ func draw_map():
 					#color = Color.RED
 					
 				var from = Vector2(line_width * i, line_width * j)
-				var to = Vector2(line_width * i + line_width, line_width * j + line_width)
+				#var to = Vector2(line_width * i + line_width, line_width * j + line_width)
 				from.x -= line_width * len(mat) / 2 
 				from.y -= line_width * len(mat[0]) / 2
-				to.x -= (line_width * len(mat) + line_width) / 2
-				to.y -= (line_width * len(mat[0]) + line_width) / 2
-				draw_line(from, to, color, line_width)
-				#draw_rect(Rect2(from, to), color, true)
+				#to.x -= (line_width * len(mat) + line_width) / 2
+				#to.y -= (line_width * len(mat[0]) + line_width) / 2
+				#draw_line(from, to, color, line_width)
+				var rect_size = Vector2(line_width, line_width)
+				draw_rect(Rect2(from, rect_size), color, true)
 	pass
 
 func set_draw_position(pp):
@@ -129,5 +130,5 @@ func draw_red_dot(world_vec:Vector3):
 	to_w.x -= (line_width * len(mat) + line_width) / 2
 	to_w.y -= (line_width * len(mat[0]) + line_width) / 2
 	draw_line(from_w, to_w, Color.RED, line_width)
-	draw_line(from_h, to_w, Color.RED, line_width)
+	#draw_line(from_h, to_w, Color.RED, line_width)
 	
