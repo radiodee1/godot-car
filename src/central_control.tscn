@@ -20,40 +20,51 @@ script = ExtResource("1_i12jh")
 
 [node name="Control" type="Control" parent="."]
 layout_mode = 1
-anchor_right = 1.156
-anchor_bottom = 1.216
-offset_left = 5.0
-offset_top = 41.0
-offset_right = -1105.28
-offset_bottom = -571.968
+anchor_right = 1.0
+anchor_bottom = 0.966
+offset_right = -989.0
+offset_bottom = -505.218
 
 [node name="start" type="Button" parent="Control"]
 layout_mode = 1
-anchors_preset = -1
-anchor_right = 29.152
-anchor_bottom = 20.391
-offset_left = 419.0
-offset_top = 130.0
-offset_right = -407.016
-offset_bottom = -300.993
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = 406.5
+offset_top = 105.5
+offset_right = 586.5
+offset_bottom = 145.5
 grow_horizontal = 2
-grow_vertical = 2
 text = "NEW-GAME"
 
 [node name="quit" type="Button" parent="Control"]
-layout_mode = 0
-offset_left = 441.0
-offset_top = 71.0
-offset_right = 529.0
-offset_bottom = 104.0
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 406.5
+offset_top = 313.5
+offset_right = 586.5
+offset_bottom = 353.5
+grow_horizontal = 2
+grow_vertical = 2
 text = "QUIT"
 
 [node name="un_pause" type="Button" parent="Control"]
-layout_mode = 0
-offset_left = 410.5
-offset_top = 193.5
-offset_right = 567.5
-offset_bottom = 232.5
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = 406.5
+offset_top = 209.5
+offset_right = 586.5
+offset_bottom = 249.5
+grow_horizontal = 2
+grow_vertical = 0
 text = "RESUME GAME"
 
 [node name="procedural-terrain" parent="." instance=ExtResource("2_khndm")]
