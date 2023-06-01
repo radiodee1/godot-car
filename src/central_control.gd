@@ -72,6 +72,7 @@ func _do_unpause():
 func _do_nextlevel():
 	btn_start.hide()
 	btn_unpause.show()
+	btn_unpause.grab_focus()
 	get_tree().paused = true
 	
 	hud.set_text_stat("hill")

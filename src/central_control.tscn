@@ -1,7 +1,9 @@
-[gd_scene load_steps=3 format=3 uid="uid://bgy0bp8jhg55s"]
+[gd_scene load_steps=5 format=3 uid="uid://bgy0bp8jhg55s"]
 
 [ext_resource type="Script" path="res://src/central_control.gd" id="1_i12jh"]
 [ext_resource type="PackedScene" uid="uid://yokclqnj4l7o" path="res://src/procedural_terrain.tscn" id="2_khndm"]
+[ext_resource type="Script" path="res://src/start.gd" id="2_s1fwn"]
+[ext_resource type="Script" path="res://src/quit.gd" id="3_paa22"]
 
 [node name="CentralControl" type="Control"]
 layout_mode = 3
@@ -36,6 +38,7 @@ offset_right = 586.5
 offset_bottom = 145.5
 grow_horizontal = 2
 text = "NEW-GAME"
+script = ExtResource("2_s1fwn")
 
 [node name="quit" type="Button" parent="Control"]
 layout_mode = 1
@@ -51,6 +54,7 @@ offset_bottom = 353.5
 grow_horizontal = 2
 grow_vertical = 2
 text = "QUIT"
+script = ExtResource("3_paa22")
 
 [node name="un_pause" type="Button" parent="Control"]
 layout_mode = 1

@@ -175,6 +175,7 @@ func control_show():
 	un_pause.show()
 	un_pause.visible = true 
 	un_pause.disabled = false
+	un_pause.grab_focus()
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE) 
 	pass
 	
