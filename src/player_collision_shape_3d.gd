@@ -134,12 +134,7 @@ func _physics_process(delta):
 			un_pause.hide()
 			#_on_central_control_restart_player()
 			restart_player()
-		else:
-			Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE) 
-			central._do_nextlevel()
-			Global.do_nextlevel_transition = false
-			hud.set_text_msg('start', 0)
-			pass
+		
 		pass
 		
 	
@@ -228,11 +223,12 @@ func check_collision():
 						hud.set_text_msg('hill')
 						hud.set_text_stat("hill")
 						#hole_to_nextlevel.emit()
-						gridmap.hole_to_nextlevel()	
+						#gridmap.hole_to_nextlevel()	
 						
 						#hud.set_text_msg('hill')
 						#hud.set_text_stat("hill")
 						set_player_start(5, 100, 5)
+						timer_to_nextlevel()
 						
 						try = 1
 					
@@ -269,14 +265,37 @@ func check_collision():
 							#hud.set_text_msg('hill')
 							#hud.set_text_stat("hill")
 							set_player_start(5, 100, 5)
-							gridmap.hole_to_nextlevel()	
+							#gridmap.hole_to_nextlevel()	
 														
+							timer_to_nextlevel()
 							try = 1
 								
 								
 #func _on_central_control_restart_player():
 #	restart_player()
 #	pass 
+func timer_to_nextlevel(t=2):
+	gridmap.hole_to_nextlevel()
+
+	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE) 
+	#central._do_nextlevel()
+	#Global.do_nextlevel_transition = false
+	hud.set_text_msg('start', 0)
+	
+	var timer = Timer.new()
+	timer.connect("timeout", timer_on_nextlevel)
+	timer.wait_time = t 
+	timer.one_shot = true
+	add_child(timer)
+	timer.start()
+	
+func timer_on_nextlevel():
+	set_player_start(5, 100, 5)
+	central._do_nextlevel()
+	#gridmap.hole_to_nextlevel()
+	gridmap.restart_terrain()
+	restart_player()
+	pass
 	
 func restart_player():
 	position = Vector3(start_player.x , start_player.y , start_player.z)
@@ -292,3 +311,4 @@ func get_player_rotation():
 
 func get_player_position():
 	return position
+

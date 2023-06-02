@@ -129,7 +129,7 @@ func hole_to_nextlevel():
 	
 	include.remove_low_altar()
 	include.make_hole_to_nextlevel(5,[2, 1])
-	setup_level_frame()
+	#setup_level_frame()
 	pass
 
 		

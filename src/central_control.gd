@@ -78,7 +78,9 @@ func _do_nextlevel():
 	hud.set_text_stat("hill")
 	
 	#restart_terrain.emit()
-	gridmap.restart_terrain()
+	
+	#gridmap.restart_terrain() ## <--- ??
+	
 	#restart_player.emit()
 	player.restart_player()
 	control_buttons.show()
