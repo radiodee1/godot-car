@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://ciswnpvd08al1"]
+
+[ext_resource type="PackedScene" uid="uid://mpbgdd0lw5fd" path="res://assets/moving-sphere.gltf" id="1_ld0h6"]
+
+[node name="patrol" type="Node3D"]
+
+[node name="moving-sphere" parent="." instance=ExtResource("1_ld0h6")]
+
+[editable path="moving-sphere"]
