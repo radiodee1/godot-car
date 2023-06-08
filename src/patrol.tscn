@@ -1,9 +1,16 @@
-[gd_scene load_steps=2 format=3 uid="uid://ciswnpvd08al1"]
+[gd_scene load_steps=4 format=3 uid="uid://ciswnpvd08al1"]
 
-[ext_resource type="PackedScene" uid="uid://mpbgdd0lw5fd" path="res://assets/moving-sphere.gltf" id="1_ld0h6"]
+[ext_resource type="Script" path="res://src/patrol.gd" id="1_sf4oe"]
+[ext_resource type="PackedScene" uid="uid://cn874ba5ero50" path="res://src/moving_sphere.tscn" id="2_l0u45"]
 
-[node name="patrol" type="Node3D"]
+[sub_resource type="SphereShape3D" id="SphereShape3D_l3qu3"]
+radius = 0.7
 
-[node name="moving-sphere" parent="." instance=ExtResource("1_ld0h6")]
+[node name="patrol" type="CharacterBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+script = ExtResource("1_sf4oe")
 
-[editable path="moving-sphere"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("SphereShape3D_l3qu3")
+
+[node name="moving-sphere" parent="." instance=ExtResource("2_l0u45")]

@@ -24,7 +24,7 @@ var hall_width = 0
 var group_visited = []
 
 func _ready():
-	print_tree_pretty()
+	#print_tree_pretty()
 	pass # Replace with function body.
 
 

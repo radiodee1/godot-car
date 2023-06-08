@@ -1,12 +1,32 @@
-[gd_scene load_steps=4 format=3 uid="uid://byu7lrs8tin5w"]
+[gd_scene load_steps=6 format=3 uid="uid://byu7lrs8tin5w"]
 
 [ext_resource type="Script" path="res://src/procedural_test.gd" id="1_06rc0"]
-[ext_resource type="PackedScene" uid="uid://dx0upvrfkvuh1" path="res://src/procedural_maze.tscn" id="1_dngkr"]
-[ext_resource type="PackedScene" uid="uid://cjayg8o4rnavy" path="res://src/player_collision_shape_3d.tscn" id="2_hycvv"]
+[ext_resource type="PackedScene" uid="uid://ciswnpvd08al1" path="res://src/patrol.tscn" id="4_poxk1"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_vjjfr"]
+sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+ground_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+
+[sub_resource type="Sky" id="Sky_bbnyn"]
+sky_material = SubResource("ProceduralSkyMaterial_vjjfr")
+
+[sub_resource type="Environment" id="Environment_6ifqn"]
+background_mode = 2
+sky = SubResource("Sky_bbnyn")
+tonemap_mode = 2
+glow_enabled = true
 
 [node name="procedural-test" type="Node3D"]
 script = ExtResource("1_06rc0")
 
-[node name="procedural_maze" parent="." instance=ExtResource("1_dngkr")]
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_6ifqn")
 
-[node name="CharacterBody3D" parent="procedural_maze" instance=ExtResource("2_hycvv")]
+[node name="patrol" parent="." instance=ExtResource("4_poxk1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.61915, 0, 0)
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(0.852868, 0.150384, 0.5, -0.492404, -0.0868241, 0.866025, 0.173648, -0.984808, 2.20122e-08, 6.73644, 3.45621, -0.650041)
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.998294, 0.058383, -2.39041e-10, -0.0267085, 0.45669, 0.889225, 0.0519156, -0.887708, 0.45747, 0, 3.41911, 0)
