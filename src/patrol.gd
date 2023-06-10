@@ -5,7 +5,7 @@ var altar_name = 'SphereAction'
 
 @onready var animation_player = $"moving-sphere/AnimationPlayer"
 
-var speed = 1
+var speed = 100
 var point = Vector3(0,0,0)
 var path = []
 var path_forward = []
@@ -31,22 +31,28 @@ func _physics_process(delta):
 		return
 		
 	point = Vector3(path_forward[path_point]) 
-	print(path_point, ' ', len(path_forward),' ', velocity,' ', path_forward[path_point], ' path stuff')
+	
+	#print(path_point, ' ', len(path_forward),' ', velocity,' ', path_forward[path_point], ' path stuff')
 	#print(global_transform.origin)
 	
-	print(point.distance_to(transform.origin), ' distance')
+	#print(point.distance_to(transform.origin), ' distance')
 	
 	if point.distance_to(transform.origin) > 1:# and path_point < len(path_forward):
 		velocity = point - transform.origin
-		velocity = velocity.normalized() * speed
+		velocity = velocity.normalized() * speed * delta
 		#velocity = velocity * speed 
 	else:
 		velocity = point - transform.origin
-		velocity = velocity.normalized() * speed
+		velocity = velocity * speed * delta
 		next_path_point()
 	
-	velocity.y = 0
+	#print(transform.origin.y, ' y here')
+	if transform.origin.y < -2:
+		velocity.y = 0
+	
+	check_collision()
 	move_and_slide() 
+	
 
 func set_path(path_array):
 	if len(path_array) <= 0:
@@ -57,6 +63,10 @@ func set_path(path_array):
 	pass
 
 func next_path_point():
+	var point = Vector3(path_forward[path_point])
+	
+	if point.distance_to(transform.origin) > 0.5:
+		return
 	path_point += 1
 	if len(path_forward) == path_point:
 		reverse_path()
@@ -120,3 +130,17 @@ func init(v, name='PATROL', group='mob'):
 	
 	low_static_body.collision_mask = 1
 	low_static_body.collision_layer = 1
+
+	
+func check_collision():
+	## always reverse on collision!!
+	
+	for index in range(get_slide_collision_count()):
+		# We get one of the collisions with the player
+		var collision = get_slide_collision(index)
+	
+		if collision != null and collision.get_collider() != null:
+			
+			path_forward.reverse()
+			path_point = min(len(path_forward) - path_point + 1, len(path_forward) - 1)
+				

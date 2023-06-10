@@ -241,8 +241,8 @@ func setup_level_frame():
 				if ii == 'PATROL':
 					var map_segment = include.get_segment()
 					if len(map_segment) > 0:
-						maze.mark_intersection(map_segment[0])
-						maze.mark_intersection(map_segment[1])
+						#maze.mark_intersection(map_segment[0])
+						#maze.mark_intersection(map_segment[1])
 						var local_segment = globalize_segment(map_segment)
 						
 						var name_suffix = str(min(map_segment[0], map_segment[-1])) + "-" + str(max(map_segment[0], map_segment[-1]))
