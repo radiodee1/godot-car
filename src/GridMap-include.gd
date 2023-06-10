@@ -171,8 +171,21 @@ func place_altar_key(v: Vector3, description: String):
 	var altar_w_key = load("res://src/altar_key_moving.tscn")
 	var altar_key = altar_w_key.instantiate()
 	altar_key.init(v, description)
+	
 	add_child.call(altar_key)
 	add_to_placed(altar_key)
+	#print(v, ' vec3 ', Global.intersections)
+	pass
+	
+
+func place_patrol(v_list, description: String):
+	
+	var patrol = load("res://src/patrol.tscn")
+	var patrol_instance = patrol.instantiate()
+	patrol_instance.init(v_list[0], description)
+	patrol_instance.set_path(v_list)
+	add_child.call(patrol_instance)
+	add_to_placed(patrol_instance)
 	#print(v, ' vec3 ', Global.intersections)
 	pass
 
@@ -229,9 +242,23 @@ func get_intersection(num, exact=true, skip_record_index=-1):
 					index = i
 					#print(i, ' ' , out, ' ', index, ' ' , intersections)
 					Global.intersections[i] = 0
-					return out 
-	
+					return out 	
 	return out 
+	
+func get_segment():
+	var seg = []
+	var len = 0
+	var key = null
+	for i in Global.segments:
+		if i['type'] == 'empty':
+			if len < i['length']:
+				len = i['length']
+				seg = i['segment']
+				key = i
+	if key != null:
+		key['type'] = "patrol"
+	return seg
+	
 	
 func clear_placed():
 	for i in placed:
@@ -306,6 +333,9 @@ func place_object(name, strategy, layer, frame_num, vector_high=Vector3(0,0,0), 
 			pass
 		if name == 'NEXTLEVEL':
 			place_low_altar(vector_high, name)
+			pass
+		if name.begins_with("PATROL"):
+			place_patrol(vector_high, name)
 			pass
 	pass
 

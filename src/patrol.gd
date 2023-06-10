@@ -33,14 +33,26 @@ func _physics_process(delta):
 	if len(path_forward) <= path_point:
 		reverse_path()
 		
-	point = Vector3(path_forward[path_point])
+	point = Vector3(path_forward[path_point]) 
 	
+	'''
 	if point.distance_to(transform.origin) > 0.05:
 		velocity = point - transform.origin
 		velocity = velocity.normalized() * speed
 
 	else:
 		velocity = point - transform.origin
+		next_path_point()
+	'''
+	#print(global_transform.origin)
+	
+	
+	
+	if point.distance_to(global_transform.origin) > 0.05:
+		velocity = point - global_transform.origin
+		velocity = velocity.normalized() * speed
+	else:
+		velocity = point - global_transform.origin
 		next_path_point()
 	
 	move_and_slide() 
@@ -69,7 +81,7 @@ func play(name="name"):
 	animation_player.seek(0, true)
 	animation_player.play(altar_name)
 
-func init(name='PATROL', group='mob'):
+func init(v, name='PATROL', group='mob'):
 	#low_location_vec = v 
 	#low_scene_instance = load("res://src/altar_moving.tscn").instantiate()
 	#scene_instance = load_scene
@@ -80,7 +92,9 @@ func init(name='PATROL', group='mob'):
 	
 	#add_child.call(low_scene_instance)
 	#scene_instance.scale = Vector3(1,1,1)
+	
 	#low_scene_instance.translate(v)
+	transform.origin = v
 	
 	#print(v, " vector")
 	var low_box_shape = BoxShape3D.new()

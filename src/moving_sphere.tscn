@@ -3,6 +3,7 @@
 [ext_resource type="PackedScene" uid="uid://mpbgdd0lw5fd" path="res://assets/moving-sphere.gltf" id="1_kflxi"]
 
 [node name="moving-sphere" instance=ExtResource("1_kflxi")]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
 
 [node name="Sphere" parent="." index="0"]
 transform = Transform3D(-0.965537, -0.258715, -0.0283713, -0.258819, 0.965926, 6.98492e-10, 0.0274045, 0.00734302, -0.999597, 0, 0, 0)

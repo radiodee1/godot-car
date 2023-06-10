@@ -34,6 +34,7 @@ func init(v: Vector3 , name='pin', group='mob'):
 	v.y *= .5
 	v.z *= .5
 	
+	print(v, ' example vec')
 	#add_child.call(low_scene_instance)
 	#scene_instance.scale = Vector3(1,1,1)
 	low_scene_instance.translate(v)

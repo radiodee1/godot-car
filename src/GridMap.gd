@@ -203,11 +203,6 @@ func setup_level_frame():
 			
 			#if not Global.do_nextlevel_transition:
 			maze.maze_generate(highest, e['mesh']) ## <-- after shapes
-			#else:
-			#	Global.do_nextlevel_transition = false
-			
-			#var size = Vector2(maze.maze_w , maze.maze_h )
-			
 			
 			for ii in e['includes']:
 				if ii == 'NEXTLEVEL':
@@ -243,6 +238,18 @@ func setup_level_frame():
 						Global.placed_items.append(hashed_name)
 					else:
 						print(ii, ' skip here.')
+				if ii == 'PATROL':
+					var map_segment = include.get_segment()
+					if len(map_segment) > 0:
+						maze.mark_intersection(map_segment[0])
+						maze.mark_intersection(map_segment[1])
+						var local_segment = globalize_segment(map_segment)
+						
+						var name_suffix = str(min(map_segment[0], map_segment[-1])) + "-" + str(max(map_segment[0], map_segment[-1]))
+						var hashed_name = ii + "-" + str(name_suffix)
+						include.place_object(hashed_name, "RANDOM", "MAZE", Global.level, local_segment)
+						Global.placed_items.append(hashed_name)
+					pass
 			
 			pass
 		if e['type'] == 'player':
@@ -254,9 +261,23 @@ func setup_level_frame():
 	pass
 
 
-#func _on_character_body_3d_remove_child(name):
-#	remove_named_child(name)
-#	pass
+func globalize_segment(segment):
+	var out = []
+	for i in segment:
+		var j = Global.index_to_vector(i)
+		var map_location = maze.find_map()
+		var ii = Vector3(
+			j.x * maze.hall_width + 2 - map_location.x, 
+			maze.center_depth + 1 , 
+			j.y * maze.hall_width + 2 - map_location.y
+		) * 0.5
+		
+		#var jj = map_to_local(ii) 
+		#var k = to_global(jj) 
+		out.append(ii)
+	print('patrol ', out)
+	return out
+
 	
 func remove_named_child(name, animate=false):
 	include.dequeue_placed_node(name, animate)
