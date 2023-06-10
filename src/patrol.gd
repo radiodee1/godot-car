@@ -11,6 +11,8 @@ var path = []
 var path_forward = []
 var path_point = 1
 
+var try = 0
+
 func _ready():
 	#altar_name = animation_player.get_assigned_animation()
 	#print(altar_name, " altar_name")
@@ -52,6 +54,7 @@ func _physics_process(delta):
 	
 	check_collision()
 	move_and_slide() 
+	#check_collision()
 	
 
 func set_path(path_array):
@@ -60,6 +63,7 @@ func set_path(path_array):
 	path = path_array
 	path_forward = path_array
 	path_point = 1
+	try = 0
 	pass
 
 func next_path_point():
@@ -75,6 +79,7 @@ func next_path_point():
 func reverse_path():
 	path_forward.reverse()
 	path_point = 1
+	try = 0
 	print("reverse")
 
 func set_speed(speed_val):
@@ -134,13 +139,14 @@ func init(v, name='PATROL', group='mob'):
 	
 func check_collision():
 	## always reverse on collision!!
-	
+	try = 0
 	for index in range(get_slide_collision_count()):
 		# We get one of the collisions with the player
 		var collision = get_slide_collision(index)
 	
 		if collision != null and collision.get_collider() != null:
-			
-			path_forward.reverse()
-			path_point = min(len(path_forward) - path_point + 1, len(path_forward) - 1)
-				
+			if try == 0:
+				path_forward.reverse()
+				path_point = min(len(path_forward) - path_point + 1, len(path_forward) - 1)
+				print("collision reverse ", len(path_forward))
+				try += 1
