@@ -5,11 +5,11 @@ var altar_name = 'SphereAction'
 
 @onready var animation_player = $"moving-sphere/AnimationPlayer"
 
-var speed = 10
+var speed = 1
 var point = Vector3(0,0,0)
 var path = []
 var path_forward = []
-var path_point = 0
+var path_point = 1
 
 func _ready():
 	#altar_name = animation_player.get_assigned_animation()
@@ -27,34 +27,25 @@ func _process(delta):
 func _physics_process(delta):
 	#process_mode = Node.PROCESS_MODE_ALWAYS
 	
-	if len(path_forward) <= 0:
+	if len(path_forward) <= 1:
 		return
-	
-	if len(path_forward) <= path_point:
-		reverse_path()
 		
 	point = Vector3(path_forward[path_point]) 
-	
-	'''
-	if point.distance_to(transform.origin) > 0.05:
-		velocity = point - transform.origin
-		velocity = velocity.normalized() * speed
-
-	else:
-		velocity = point - transform.origin
-		next_path_point()
-	'''
+	print(path_point, ' ', len(path_forward),' ', velocity,' ', path_forward[path_point], ' path stuff')
 	#print(global_transform.origin)
 	
+	print(point.distance_to(transform.origin), ' distance')
 	
-	
-	if point.distance_to(global_transform.origin) > 0.05:
-		velocity = point - global_transform.origin
+	if point.distance_to(transform.origin) > 1:# and path_point < len(path_forward):
+		velocity = point - transform.origin
 		velocity = velocity.normalized() * speed
+		#velocity = velocity * speed 
 	else:
-		velocity = point - global_transform.origin
+		velocity = point - transform.origin
+		velocity = velocity.normalized() * speed
 		next_path_point()
 	
+	velocity.y = 0
 	move_and_slide() 
 
 func set_path(path_array):
@@ -62,15 +53,19 @@ func set_path(path_array):
 		return
 	path = path_array
 	path_forward = path_array
-	path_point = 0
+	path_point = 1
 	pass
 
 func next_path_point():
 	path_point += 1
+	if len(path_forward) == path_point:
+		reverse_path()
+		
 	
 func reverse_path():
 	path_forward.reverse()
-	path_point = 0
+	path_point = 1
+	print("reverse")
 
 func set_speed(speed_val):
 	self.speed = speed_val
@@ -94,7 +89,8 @@ func init(v, name='PATROL', group='mob'):
 	#scene_instance.scale = Vector3(1,1,1)
 	
 	#low_scene_instance.translate(v)
-	transform.origin = v
+	#transform.origin = v
+	global_transform.origin = v
 	
 	#print(v, " vector")
 	var low_box_shape = BoxShape3D.new()

@@ -263,9 +263,9 @@ func setup_level_frame():
 
 func globalize_segment(segment):
 	var out = []
+	var map_location = maze.find_map()	
 	for i in segment:
 		var j = Global.index_to_vector(i)
-		var map_location = maze.find_map()
 		var ii = Vector3(
 			j.x * maze.hall_width + 2 - map_location.x, 
 			maze.center_depth + 1 , 
