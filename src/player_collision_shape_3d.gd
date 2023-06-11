@@ -126,14 +126,24 @@ func _physics_process(delta):
 	elif position.y < -500 : ## 2500
 		print(position.y, " <<< endless fall")
 		#get_tree().change_scene_to_packed(control_buttons)	
-		hud.set_text_msg("start", 0)
+		hud.set_text_msg("start", 3)
 		
 		if not Global.do_nextlevel_transition:
-			set_player_start(5, 100, 5)
-			control_show()
-			un_pause.hide()
-			#_on_central_control_restart_player()
-			restart_player()
+			Global.lower_all_health()
+			Global.set_lives(Global.lives - 1)
+			if Global.is_end_game():
+				Global.clear_score_lives_health()
+				pass
+			else:
+				Global.reset_health()
+			
+			#set_player_start(5, 100, 5)
+			#control_show()
+			#un_pause.hide()
+			
+			end_game()
+			
+			#restart_player()
 		
 		pass
 		
@@ -196,11 +206,12 @@ func check_collision():
 					#Global.items_temp.append('ALTAR')
 					#print_tree_pretty()
 					#Global.set_score_allowed(true)
-					Global.add_to_score(10)
+					#Global.add_to_score(10)
 					
 					hud.set_text_stat("maze")
 					
 					Global.add_to_items_temp('ALTAR')
+					Global.add_to_score(30)
 					
 					hit_high_altar = true
 					
@@ -215,7 +226,7 @@ func check_collision():
 					
 					if key_items_found >= key_items_placed and try == 0:
 						Global.level += 1
-						Global.add_to_score(10)
+						Global.add_to_score(50)
 						Global.do_nextlevel_transition = true
 						
 						#hit_high_altar = false
@@ -238,13 +249,13 @@ func check_collision():
 					print("hash = ", hash)
 					
 					Global.add_to_items_temp(str(collision.get_collider().name))
-					Global.add_to_score(10)
+					Global.add_to_score(30)
 					
 					hud.set_text_stat("maze")					
 					
 					gridmap.remove_named_child(collision.get_collider().name, true)
 					#remove_child.emit(collision.get_collider().name)
-					Global.print_maze_data()
+					#Global.print_maze_data()
 					
 					if key_items_found >= key_items_placed - 1: ## new key was just found!!
 						hud.set_text_msg('keys', 1)
@@ -254,7 +265,7 @@ func check_collision():
 							Global.level += 1
 							#Global.add_to_score(10)
 							Global.do_nextlevel_transition = true
-							
+							#Global.add_to_score(30)
 							#hit_high_altar = false
 							
 							hud.set_text_msg('hill')
@@ -270,10 +281,34 @@ func check_collision():
 							timer_to_nextlevel()
 							try = 1
 								
+						
+				if collision.get_collider().name.begins_with("PATROL"): 
+					var hash = collision.get_collider().name.substr(len("PATROL")+ 1, -1)
+					print("hash = ", hash)
+					
+					Global.add_to_items_temp(str(collision.get_collider().name))
+					#Global.add_to_score(10)
+					Global.lower_health(20)
+					if Global.is_end_life():
+						Global.set_lives(Global.lives - 1)
+						Global.reset_health()
+					if Global.is_end_game():
+						Global.clear_score_lives_health()
+						end_game()
+						pass	
+					
+					
+					hud.set_text_stat("maze")					
+					
+					gridmap.remove_named_child(collision.get_collider().name, true)
+					#remove_child.emit(collision.get_collider().name)
+					#Global.print_maze_data()
+					
+					if  try == 0:
+						hud.set_text_msg('maze', 1)	
+						try = 1
 								
-#func _on_central_control_restart_player():
-#	restart_player()
-#	pass 
+						
 func timer_to_nextlevel(t=2):
 	gridmap.hole_to_nextlevel()
 
@@ -295,6 +330,15 @@ func timer_on_nextlevel():
 	#gridmap.hole_to_nextlevel()
 	gridmap.restart_terrain()
 	restart_player()
+	hud.set_text_msg('start', 0)
+	pass
+	
+func end_game():
+	set_player_start(5, 100, 5)
+	control_show()
+	un_pause.hide()
+	restart_player()
+	### put something splashy here!!
 	pass
 	
 func restart_player():

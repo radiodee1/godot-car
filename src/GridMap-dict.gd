@@ -173,17 +173,20 @@ var message = {
 	'start': {
 		0: "welcome",
 		1: "greetings",
-		2: "greetings and salutations"
+		2: "greetings and salutations",
+		3: "falling!!"
 	},
 	'keys': {
 		0: "get the keys!!",
 		1: "get the last bare altar"
 	},
 	'hill': {
-		0: "find the high altar!"
+		0: "find the high altar!",
+		1: "that hurts"
 	},
 	'maze': {
-		0: "you skipped something??"
+		0: "you skipped something??",
+		1: "that hurts"
 	}
 }
 

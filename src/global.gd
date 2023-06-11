@@ -41,13 +41,6 @@ func  add_to_items_temp(name):
 	#if name not in items_temp:
 		items_temp.append(name)
 
-func add_to_score(num):
-	if score_allowed:
-		score += num
-		score_allowed = false
-		
-func set_score_allowed(allowed=true):
-	score_allowed = allowed
 	
 func count_list_items(list, item):
 	var num = 0
@@ -99,3 +92,43 @@ func clear_score_lives_health():
 	lives = 3
 	health = 30
 	level = 0
+
+#################################
+
+func lower_health(h):
+	var hh = abs(h)
+	health -= hh 
+	
+func lower_all_health():
+	health = 0
+	
+func is_end_life():
+	if health <= 0:
+		return true 
+	else :
+		return false 
+		
+func is_end_game():
+	if lives <= 0:
+		return true
+	else :
+		return false
+		
+func reset_health():
+	health = 30 
+	
+func reset_game():
+	lives = 3
+	score = 0
+	reset_health()
+
+func set_lives(life):
+	lives = life
+
+func add_to_score(num):
+	if score_allowed or true:
+		score += num
+		score_allowed = false
+		
+func set_score_allowed(allowed=true):
+	score_allowed = allowed
