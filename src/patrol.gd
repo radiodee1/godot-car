@@ -63,7 +63,10 @@ func set_path(path_array):
 		return
 	path = path_array
 	path_forward = path_array
-	path_point = 1
+	path_point = int(len(path) / 2)
+	var p = path_forward[path_point]
+	p.y = -2
+	transform.origin = p
 	try = 0
 	anchor = path[0]
 	pass
@@ -148,7 +151,7 @@ func init(v, name='PATROL', group='mob'):
 func check_collision():
 	## always reverse on collision!!
 	
-	var backoff = 1 ## 1 or 0
+	var backoff = 0 ## 1 or 0 or -1
 	try = 0
 	for index in range(get_slide_collision_count()):
 		# We get one of the collisions with the player
@@ -156,8 +159,10 @@ func check_collision():
 	
 		if collision != null and collision.get_collider() != null:
 			if try == 0:
+				
 				path_forward.reverse()
-				path_point = min(len(path_forward) - path_point - 1 - backoff, len(path_forward) - 1)
+				path_point = min(len(path_forward) - path_point + backoff, len(path_forward) - 1)
 				path_point = max( path_point, 0)
+				
 				print("collision reverse ", len(path_forward))
 				try += 1

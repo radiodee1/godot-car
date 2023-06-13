@@ -286,23 +286,23 @@ func check_collision():
 					var hash = collision.get_collider().name.substr(len("PATROL")+ 1, -1)
 					print("hash = ", hash)
 					
-					Global.add_to_items_temp(str(collision.get_collider().name))
-					#Global.add_to_score(10)
-					Global.lower_health(20)
-					if Global.is_end_life():
-						Global.set_lives(Global.lives - 1)
-						Global.reset_health()
-					if Global.is_end_game():
-						Global.clear_score_lives_health()
-						end_game()
-						pass	
+					#Global.add_to_items_temp(str(collision.get_collider().name))
+					if true:
+						Global.lower_health(20)
+						if Global.is_end_life():
+							Global.set_lives(Global.lives - 1)
+							Global.reset_health()
+						if Global.is_end_game():
+							Global.clear_score_lives_health()
+							end_game()
+							pass	
+						
+						
+						hud.set_text_stat("maze")					
 					
 					
-					hud.set_text_stat("maze")					
+						gridmap.remove_named_child(collision.get_collider().name, true)
 					
-					gridmap.remove_named_child(collision.get_collider().name, true)
-					#remove_child.emit(collision.get_collider().name)
-					#Global.print_maze_data()
 					
 					if  try == 0:
 						hud.set_text_msg('maze', 1)	
@@ -337,6 +337,7 @@ func end_game():
 	set_player_start(5, 100, 5)
 	control_show()
 	un_pause.hide()
+	start.grab_focus()
 	restart_player()
 	### put something splashy here!!
 	pass
