@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://bdchfenapifmt"]
+
+[ext_resource type="PackedScene" uid="uid://mpbgdd0lw5fd" path="res://assets/moving-sphere.gltf" id="1_ov7kv"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_csmc0"]
+albedo_color = Color(1, 0.6, 0.6, 1)
+
+[node name="moving-sphere" instance=ExtResource("1_ov7kv")]
+
+[node name="Sphere" parent="." index="0"]
+surface_material_override/0 = SubResource("StandardMaterial3D_csmc0")

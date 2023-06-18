@@ -22,6 +22,7 @@ func _ready():
 	animation_player.connect("animation_finished",  self.play)
 	#var altar = get_node("altar-copy/altar")	
 	process_mode = Node.PROCESS_MODE_ALWAYS	
+	set_red()
 	
 func _process(delta):
 	pass
@@ -147,6 +148,18 @@ func init(v, name='PATROL', group='mob'):
 	low_static_body.collision_mask = 1
 	low_static_body.collision_layer = 1
 
+	
+func set_red():
+	var mat_red = StandardMaterial3D.new()
+	mat_red.albedo_color = Color(1,0.5,0.5)
+	$"moving-sphere/Sphere/".set_surface_override_material(0, mat_red)
+	pass
+	
+func set_green():
+	var mat_green = StandardMaterial3D.new()
+	mat_green.albedo_color = Color(0.5, 1, 0.5)
+	$"moving-sphere/Sphere".set_surface_override_material(0, mat_green)
+	pass
 	
 func check_collision():
 	## always reverse on collision!!
