@@ -1,6 +1,7 @@
-[gd_scene load_steps=6 format=3 uid="uid://byu7lrs8tin5w"]
+[gd_scene load_steps=7 format=3 uid="uid://byu7lrs8tin5w"]
 
 [ext_resource type="Script" path="res://src/procedural_test.gd" id="1_06rc0"]
+[ext_resource type="PackedScene" uid="uid://brvos8hae1oy0" path="res://src/patrol_dot.tscn" id="3_7qe16"]
 [ext_resource type="PackedScene" uid="uid://ciswnpvd08al1" path="res://src/patrol.tscn" id="4_poxk1"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_vjjfr"]
@@ -30,3 +31,5 @@ transform = Transform3D(0.852868, 0.150384, 0.5, -0.492404, -0.0868241, 0.866025
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.998294, 0.058383, -2.39041e-10, -0.0267085, 0.45669, 0.889225, 0.0519156, -0.887708, 0.45747, 0, 3.41911, 0)
+
+[node name="patrol_dot" parent="." instance=ExtResource("3_7qe16")]

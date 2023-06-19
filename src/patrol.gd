@@ -114,7 +114,7 @@ func init(v, name='PATROL', group='mob'):
 	
 	#add_child.call(low_scene_instance)
 	#scene_instance.scale = Vector3(1,1,1)
-	
+	#low_scene_instance.scale = Vector3(0.5, 0.5, 0.5)
 	#low_scene_instance.translate(v)
 	#transform.origin = v
 	global_transform.origin = v
@@ -122,7 +122,7 @@ func init(v, name='PATROL', group='mob'):
 	#print(v, " vector")
 	var low_box_shape = BoxShape3D.new()
 	low_box_shape.size = Vector3(0.5,0.5,0.5)
-	var scale_local = 0.5
+	var scale_local = 0.25
 	#mesh_instance_3d.mesh = box_mesh
 	#scene_instance.add_to_group(group)
 	low_scene_instance.scale_object_local(Vector3(scale_local, scale_local ,scale_local))
@@ -152,6 +152,7 @@ func init(v, name='PATROL', group='mob'):
 func set_red():
 	var mat_red = StandardMaterial3D.new()
 	mat_red.albedo_color = Color(1,0.5,0.5)
+	
 	$"moving-sphere/Sphere/".set_surface_override_material(0, mat_red)
 	pass
 	

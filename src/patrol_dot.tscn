@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://brvos8hae1oy0"]
+
+[ext_resource type="Script" path="res://src/patrol_dot.gd" id="1_uiffr"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_5okkb"]
+
+[node name="patrol_dot" type="Node3D"]
+script = ExtResource("1_uiffr")
+
+[node name="dot" type="MeshInstance3D" parent="."]
+mesh = SubResource("BoxMesh_5okkb")
