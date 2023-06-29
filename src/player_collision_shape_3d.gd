@@ -272,9 +272,6 @@ func check_collision():
 							hud.set_text_stat("hill")
 							#hole_to_nextlevel.emit()
 
-							
-							#hud.set_text_msg('hill')
-							#hud.set_text_stat("hill")
 							set_player_start(5, 100, 5)
 							#gridmap.hole_to_nextlevel()	
 														
@@ -297,18 +294,33 @@ func check_collision():
 							end_game()
 							pass	
 						
-						
-						hud.set_text_stat("maze")					
-					
-					
+						hud.set_text_stat("maze")	
 						gridmap.remove_named_child(collision.get_collider().name, true)
-					
 					
 					if  try == 0:
 						hud.set_text_msg('maze', 1)	
 						try = 1
 								
+				if collision.get_collider().name.begins_with("DOT"): 
+					if try == 0:
+					
+						if 1 <= Global.count_list_items(Global.items_temp, str(collision.get_collider().name)):
+							try = 1
+							break
 						
+						var hash = collision.get_collider().name.substr(len("DOT") + 1, -1)
+						print("hash = ", hash, ' ', collision.get_collider().name)
+						
+						Global.add_to_items_temp(str(collision.get_collider().name))
+						Global.add_to_score(30)
+							
+						hud.set_text_stat("maze")	
+						gridmap.remove_named_child(str(collision.get_collider().name), false)
+					
+						hud.set_text_msg('maze', 2)	
+						try = 1
+								
+														
 func timer_to_nextlevel(t=2):
 	gridmap.hole_to_nextlevel()
 

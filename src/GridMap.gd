@@ -251,7 +251,6 @@ func setup_level_frame():
 						Global.placed_items.append(hashed_name)
 						if len(map_segment) > 4:
 							var num = 0
-
 							#var dot_segment = globalize_segment(map_segment, true)
 							for xx in map_segment:
 								#print(xx, " xx")
@@ -259,9 +258,8 @@ func setup_level_frame():
 									num += 1
 									continue
 									
-								var name_for_hash = "DOT-" + str(map_segment[num - 1])
+								var name_for_hash = "DOT-" + str(xx)
 								#print(name_for_hash)
-								
 								var vec3_list = globalize_segment([xx], true)
 								include.place_object(name_for_hash, "RANDOM", "MAZE", Global.level, vec3_list[0])
 								#num += 1

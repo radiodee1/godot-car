@@ -307,6 +307,7 @@ func dequeue_placed_node(name, animate=false):
 		x['status'] = 'CANCEL'	
 		if animate:
 			print(v, " rubble!! ", Global.level)
+			#if not name.begins_with("DOT"):
 			place_key_rubble(v)
 			emit_rubble()
 	pass

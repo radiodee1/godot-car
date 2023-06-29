@@ -186,7 +186,8 @@ var message = {
 	},
 	'maze': {
 		0: "you skipped something??",
-		1: "that hurts"
+		1: "that hurts",
+		2: "points!!"
 	}
 }
 
