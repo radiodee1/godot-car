@@ -249,6 +249,22 @@ func setup_level_frame():
 						var hashed_name = ii + "-" + str(name_suffix)
 						include.place_object(hashed_name, "RANDOM", "MAZE", Global.level, local_segment)
 						Global.placed_items.append(hashed_name)
+						if len(map_segment) > 4:
+							var num = 0
+
+							#var dot_segment = globalize_segment(map_segment, true)
+							for xx in map_segment:
+								#print(xx, " xx")
+								if num < 2 or num > len(map_segment) - 2:
+									num += 1
+									continue
+									
+								var name_for_hash = "DOT-" + str(map_segment[num - 1])
+								#print(name_for_hash)
+								
+								var vec3_list = globalize_segment([xx], true)
+								include.place_object(name_for_hash, "RANDOM", "MAZE", Global.level, vec3_list[0])
+								#num += 1
 					pass
 			
 			pass
@@ -261,9 +277,10 @@ func setup_level_frame():
 	pass
 
 
-func globalize_segment(segment):
+func globalize_segment(segment, dot=false):
 	var out = []
 	var map_location = maze.find_map()	
+	var num = 0
 	for i in segment:
 		var j = Global.index_to_vector(i)
 		var ii = Vector3(
@@ -273,9 +290,15 @@ func globalize_segment(segment):
 		) * 0.5
 		
 		#var jj = map_to_local(ii) 
-		#var k = to_global(jj) 
+		#var k = to_global(jj)
+		#if not dot or num >= 2 or num < len(segment) - 2: 	
 		out.append(ii)
-	print('patrol ', out)
+		num += 1
+	if dot:
+		var name = 'patrol dot '
+	else: 
+		var name = 'patrol '
+	print(name, out)
 	return out
 
 	

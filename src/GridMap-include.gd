@@ -188,6 +188,17 @@ func place_patrol(v_list, description: String):
 	add_to_placed(patrol_instance)
 	#print(v, ' vec3 ', Global.intersections)
 	pass
+	
+func place_dot(v, description: String):
+	
+	var dot = load("res://src/patrol_dot.tscn")
+	var instance_dot = dot.instantiate()
+	instance_dot.init(v, description)
+	
+	add_child.call(instance_dot)
+	add_to_placed(instance_dot)
+	#print(v, ' vec3 ', Global.intersections)
+	
 
 func make_hole_to_maze(highest, group_size=5, remove_type=[4], print_output=false):
 	Global.set_score_allowed(true)
@@ -336,6 +347,9 @@ func place_object(name, strategy, layer, frame_num, vector_high=Vector3(0,0,0), 
 			pass
 		if name.begins_with("PATROL"):
 			place_patrol(vector_high, name)
+			pass
+		if name.begins_with("DOT"):
+			place_dot(vector_high, name)
 			pass
 	pass
 

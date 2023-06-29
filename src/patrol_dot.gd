@@ -12,10 +12,7 @@ func init(v, name='DOT', group='mob'):
 	#var box = CubeMesh.new()	 
 	#box.mesh.size = Vector3(1,1,1)
 	
-	var mat_red = StandardMaterial3D.new()
-	mat_red.albedo_color = Color(1,0.0,0.0)
-	dot.set_surface_override_material(0, mat_red)
-	#box.get_active_material(0).set_albedo(Color(1,0,0))
+	self.set_green()
 	
 	#print(v, " vector")
 	var low_box_shape = BoxShape3D.new()
@@ -46,3 +43,16 @@ func init(v, name='DOT', group='mob'):
 	low_static_body.collision_mask = 1
 	low_static_body.collision_layer = 1
 	
+
+func set_red():
+	var mat_red = StandardMaterial3D.new()
+	mat_red.albedo_color = Color(1,0.5,0.5)
+	
+	$"dot".set_surface_override_material(0, mat_red)
+	pass
+	
+func set_green():
+	var mat_green = StandardMaterial3D.new()
+	mat_green.albedo_color = Color(0.5, 1, 0.5)
+	$"dot".set_surface_override_material(0, mat_green)
+	pass
