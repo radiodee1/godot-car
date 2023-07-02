@@ -138,20 +138,31 @@ func hole_to_nextlevel():
 #	pass
 	
 func restart_terrain():
-	include.remove_altar()
-	clear()
-	#hill_generate()
-	#level_frame = Global.level - 1
-	#print('level ', level_frame)
-	#Global.level += 1
-	setup_level_frame()
 	
-	Global.print_maze_data()
+	var num = 0
 	
-	hud_map_start()
-	hud_map_update(0, -1)
-	hud_map.set_visibility(false)
-	pass
+	include.clear_placed()
+	Global.clear_list_data()
+	Global.clear_maze_data()
+	#print(Global.count_list_items(Global.placed_items, "NEXTLEVEL"), ' NEXTLEVEL')
+	
+	if num < 10 and Global.count_list_items(Global.placed_items, "NEXTLEVEL") < 1:
+		
+		include.remove_altar()
+		clear()
+		
+		setup_level_frame()
+		
+		Global.print_maze_data()
+		
+		hud_map_start()
+		hud_map_update(0, -1)
+		hud_map.set_visibility(false)
+		num += 1
+		pass
+	if num >= 10:
+		print("NO RANDOMIZED NEXTLEVEL ITEM")
+		get_tree().quit()
 
 func set_hill_size(left, right, depth, x, y, z):
 	if left != right or left != depth or right != depth:
