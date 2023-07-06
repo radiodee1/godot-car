@@ -196,7 +196,7 @@ func place_dot(v, description: String):
 	instance_dot.init(v, description)
 	
 	add_child.call(instance_dot)
-	add_to_placed(instance_dot)
+	add_to_placed(instance_dot, true)
 	#print(v, ' vec3 ', Global.intersections)
 	
 
@@ -278,9 +278,10 @@ func clear_placed():
 	
 	placed = []
 	
-func add_to_placed(instance):
+func add_to_placed(instance, add_global=false):
 	for i in placed:
 		if str(i['name']) == str(instance.name):
+			#print('bad i ', str(instance.name))
 			return
 	
 	var d = {
@@ -289,6 +290,14 @@ func add_to_placed(instance):
 		'status': 'NEW'
 	}
 	placed.append(d)
+	
+	if not add_global:
+		return
+		
+	for i in Global.placed_items:
+		if i == str(instance.name):
+			return
+	Global.placed_items.append(str(instance.name))
 
 func get_placed_node(name):
 	var out = null

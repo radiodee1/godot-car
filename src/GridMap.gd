@@ -265,15 +265,16 @@ func setup_level_frame():
 							#var dot_segment = globalize_segment(map_segment, true)
 							for xx in map_segment:
 								#print(xx, " xx")
-								if num < 2 or num > len(map_segment) - 2:
+								if num < 2 or num >= len(map_segment) - 2:
 									num += 1
 									continue
 									
-								var name_for_hash = "DOT-" + str(xx)
+								var name_for_hash = "DOT-" + name_suffix + "-" + str(xx)
 								#print(name_for_hash)
 								var vec3_list = globalize_segment([xx], true)
 								include.place_object(name_for_hash, "RANDOM", "MAZE", Global.level, vec3_list[0])
-								#num += 1
+								#print(name_for_hash)
+								num += 1
 					pass
 			
 			pass
@@ -338,10 +339,4 @@ func hud_map_get_map_loc():
 	#return maze.find_map()
 	return maze.map_start
 
-#func hud_map_get_local_to_map(vec):
-#	var vec_local = to_local(vec)
-#	return maze.get_local_to_map(vec_local)
-	
-#func hud_map_get_map_to_local(vec):
-	
-#	return maze.get_map_to_local(vec)
+

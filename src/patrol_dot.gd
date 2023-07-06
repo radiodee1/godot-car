@@ -1,6 +1,7 @@
 extends Node3D
 
 @onready var dot = $"dot"
+@onready var can_die = false
 
 func init(v, description='DOT', group='mob'):
 	name = description
@@ -41,10 +42,12 @@ func set_red():
 	var mat_red = StandardMaterial3D.new()
 	mat_red.albedo_color = Color(1,0.5,0.5)
 	$"dot".set_surface_override_material(0, mat_red)
+	can_die = false
 	pass
 	
 func set_green():
 	var mat_green = StandardMaterial3D.new()
 	mat_green.albedo_color = Color(0.5, 1, 0.5)
 	$"dot".set_surface_override_material(0, mat_green)
+	can_die = true
 	pass
