@@ -315,10 +315,13 @@ func dequeue_placed_node(name, animate=false):
 		x['instance'].queue_free()
 		x['status'] = 'CANCEL'	
 		if animate:
-			print(v, " rubble!! ", Global.level)
-			#if not name.begins_with("DOT"):
+			#print(v, " rubble!! ", Global.level)
+			
 			place_key_rubble(v)
 			emit_rubble()
+	if name in Global.placed_items:
+		Global.placed_items.erase(name)
+		print("erased ", name)
 	pass
 	#print('after ', placed)
 
