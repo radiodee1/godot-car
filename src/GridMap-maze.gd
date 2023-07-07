@@ -369,8 +369,8 @@ func prepare_working_map():
 				map[i][j] = USED
 				
 			if map[i][j]  == USED or map[i][j] == SHAPE:
-				
-				astar.set_point_disabled(vector_to_index(Vector2(i,j)))
+				if  astar.has_point(vector_to_index(Vector2(i,j))) and not astar.is_point_disabled(vector_to_index(Vector2(i,j))) :
+					astar.set_point_disabled(vector_to_index(Vector2(i,j)))
 				pass
 			
 	

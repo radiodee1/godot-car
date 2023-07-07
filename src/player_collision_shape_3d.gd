@@ -107,7 +107,10 @@ func _physics_process(delta):
 	velocity = velocity + gravity_vec
 	
 	#floor_snap_length = Vector3(float(movement), float(snap), float(0))
-	floor_snap_length = snap.y
+	if snap.y >= 0:
+		floor_snap_length = snap.y
+	else :
+		floor_snap_length = 0
 	#gravity = gravity_vec * gravity_mult
 	
 	if position.y < -1 and  is_on_floor() and not land_in_maze and not hit_high_altar:
