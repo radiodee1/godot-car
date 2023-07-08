@@ -12,6 +12,8 @@ var path_forward = []
 var path_point = 1
 var anchor = Vector3(0,0,0)
 
+var can_die = false
+
 var try = 0
 
 func _ready():
@@ -154,12 +156,14 @@ func set_red():
 	mat_red.albedo_color = Color(1,0.5,0.5)
 	
 	$"moving-sphere/Sphere/".set_surface_override_material(0, mat_red)
+	can_die = false
 	pass
 	
 func set_green():
 	var mat_green = StandardMaterial3D.new()
 	mat_green.albedo_color = Color(0.5, 1, 0.5)
 	$"moving-sphere/Sphere".set_surface_override_material(0, mat_green)
+	can_die = true
 	pass
 	
 func check_collision():

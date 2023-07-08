@@ -321,6 +321,9 @@ func remove_named_child(name, animate=false):
 func place_follow_rubble(follow):
 	include.place_high_rubble(follow)
 	
+func get_placed_node(name):
+	return include.get_placed_node(name)
+	
 func hud_map_start():
 	
 	hud_map.init(maze.finished_map, 2)

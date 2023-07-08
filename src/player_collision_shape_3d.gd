@@ -109,7 +109,7 @@ func _physics_process(delta):
 	#floor_snap_length = Vector3(float(movement), float(snap), float(0))
 	if snap.y >= 0:
 		floor_snap_length = snap.y
-	else :
+	else:
 		floor_snap_length = 0
 	#gravity = gravity_vec * gravity_mult
 	
@@ -287,21 +287,26 @@ func check_collision():
 					print("hash = ", hash)
 					
 					#Global.add_to_items_temp(str(collision.get_collider().name))
-					if true:
-						Global.lower_health(20)
+					if collision.get_collider().can_die == false:
+						Global.lower_health(Global.health + 1)
 						if Global.is_end_life():
 							Global.set_lives(Global.lives - 1)
 							Global.reset_health()
+						hud.set_text_msg('maze', 1)
+						
 						if Global.is_end_game():
 							Global.clear_score_lives_health()
 							end_game()
 							pass	
 						
-						hud.set_text_stat("maze")	
-						gridmap.remove_named_child(collision.get_collider().name, true)
+					if collision.get_collider().can_die == true:
+						gridmap.remove_named_child(str(collision.get_collider().name), true)
+						Global.add_to_score(40)
+						
+					hud.set_text_stat("maze")	
 					
 					if  try == 0:
-						hud.set_text_msg('maze', 1)	
+						#hud.set_text_msg('maze', 1)	
 						try = 1
 								
 				if collision.get_collider().name.begins_with("DOT"): 
@@ -321,6 +326,9 @@ func check_collision():
 						gridmap.remove_named_child(str(collision.get_collider().name), false)
 					
 						hud.set_text_msg('maze', 2)	
+						
+						disable_patrol(hash)
+						
 						try = 1
 								
 														
@@ -355,6 +363,23 @@ func end_game():
 	start.grab_focus()
 	restart_player()
 	### put something splashy here!!
+	pass
+	
+func disable_patrol(dot_hash:String):
+	var count = dot_hash.get_slice_count('-')
+	if count >= 2:
+		var h1 = dot_hash.get_slice('-', 0)
+		var h2 = dot_hash.get_slice('-', 1)
+		var name = 'DOT-' + h1 + '-' + h2 + '-'
+		var num = Global.count_list_items(Global.placed_items, name)
+		#print(name, ' dotname ', str(num), ' num')
+		if num > 0:
+			return
+		var patrol = 'PATROL-' + h1 + '-' + h2
+		var instance = gridmap.get_placed_node(patrol)
+		if instance == null:
+			return
+		instance['instance'].set_green()
 	pass
 	
 func restart_player():
