@@ -87,3 +87,30 @@ func _do_nextlevel():
 	control_buttons.visible = true 
 	btn_unpause.visible = true
 	btn_unpause.disabled = false
+
+func _do_lose_life():
+	$"Control/canvas/splash/text_die".show()
+	
+	var timer = Timer.new()
+	timer.connect("timeout", _un_show_sprite )
+	timer.wait_time = 1.5
+	timer.one_shot = true
+	add_child(timer)
+	timer.start()
+	pass 
+	
+func _do_lose_game():
+	$"Control/canvas/splash/text_endgame".show()
+	
+	var timer = Timer.new()
+	timer.connect("timeout", _un_show_sprite )
+	timer.wait_time = 2
+	timer.one_shot = true
+	add_child(timer)
+	timer.start()
+	
+	pass  
+
+func _un_show_sprite():
+	$"Control/canvas/splash/text_die".hide()
+	$"Control/canvas/splash/text_endgame".hide()

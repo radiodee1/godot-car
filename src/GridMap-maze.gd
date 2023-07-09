@@ -203,7 +203,9 @@ func shapes_to_map(move_old_vectors=false):
 						working_map[jj][mm] = USED
 						#mesh_list.append(Vector2(jj , mm  ))
 						mask_list.append(vector_to_index(Vector2(jj,mm)))
-						astar.set_point_disabled(vector_to_index(Vector2(jj,mm)))
+						
+						if  astar.has_point(vector_to_index(Vector2(jj,mm))) and not astar.is_point_disabled(vector_to_index(Vector2(jj,mm))) :
+							astar.set_point_disabled(vector_to_index(Vector2(jj,mm)))
 						local_hallway.append(vector_to_index(Vector2(jj,mm)))
 			add_mesh_hallways(mesh_list, mesh_num)
 			
@@ -556,7 +558,9 @@ func hallway_mask_previous(hallway):
 		var v = index_to_vector(hh)
 		
 		working_map[v.x][v.y] = USED
-		astar.set_point_disabled(hh)
+		
+		if  astar.has_point(hh) and not astar.is_point_disabled(hh) :
+			astar.set_point_disabled(hh)
 		
 
 func copy_map_to_scene(n:Vector2, block_num=2):

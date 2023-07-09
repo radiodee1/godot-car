@@ -1,9 +1,11 @@
-[gd_scene load_steps=5 format=3 uid="uid://bgy0bp8jhg55s"]
+[gd_scene load_steps=7 format=3 uid="uid://bgy0bp8jhg55s"]
 
 [ext_resource type="Script" path="res://src/central_control.gd" id="1_i12jh"]
 [ext_resource type="PackedScene" uid="uid://yokclqnj4l7o" path="res://src/procedural_terrain.tscn" id="2_khndm"]
 [ext_resource type="Script" path="res://src/start.gd" id="2_s1fwn"]
 [ext_resource type="Script" path="res://src/quit.gd" id="3_paa22"]
+[ext_resource type="Texture2D" uid="uid://bf3e8dy75pf50" path="res://assets/splash-die.png" id="4_eiu5e"]
+[ext_resource type="Texture2D" uid="uid://bpip0xcveyw2x" path="res://assets/splash-endgame.png" id="5_7vq3k"]
 
 [node name="CentralControl" type="Control"]
 layout_mode = 3
@@ -70,5 +72,35 @@ offset_bottom = 249.5
 grow_horizontal = 2
 grow_vertical = 0
 text = "RESUME GAME"
+
+[node name="canvas" type="CanvasLayer" parent="Control"]
+
+[node name="splash" type="MarginContainer" parent="Control/canvas"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="text_die" type="TextureRect" parent="Control/canvas/splash"]
+visible = false
+texture_repeat = 1
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = ExtResource("4_eiu5e")
+expand_mode = 1
+stretch_mode = 3
+
+[node name="text_endgame" type="TextureRect" parent="Control/canvas/splash"]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = ExtResource("5_7vq3k")
+expand_mode = 1
+stretch_mode = 3
 
 [node name="procedural-terrain" parent="." instance=ExtResource("2_khndm")]

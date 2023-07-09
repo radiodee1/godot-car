@@ -136,6 +136,7 @@ func _physics_process(delta):
 			Global.set_lives(Global.lives - 1)
 			if Global.is_end_game():
 				Global.clear_score_lives_health()
+
 				pass
 			else:
 				Global.reset_health()
@@ -143,7 +144,7 @@ func _physics_process(delta):
 			#set_player_start(5, 100, 5)
 			#control_show()
 			#un_pause.hide()
-			
+			central._do_lose_game()			
 			end_game()
 			
 			#restart_player()
@@ -292,10 +293,12 @@ func check_collision():
 						if Global.is_end_life():
 							Global.set_lives(Global.lives - 1)
 							Global.reset_health()
+							central._do_lose_life()
 						hud.set_text_msg('maze', 1)
 						
 						if Global.is_end_game():
 							Global.clear_score_lives_health()
+							central._do_lose_game()
 							end_game()
 							pass	
 						
