@@ -13,6 +13,8 @@ config_version=5
 config/name="godot-car"
 run/main_scene="res://src/central_control.tscn"
 config/features=PackedStringArray("4.1", "Forward Plus")
+boot_splash/image="res://assets/splash-start.png"
+boot_splash/fullsize=false
 config/icon="res://icon.svg"
 
 [autoload]
