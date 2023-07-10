@@ -321,7 +321,7 @@ func dequeue_placed_node(name, animate=false):
 			emit_rubble()
 	if name in Global.placed_items:
 		Global.placed_items.erase(name)
-		print("erased ", name)
+		#print("erased ", name)
 	pass
 	#print('after ', placed)
 

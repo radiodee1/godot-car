@@ -112,7 +112,7 @@ func _do_lose_game():
 	timer.one_shot = true
 	add_child(timer)
 	timer.start()
-	
+	hud.set_text_msg("start", 0)
 	pass  
 
 func _un_show_sprite():
