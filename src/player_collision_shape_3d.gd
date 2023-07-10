@@ -136,19 +136,16 @@ func _physics_process(delta):
 			Global.set_lives(Global.lives - 1)
 			if Global.is_end_game():
 				Global.clear_score_lives_health()
-				
+				#central._do_lose_game()
+				#end_game()
 				pass
 			else:
 				Global.reset_health()
+				return
 			
-			#set_player_start(5, 100, 5)
-			#control_show()
-			#un_pause.hide()
-			central._do_lose_game()			
-			end_game()
 			
-			#restart_player()
-		
+		central._do_lose_game()			
+		end_game()
 		pass
 		
 	
