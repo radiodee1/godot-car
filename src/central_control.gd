@@ -89,20 +89,24 @@ func _do_nextlevel():
 	btn_unpause.disabled = false
 
 func _do_lose_life():
+	#$"Control/canvas/splash/text_die".process_mode = Node.PROCESS_MODE_ALWAYS
 	$"Control/canvas/splash/text_die".show()
 	
 	var timer = Timer.new()
+	timer.process_mode = Node.PROCESS_MODE_ALWAYS
 	timer.connect("timeout", _un_show_sprite )
-	timer.wait_time = 1.5
+	timer.wait_time = 2
 	timer.one_shot = true
 	add_child(timer)
 	timer.start()
 	pass 
 	
 func _do_lose_game():
+	#$"Control/canvas/splash/text_endgame".process_mode = Node.PROCESS_MODE_ALWAYS
 	$"Control/canvas/splash/text_endgame".show()
 	
 	var timer = Timer.new()
+	timer.process_mode = Node.PROCESS_MODE_ALWAYS
 	timer.connect("timeout", _un_show_sprite )
 	timer.wait_time = 2
 	timer.one_shot = true

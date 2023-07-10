@@ -287,13 +287,14 @@ func check_collision():
 					var hash = collision.get_collider().name.substr(len("PATROL")+ 1, -1)
 					print("hash = ", hash)
 					
-					#Global.add_to_items_temp(str(collision.get_collider().name))
+
 					if collision.get_collider().can_die == false:
-						Global.lower_health(Global.health + 1)
+						#Global.lower_health(Global.health + 1)
+						Global.lower_all_health()
 						if Global.is_end_life():
 							Global.set_lives(Global.lives - 1)
 							Global.reset_health()
-							central._do_lose_life()
+						central._do_lose_life()
 						hud.set_text_msg('maze', 1)
 						
 						if Global.is_end_game():

@@ -182,5 +182,5 @@ func check_collision():
 				path_point = min(len(path_forward) - path_point + backoff, len(path_forward) - 1)
 				path_point = max( path_point, 0)
 				
-				print("collision reverse ", len(path_forward))
+				#print("collision reverse ", len(path_forward))
 				try += 1
