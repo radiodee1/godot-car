@@ -112,6 +112,8 @@ func _physics_process(delta):
 	else:
 		floor_snap_length = 0
 	#gravity = gravity_vec * gravity_mult
+	var found_altars = Global.count_list_items(Global.items_temp, 'ALTAR')
+	var found_nextlevels = Global.count_list_items(Global.items_temp, 'NEXTLEVEL')
 	
 	if position.y < -1 and  is_on_floor() and not land_in_maze and not hit_high_altar:
 		hud.set_text_stat("maze")
@@ -131,10 +133,10 @@ func _physics_process(delta):
 		#get_tree().change_scene_to_packed(control_buttons)	
 		hud.set_text_msg("start", 3)
 		
-		if not Global.do_nextlevel_transition:
+		if found_nextlevels <= 0 or found_altars <= 0:
 			Global.lower_all_health()
 			Global.set_lives(Global.lives - 1)
-			if Global.is_end_game():
+			if  found_nextlevels <= 0 : # Global.is_end_game():
 				Global.clear_score_lives_health()
 				#central._do_lose_game()
 				#end_game()
@@ -203,7 +205,7 @@ func check_collision():
 				var nextlevel_item_count = Global.count_list_items(Global.placed_items, 'NEXTLEVEL')
 				
 				#print(collision.get_collider().name)			
-				if collision.get_collider().name == 'pin' and try == 0:
+				if collision.get_collider().name == 'ALTAR' and try == 0:
 					#Global.items_temp.append('ALTAR')
 					#print_tree_pretty()
 					#Global.set_score_allowed(true)
@@ -223,7 +225,7 @@ func check_collision():
 					
 				if collision.get_collider().name == "NEXTLEVEL" :
 					#Global.items_temp.append("NEXTLEVEL")
-					Global.add_to_items_temp("NEXTLEVEL")
+					#Global.add_to_items_temp("NEXTLEVEL")
 					
 					if key_items_found >= key_items_placed and try == 0:
 						Global.level += 1
@@ -236,7 +238,7 @@ func check_collision():
 						hud.set_text_stat("hill")
 						#hole_to_nextlevel.emit()
 						#gridmap.hole_to_nextlevel()	
-						
+						Global.add_to_items_temp('NEXTLEVEL')
 						#hud.set_text_msg('hill')
 						#hud.set_text_stat("hill")
 						set_player_start(5, 100, 5)
@@ -355,6 +357,8 @@ func timer_on_nextlevel():
 	gridmap.restart_terrain()
 	restart_player()
 	hud.set_text_msg('start', 0)
+	Global.items_temp = []
+	
 	pass
 	
 func end_game():

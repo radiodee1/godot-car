@@ -50,7 +50,7 @@ func emit_rubble():
 
 
 
-func place_altar(v, name='pin', group='mob'):
+func place_altar(v, name='ALTAR', group='mob'):
 	scene_instance = load("res://src/altar_moving.tscn").instantiate()
 	#scene_instance = load_scene
 	v.x *= .5
@@ -85,7 +85,8 @@ func place_altar(v, name='pin', group='mob'):
 	scene_instance.add_child(static_body) 
 	scene_instance.add_to_group(group)
 	scene_instance.name = name
-
+	
+	add_to_placed(scene_instance, true)
 	#static_body.layers = 1
 	
 	static_body.collision_mask = 1
@@ -145,6 +146,7 @@ func place_low_altar(v, name='pin', group='mob'):
 	low_scene_instance.name = name
 
 	#static_body.layers = 1
+	add_to_placed(low_scene_instance, true)
 	
 	low_static_body.collision_mask = 1
 	low_static_body.collision_layer = 1
