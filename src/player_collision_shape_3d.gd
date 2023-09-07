@@ -146,8 +146,8 @@ func _physics_process(delta):
 				return
 			
 			
-		central._do_lose_game()			
-		end_game()
+			central._do_lose_game()			
+			end_game()
 		pass
 		
 	
