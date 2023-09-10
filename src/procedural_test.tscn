@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://byu7lrs8tin5w"]
+[gd_scene load_steps=9 format=3 uid="uid://byu7lrs8tin5w"]
 
 [ext_resource type="Script" path="res://src/procedural_test.gd" id="1_06rc0"]
 [ext_resource type="PackedScene" uid="uid://brvos8hae1oy0" path="res://src/patrol_dot.tscn" id="3_7qe16"]
@@ -6,22 +6,10 @@
 [ext_resource type="PackedScene" uid="uid://ciswnpvd08al1" path="res://src/patrol.tscn" id="4_poxk1"]
 [ext_resource type="Texture2D" uid="uid://c1grnt2wiad45" path="res://assets/texture_01.png" id="4_vyupf"]
 
-[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_vjjfr"]
-sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
-ground_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
-
-[sub_resource type="Sky" id="Sky_bbnyn"]
-sky_material = SubResource("ProceduralSkyMaterial_vjjfr")
-
-[sub_resource type="Environment" id="Environment_6ifqn"]
-background_mode = 2
-sky = SubResource("Sky_bbnyn")
-tonemap_mode = 2
-glow_enabled = true
-
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_50jkm"]
 albedo_texture = ExtResource("4_vyupf")
 normal_scale = 16.0
+uv1_triplanar = true
 
 [sub_resource type="BoxMesh" id="BoxMesh_jd1lf"]
 material = SubResource("StandardMaterial3D_50jkm")
@@ -32,9 +20,6 @@ data = PackedVector3Array(-25, 0.5, 25, 25, 0.5, 25, -25, -0.5, 25, 25, 0.5, 25,
 
 [node name="procedural-test" type="Node3D"]
 script = ExtResource("1_06rc0")
-
-[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
-environment = SubResource("Environment_6ifqn")
 
 [node name="patrol" parent="." instance=ExtResource("4_poxk1")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.61915, 1.78934, 0)

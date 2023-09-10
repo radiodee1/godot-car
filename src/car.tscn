@@ -17,6 +17,8 @@ albedo_color = Color(0.152941, 0.152941, 0.152941, 1)
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_djm30"]
 material = SubResource("StandardMaterial3D_dyag4")
+top_radius = 1.0
+bottom_radius = 1.0
 height = 0.3
 radial_segments = 12
 
@@ -34,8 +36,9 @@ shape = SubResource("ConvexPolygonShape3D_iuxyw")
 
 [node name="wheel_front_left" type="VehicleWheel3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.95, 0, 1)
-use_as_traction = true
 use_as_steering = true
+wheel_radius = 1.0
+suspension_stiffness = 50.0
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="wheel_front_left"]
 transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 0, 0, 0)
@@ -43,8 +46,9 @@ mesh = SubResource("CylinderMesh_djm30")
 
 [node name="wheel_front_right" type="VehicleWheel3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.95, 0, 1)
-use_as_traction = true
 use_as_steering = true
+wheel_radius = 1.0
+suspension_stiffness = 50.0
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="wheel_front_right"]
 transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 0, 0, 0)
@@ -54,6 +58,8 @@ skeleton = NodePath("../../wheel_front_left")
 [node name="wheel_back_left" type="VehicleWheel3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.95, 0, -1)
 use_as_traction = true
+wheel_radius = 1.0
+suspension_stiffness = 50.0
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="wheel_back_left"]
 transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 0, 0, 0)
@@ -62,6 +68,8 @@ mesh = SubResource("CylinderMesh_djm30")
 [node name="wheel_back_right" type="VehicleWheel3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.95, 0, -1)
 use_as_traction = true
+wheel_radius = 1.0
+suspension_stiffness = 50.0
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="wheel_back_right"]
 transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 0, 0, 0)
