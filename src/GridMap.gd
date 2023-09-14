@@ -160,7 +160,7 @@ func restart_terrain():
 		hud_map.set_visibility(false)
 		num += 1
 		pass
-	if num >= 10:
+	if num >= 100:
 		print("NO RANDOMIZED NEXTLEVEL ITEM")
 		get_tree().quit()
 

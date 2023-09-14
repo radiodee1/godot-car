@@ -48,7 +48,20 @@ func place_key_rubble(v):
 func emit_rubble():
 	rubble_instance.set_emitting(true)
 
-
+func place_landing_spot(v, name='SPOT', group='mob'):
+	var spot_instance = load("res://src/landing_spot.tscn").instantiate()
+	v.x *= .5
+	v.y *= .5
+	v.z *= .5
+	spot_instance.init(v, name, group)
+	add_child.call(spot_instance)
+	#spot_instance.translate(v)
+	spot_instance.name = name
+	add_to_placed(spot_instance, true)
+	
+func remove_landing_spot():
+	dequeue_placed_node('SPOT', false)
+	pass
 
 func place_altar(v, name='ALTAR', group='mob'):
 	scene_instance = load("res://src/altar_moving.tscn").instantiate()
@@ -107,18 +120,16 @@ func remove_altar():
 
 
 
-func place_low_altar(v, name='pin', group='mob'):
+func place_low_altar(v, name='NEXTLEVEL', group='mob'):
 	low_location_vec = v 
 	low_scene_instance = load("res://src/altar_moving.tscn").instantiate()
 	#scene_instance = load_scene
 	v.x *= .5
 	v.y *= .5
 	v.z *= .5
-	
-	add_child.call(low_scene_instance)
 	#scene_instance.scale = Vector3(1,1,1)
 	low_scene_instance.translate(v)
-	
+	add_child.call(low_scene_instance)	
 	#print(v, " vector")
 	low_box_shape = BoxShape3D.new()
 	low_box_shape.size = Vector3(0.5,0.5,0.5)
@@ -145,7 +156,6 @@ func place_low_altar(v, name='pin', group='mob'):
 	low_scene_instance.add_to_group(group)
 	low_scene_instance.name = name
 
-	#static_body.layers = 1
 	add_to_placed(low_scene_instance, true)
 	
 	low_static_body.collision_mask = 1
@@ -277,12 +287,11 @@ func clear_placed():
 	for i in placed:
 		if i['instance'] != null:
 			i['instance'].queue_free()
-	
 	placed = []
 	
 func add_to_placed(instance, add_global=false):
 	for i in placed:
-		if str(i['name']) == str(instance.name):
+		if str(i['name']).begins_with(str(instance.name)): # == str(instance.name):
 			#print('bad i ', str(instance.name))
 			return
 	
@@ -297,30 +306,33 @@ func add_to_placed(instance, add_global=false):
 		return
 		
 	for i in Global.placed_items:
-		if i == str(instance.name):
+		if i.begins_with(str(instance.name)): # == str(instance.name):
 			return
 	Global.placed_items.append(str(instance.name))
 
 func get_placed_node(name):
 	var out = null
 	for i in placed:
-		if i['name'] == name: # and i['status'] != "CANCEL":
+		if i['name'].begins_with(name): # == name: # and i['status'] != "CANCEL":
 			out = i
 			return out
 	return out
 
-func dequeue_placed_node(name, animate=false):
+func dequeue_placed_node(name, animate=false, erase_global=false):
 	#print('before ', placed)
-	var x = get_placed_node(name)
+	var x 
+	x = get_placed_node(name)
 	if x != null:
 		var v = Vector3(x['instance'].position)
 		x['instance'].queue_free()
-		x['status'] = 'CANCEL'	
+		x['status'] = 'CANCEL'
+		placed.erase(x)
+		
 		if animate:
-			#print(v, " rubble!! ", Global.level)
-			
 			place_key_rubble(v)
 			emit_rubble()
+	if not erase_global:
+		return
 	if name in Global.placed_items:
 		Global.placed_items.erase(name)
 		#print("erased ", name)
@@ -332,10 +344,15 @@ func place_object(name, strategy, layer, frame_num, vector_high=Vector3(0,0,0), 
 	if layer == "HILL":
 		if name == 'ALTAR':
 			var hh = Vector3(vector_high)
+			var hhh = Vector3(vector_high)
 			hh.x += 1
 			hh.y += scale_local * 2.5
 			hh.z += 1
 			place_altar(hh)
+			hhh.x += 2.5
+			hhh.y = - 4.5
+			hhh.z += 2.5
+			place_landing_spot(hhh)
 			#print(hh, " altar here.")
 			pass
 		if name == 'TRAPDOOR':
@@ -358,7 +375,8 @@ func place_object(name, strategy, layer, frame_num, vector_high=Vector3(0,0,0), 
 		if name == 'PRISON':
 			pass
 		if name == 'NEXTLEVEL':
-			place_low_altar(vector_high, name)
+			var hh = Vector3(vector_high)
+			place_low_altar(hh, name)
 			pass
 		if name.begins_with("PATROL"):
 			place_patrol(vector_high, name)

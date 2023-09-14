@@ -83,7 +83,9 @@ func print_maze_data():
 	print(segments)
 	print("len ", segments.size())
 	print('placed ', placed_items)
-	print("temp ", items_temp)
+	print("items temp ", items_temp)
+	print("items ", items)
+	#print('placed include ')
 	print("++++")
 
 func clear_score_lives_health():

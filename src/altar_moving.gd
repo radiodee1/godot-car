@@ -1,6 +1,4 @@
 extends Node3D
-#extends CollisionObject3D
-#extends CharacterBody3D
 
 var altar_name = 'altarAction002'
 @onready var animation_player = get_node("altar-copy/AnimationPlayer")
@@ -19,13 +17,7 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	#var paused = ! animation_player.is_playing()	
-	#print(get_tree().paused, " paused var")
-	#get_tree().paused = false
-	#if paused:
-	#	print("paused")
-	#	animation_player.seek(0, true)
-	#	animation_player.play()
+	
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	pass
 

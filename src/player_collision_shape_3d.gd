@@ -112,8 +112,21 @@ func _physics_process(delta):
 	else:
 		floor_snap_length = 0
 	#gravity = gravity_vec * gravity_mult
+	
 	var found_altars = Global.count_list_items(Global.items_temp, 'ALTAR')
 	var found_nextlevels = Global.count_list_items(Global.items_temp, 'NEXTLEVEL')
+	var found_landing_global = Global.count_list_items(Global.items, 'SPOT')
+	var found_altars_global = Global.count_list_items(Global.items, 'ALTAR')
+	
+	#if found_altars_global > 0:
+	#	print(found_altars_global, ' ', found_landing_global, ' end' )
+	
+	
+	if found_altars_global > 0 and found_landing_global == 0:
+		check_landing(delta)
+		check_collision()
+		move_and_slide()
+		return
 	
 	if position.y < -1 and  is_on_floor() and not land_in_maze and not hit_high_altar:
 		hud.set_text_stat("maze")
@@ -187,6 +200,18 @@ func control_show():
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE) 
 	pass
 	
+func check_landing(delta):
+	var spot = gridmap.get_placed_node("SPOT")
+	#print('spot ', spot)
+	if spot != null:
+		var instance = spot['instance']
+		var point = instance.transform.origin
+		velocity = point - transform.origin
+		velocity = velocity.normalized() * speed * delta * 50
+		#print(point, ' point ', velocity, ' velocity')
+		#end_game()
+	pass
+	
 func check_collision():
 	#Global.set_score_allowed(true)
 	var try = 0
@@ -205,25 +230,22 @@ func check_collision():
 				var nextlevel_item_count = Global.count_list_items(Global.placed_items, 'NEXTLEVEL')
 				
 				#print(collision.get_collider().name)			
-				if collision.get_collider().name == 'ALTAR' and try == 0:
-					#Global.items_temp.append('ALTAR')
-					#print_tree_pretty()
-					#Global.set_score_allowed(true)
-					#Global.add_to_score(10)
+				if collision.get_collider().name.begins_with('ALTAR') and try == 0:
 					
 					hud.set_text_stat("maze")
 					
+					Global.add_to_items('ALTAR')
 					Global.add_to_items_temp('ALTAR')
 					Global.add_to_score(30)
 					
 					hit_high_altar = true
-					
+					gridmap.remove_named_child(collision.get_collider().name)
 					gridmap.hole_to_maze()
 					
 					try = 1 
 					
 					
-				if collision.get_collider().name == "NEXTLEVEL" :
+				if collision.get_collider().name.begins_with("NEXTLEVEL") :
 					#Global.items_temp.append("NEXTLEVEL")
 					#Global.add_to_items_temp("NEXTLEVEL")
 					
@@ -233,6 +255,7 @@ func check_collision():
 						Global.do_nextlevel_transition = true
 						
 						#hit_high_altar = false
+						gridmap.remove_named_child(collision.get_collider().name, true)
 						
 						hud.set_text_msg('hill')
 						hud.set_text_stat("hill")
@@ -334,7 +357,22 @@ func check_collision():
 						
 						try = 1
 								
-														
+				if collision.get_collider().name.begins_with("SPOT"): 
+					if try == 0:
+						
+						var hash = collision.get_collider().name.substr(len("SPOT") + 1, -1)
+						print("SPOT hash = ", hash, ' ', collision.get_collider().name)
+						
+						Global.add_to_items_temp(str(collision.get_collider().name))
+						Global.add_to_items(str(collision.get_collider().name))
+						Global.add_to_score(30)
+							
+						hud.set_text_stat("keys")	
+						gridmap.remove_named_child(str(collision.get_collider().name), false)
+						
+						try = 1						
+						
+						
 func timer_to_nextlevel(t=2):
 	gridmap.hole_to_nextlevel()
 
@@ -358,7 +396,6 @@ func timer_on_nextlevel():
 	restart_player()
 	hud.set_text_msg('start', 0)
 	Global.items_temp = []
-	
 	pass
 	
 func end_game():

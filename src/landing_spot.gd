@@ -1,15 +1,5 @@
 extends Node3D
 
-
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	pass # Replace with function body.
-
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	pass
-
 func init(v, name='SPOT', group='mob'):
 	#low_location_vec = v 
 	#low_scene_instance = load("res://src/altar_moving.tscn").instantiate()
@@ -38,7 +28,9 @@ func init(v, name='SPOT', group='mob'):
 	var low_static_body = StaticBody3D.new()
 	low_static_body.scale_object_local(Vector3(1,1,1))
 	var collision_shape = CollisionShape3D.new()
-	collision_shape.scale_object_local(Vector3(1,1,1))
+	
+	#collision_shape.scale_object_local(Vector3(1,1,1))
+	
 	collision_shape.add_to_group(group)
 	collision_shape.name = name
 	collision_shape.shape = low_box_shape
