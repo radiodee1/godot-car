@@ -1,10 +1,9 @@
-[gd_scene load_steps=9 format=3 uid="uid://byu7lrs8tin5w"]
+[gd_scene load_steps=8 format=3 uid="uid://byu7lrs8tin5w"]
 
 [ext_resource type="Script" path="res://src/procedural_test.gd" id="1_06rc0"]
-[ext_resource type="PackedScene" uid="uid://brvos8hae1oy0" path="res://src/patrol_dot.tscn" id="3_7qe16"]
 [ext_resource type="PackedScene" uid="uid://bns81reo15c55" path="res://src/car.tscn" id="4_e1cfb"]
-[ext_resource type="PackedScene" uid="uid://ciswnpvd08al1" path="res://src/patrol.tscn" id="4_poxk1"]
 [ext_resource type="Texture2D" uid="uid://c1grnt2wiad45" path="res://assets/texture_01.png" id="4_vyupf"]
+[ext_resource type="PackedScene" uid="uid://b5ummad0yqxhe" path="res://src/altar_moving.tscn" id="6_kgsj6"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_50jkm"]
 albedo_texture = ExtResource("4_vyupf")
@@ -21,18 +20,12 @@ data = PackedVector3Array(-25, 0.5, 25, 25, 0.5, 25, -25, -0.5, 25, 25, 0.5, 25,
 [node name="procedural-test" type="Node3D"]
 script = ExtResource("1_06rc0")
 
-[node name="patrol" parent="." instance=ExtResource("4_poxk1")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.61915, 1.78934, 0)
-
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(0.5, 0, 0.866025, 0, 1, 0, -0.866025, 0, 0.5, 6.54604, 3.43076, -0.182984)
 fov = 72.2828
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.998294, 0.058383, 1.24048e-08, -0.0267085, 0.45669, 0.889225, 0.0519156, -0.887708, 0.45747, 0.0586438, 5.93096, 4.33647)
-
-[node name="patrol_dot" parent="." instance=ExtResource("3_7qe16")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.263583, 0)
 
 [node name="ground_MeshInstance3D" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.434487, 0)
@@ -45,3 +38,6 @@ shape = SubResource("ConcavePolygonShape3D_w5coc")
 
 [node name="car" parent="." instance=ExtResource("4_e1cfb")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.84538, -3.65928)
+
+[node name="altar-moving" parent="." instance=ExtResource("6_kgsj6")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.33732, 0)

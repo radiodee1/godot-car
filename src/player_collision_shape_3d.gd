@@ -115,8 +115,9 @@ func _physics_process(delta):
 	
 	var found_altars = Global.count_list_items(Global.items_temp, 'ALTAR')
 	var found_nextlevels = Global.count_list_items(Global.items_temp, 'NEXTLEVEL')
-	var found_landing_global = Global.count_list_items(Global.items, 'SPOT')
-	var found_altars_global = Global.count_list_items(Global.items, 'ALTAR')
+	
+	var found_landing_global = Global.count_list_items(Global.items_temp, 'SPOT')
+	var found_altars_global = Global.count_list_items(Global.items_temp, 'ALTAR')
 	
 	#if found_altars_global > 0:
 	#	print(found_altars_global, ' ', found_landing_global, ' end' )
@@ -414,8 +415,9 @@ func disable_patrol(dot_hash:String):
 		var h2 = dot_hash.get_slice('-', 1)
 		var name = 'DOT-' + h1 + '-' + h2 + '-'
 		var num = Global.count_list_items(Global.placed_items, name)
-		#print(name, ' dotname ', str(num), ' num')
-		if num > 0:
+		var collect = Global.count_list_items(Global.items_temp, name)
+		#print(name, ' dotname ', str(num), ' num ', str(collect), ' collected')
+		if num / 2 > collect :
 			return
 		var patrol = 'PATROL-' + h1 + '-' + h2
 		var instance = gridmap.get_placed_node(patrol)
