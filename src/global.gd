@@ -133,3 +133,12 @@ func add_to_score(num):
 		
 func set_score_allowed(allowed=true):
 	score_allowed = allowed
+
+##############################
+
+var STATUS_WALKING = 0
+var STATUS_CAR = 1
+var STATUS_PUSH_JAIL = 2
+
+var player_status = STATUS_WALKING
+
