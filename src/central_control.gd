@@ -8,12 +8,10 @@ extends Control
 @onready var terrain = $"procedural-terrain"
 @onready var start_scene = load("res://src/procedural_terrain.tscn")
 
-@onready var hud = $"/root/CentralControl/procedural-terrain/HUD"
-@onready var gridmap = $"/root/CentralControl/procedural-terrain/GridMap"
-@onready var player = $"/root/CentralControl/procedural-terrain/CharacterBody3D"
-#@onready var first_run = true
-#signal restart_terrain
-#signal restart_player
+@onready var hud = $"procedural-terrain/HUD"
+@onready var gridmap = $"procedural-terrain/GridMap"
+@onready var player = $"procedural-terrain/CharacterBody3D"
+
 
 # Called when the node enters the scene tree for the first time.
 func _ready():

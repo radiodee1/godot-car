@@ -1,8 +1,9 @@
-[gd_scene load_steps=8 format=3 uid="uid://byu7lrs8tin5w"]
+[gd_scene load_steps=9 format=3 uid="uid://byu7lrs8tin5w"]
 
 [ext_resource type="Script" path="res://src/procedural_test.gd" id="1_06rc0"]
 [ext_resource type="PackedScene" uid="uid://bns81reo15c55" path="res://src/car.tscn" id="4_e1cfb"]
 [ext_resource type="Texture2D" uid="uid://c1grnt2wiad45" path="res://assets/texture_01.png" id="4_vyupf"]
+[ext_resource type="PackedScene" uid="uid://b5gltgw5f7lmu" path="res://src/viewport_system.tscn" id="5_bkcix"]
 [ext_resource type="PackedScene" uid="uid://b5ummad0yqxhe" path="res://src/altar_moving.tscn" id="6_kgsj6"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_50jkm"]
@@ -41,3 +42,5 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.84538, -3.65928)
 
 [node name="altar-moving" parent="." instance=ExtResource("6_kgsj6")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.33732, 0)
+
+[node name="viewport_system" parent="." instance=ExtResource("5_bkcix")]

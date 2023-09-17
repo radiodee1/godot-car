@@ -6,8 +6,12 @@ var max_rpm = 50
 var friction = 0
 var accel_const = 250
 
+func _ready():
+	position = Vector3(15 * 5 / 2, 5 * 5 , 15 * 5 / 2)
+
+
 func _physics_process(delta):
-	pass
+	
 	steer = lerp(float(steer), float(Input.get_axis("move_right", "move_left") * 0.4), 5 * delta)
 	steering = steer 
 	
