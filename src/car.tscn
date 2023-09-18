@@ -38,7 +38,7 @@ shape = SubResource("ConvexPolygonShape3D_iuxyw")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.95, 0, 1)
 use_as_steering = true
 wheel_radius = 1.0
-suspension_stiffness = 50.0
+suspension_stiffness = 30.0
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="wheel_front_left"]
 transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 0, 0, 0)
@@ -48,7 +48,7 @@ mesh = SubResource("CylinderMesh_djm30")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.95, 0, 1)
 use_as_steering = true
 wheel_radius = 1.0
-suspension_stiffness = 50.0
+suspension_stiffness = 30.0
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="wheel_front_right"]
 transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 0, 0, 0)
@@ -59,7 +59,7 @@ skeleton = NodePath("../../wheel_front_left")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.95, 0, -1)
 use_as_traction = true
 wheel_radius = 1.0
-suspension_stiffness = 50.0
+suspension_stiffness = 30.0
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="wheel_back_left"]
 transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 0, 0, 0)
@@ -69,8 +69,14 @@ mesh = SubResource("CylinderMesh_djm30")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.95, 0, -1)
 use_as_traction = true
 wheel_radius = 1.0
-suspension_stiffness = 50.0
+suspension_stiffness = 30.0
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="wheel_back_right"]
 transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 0, 0, 0)
 mesh = SubResource("CylinderMesh_djm30")
+
+[node name="arm" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.74575, -3.33924)
+
+[node name="chase_camera" type="Camera3D" parent="arm"]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0)

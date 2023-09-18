@@ -42,6 +42,8 @@ var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 
 @onready var gridmap = $"/root/CentralControl/procedural-terrain/GridMap"
 
+@onready var car_script = $"../car"
+
 var start_player: Vector3 = Vector3( 15 * 5 / 2, 5 * 5, 15 * 5 / 2)
 
 var player_rotation = 0
@@ -101,6 +103,14 @@ func _physics_process(delta):
 	if Input.is_action_just_pressed("jump") and is_on_floor():
 		snap = Vector3.ZERO
 		gravity_vec = Vector3.UP * jump
+	
+	if Input.is_action_just_pressed("jump") and Global.player_status == Global.STATUS_CAR:
+		## leave car
+		Global.player_status == Global.STATUS_WALKING
+		position.y += 1
+		car_script.leave_car()
+		
+		pass
 	
 	#make it move
 	velocity = velocity.lerp(direction * speed, accel * delta)
@@ -371,7 +381,17 @@ func check_collision():
 						hud.set_text_stat("keys")	
 						gridmap.remove_named_child(str(collision.get_collider().name), false)
 						
-						try = 1						
+						try = 1		
+										
+				if collision.get_collider().name.begins_with("CAR"): 
+					if true or try == 0:
+						
+						#var hash = collision.get_collider().name.substr(len("SPOT") + 1, -1)
+						print("CAR ", collision.get_collider().name)
+						Global.player_status = Global.STATUS_CAR
+						car_script.enter_car()
+						
+						try = 1	
 						
 						
 func timer_to_nextlevel(t=2):

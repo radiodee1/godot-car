@@ -215,6 +215,8 @@ func setup_level_frame():
 			#if not Global.do_nextlevel_transition:
 			maze.maze_generate(highest, e['mesh']) ## <-- after shapes
 			
+			#Global.add_to_items_temp("CAR")
+			
 			for ii in e['includes']:
 				if ii == 'NEXTLEVEL':
 					var map_location = maze.find_map()
