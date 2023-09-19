@@ -234,7 +234,7 @@ func check_collision():
 		if collision != null and collision.get_collider() != null:
 			#Global.set_score_allowed(true)
 			
-			if collision.get_collider().is_in_group("mob"):
+			if collision.get_collider().is_in_group("mob") :
 				
 				var key_items_placed = Global.count_list_items(Global.placed_items, "KEY")
 				var key_items_found = Global.count_list_items(Global.items_temp, "KEY")
@@ -383,8 +383,8 @@ func check_collision():
 						
 						try = 1		
 										
-				if collision.get_collider().name.begins_with("CAR"): 
-					if true or try == 0:
+				if collision.get_collider().name.to_lower().begins_with("car"): 
+					if try == 0:
 						
 						#var hash = collision.get_collider().name.substr(len("SPOT") + 1, -1)
 						print("CAR ", collision.get_collider().name)

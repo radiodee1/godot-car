@@ -15,14 +15,18 @@ var accel_const = 250
 
 func _ready():
 	position = Vector3(15 * 5 / 2, 5 * 5 , 15 * 5 / 2)
-	name = "CAR"
+	name = "car"
 	add_to_group('mob')
 	car_mesh.add_to_group('mob')
 	car_body.add_to_group('mob')
 	car_mesh.name = name
 	car_body.name = name
+	
 	collision_layer = 1
 	collision_mask = 1
+	#disable_mode = 2
+	car_mesh.disabled = false
+	
 	set_collision_layer_value(1, true)
 	set_collision_mask_value(1, true)
 	#car_body.collision_layer = 1
@@ -49,6 +53,7 @@ func _physics_process(delta):
 		else:
 			friction = 0
 		engine_force = acceleration * max_torque * ( 1 - rpm / max_rpm ) - friction
+	
 
 func enter_car():
 	player_walk.disabled = true 
@@ -59,6 +64,7 @@ func enter_car():
 	## enable chase camera
 	camera_chase.current = true
 	camera_walk.current = false
+	Global.player_status = Global.STATUS_CAR
 	
 func leave_car():
 	## disable chase camera
@@ -69,6 +75,6 @@ func leave_car():
 	camera_walk.current = true
 	## position??
 	player_walk.disabled = false
-	
+	Global.player_status = Global.STATUS_WALKING	
 	
 	pass 
