@@ -55,6 +55,8 @@ func _ready():
 	set_collision_layer_value(1, true)
 	self.collision_mask = 1
 	self.collision_layer = 1
+	#set_player_start(0, 0, 0)
+	#restart_player()
 	position = Vector3(15 * 5 / 2, 5 * 5 , 15 * 5 / 2)
 	process_mode = Node.PROCESS_MODE_PAUSABLE
 	
@@ -64,6 +66,10 @@ func _ready():
 
 func _input(event):
 	#get mouse input for camera rotation
+	#if Global.player_status == Global.STATUS_CAR:
+		#pass
+		#return
+	
 	if event is InputEventMouseMotion:
 		rotate_y(deg_to_rad(-event.relative.x * mouse_sense))
 		#rotation.x = deg_to_rad(- event.relative.x * mouse_sense)
@@ -80,12 +86,14 @@ func _process(delta):
 	player_rotation = rotation.y
 
 func _physics_process(delta):
+	
+	if Global.player_status != Global.STATUS_CAR:
 	#get keyboard input
-	direction = Vector3.ZERO
-	var h_rot = global_transform.basis.get_euler().y
-	var f_input = Input.get_action_strength("move_backward") - Input.get_action_strength("move_forward")
-	var h_input = Input.get_action_strength("move_right") - Input.get_action_strength("move_left")
-	direction = Vector3(h_input, 0, f_input).rotated(Vector3.UP, h_rot).normalized()
+		direction = Vector3.ZERO
+		var h_rot = global_transform.basis.get_euler().y
+		var f_input = Input.get_action_strength("move_backward") - Input.get_action_strength("move_forward")
+		var h_input = Input.get_action_strength("move_right") - Input.get_action_strength("move_left")
+		direction = Vector3(h_input, 0, f_input).rotated(Vector3.UP, h_rot).normalized()
 	
 	check_joystick()
 	check_escape()
@@ -106,22 +114,27 @@ func _physics_process(delta):
 	
 	if Input.is_action_just_pressed("jump") and Global.player_status == Global.STATUS_CAR:
 		## leave car
-		Global.player_status == Global.STATUS_WALKING
-		position.y += 1
+		Global.player_status = Global.STATUS_WALKING
+		position = Vector3(car_script.position)
+		position.x += 3
+		position.y += 2
 		car_script.leave_car()
 		
+		snap = Vector3.ZERO
+		gravity_vec = Vector3.UP * jump
 		pass
 	
 	#make it move
+	#if Global.player_status != Global.STATUS_CAR:
 	velocity = velocity.lerp(direction * speed, accel * delta)
 	velocity = velocity + gravity_vec
-	
+		
 	#floor_snap_length = Vector3(float(movement), float(snap), float(0))
 	if snap.y >= 0:
 		floor_snap_length = snap.y
 	else:
 		floor_snap_length = 0
-	#gravity = gravity_vec * gravity_mult
+		#gravity = gravity_vec * gravity_mult
 	
 	var found_altars = Global.count_list_items(Global.items_temp, 'ALTAR')
 	var found_nextlevels = Global.count_list_items(Global.items_temp, 'NEXTLEVEL')
@@ -133,7 +146,7 @@ func _physics_process(delta):
 	#	print(found_altars_global, ' ', found_landing_global, ' end' )
 	
 	
-	if found_altars_global > 0 and found_landing_global == 0:
+	if found_altars_global > 0 and found_landing_global == 0 and Global.player_status == Global.STATUS_WALKING:
 		check_landing(delta)
 		check_collision()
 		move_and_slide()
@@ -180,7 +193,10 @@ func _physics_process(delta):
 	
 	
 func check_joystick():
-	
+	if Global.player_status == Global.STATUS_CAR:
+		pass
+		#return
+		
 	var stick_left = Input.get_action_strength("stick_left")
 	var stick_right = Input.get_action_strength("stick_right")
 	var stick_up = Input.get_action_strength("stick_up")
@@ -275,7 +291,7 @@ func check_collision():
 						Global.add_to_items_temp('NEXTLEVEL')
 						#hud.set_text_msg('hill')
 						#hud.set_text_stat("hill")
-						set_player_start(5, 100, 5)
+						set_player_start(15 * 5 / 2, 100, 15 * 5 / 2)
 						timer_to_nextlevel()
 						
 						try = 1
@@ -383,11 +399,11 @@ func check_collision():
 						
 						try = 1		
 										
-				if collision.get_collider().name.to_lower().begins_with("car"): 
+				if collision.get_collider().name.to_lower().begins_with("car") and Global.player_status == Global.STATUS_WALKING: 
 					if try == 0:
 						
 						#var hash = collision.get_collider().name.substr(len("SPOT") + 1, -1)
-						print("CAR ", collision.get_collider().name)
+						#print("CAR ", collision.get_collider().name)
 						Global.player_status = Global.STATUS_CAR
 						car_script.enter_car()
 						
@@ -454,6 +470,7 @@ func set_player_start(x,y,z):
 	land_in_maze = false
 	hit_high_altar = false
 	start_player = Vector3( x, y, z)
+	#start_player = Vector3(15 * 5 / 2 + 5, 25, 15 * 5 / 2 + 5 )
 	
 func get_player_rotation():
 	return player_rotation
