@@ -48,6 +48,9 @@ var start_player: Vector3 = Vector3( 15 * 5 / 2, 5 * 5, 15 * 5 / 2)
 
 var player_rotation = 0
 
+var f_input
+var h_input
+
 func _ready():
 	#hides the cursor
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
@@ -86,14 +89,21 @@ func _process(delta):
 	player_rotation = rotation.y
 
 func _physics_process(delta):
-	
-	if Global.player_status != Global.STATUS_CAR:
 	#get keyboard input
-		direction = Vector3.ZERO
-		var h_rot = global_transform.basis.get_euler().y
-		var f_input = Input.get_action_strength("move_backward") - Input.get_action_strength("move_forward")
-		var h_input = Input.get_action_strength("move_right") - Input.get_action_strength("move_left")
-		direction = Vector3(h_input, 0, f_input).rotated(Vector3.UP, h_rot).normalized()
+	direction = Vector3.ZERO
+	var h_rot = global_transform.basis.get_euler().y
+	
+	#if Global.player_status != Global.STATUS_CAR:
+	f_input = Input.get_action_strength("move_backward") - Input.get_action_strength("move_forward")
+	h_input = Input.get_action_strength("move_right") - Input.get_action_strength("move_left")
+	
+	#if true: #Global.player_status != Global.STATUS_CAR:	
+	#f_input = Global.f_input
+	#h_input = Global.h_input
+
+	direction = Vector3(h_input, 0, f_input).rotated(Vector3.UP, h_rot).normalized()
+	
+		#print(Input.get_axis("move_backward", "move_forward") , ' axis') 
 	
 	check_joystick()
 	check_escape()

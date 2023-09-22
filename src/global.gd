@@ -142,3 +142,8 @@ var STATUS_PUSH_JAIL = 2
 
 var player_status = STATUS_WALKING
 
+#########################
+
+#var f_input = Input.get_action_strength("move_backward") - Input.get_action_strength("move_forward")
+#var h_input = Input.get_action_strength("move_right") - Input.get_action_strength("move_left")
+	

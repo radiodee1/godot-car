@@ -79,4 +79,4 @@ mesh = SubResource("CylinderMesh_djm30")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.74575, -3.33924)
 
 [node name="chase_camera" type="Camera3D" parent="arm"]
-transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0)
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 1.23638, -4.19113)
