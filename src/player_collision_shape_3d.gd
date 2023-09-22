@@ -1,6 +1,6 @@
 extends CharacterBody3D
 
-@onready var control_buttons = load("res://src/central_control.tscn")
+#@onready var control_buttons = load("res://src/central_control.tscn")
 
 #signal hole_to_maze
 #signal hole_to_nextlevel
@@ -94,12 +94,12 @@ func _physics_process(delta):
 	var h_rot = global_transform.basis.get_euler().y
 	
 	#if Global.player_status != Global.STATUS_CAR:
-	f_input = Input.get_action_strength("move_backward") - Input.get_action_strength("move_forward")
-	h_input = Input.get_action_strength("move_right") - Input.get_action_strength("move_left")
+	#f_input = Input.get_action_strength("move_backward") - Input.get_action_strength("move_forward")
+	#h_input = Input.get_action_strength("move_right") - Input.get_action_strength("move_left")
 	
-	#if true: #Global.player_status != Global.STATUS_CAR:	
-	#f_input = Global.f_input
-	#h_input = Global.h_input
+	if Global.player_status != Global.STATUS_CAR:	
+		f_input = Physics.f_input()
+		h_input = Physics.h_input()
 
 	direction = Vector3(h_input, 0, f_input).rotated(Vector3.UP, h_rot).normalized()
 	

@@ -4,7 +4,9 @@ var steer = 0
 var max_torque = 30
 var max_rpm = 50
 var friction = 0
-var accel_const = 500
+var accel_const = 250
+
+var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 
 @onready var camera_chase = $"arm/chase_camera"
 @onready var camera_walk = $"../CharacterBody3D/arm/Camera3D"
@@ -45,8 +47,8 @@ func _physics_process(delta):
 		
 		player_walk.position = Vector3(position)
 		
-		var f_input : float = float(player_script.f_input + 0) / 1.0 #Input.get_action_strength("move_backward") - Input.get_action_strength("move_forward")
-		var h_input : float = float(player_script.h_input + 0) / 1.0 #Input.get_action_strength("move_right") - Input.get_action_strength("move_left")
+		var f_input : float = float(Physics.f_input() + 0) / 1.0 #Input.get_action_strength("move_backward") - Input.get_action_strength("move_forward")
+		var h_input : float = float(Physics.h_input() + 0) / 1.0 #Input.get_action_strength("move_right") - Input.get_action_strength("move_left")
 		
 		print( f_input, ' ' , h_input, ' ' , position, ' car')
 		#var direction = player_walk.direction 	
@@ -74,7 +76,7 @@ func _physics_process(delta):
 		print(engine_force, ' force ', friction, ' friction')
 
 func enter_car():
-	player_walk.disabled = true ## <-- 
+	player_walk.disabled = false ## <-- 
 	player_walk.visible = false
 	
 	car_mesh.disabled = false
