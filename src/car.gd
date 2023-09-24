@@ -24,8 +24,11 @@ var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 @onready var wheel_back_right = $"wheel_back_right"
 
 func _ready():
-	position = Vector3(15 * 5 / 2 - 5, 5 * 5 * 1 , 15 * 5 / 2 - 5 )
-	#name = "car"
+	#position = Vector3(15 * 5 / 2 - 5, 5 * 5 * 1 , 15 * 5 / 2 - 5 )
+	position = player_script.start_player
+	position.x -= 5
+	position.z -= 5
+	name = "car"
 	set_name.call_deferred("car")
 	add_to_group('mob')
 	car_mesh.add_to_group('mob')
@@ -54,9 +57,9 @@ func _physics_process(delta):
 		if player_walk != null:
 			player_walk.position = Vector3(position)
 		
-		var f_input : float = float(Physics.f_input() + 0) / 1.0 
+		var f_input : float = float(Physics.f_input() ) 
 		#Input.get_action_strength("move_backward") - Input.get_action_strength("move_forward")
-		var h_input : float = float(Physics.h_input() + 0) / 1.0 
+		var h_input : float = float(Physics.h_input() )  
 		#Input.get_action_strength("move_right") - Input.get_action_strength("move_left")
 		
 		print( f_input, ' ' , h_input, ' ' , position, ' car')
@@ -82,6 +85,7 @@ func _physics_process(delta):
 			friction = 0
 		engine_force = acceleration * max_torque * ( 1 - rpm / max_rpm ) - friction
 		#engine_force = abs(acceleration)
+		
 		print(engine_force, ' force ', friction, ' friction ', brake, ' brake')
 
 func enter_car():
