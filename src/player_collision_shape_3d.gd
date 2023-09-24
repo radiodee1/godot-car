@@ -69,9 +69,6 @@ func _ready():
 
 func _input(event):
 	#get mouse input for camera rotation
-	#if Global.player_status == Global.STATUS_CAR:
-		#pass
-		#return
 	
 	if event is InputEventMouseMotion:
 		rotate_y(deg_to_rad(-event.relative.x * mouse_sense))
@@ -122,7 +119,7 @@ func _physics_process(delta):
 		snap = Vector3.ZERO
 		gravity_vec = Vector3.UP * jump
 	
-	if Input.is_action_just_pressed("jump") and Global.player_status == Global.STATUS_CAR:
+	if Input.is_action_just_pressed("jump") and Global.player_status == Global.STATUS_CAR and is_on_floor():
 		## leave car
 		Global.player_status = Global.STATUS_WALKING
 		position = Vector3(car_script.position)

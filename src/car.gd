@@ -4,24 +4,29 @@ var steer = 0
 var max_torque = 30
 var max_rpm = 50
 var friction = 0
-var accel_const = 250
+var accel_const = 2500
 
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
+
 
 @onready var camera_chase = $"arm/chase_camera"
 @onready var camera_walk = $"../CharacterBody3D/arm/Camera3D"
 
 @onready var player_walk = $"../CharacterBody3D/body"
 @onready var player_script = $"../CharacterBody3D"
+
+
 @onready var car_mesh = $"CollisionShape3D"
 @onready var car_body = $"car_body_mesh"
+
 
 @onready var wheel_back_left = $"wheel_back_left"
 @onready var wheel_back_right = $"wheel_back_right"
 
 func _ready():
 	position = Vector3(15 * 5 / 2 - 5, 5 * 5 * 1 , 15 * 5 / 2 - 5 )
-	name = "car"
+	#name = "car"
+	set_name.call_deferred("car")
 	add_to_group('mob')
 	car_mesh.add_to_group('mob')
 	car_body.add_to_group('mob')
@@ -40,15 +45,19 @@ func _ready():
 	#Global.player_status = Global.STATUS_CAR
 	#enter_car()
 	Global.player_status = Global.STATUS_WALKING
-	leave_car()
+	if player_walk != null and camera_walk != null:
+		leave_car()
 
 func _physics_process(delta):
-	if Global.player_status == Global.STATUS_CAR:
+	if Global.player_status == Global.STATUS_CAR or player_walk == null:
 		
-		player_walk.position = Vector3(position)
+		if player_walk != null:
+			player_walk.position = Vector3(position)
 		
-		var f_input : float = float(Physics.f_input() + 0) / 1.0 #Input.get_action_strength("move_backward") - Input.get_action_strength("move_forward")
-		var h_input : float = float(Physics.h_input() + 0) / 1.0 #Input.get_action_strength("move_right") - Input.get_action_strength("move_left")
+		var f_input : float = float(Physics.f_input() + 0) / 1.0 
+		#Input.get_action_strength("move_backward") - Input.get_action_strength("move_forward")
+		var h_input : float = float(Physics.h_input() + 0) / 1.0 
+		#Input.get_action_strength("move_right") - Input.get_action_strength("move_left")
 		
 		print( f_input, ' ' , h_input, ' ' , position, ' car')
 		#var direction = player_walk.direction 	
@@ -73,7 +82,7 @@ func _physics_process(delta):
 			friction = 0
 		engine_force = acceleration * max_torque * ( 1 - rpm / max_rpm ) - friction
 		#engine_force = abs(acceleration)
-		print(engine_force, ' force ', friction, ' friction')
+		print(engine_force, ' force ', friction, ' friction ', brake, ' brake')
 
 func enter_car():
 	player_walk.disabled = false ## <-- 
