@@ -16,18 +16,16 @@ var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 @onready var player_script = $"../CharacterBody3D"
 
 
-@onready var car_mesh = $"CollisionShape3D"
-@onready var car_body = $"car_body_mesh"
+@onready var car_mesh = $"./CollisionShape3D"
+@onready var car_body = $"./car_body_mesh"
 
 
-@onready var wheel_back_left = $"wheel_back_left"
-@onready var wheel_back_right = $"wheel_back_right"
+@onready var wheel_back_left = $"./wheel_back_left"
+@onready var wheel_back_right = $"./wheel_back_right"
 
 func _ready():
-	#position = Vector3(15 * 5 / 2 - 5, 5 * 5 * 1 , 15 * 5 / 2 - 5 )
-	position = player_script.start_player
-	position.x -= 5
-	position.z -= 5
+	
+	
 	name = "car"
 	set_name.call_deferred("car")
 	add_to_group('mob')
@@ -43,13 +41,9 @@ func _ready():
 	
 	set_collision_layer_value(1, true)
 	set_collision_mask_value(1, true)
-	#car_body.collision_layer = 1
-	#car_body.collision_mask = 1
-	#Global.player_status = Global.STATUS_CAR
-	#enter_car()
-	Global.player_status = Global.STATUS_WALKING
-	if player_walk != null and camera_walk != null:
-		leave_car()
+	
+	init()
+	
 
 func _physics_process(delta):
 	if Global.player_status == Global.STATUS_CAR or player_walk == null:
@@ -80,7 +74,7 @@ func _physics_process(delta):
 		var margin_for_rpm = 0.1
 		
 		if abs(acceleration) < margin_for_acceleration and rpm > margin_for_rpm :
-			friction = delta * accel_const * max_torque *  ( rpm1 / abs(rpm1) )
+			friction = delta * accel_const * max_torque *  ( rpm1 / abs(rpm1) ) 
 		else:
 			friction = 0
 		engine_force = acceleration * max_torque * ( 1 - rpm / max_rpm ) - friction
@@ -110,3 +104,12 @@ func leave_car():
 	Global.player_status = Global.STATUS_WALKING	
 	
 	pass 
+
+func init():
+	
+	position = player_script.start_player
+	position.x -= 5
+	position.z -= 5
+	Global.player_status = Global.STATUS_WALKING
+	if player_walk != null and camera_walk != null:
+		leave_car()
