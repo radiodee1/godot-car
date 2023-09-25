@@ -4,7 +4,7 @@ var steer = 0
 var max_torque = 30
 var max_rpm = 50
 var friction = 0
-var accel_const = 2500
+var accel_const = 25 #00
 
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 
@@ -53,16 +53,19 @@ func _physics_process(delta):
 		if player_walk != null:
 			player_walk.position = Vector3(position)
 		
-		
-		print( f_input, ' ' , h_input, ' ' , position, ' car')
-		#var direction = player_walk.direction 	
+		if h_input == null:
+			h_input = 0
+			
+		if f_input == null:
+			f_input = 0
+			
 		steer = lerp(float(steer), float(h_input * 0.4), 5 * delta)			
 		#steer = lerp(float(steer), float(Input.get_axis("move_right", "move_left") * 0.4), 5 * delta)
 		steering = steer 
 	
 		var acceleration = f_input * delta * accel_const
 		#print(Input.get_axis("move_backward", "move_forward") , ' axis') 
-		print(acceleration, ' acc')
+		print( f_input, ' ' , h_input, ' ' , acceleration, ' car')
 		
 		var rpm1 = (wheel_back_left.get_rpm())
 		var rpm2 = (wheel_back_right.get_rpm())
@@ -82,9 +85,9 @@ func _physics_process(delta):
 
 func _input(event):
 	f_input = float(Physics.f_input() ) 
-		#Input.get_action_strength("move_backward") - Input.get_action_strength("move_forward")
+	#Input.get_action_strength("move_backward") - Input.get_action_strength("move_forward")
 	h_input = float(Physics.h_input() )  
-		#Input.get_action_strength("move_right") - Input.get_action_strength("move_left")
+	#Input.get_action_strength("move_right") - Input.get_action_strength("move_left")
 		
 
 func enter_car():
@@ -92,6 +95,7 @@ func enter_car():
 	player_walk.visible = false
 	
 	player_script.set_process_input(false)
+	self.set_process_input(true)
 	
 	car_mesh.disabled = false
 	
@@ -104,6 +108,7 @@ func leave_car():
 	car_mesh.disabled = false
 	
 	player_script.set_process_input(true)
+	self.set_process_input(false)
 	
 	camera_chase.current = false
 	camera_walk.current = true
