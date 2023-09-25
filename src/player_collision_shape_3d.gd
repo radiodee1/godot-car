@@ -68,6 +68,7 @@ func _ready():
 	Global.set_score_allowed(true)
 
 func _input(event):
+		
 	#get mouse input for camera rotation
 	
 	if event is InputEventMouseMotion:
@@ -87,23 +88,26 @@ func _process(delta):
 
 func _physics_process(delta):
 	#get keyboard input
+	#direction = Vector3.ZERO
+	#var h_rot = global_transform.basis.get_euler().y
+	
+	
+	#if Global.player_status != Global.STATUS_CAR:	
+	#	f_input = Physics.f_input()
+	#	h_input = Physics.h_input()
+
+	#direction = Vector3(h_input, 0, f_input).rotated(Vector3.UP, h_rot).normalized() 
 	direction = Vector3.ZERO
 	var h_rot = global_transform.basis.get_euler().y
-	
-	#if Global.player_status != Global.STATUS_CAR:
-	#f_input = Input.get_action_strength("move_backward") - Input.get_action_strength("move_forward")
-	#h_input = Input.get_action_strength("move_right") - Input.get_action_strength("move_left")
 	
 	if Global.player_status != Global.STATUS_CAR:	
 		f_input = Physics.f_input()
 		h_input = Physics.h_input()
-
-	direction = Vector3(h_input, 0, f_input).rotated(Vector3.UP, h_rot).normalized()
-	
-		#print(Input.get_axis("move_backward", "move_forward") , ' axis') 
+		direction = Vector3(h_input, 0, f_input).rotated(Vector3.UP, h_rot).normalized()		
+	#get mouse input for camera rotation
 	
 	check_joystick()
-	check_escape()
+	Physics.check_escape()
 	
 	#jumping and gravity
 	if is_on_floor():
@@ -214,14 +218,11 @@ func check_joystick():
 	head.rotation.x = clamp(head.rotation.x, deg_to_rad(-69), deg_to_rad(69))
 	pass 
 	
-func check_escape():
-	## temporary game stop ##
-	var escape = Input.get_action_strength("escape")
-	if escape >= .5:
-		#add_child(control.instantiate())
-		#get_tree().change_scene_to_file("/root/CentralControl/Control")
-		start.text = 'NEW-GAME'
-		control_show()
+#func check_escape():
+#	var escape = Input.get_action_strength("escape")
+#	if escape >= .5:
+#		start.text = 'NEW-GAME'
+#		control_show()
 
 func control_show():
 	control.show()

@@ -86,6 +86,8 @@ func enter_car():
 	player_walk.disabled = false ## <-- should be false
 	player_walk.visible = false
 	
+	player_script.set_process_input(false)
+	
 	car_mesh.disabled = false
 	
 	## enable chase camera
@@ -95,6 +97,8 @@ func enter_car():
 	
 func leave_car():
 	car_mesh.disabled = false
+	
+	player_script.set_process_input(true)
 	
 	camera_chase.current = false
 	camera_walk.current = true
