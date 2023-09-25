@@ -89,7 +89,7 @@ func _physics_process(delta):
 		print(engine_force, ' force ', friction, ' friction ', brake, ' brake')
 
 func enter_car():
-	player_walk.disabled = false ## <-- 
+	player_walk.disabled = false ## <-- should be false
 	player_walk.visible = false
 	
 	car_mesh.disabled = false
