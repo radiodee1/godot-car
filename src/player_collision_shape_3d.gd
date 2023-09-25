@@ -68,7 +68,13 @@ func _ready():
 	Global.set_score_allowed(true)
 
 func _input(event):
-		
+	direction = Vector3.ZERO
+	var h_rot = global_transform.basis.get_euler().y
+	
+	#if Global.player_status != Global.STATUS_CAR or true:	
+	f_input = Physics.f_input()
+	h_input = Physics.h_input()
+	direction = Vector3(h_input, 0, f_input).rotated(Vector3.UP, h_rot).normalized()	
 	#get mouse input for camera rotation
 	
 	if event is InputEventMouseMotion:
@@ -91,20 +97,12 @@ func _physics_process(delta):
 	#direction = Vector3.ZERO
 	#var h_rot = global_transform.basis.get_euler().y
 	
-	
 	#if Global.player_status != Global.STATUS_CAR:	
 	#	f_input = Physics.f_input()
 	#	h_input = Physics.h_input()
 
 	#direction = Vector3(h_input, 0, f_input).rotated(Vector3.UP, h_rot).normalized() 
-	direction = Vector3.ZERO
-	var h_rot = global_transform.basis.get_euler().y
 	
-	if Global.player_status != Global.STATUS_CAR:	
-		f_input = Physics.f_input()
-		h_input = Physics.h_input()
-		direction = Vector3(h_input, 0, f_input).rotated(Vector3.UP, h_rot).normalized()		
-	#get mouse input for camera rotation
 	
 	check_joystick()
 	Physics.check_escape()
