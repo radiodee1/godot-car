@@ -48,8 +48,9 @@ var start_player: Vector3 = Vector3( 15 * 5 / 2, 5 * 5, 15 * 5 / 2)
 
 var player_rotation = 0
 
-var f_input
-var h_input
+var f_input = 0
+var h_input = 0
+var jump_pressed = false
 
 func _ready():
 	#hides the cursor
@@ -71,12 +72,41 @@ func _input(event):
 	direction = Vector3.ZERO
 	var h_rot = global_transform.basis.get_euler().y
 	
-	#if Global.player_status != Global.STATUS_CAR or true:	
-	f_input = Physics.f_input()
-	h_input = Physics.h_input()
-	direction = Vector3(h_input, 0, f_input).rotated(Vector3.UP, h_rot).normalized()	
-	#get mouse input for camera rotation
+	if event.get_action_strength("jump") > 0.0:
+		jump_pressed = true
+		print('jump')
+		#Input.action_press("jump")
+	else:
+		jump_pressed = false
+		
+	if event.get_action_strength("move_forward") > 0.0:
+		f_input = -1
+		print('forward')
+		#Input.action_press("move_forward")
+	elif event.get_action_strength("move_backward") > 0.0:
+		f_input = 1
+		print('back')
+		#Input.action_press("move_backward")
+	elif not jump_pressed:
+		f_input = 0
 	
+		
+	if event.get_action_strength("move_left") > 0.0:
+		h_input = -1
+		print('left')
+			
+	elif event.get_action_strength("move_right") > 0.0:
+		h_input = 1
+		print('right')
+	else:
+		h_input = 0
+		
+	#if Global.player_status != Global.STATUS_CAR or true:	
+	#f_input = Physics.f_input()
+	#h_input = Physics.h_input()
+	direction = Vector3(h_input, 0, f_input).rotated(Vector3.UP, h_rot).normalized()	
+	
+	#get mouse input for camera rotation
 	if event is InputEventMouseMotion:
 		rotate_y(deg_to_rad(-event.relative.x * mouse_sense))
 		#rotation.x = deg_to_rad(- event.relative.x * mouse_sense)
@@ -117,11 +147,12 @@ func _physics_process(delta):
 		accel = ACCEL_AIR
 		gravity_vec += Vector3.DOWN * gravity * delta
 		
-	if Input.is_action_just_pressed("jump") and is_on_floor():
+	#if Input.is_action_just_pressed("jump") and is_on_floor():
+	if jump_pressed and is_on_floor():
 		snap = Vector3.ZERO
 		gravity_vec = Vector3.UP * jump
 	
-	if Input.is_action_just_pressed("jump") and Global.player_status == Global.STATUS_CAR and is_on_floor():
+	if jump_pressed and Global.player_status == Global.STATUS_CAR and is_on_floor():
 		## leave car
 		Global.player_status = Global.STATUS_WALKING
 		position = Vector3(car_script.position)
