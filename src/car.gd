@@ -85,7 +85,7 @@ func _input(event):
 	print('unhandled xx ')
 	print(event.as_text(), ' xx')
 	
-	if event.is_action_pressed("jump"): # > 0.0: # or Input.is_action_just_pressed("jump"):
+	if event.is_action_pressed("jump"): 
 		jump_pressed = true
 		print('jump xx')
 		jump_exit()
@@ -93,22 +93,22 @@ func _input(event):
 		jump_pressed = false
 		
 	#h_input = 0
-	if event.is_action_pressed("move_forward"): # > 0.0: # or Input.is_action_just_pressed("move_forward"):
+	if event.is_action_pressed("move_forward"): 
 		f_input = 1
 		print('forward xx')
 			
-	elif event.is_action_pressed("move_backward"): # > 0.0: # or Input.is_action_just_pressed("move_backward"):
+	elif event.is_action_pressed("move_backward"): 
 		f_input = -1
 		print('back xx')
 	elif event.is_action_released("move_backward") or event.is_action_released("move_forward"):
 		f_input = 0
 		
 	
-	if event.is_action_pressed("move_left"): # > 0.0: # or Input.is_action_just_pressed("move_left"):
+	if event.is_action_pressed("move_left"): 
 		h_input = 1
 		print('left xx')
 			
-	elif event.is_action_pressed("move_right"): # > 0.0: # or Input.is_action_just_pressed("move_right"):
+	elif event.is_action_pressed("move_right"): 
 		h_input = -1
 		print('right xx')
 	elif event.is_action_released("move_left") or event.is_action_released("move_right"):
@@ -123,9 +123,12 @@ func enter_car():
 	player_walk.set_process_input(false)
 	player_script.set_process_input(false)
 	
-	#self.set_process_input(true)
-	#set_process_input(true)
+	self.set_process_input(true)
+	set_process_input(true)
 	#set_process(true)
+	
+	car_body.set_process_input(true)
+	car_mesh.set_process_input(true)
 	
 	car_mesh.disabled = false
 	
@@ -140,9 +143,12 @@ func leave_car():
 	player_walk.set_process_input(true)
 	player_script.set_process_input(true)
 	
-	#self.set_process_input(false)
-	#set_process_input(false)
+	self.set_process_input(false)
+	set_process_input(false)
 	#set_process(false)
+	
+	car_body.set_process_input(false)
+	car_mesh.set_process_input(false)
 	
 	camera_chase.current = false
 	camera_walk.current = true
