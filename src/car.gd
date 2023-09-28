@@ -50,15 +50,16 @@ func _ready():
 	
 	set_collision_layer_value(1, true)
 	set_collision_mask_value(1, true)
-	
+	process_mode = Node.PROCESS_MODE_PAUSABLE
 	init()
 
 func _physics_process(delta):
 	if Global.player_status == Global.STATUS_CAR or test_alone:
+		do_process(delta)
 		
 		if not test_alone:
 			player_walk.position = Vector3(position)
-			#player_walk.position.y += 100
+			player_walk.position.y += 10
 			print(player_walk.position, ' player pos')
 			
 		
@@ -86,13 +87,13 @@ func _physics_process(delta):
 		
 		print(engine_force, ' force ', friction, ' friction ', brake, ' brake')
 
-func _process(delta):
-	if Global.player_status == Global.STATUS_CAR:
-		h_input = float(player_script.h_input)
-		f_input = float(player_script.f_input)
-		jump_pressed = bool(player_script.jump_pressed)
-		if jump_pressed:
-			jump_exit()
+func do_process(delta):
+	#if Global.player_status == Global.STATUS_CAR or true:
+	h_input = float(player_script.h_input)
+	f_input = float(player_script.f_input)
+	jump_pressed = bool(player_script.jump_pressed)
+	if jump_pressed:
+		jump_exit()
 
 func _input(event):
 	pass
@@ -180,15 +181,15 @@ func jump_exit():
 		return 
 	## leave car
 	Global.player_status = Global.STATUS_WALKING
-	#player_script.position = Vector3(position)
-	player_script.position.x += 3
-	player_script.position.y += 2
+	player_walk.position = Vector3(position)
+	player_walk.position.x += 3
+	player_walk.position.y += 2
 	leave_car()
+	print("jump here xx")
+	#if player_walk.is_on_floor() or true:
+	player_script.snap = Vector3.ZERO
+	player_script.gravity_vec = Vector3.UP * player_script.jump
 	
-	if player_script.is_on_floor():
-		player_script.snap = Vector3.ZERO
-		player_script.gravity_vec = Vector3.UP * player_script.jump
-		pass
 	pass
 
 func init():

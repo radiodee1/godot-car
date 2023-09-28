@@ -72,33 +72,37 @@ func _input(event):
 	direction = Vector3.ZERO
 	var h_rot = global_transform.basis.get_euler().y
 	
-	if event.get_action_strength("jump") > 0.0:
+	
+	print('unhandled xx ')
+	print(event.as_text(), ' xx')
+	
+	if event.is_action_pressed("jump"): 
 		jump_pressed = true
-		print('jump xxy')
-		#Input.action_press("jump")
+		print('jump xx')
+		#jump_exit()
 	else:
 		jump_pressed = false
 		
-	if event.get_action_strength("move_forward") > 0.0:
+	#h_input = 0
+	if event.is_action_pressed("move_forward"): 
 		f_input = -1
-		print('forward xxy')
-		#Input.action_press("move_forward")
-	elif event.get_action_strength("move_backward") > 0.0:
-		f_input = 1
-		print('back xxy')
-		#Input.action_press("move_backward")
-	elif not jump_pressed:
-		f_input = 0
-	
-		
-	if event.get_action_strength("move_left") > 0.0:
-		h_input = -1
-		print('left xxy')
+		print('forward xx')
 			
-	elif event.get_action_strength("move_right") > 0.0:
+	elif event.is_action_pressed("move_backward"): 
+		f_input = 1
+		print('back xx')
+	elif event.is_action_released("move_backward") or event.is_action_released("move_forward"):
+		f_input = 0
+		
+	
+	if event.is_action_pressed("move_left"): 
 		h_input = 1
-		print('right xxy')
-	else:
+		print('left xx')
+			
+	elif event.is_action_pressed("move_right"): 
+		h_input = -1
+		print('right xx')
+	elif event.is_action_released("move_left") or event.is_action_released("move_right"):
 		h_input = 0
 		
 	#if Global.player_status != Global.STATUS_CAR or true:	
@@ -197,7 +201,7 @@ func _physics_process(delta):
 		pass
 			
 	
-	elif position.y < -500 : ## 2500
+	elif position.y < -500 and Global.player_status == Global.STATUS_WALKING: ## 2500
 		print(position.y, " <<< endless fall")
 		#get_tree().change_scene_to_packed(control_buttons)	
 		hud.set_text_msg("start", 3)
