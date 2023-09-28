@@ -13,6 +13,10 @@ var f_input = 0
 var h_input = 0
 var jump_pressed = false
 
+#@onready var f_input_in =  $"../CharacterBody3D"
+#@onready var h_input_in =  $"../CharacterBody3D"
+#@onready var jump_pressed_in =  $"../CharacterBody3D"
+
 @onready var camera_chase = $"arm/chase_camera"
 @onready var camera_walk = $"../CharacterBody3D/arm/Camera3D"
 
@@ -30,7 +34,7 @@ var jump_pressed = false
 @onready var wheel_back_right = $"./wheel_back_right"
 
 func _ready():
-	
+	print('car start')
 	name = "car"
 	set_name.call_deferred("car")
 	add_to_group('mob')
@@ -50,12 +54,13 @@ func _ready():
 	init()
 
 func _physics_process(delta):
-	if Global.player_status == Global.STATUS_CAR or player_walk == null:
+	if Global.player_status == Global.STATUS_CAR or test_alone:
 		
 		if not test_alone:
 			player_walk.position = Vector3(position)
-			player_walk.position.y += 100
+			#player_walk.position.y += 100
 			print(player_walk.position, ' player pos')
+			
 		
 		steer = lerp(float(steer), float(h_input * 0.4), 5 * delta)			
 		#steer = lerp(float(steer), float(Input.get_axis("move_right", "move_left") * 0.4), 5 * delta)
@@ -63,7 +68,7 @@ func _physics_process(delta):
 	
 		var acceleration = f_input * delta * accel_const
 		#print(Input.get_axis("move_backward", "move_forward") , ' axis') 
-		print( f_input, ' ' , h_input, ' ' , acceleration, ' ', position , ' car')
+		print( f_input, ' ' , h_input, ' ' , jump_pressed, ' ', position , ' car')
 		
 		var rpm1 = (wheel_back_left.get_rpm())
 		var rpm2 = (wheel_back_right.get_rpm())
@@ -81,55 +86,66 @@ func _physics_process(delta):
 		
 		print(engine_force, ' force ', friction, ' friction ', brake, ' brake')
 
+func _process(delta):
+	if Global.player_status == Global.STATUS_CAR:
+		h_input = float(player_script.h_input)
+		f_input = float(player_script.f_input)
+		jump_pressed = bool(player_script.jump_pressed)
+		if jump_pressed:
+			jump_exit()
+
 func _input(event):
+	pass
+	'''
+	
 	print('unhandled xx ')
 	print(event.as_text(), ' xx')
 	
 	if event.is_action_pressed("jump"): 
-		jump_pressed = true
+		jump_pressed_in = true
 		print('jump xx')
 		jump_exit()
 	else:
-		jump_pressed = false
+		jump_pressed_in = false
 		
 	#h_input = 0
 	if event.is_action_pressed("move_forward"): 
-		f_input = 1
+		f_input_in = 1
 		print('forward xx')
 			
 	elif event.is_action_pressed("move_backward"): 
-		f_input = -1
+		f_input_in = -1
 		print('back xx')
 	elif event.is_action_released("move_backward") or event.is_action_released("move_forward"):
-		f_input = 0
+		f_input_in = 0
 		
 	
 	if event.is_action_pressed("move_left"): 
-		h_input = 1
+		h_input_in = 1
 		print('left xx')
 			
 	elif event.is_action_pressed("move_right"): 
-		h_input = -1
+		h_input_in = -1
 		print('right xx')
 	elif event.is_action_released("move_left") or event.is_action_released("move_right"):
-		h_input = 0
-	
+		h_input_in = 0
+	'''	
 
 func enter_car():
 	#player_script.disabled = true
 	player_walk.disabled = false ## <-- should be false
 	player_walk.visible = false
 	
-	player_walk.set_process_input(false)
-	player_script.set_process_input(false)
+	#player_walk.set_process_input(false)
+	#player_script.set_process_input(false)
 	
 	self.set_process_input(true)
 	set_process_input(true)
-	#set_process(true)
+	set_process(true)
 	
-	car_body.set_process_input(true)
-	car_mesh.set_process_input(true)
-	#InputMap.load_from_project_settings()
+	#car_body.set_process_input(true)
+	#car_mesh.set_process_input(true)
+	
 	car_mesh.disabled = false
 	
 	## enable chase camera
@@ -140,16 +156,16 @@ func enter_car():
 func leave_car():
 	car_mesh.disabled = false
 	
-	player_walk.set_process_input(true)
-	player_script.set_process_input(true)
+	#player_walk.set_process_input(true)
+	#player_script.set_process_input(true)
 	
-	self.set_process_input(false)
-	set_process_input(false)
-	#set_process(false)
+	#self.set_process_input(false)
+	#set_process_input(false)
+	set_process(true)
 	
-	car_body.set_process_input(false)
-	car_mesh.set_process_input(false)
-	#InputMap.load_from_project_settings()
+	#car_body.set_process_input(false)
+	#car_mesh.set_process_input(false)
+	
 	camera_chase.current = false
 	camera_walk.current = true
 	
@@ -162,14 +178,14 @@ func leave_car():
 func jump_exit():
 	if test_alone:
 		return 
+	## leave car
+	Global.player_status = Global.STATUS_WALKING
+	#player_script.position = Vector3(position)
+	player_script.position.x += 3
+	player_script.position.y += 2
+	leave_car()
+	
 	if player_script.is_on_floor():
-		## leave car
-		Global.player_status = Global.STATUS_WALKING
-		player_script.position = Vector3(position)
-		player_script.position.x += 3
-		player_script.position.y += 2
-		leave_car()
-		
 		player_script.snap = Vector3.ZERO
 		player_script.gravity_vec = Vector3.UP * player_script.jump
 		pass

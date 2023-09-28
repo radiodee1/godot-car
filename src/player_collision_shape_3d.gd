@@ -48,9 +48,9 @@ var start_player: Vector3 = Vector3( 15 * 5 / 2, 5 * 5, 15 * 5 / 2)
 
 var player_rotation = 0
 
-var f_input = 0
-var h_input = 0
-var jump_pressed = false
+@export var f_input : float = 0
+@export var h_input : float = 0
+@export var jump_pressed : bool = false
 
 func _ready():
 	#hides the cursor
@@ -143,6 +143,7 @@ func _physics_process(delta):
 		snap = Vector3.ZERO
 		gravity_vec = Vector3.UP * jump
 	
+	'''
 	if jump_pressed and Global.player_status == Global.STATUS_CAR and is_on_floor():
 		## leave car
 		Global.player_status = Global.STATUS_WALKING
@@ -154,7 +155,7 @@ func _physics_process(delta):
 		snap = Vector3.ZERO
 		gravity_vec = Vector3.UP * jump
 		pass
-	
+	'''
 	#make it move
 	#if Global.player_status != Global.STATUS_CAR:
 	velocity = velocity.lerp(direction * speed, accel * delta)
