@@ -129,7 +129,7 @@ func enter_car():
 	
 	car_body.set_process_input(true)
 	car_mesh.set_process_input(true)
-	
+	#InputMap.load_from_project_settings()
 	car_mesh.disabled = false
 	
 	## enable chase camera
@@ -149,7 +149,7 @@ func leave_car():
 	
 	car_body.set_process_input(false)
 	car_mesh.set_process_input(false)
-	
+	#InputMap.load_from_project_settings()
 	camera_chase.current = false
 	camera_walk.current = true
 	
