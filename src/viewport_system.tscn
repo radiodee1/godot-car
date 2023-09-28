@@ -26,7 +26,7 @@ stretch = true
 
 [node name="SubViewport" type="SubViewport" parent="MarginContainer/GridContainer/SubViewportContainer_walk"]
 handle_input_locally = false
-size = Vector2i(2, 2)
+size = Vector2i(574, 648)
 render_target_update_mode = 4
 
 [node name="camera_walk" type="Camera3D" parent="MarginContainer/GridContainer/SubViewportContainer_walk/SubViewport"]
@@ -41,7 +41,7 @@ stretch = true
 
 [node name="SubViewport" type="SubViewport" parent="MarginContainer/GridContainer/SubViewportContainer_car"]
 handle_input_locally = false
-size = Vector2i(2, 2)
+size = Vector2i(574, 648)
 render_target_update_mode = 4
 
 [node name="camera_car" type="Camera3D" parent="MarginContainer/GridContainer/SubViewportContainer_car/SubViewport"]

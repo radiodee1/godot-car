@@ -16,11 +16,11 @@ var jump_pressed = false
 @onready var camera_chase = $"arm/chase_camera"
 @onready var camera_walk = $"../CharacterBody3D/arm/Camera3D"
 
-@onready var player_walk = $"../CharacterBody3D/body"
-@onready var player_script = $"../CharacterBody3D"
+#@onready var player_walk = $"../CharacterBody3D/body"
+#@onready var player_script = $"../CharacterBody3D"
 
-#@onready var player_script = $"../player_collision_shape_3d"
-#@onready var player_walk = $"../player_collision_shape_3d/body"
+@onready var player_script = $"/root/CentralControl/procedural-terrain/CharacterBody3D"
+@onready var player_walk =   $"/root/CentralControl/procedural-terrain/CharacterBody3D/body"
 
 @onready var car_mesh = $"./CollisionShape3D"
 @onready var car_body = $"./car_body_mesh"
@@ -120,14 +120,12 @@ func enter_car():
 	player_walk.disabled = false ## <-- should be false
 	player_walk.visible = false
 	
-	#player_script.disabled = true
-	
 	player_walk.set_process_input(false)
 	player_script.set_process_input(false)
+	
 	#self.set_process_input(true)
-	#self.set_process_input(true)
-	set_process_input(true)
-	set_process(true)
+	#set_process_input(true)
+	#set_process(true)
 	
 	car_mesh.disabled = false
 	
@@ -138,20 +136,17 @@ func enter_car():
 	
 func leave_car():
 	car_mesh.disabled = false
-
-	#player_script.disabled = false
 	
 	player_walk.set_process_input(true)
 	player_script.set_process_input(true)
+	
 	#self.set_process_input(false)
-	self.set_process_input(false)
-	set_process_input(false)
-	set_process(false)
+	#set_process_input(false)
+	#set_process(false)
 	
 	camera_chase.current = false
 	camera_walk.current = true
 	
-	#player_script.disabled = false
 	player_walk.disabled = false
 	player_walk.visible = true
 	Global.player_status = Global.STATUS_WALKING	
