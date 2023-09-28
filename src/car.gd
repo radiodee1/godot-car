@@ -4,7 +4,7 @@ var steer = 0
 var max_torque = 30
 var max_rpm = 50
 var friction = 0
-var accel_const = 25 #00
+var accel_const = 250 #0
 var test_alone = false
 
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
@@ -19,6 +19,8 @@ var jump_pressed = false
 @onready var player_walk = $"../CharacterBody3D/body"
 @onready var player_script = $"../CharacterBody3D"
 
+#@onready var player_script = $"../player_collision_shape_3d"
+#@onready var player_walk = $"../player_collision_shape_3d/body"
 
 @onready var car_mesh = $"./CollisionShape3D"
 @onready var car_body = $"./car_body_mesh"
@@ -28,7 +30,6 @@ var jump_pressed = false
 @onready var wheel_back_right = $"./wheel_back_right"
 
 func _ready():
-	
 	
 	name = "car"
 	set_name.call_deferred("car")
@@ -47,7 +48,6 @@ func _ready():
 	set_collision_mask_value(1, true)
 	
 	init()
-	
 
 func _physics_process(delta):
 	if Global.player_status == Global.STATUS_CAR or player_walk == null:
@@ -81,10 +81,11 @@ func _physics_process(delta):
 		
 		print(engine_force, ' force ', friction, ' friction ', brake, ' brake')
 
-func _process(delta):
+func _input(event):
 	print('unhandled xx ')
+	print(event.as_text(), ' xx')
 	
-	if Input.get_action_strength("jump") > 0.0 or Input.is_action_just_pressed("jump"):
+	if event.is_action_pressed("jump"): # > 0.0: # or Input.is_action_just_pressed("jump"):
 		jump_pressed = true
 		print('jump xx')
 		jump_exit()
@@ -92,37 +93,34 @@ func _process(delta):
 		jump_pressed = false
 		
 	#h_input = 0
-	if Input.get_action_strength("move_forward") > 0.0 or Input.is_action_just_pressed("move_forward"):
-		f_input = -1
+	if event.is_action_pressed("move_forward"): # > 0.0: # or Input.is_action_just_pressed("move_forward"):
+		f_input = 1
 		print('forward xx')
 			
-	elif Input.get_action_strength("move_backward") > 0.0 or Input.is_action_just_pressed("move_backward"):
-		f_input = 1
+	elif event.is_action_pressed("move_backward"): # > 0.0: # or Input.is_action_just_pressed("move_backward"):
+		f_input = -1
 		print('back xx')
-	else:
+	elif event.is_action_released("move_backward") or event.is_action_released("move_forward"):
 		f_input = 0
+		
 	
-	if Input.get_action_strength("move_left") > 0.0 or Input.is_action_just_pressed("move_left"):
-		h_input = -1
+	if event.is_action_pressed("move_left"): # > 0.0: # or Input.is_action_just_pressed("move_left"):
+		h_input = 1
 		print('left xx')
 			
-	elif Input.get_action_strength("move_right") > 0.0 or Input.is_action_just_pressed("move_right"):
-		h_input = 1
+	elif event.is_action_pressed("move_right"): # > 0.0: # or Input.is_action_just_pressed("move_right"):
+		h_input = -1
 		print('right xx')
-	else:
+	elif event.is_action_released("move_left") or event.is_action_released("move_right"):
 		h_input = 0
-			
-	#func _input(event):
-	#f_input = float(Physics.f_input() ) 
-	#Input.get_action_strength("move_backward") - Input.get_action_strength("move_forward")
-	#h_input = float(Physics.h_input() )  
-	#Input.get_action_strength("move_right") - Input.get_action_strength("move_left")
-		
+	
 
 func enter_car():
 	#player_script.disabled = true
 	player_walk.disabled = false ## <-- should be false
 	player_walk.visible = false
+	
+	#player_script.disabled = true
 	
 	player_walk.set_process_input(false)
 	player_script.set_process_input(false)
@@ -140,6 +138,8 @@ func enter_car():
 	
 func leave_car():
 	car_mesh.disabled = false
+
+	#player_script.disabled = false
 	
 	player_walk.set_process_input(true)
 	player_script.set_process_input(true)
@@ -159,6 +159,8 @@ func leave_car():
 	pass 
 
 func jump_exit():
+	if test_alone:
+		return 
 	if player_script.is_on_floor():
 		## leave car
 		Global.player_status = Global.STATUS_WALKING
@@ -173,10 +175,11 @@ func jump_exit():
 	pass
 
 func init():
-	
+	if test_alone:
+		return
 	position = player_script.start_player
 	position.x -= 5
 	position.z -= 5
 	Global.player_status = Global.STATUS_WALKING
-	if player_walk != null and camera_walk != null:
+	if player_walk != null and camera_walk != null and test_alone == false:
 		leave_car()

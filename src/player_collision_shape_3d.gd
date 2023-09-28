@@ -74,18 +74,18 @@ func _input(event):
 	
 	if event.get_action_strength("jump") > 0.0:
 		jump_pressed = true
-		print('jump')
+		print('jump xxy')
 		#Input.action_press("jump")
 	else:
 		jump_pressed = false
 		
 	if event.get_action_strength("move_forward") > 0.0:
 		f_input = -1
-		print('forward')
+		print('forward xxy')
 		#Input.action_press("move_forward")
 	elif event.get_action_strength("move_backward") > 0.0:
 		f_input = 1
-		print('back')
+		print('back xxy')
 		#Input.action_press("move_backward")
 	elif not jump_pressed:
 		f_input = 0
@@ -93,11 +93,11 @@ func _input(event):
 		
 	if event.get_action_strength("move_left") > 0.0:
 		h_input = -1
-		print('left')
+		print('left xxy')
 			
 	elif event.get_action_strength("move_right") > 0.0:
 		h_input = 1
-		print('right')
+		print('right xxy')
 	else:
 		h_input = 0
 		
@@ -124,15 +124,6 @@ func _process(delta):
 
 func _physics_process(delta):
 	#get keyboard input
-	#direction = Vector3.ZERO
-	#var h_rot = global_transform.basis.get_euler().y
-	
-	#if Global.player_status != Global.STATUS_CAR:	
-	#	f_input = Physics.f_input()
-	#	h_input = Physics.h_input()
-
-	#direction = Vector3(h_input, 0, f_input).rotated(Vector3.UP, h_rot).normalized() 
-	
 	
 	check_joystick()
 	Physics.check_escape()
