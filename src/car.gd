@@ -55,11 +55,12 @@ func _ready():
 
 func _physics_process(delta):
 	if Global.player_status == Global.STATUS_CAR or test_alone:
-		do_process(delta)
 		
-		if not test_alone:
+		do_process_input(delta)
+		
+		if not test_alone and not jump_pressed:
 			player_walk.position = Vector3(position)
-			player_walk.position.y += 10
+			#player_walk.position.y += 10
 			print(player_walk.position, ' player pos')
 			
 		
@@ -87,50 +88,54 @@ func _physics_process(delta):
 		
 		print(engine_force, ' force ', friction, ' friction ', brake, ' brake')
 
-func do_process(delta):
-	#if Global.player_status == Global.STATUS_CAR or true:
-	h_input = float(player_script.h_input)
-	f_input = float(player_script.f_input)
-	jump_pressed = bool(player_script.jump_pressed)
-	if jump_pressed:
-		jump_exit()
+func do_process_input(delta):
+	if Global.player_status == Global.STATUS_CAR :
+		h_input = float(player_script.h_input)
+		f_input = - float(player_script.f_input)
+		jump_pressed = bool(player_script.jump_pressed)
+		if jump_pressed:
+			jump_exit()
+	else:
+		h_input = 0.0
+		f_input = 0.0
+		jump_pressed = false
 
 func _input(event):
-	pass
-	'''
+	if not test_alone:
+		return
 	
 	print('unhandled xx ')
 	print(event.as_text(), ' xx')
 	
 	if event.is_action_pressed("jump"): 
-		jump_pressed_in = true
+		jump_pressed = true
 		print('jump xx')
 		jump_exit()
 	else:
-		jump_pressed_in = false
+		jump_pressed = false
 		
 	#h_input = 0
 	if event.is_action_pressed("move_forward"): 
-		f_input_in = 1
+		f_input = 1
 		print('forward xx')
 			
 	elif event.is_action_pressed("move_backward"): 
-		f_input_in = -1
+		f_input = -1
 		print('back xx')
 	elif event.is_action_released("move_backward") or event.is_action_released("move_forward"):
-		f_input_in = 0
+		f_input = 0
 		
 	
 	if event.is_action_pressed("move_left"): 
-		h_input_in = 1
+		h_input = 1
 		print('left xx')
 			
 	elif event.is_action_pressed("move_right"): 
-		h_input_in = -1
+		h_input = -1
 		print('right xx')
 	elif event.is_action_released("move_left") or event.is_action_released("move_right"):
-		h_input_in = 0
-	'''	
+		h_input = 0
+	
 
 func enter_car():
 	#player_script.disabled = true
@@ -180,15 +185,18 @@ func jump_exit():
 	if test_alone:
 		return 
 	## leave car
+	if Global.player_status == Global.STATUS_WALKING:
+		return
+	
 	Global.player_status = Global.STATUS_WALKING
-	player_walk.position = Vector3(position)
-	player_walk.position.x += 3
-	player_walk.position.y += 2
+	player_script.position = Vector3(position)
+	player_script.position.x += 3
+	player_script.position.y += 2
 	leave_car()
-	print("jump here xx")
-	#if player_walk.is_on_floor() or true:
-	player_script.snap = Vector3.ZERO
-	player_script.gravity_vec = Vector3.UP * player_script.jump
+	print("jump here xx ", player_script.position)
+	if player_script.is_on_floor() :
+		player_script.snap = Vector3.ZERO
+		player_script.gravity_vec = Vector3.ZERO # Vector3.UP * player_script.jump
 	
 	pass
 
