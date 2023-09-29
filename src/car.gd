@@ -61,7 +61,7 @@ func _physics_process(delta):
 		if not test_alone: # and not jump_pressed:
 			player_walk.position = Vector3(position)
 			#if player_script.position.y < -400:
-			#	player_script.position = Vector3(position)
+			#player_script.position = Vector3(position)
 			#player_walk.position.y += 10
 
 		print(player_walk.position,' ', player_script.position, ' ',  position, ' player pos')
@@ -96,9 +96,7 @@ func do_process_input(delta):
 		h_input = - float(player_script.h_input)
 		f_input = - float(player_script.f_input)
 		jump_pressed = bool(player_script.jump_pressed)
-		if jump_pressed:
-			#jump_exit()
-			pass
+		
 	else:
 		h_input = 0.0
 		f_input = 0.0
@@ -114,7 +112,7 @@ func _input(event):
 	if event.is_action_pressed("jump"): 
 		jump_pressed = true
 		print('jump xx')
-		jump_exit()
+		#jump_exit()
 	else:
 		jump_pressed = false
 		
@@ -143,7 +141,8 @@ func _input(event):
 
 func enter_car():
 	#player_script.disabled = true
-	player_walk.disabled = false ## <-- should be false
+	player_walk.disabled = true ## <-- should be false
+	#player_script.disabled = false
 	player_walk.visible = false
 	
 	#player_walk.set_process_input(false)
@@ -166,6 +165,7 @@ func enter_car():
 func leave_car():
 	car_mesh.disabled = false
 	
+	#player_script.disabled = false
 	#player_walk.set_process_input(true)
 	#player_script.set_process_input(true)
 	
@@ -185,6 +185,7 @@ func leave_car():
 	
 	pass 
 
+'''
 func jump_exit():
 	if test_alone:
 		return 
@@ -203,6 +204,8 @@ func jump_exit():
 		player_script.gravity_vec = Vector3.ZERO # Vector3.UP * player_script.jump
 	
 	pass
+	
+'''
 
 func init():
 	if test_alone:

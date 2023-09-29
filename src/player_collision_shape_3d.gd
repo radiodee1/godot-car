@@ -132,13 +132,14 @@ func _physics_process(delta):
 	#get keyboard input
 	
 	check_joystick()
-	Physics.check_escape()
+	#Physics.
+	check_escape()
 	#check_car_jump()
 	
 	#jumping and gravity
-	#if Global.player_status == Global.STATUS_WALKING or true:
+	#if Global.player_status == Global.STATUS_WALKING :
 		
-	if is_on_floor():
+	if is_on_floor() :
 		snap = -get_floor_normal()
 		accel = ACCEL_DEFAULT
 		gravity_vec = Vector3.ZERO
@@ -148,29 +149,6 @@ func _physics_process(delta):
 		gravity_vec += Vector3.DOWN * gravity * delta
 		
 	check_car_jump()
-	'''
-	#if Input.is_action_just_pressed("jump") and is_on_floor():
-	if jump_pressed and is_on_floor(): # and Global.player_status == Global.STATUS_WALKING:
-		snap = Vector3.ZERO
-		gravity_vec = Vector3.UP * jump
-		jump_pressed = false
-	
-	
-	if jump_pressed and Global.player_status == Global.STATUS_CAR: # and is_on_floor():
-		## leave car
-		Global.player_status = Global.STATUS_WALKING
-		position = Vector3(car_script.position)
-		position.x += 3
-		position.y += 2
-		car_script.leave_car()
-		
-		snap = Vector3.ZERO
-		gravity_vec = Vector3.UP * jump
-		jump_pressed = false
-		pass
-	'''	
-	#make it move
-	
 		
 	velocity = velocity.lerp(direction * speed, accel * delta)
 	velocity = velocity + gravity_vec
@@ -187,10 +165,6 @@ func _physics_process(delta):
 	
 	var found_landing_global = Global.count_list_items(Global.items_temp, 'SPOT')
 	var found_altars_global = Global.count_list_items(Global.items_temp, 'ALTAR')
-	
-	#if found_altars_global > 0:
-	#	print(found_altars_global, ' ', found_landing_global, ' end' )
-	
 	
 	if found_altars_global > 0 and found_landing_global == 0 and Global.player_status == Global.STATUS_WALKING:
 		check_landing(delta)
@@ -211,8 +185,8 @@ func _physics_process(delta):
 		pass
 			
 	
-	elif body_shape.position.y < -500 and Global.player_status == Global.STATUS_WALKING: ## 2500
-		print(body_shape.position.y, " <<< endless fall")
+	elif position.y < -500 and Global.player_status == Global.STATUS_WALKING: ## 2500
+		print(position.y, " <<< endless fall")
 		#get_tree().change_scene_to_packed(control_buttons)	
 		hud.set_text_msg("start", 3)
 		
@@ -227,36 +201,36 @@ func _physics_process(delta):
 			else:
 				Global.reset_health()
 				return
-			
-			
+				
 			central._do_lose_game()			
 			end_game()
 		pass
 		
-	
 	check_collision()
 	move_and_slide()
 	
 func check_car_jump():
 	
-	if jump_pressed and is_on_floor(): # and Global.player_status == Global.STATUS_WALKING:
+	if jump_pressed and is_on_floor() and Global.player_status == Global.STATUS_WALKING:
 		snap = Vector3.ZERO
 		gravity_vec = Vector3.UP * jump
 		jump_pressed = false
+		print('jump on floor')
 		
 		
-	if jump_pressed and Global.player_status == Global.STATUS_CAR and is_on_floor():
+	if jump_pressed and Global.player_status == Global.STATUS_CAR: # and is_on_floor():
 		## leave car
 		Global.player_status = Global.STATUS_WALKING
-		position = Vector3(car_script.position)
+		#position = Vector3(car_script.position)
+		car_script.leave_car()
 		position.x += 3
 		position.y += 2
-		car_script.leave_car()
+		#car_script.leave_car()
 		
 		snap = Vector3.ZERO
 		gravity_vec = Vector3.UP * jump
-		#jump_pressed = false
-		
+		jump_pressed = false
+		print("jump from car")		
 	pass
 	
 func check_joystick():
@@ -274,11 +248,11 @@ func check_joystick():
 	head.rotation.x = clamp(head.rotation.x, deg_to_rad(-69), deg_to_rad(69))
 	pass 
 	
-#func check_escape():
-#	var escape = Input.get_action_strength("escape")
-#	if escape >= .5:
-#		start.text = 'NEW-GAME'
-#		control_show()
+func check_escape():
+	var escape = Input.get_action_strength("escape")
+	if escape >= .5:
+		start.text = 'NEW-GAME'
+		control_show()
 
 func control_show():
 	control.show()
