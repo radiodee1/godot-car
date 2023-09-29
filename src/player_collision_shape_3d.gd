@@ -27,6 +27,7 @@ var movement = Vector3()
 
 @onready var head = $arm
 @onready var camera = $arm/Camera3D
+@onready var body_shape = $body
 const SPEED = 5.0
 const JUMP_VELOCITY = 4.5
 
@@ -96,11 +97,11 @@ func _input(event):
 		
 	
 	if event.is_action_pressed("move_left"): 
-		h_input = 1
+		h_input = -1
 		print('left xx')
 			
 	elif event.is_action_pressed("move_right"): 
-		h_input = -1
+		h_input = 1
 		print('right xx')
 	elif event.is_action_released("move_left") or event.is_action_released("move_right"):
 		h_input = 0
@@ -125,14 +126,18 @@ func _process(delta):
 	camera.global_transform = head.global_transform
 	#global_transform = head.global_transform
 	player_rotation = rotation.y
+	#body_shape.translate(Vector3.ZERO)
 
 func _physics_process(delta):
 	#get keyboard input
 	
 	check_joystick()
 	Physics.check_escape()
+	#check_car_jump()
 	
 	#jumping and gravity
+	#if Global.player_status == Global.STATUS_WALKING or true:
+		
 	if is_on_floor():
 		snap = -get_floor_normal()
 		accel = ACCEL_DEFAULT
@@ -142,13 +147,16 @@ func _physics_process(delta):
 		accel = ACCEL_AIR
 		gravity_vec += Vector3.DOWN * gravity * delta
 		
+	check_car_jump()
+	'''
 	#if Input.is_action_just_pressed("jump") and is_on_floor():
-	if jump_pressed and is_on_floor():
+	if jump_pressed and is_on_floor(): # and Global.player_status == Global.STATUS_WALKING:
 		snap = Vector3.ZERO
 		gravity_vec = Vector3.UP * jump
+		jump_pressed = false
 	
-	'''
-	if jump_pressed and Global.player_status == Global.STATUS_CAR and is_on_floor():
+	
+	if jump_pressed and Global.player_status == Global.STATUS_CAR: # and is_on_floor():
 		## leave car
 		Global.player_status = Global.STATUS_WALKING
 		position = Vector3(car_script.position)
@@ -158,14 +166,16 @@ func _physics_process(delta):
 		
 		snap = Vector3.ZERO
 		gravity_vec = Vector3.UP * jump
+		jump_pressed = false
 		pass
-	'''
+	'''	
 	#make it move
-	#if Global.player_status != Global.STATUS_CAR:
+	
+		
 	velocity = velocity.lerp(direction * speed, accel * delta)
 	velocity = velocity + gravity_vec
 		
-	#floor_snap_length = Vector3(float(movement), float(snap), float(0))
+		#floor_snap_length = Vector3(float(movement), float(snap), float(0))
 	if snap.y >= 0:
 		floor_snap_length = snap.y
 	else:
@@ -201,8 +211,8 @@ func _physics_process(delta):
 		pass
 			
 	
-	elif position.y < -500 and Global.player_status == Global.STATUS_WALKING: ## 2500
-		print(position.y, " <<< endless fall")
+	elif body_shape.position.y < -500 and Global.player_status == Global.STATUS_WALKING: ## 2500
+		print(body_shape.position.y, " <<< endless fall")
 		#get_tree().change_scene_to_packed(control_buttons)	
 		hud.set_text_msg("start", 3)
 		
@@ -227,6 +237,27 @@ func _physics_process(delta):
 	check_collision()
 	move_and_slide()
 	
+func check_car_jump():
+	
+	if jump_pressed and is_on_floor(): # and Global.player_status == Global.STATUS_WALKING:
+		snap = Vector3.ZERO
+		gravity_vec = Vector3.UP * jump
+		jump_pressed = false
+		
+		
+	if jump_pressed and Global.player_status == Global.STATUS_CAR and is_on_floor():
+		## leave car
+		Global.player_status = Global.STATUS_WALKING
+		position = Vector3(car_script.position)
+		position.x += 3
+		position.y += 2
+		car_script.leave_car()
+		
+		snap = Vector3.ZERO
+		gravity_vec = Vector3.UP * jump
+		#jump_pressed = false
+		
+	pass
 	
 func check_joystick():
 	if Global.player_status == Global.STATUS_CAR:

@@ -58,10 +58,13 @@ func _physics_process(delta):
 		
 		do_process_input(delta)
 		
-		if not test_alone and not jump_pressed:
+		if not test_alone: # and not jump_pressed:
 			player_walk.position = Vector3(position)
+			#if player_script.position.y < -400:
+			#	player_script.position = Vector3(position)
 			#player_walk.position.y += 10
-			print(player_walk.position, ' player pos')
+
+		print(player_walk.position,' ', player_script.position, ' ',  position, ' player pos')
 			
 		
 		steer = lerp(float(steer), float(h_input * 0.4), 5 * delta)			
@@ -90,11 +93,12 @@ func _physics_process(delta):
 
 func do_process_input(delta):
 	if Global.player_status == Global.STATUS_CAR :
-		h_input = float(player_script.h_input)
+		h_input = - float(player_script.h_input)
 		f_input = - float(player_script.f_input)
 		jump_pressed = bool(player_script.jump_pressed)
 		if jump_pressed:
-			jump_exit()
+			#jump_exit()
+			pass
 	else:
 		h_input = 0.0
 		f_input = 0.0
@@ -189,12 +193,12 @@ func jump_exit():
 		return
 	
 	Global.player_status = Global.STATUS_WALKING
-	player_script.position = Vector3(position)
+	#player_script.position = Vector3(position)
 	player_script.position.x += 3
 	player_script.position.y += 2
 	leave_car()
 	print("jump here xx ", player_script.position)
-	if player_script.is_on_floor() :
+	if player_script.is_on_floor() and false:
 		player_script.snap = Vector3.ZERO
 		player_script.gravity_vec = Vector3.ZERO # Vector3.UP * player_script.jump
 	
