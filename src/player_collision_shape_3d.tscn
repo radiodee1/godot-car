@@ -1,22 +1,28 @@
-[gd_scene load_steps=4 format=3 uid="uid://cjayg8o4rnavy"]
+[gd_scene load_steps=5 format=3 uid="uid://cjayg8o4rnavy"]
 
 [ext_resource type="Script" path="res://src/player_collision_shape_3d.gd" id="1_rqriv"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_oedyg"]
+radius = 0.175
+height = 0.75
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_g4o85"]
+points = PackedVector3Array(0.162886, 0.198264, 0.063687, -0.169425, -0.233807, -0.0246512, -0.169936, -0.234522, 0.0199575, -0.137054, 0.302997, 0.0312461, 0.0199575, 0.234522, -0.169936, 0.131905, -0.290977, -0.0695073, 0.0310928, -0.245758, 0.16525, -0.0469353, 0.233878, 0.164714, -0.079129, -0.197357, -0.155909, -0.145871, 0.231787, -0.0906925, 0.132317, 0.303053, -0.0472912, -0.0481196, -0.365873, -0.0252503, 0.152815, -0.254914, 0.064099, -0.112607, -0.231444, 0.129858, 0.0745182, -0.219702, -0.156212, 0.0861701, 0.254533, 0.141498, -0.0481197, 0.365874, -0.0252503, 0.152262, 0.231933, -0.0796863, -0.156212, 0.219702, 0.0745182, 0.0317703, -0.353354, 0.0774058, 0.163136, -0.220612, -0.0575318, 0.0317703, 0.353354, 0.0774057, 0.117971, -0.196982, 0.128933, -0.0360731, -0.326129, -0.114853, -0.0687484, 0.232368, -0.157314, -0.169425, 0.233807, -0.0246513, -0.0924863, -0.326591, 0.0764447, 0.0430727, 0.340815, -0.0932882, 0.107585, 0.230898, -0.134308, -0.145872, -0.231788, -0.0906932, -0.0246513, -0.233807, -0.169425, 0.0772186, -0.352525, -0.0364521)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_o28w8"]
 size = Vector3(0.75, 0.75, 0.75)
 
-[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_b3bf7"]
-radius = 0.2
-height = 0.75
-
 [node name="CharacterBody3D" type="CharacterBody3D"]
 script = ExtResource("1_rqriv")
+
+[node name="body" type="MeshInstance3D" parent="."]
+mesh = SubResource("CapsuleMesh_oedyg")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("ConvexPolygonShape3D_g4o85")
 
 [node name="arm" type="CollisionShape3D" parent="."]
 shape = SubResource("BoxShape3D_o28w8")
 
 [node name="Camera3D" type="Camera3D" parent="arm"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.454054, 0)
-
-[node name="body" type="CollisionShape3D" parent="."]
-shape = SubResource("CapsuleShape3D_b3bf7")

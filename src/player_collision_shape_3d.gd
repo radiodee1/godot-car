@@ -153,11 +153,14 @@ func _physics_process(delta):
 	velocity = velocity.lerp(direction * speed, accel * delta)
 	velocity = velocity + gravity_vec
 		
+	
 		#floor_snap_length = Vector3(float(movement), float(snap), float(0))
-	if snap.y >= 0:
+	if snap.y >= 0 :
 		floor_snap_length = snap.y
+		
 	else:
 		floor_snap_length = 0
+		
 		#gravity = gravity_vec * gravity_mult
 	
 	var found_altars = Global.count_list_items(Global.items_temp, 'ALTAR')
@@ -220,7 +223,7 @@ func check_car_jump():
 		
 	if jump_pressed and Global.player_status == Global.STATUS_CAR: # and is_on_floor():
 		## leave car
-		Global.player_status = Global.STATUS_WALKING
+		#Global.player_status = Global.STATUS_WALKING
 		#position = Vector3(car_script.position)
 		car_script.leave_car()
 		position.x += 3
