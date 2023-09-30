@@ -1,11 +1,10 @@
-[gd_scene load_steps=10 format=3 uid="uid://yokclqnj4l7o"]
+[gd_scene load_steps=9 format=3 uid="uid://yokclqnj4l7o"]
 
 [ext_resource type="MeshLibrary" uid="uid://cwkm7jur67mtg" path="res://src/spatial-mesh.tres" id="1_ncg8f"]
 [ext_resource type="Script" path="res://src/GridMap.gd" id="2_ju2is"]
 [ext_resource type="PackedScene" uid="uid://cjayg8o4rnavy" path="res://src/player_collision_shape_3d.tscn" id="3_j5xh4"]
 [ext_resource type="PackedScene" uid="uid://cdhf7f7e54wft" path="res://src/hud.tscn" id="4_vhd0m"]
 [ext_resource type="Script" path="res://src/map.gd" id="5_kei3y"]
-[ext_resource type="PackedScene" uid="uid://bns81reo15c55" path="res://src/car.tscn" id="6_nc3bk"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_6taw2"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
@@ -21,9 +20,6 @@ tonemap_mode = 2
 glow_enabled = true
 
 [node name="procedural-terrain" type="Node3D"]
-
-[node name="car" parent="." instance=ExtResource("6_nc3bk")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 19.7161, -3.65928)
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_wf31o")

@@ -211,6 +211,20 @@ func place_dot(v, description: String):
 	add_to_placed(instance_dot, true)
 	#print(v, ' vec3 ', Global.intersections)
 	
+func place_car():
+	if get_placed_node('car') == null:	
+		var car = load("res://src/car.tscn")
+		var instance_car = car.instantiate()
+	
+		add_child.call(instance_car)
+		add_to_placed(instance_car, true)
+		instance_car.init()
+	else:
+		var car = get_placed_node('car')
+		add_child.call(car)
+		add_to_placed(car, true)
+		car.init()
+	
 
 func make_hole_to_maze(highest, group_size=5, remove_type=[4], print_output=false):
 	Global.set_score_allowed(true)
@@ -363,6 +377,13 @@ func place_object(name, strategy, layer, frame_num, vector_high=Vector3(0,0,0), 
 			pass
 		if name == 'NEXTLEVEL':
 			pass
+		if name.to_lower() == 'car':
+			#print('car ', get_placed_node('car'))
+			if get_placed_node('car') != null:
+				#dequeue_placed_node('car', false, true)
+				pass
+			place_car()
+			pass 
 	if layer == "MAZE":
 		if name == 'ALTAR':
 			pass

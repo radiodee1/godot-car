@@ -18,7 +18,7 @@ var jump_pressed = false
 #@onready var jump_pressed_in =  $"../CharacterBody3D"
 
 @onready var camera_chase = $"arm/chase_camera"
-@onready var camera_walk = $"../CharacterBody3D/arm/Camera3D"
+@onready var camera_walk = $"../../CharacterBody3D/arm/Camera3D"
 
 #@onready var player_walk = $"../CharacterBody3D/body"
 #@onready var player_script = $"../CharacterBody3D"
@@ -40,8 +40,8 @@ func _ready():
 	add_to_group('mob')
 	car_mesh.add_to_group('mob')
 	car_body.add_to_group('mob')
-	car_mesh.name = name
-	car_body.name = name
+	car_mesh.name = 'mesh_' + name
+	car_body.name = 'body_' + name
 	
 	collision_layer = 1
 	collision_mask = 1
@@ -101,6 +101,10 @@ func do_process_input(delta):
 		h_input = 0.0
 		f_input = 0.0
 		jump_pressed = false
+		
+	if position.y < -500:
+		print("car endless fall >>>", position.y)
+		dispose()
 
 func _input(event):
 	if not test_alone:
@@ -148,9 +152,9 @@ func enter_car():
 	#player_walk.set_process_input(false)
 	#player_script.set_process_input(false)
 	
-	self.set_process_input(true)
-	set_process_input(true)
-	set_process(true)
+	#self.set_process_input(true)
+	#set_process_input(true)
+	#set_process(true)
 	
 	#car_body.set_process_input(true)
 	#car_mesh.set_process_input(true)
@@ -191,29 +195,9 @@ func leave_car():
 	
 	pass 
 
-'''
-func jump_exit():
-	if test_alone:
-		return 
-	## leave car
-	if Global.player_status == Global.STATUS_WALKING:
-		return
-	
-	Global.player_status = Global.STATUS_WALKING
-	#player_script.position = Vector3(position)
-	player_script.position.x += 3
-	player_script.position.y += 2
-	leave_car()
-	print("jump here xx ", player_script.position)
-	if player_script.is_on_floor() and false:
-		player_script.snap = Vector3.ZERO
-		player_script.gravity_vec = Vector3.ZERO # Vector3.UP * player_script.jump
-	
-	pass
-	
-'''
 
 func init():
+	#print_tree_pretty()
 	if test_alone:
 		return
 	position = player_script.start_player
@@ -223,3 +207,8 @@ func init():
 	print(player_walk, ' walk ', camera_walk, ' camera ')
 	if player_walk != null and camera_walk != null and test_alone == false:
 		leave_car()
+
+func dispose():
+	self.leave_car()
+	queue_free()
+	print("car dequeue")

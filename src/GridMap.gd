@@ -196,6 +196,7 @@ func setup_level_frame():
 			for ii in e['includes']:
 				include.place_object(ii, 'RANDOM', 'HILL', Global.level, highest, lowest)
 			pass
+			print_tree_pretty()
 		if e['type'] == 'maze':
 			var multiplier = float(e['multiplier'])
 			var endpoints = float(e['endpoints'])
@@ -214,7 +215,7 @@ func setup_level_frame():
 			
 			#if not Global.do_nextlevel_transition:
 			maze.maze_generate(highest, e['mesh']) ## <-- after shapes
-			
+
 			#Global.add_to_items_temp("CAR")
 			
 			for ii in e['includes']:

@@ -43,7 +43,7 @@ var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 
 @onready var gridmap = $"/root/CentralControl/procedural-terrain/GridMap"
 
-@onready var car_script = $"../car"
+@onready var car_script = $"/root/CentralControl/procedural-terrain/GridMap/car"
 
 var start_player: Vector3 = Vector3( 15 * 5 / 2, 5 * 5, 15 * 5 / 2)
 
@@ -441,11 +441,13 @@ func check_collision():
 						try = 1		
 										
 				if collision.get_collider().name.to_lower().begins_with("car") and Global.player_status == Global.STATUS_WALKING: 
-					if try == 0:
+					if try == 0 :
 						
 						#var hash = collision.get_collider().name.substr(len("SPOT") + 1, -1)
-						#print("CAR ", collision.get_collider().name)
+						print("CAR ", collision.get_collider().name, ' node ', car_script)
 						Global.player_status = Global.STATUS_CAR
+						#if car_script != null:
+						
 						car_script.enter_car()
 						
 						try = 1	
