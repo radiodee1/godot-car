@@ -196,7 +196,7 @@ func setup_level_frame():
 			for ii in e['includes']:
 				include.place_object(ii, 'RANDOM', 'HILL', Global.level, highest, lowest)
 			pass
-			print_tree_pretty()
+
 		if e['type'] == 'maze':
 			var multiplier = float(e['multiplier'])
 			var endpoints = float(e['endpoints'])
@@ -285,7 +285,7 @@ func setup_level_frame():
 			print('player handled by central_control!!')
 			pass
 	maze.show_2d_grid(maze.finished_map, true, 2, false, false)
-	
+	print_tree_pretty()
 	#print('level ', Global.level, ', frame ', i, ' placed ', Global.placed_items)
 	#Global.level += 1
 	pass

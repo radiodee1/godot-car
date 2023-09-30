@@ -144,20 +144,8 @@ func _input(event):
 	
 
 func enter_car():
-	#player_script.disabled = true
-	#player_walk.disabled = false ## <-- should be false
-	#player_script.disabled = false
+	
 	player_walk.visible = false
-	
-	#player_walk.set_process_input(false)
-	#player_script.set_process_input(false)
-	
-	#self.set_process_input(true)
-	#set_process_input(true)
-	#set_process(true)
-	
-	#car_body.set_process_input(true)
-	#car_mesh.set_process_input(true)
 	
 	car_mesh.disabled = false
 	
@@ -175,16 +163,7 @@ func leave_car():
 		player_script.position = Vector3(position)
 		print('position jump')
 		#player_walk.position.y += 10
-	#player_script.disabled = false
-	#player_walk.set_process_input(true)
-	#player_script.set_process_input(true)
 	
-	#self.set_process_input(false)
-	#set_process_input(false)
-	#set_process(true)
-	
-	#car_body.set_process_input(false)
-	#car_mesh.set_process_input(false)
 	
 	camera_chase.current = false
 	camera_walk.current = true
