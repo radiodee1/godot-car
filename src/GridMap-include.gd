@@ -212,10 +212,12 @@ func place_dot(v, description: String):
 	#print(v, ' vec3 ', Global.intersections)
 	
 func place_car():
-	if hash(get_placed_node('car')) == hash(null):	
+	#if hash(get_placed_node('car')) == hash(null):	
+	if Global.count_list_items(Global.placed_items, 'car') == 0:
 		var car = load("res://src/car.tscn")
 		var instance_car = car.instantiate()
 	
+		Global.placed_items.append('car')
 		add_child.call(instance_car)
 		add_to_placed(instance_car, true)
 		instance_car.init()
@@ -378,10 +380,10 @@ func place_object(name, strategy, layer, frame_num, vector_high=Vector3(0,0,0), 
 		if name == 'NEXTLEVEL':
 			pass
 		if name.to_lower() == 'car':
-			print('car ', get_placed_node('car'))
-			if get_placed_node('car') != null:
+			#print('car ', get_placed_node('car'))
+			#if get_placed_node('car') != null:
 				#dequeue_placed_node('car', false, true)
-				pass
+			#	pass
 			place_car()
 			pass 
 	if layer == "MAZE":

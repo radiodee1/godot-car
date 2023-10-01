@@ -597,7 +597,7 @@ func copy_map_to_scene(n:Vector2, block_num=2):
 
 func find_map():
 	#if not skip_loops:
-	print('record index ', record_index)
+	#print('record index ', record_index)
 	var vec = index_to_vector(record_index)
 	var hall =  4
 	var i =   hall 

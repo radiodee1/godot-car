@@ -75,14 +75,12 @@ func _ready():
 func _input(event):
 	direction = Vector3.ZERO
 	var h_rot = global_transform.basis.get_euler().y
-	
-	
-	print('unhandled xx ')
-	print(event.as_text(), ' xx')
+	#print('unhandled xx ')
+	#print(event.as_text(), ' xx')
 	
 	if event.is_action_pressed("jump"): 
 		jump_pressed = true
-		print('jump xx')
+		#print('jump xx')
 		#jump_exit()
 	else:
 		jump_pressed = false
@@ -90,22 +88,22 @@ func _input(event):
 	#h_input = 0
 	if event.is_action_pressed("move_forward"): 
 		f_input = -1
-		print('forward xx')
+		#print('forward xx')
 			
 	elif event.is_action_pressed("move_backward"): 
 		f_input = 1
-		print('back xx')
+		#print('back xx')
 	elif event.is_action_released("move_backward") or event.is_action_released("move_forward"):
 		f_input = 0
 		
 	
 	if event.is_action_pressed("move_left"): 
 		h_input = -1
-		print('left xx')
+		#print('left xx')
 			
 	elif event.is_action_pressed("move_right"): 
 		h_input = 1
-		print('right xx')
+		#print('right xx')
 	elif event.is_action_released("move_left") or event.is_action_released("move_right"):
 		h_input = 0
 		
@@ -450,7 +448,7 @@ func check_collision():
 					if try == 0 :
 						
 						#var hash = collision.get_collider().name.substr(len("SPOT") + 1, -1)
-						print("CAR ", collision.get_collider().name, ' node ', car_script)
+						#print("CAR ", collision.get_collider().name, ' node ', car_script)
 						Global.player_status = Global.STATUS_CAR
 						#if car_script != null:
 						car_script_collider_name = collision.get_collider().name

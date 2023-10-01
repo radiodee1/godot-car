@@ -34,7 +34,7 @@ var jump_pressed = false
 @onready var wheel_back_right = $"./wheel_back_right"
 
 func _ready():
-	print('car start')
+	#print('car start')
 	name = "car"
 	set_name.call_deferred("car")
 	add_to_group('mob')
@@ -64,7 +64,7 @@ func _physics_process(delta):
 			player_script.position.y = float(position.y)
 			#player_walk.position.y += 10
 
-		print(player_walk.position,' ', player_script.position, ' ',  position, ' player pos')
+		#print(player_walk.position,' ', player_script.position, ' ',  position, ' player pos')
 			
 		
 		steer = lerp(float(steer), float(h_input * 0.4), 5 * delta)			
@@ -73,7 +73,7 @@ func _physics_process(delta):
 	
 		var acceleration = f_input * delta * accel_const
 		#print(Input.get_axis("move_backward", "move_forward") , ' axis') 
-		print( f_input, ' ' , h_input, ' ' , jump_pressed, ' ', position , ' car')
+		#print( f_input, ' ' , h_input, ' ' , jump_pressed, ' ', position , ' car')
 		
 		var rpm1 = (wheel_back_left.get_rpm())
 		var rpm2 = (wheel_back_right.get_rpm())
@@ -89,7 +89,7 @@ func _physics_process(delta):
 		engine_force = acceleration * max_torque * ( 1 - rpm / max_rpm ) - friction
 		#engine_force = abs(acceleration)
 		
-		print(engine_force, ' force ', friction, ' friction ', brake, ' brake')
+		#print(engine_force, ' force ', friction, ' friction ', brake, ' brake')
 
 func do_process_input(delta):
 	if Global.player_status == Global.STATUS_CAR :
@@ -110,12 +110,13 @@ func _input(event):
 	if not test_alone:
 		return
 	
-	print('unhandled xx ')
-	print(event.as_text(), ' xx')
+	#print('unhandled xx ')
+	#print(event.as_text(), ' xx')
+	
 	
 	if event.is_action_pressed("jump"): 
 		jump_pressed = true
-		print('jump xx')
+		#print('jump xx')
 		#jump_exit()
 	else:
 		jump_pressed = false
@@ -123,22 +124,22 @@ func _input(event):
 	#h_input = 0
 	if event.is_action_pressed("move_forward"): 
 		f_input = 1
-		print('forward xx')
+		#print('forward xx')
 			
 	elif event.is_action_pressed("move_backward"): 
 		f_input = -1
-		print('back xx')
+		#print('back xx')
 	elif event.is_action_released("move_backward") or event.is_action_released("move_forward"):
 		f_input = 0
 		
 	
 	if event.is_action_pressed("move_left"): 
 		h_input = 1
-		print('left xx')
+		#print('left xx')
 			
 	elif event.is_action_pressed("move_right"): 
 		h_input = -1
-		print('right xx')
+		#print('right xx')
 	elif event.is_action_released("move_left") or event.is_action_released("move_right"):
 		h_input = 0
 	
@@ -161,7 +162,7 @@ func leave_car():
 		player_walk.position = Vector3(position)
 		#if player_script.position.y < -400:
 		player_script.position = Vector3(position)
-		print('position jump')
+		#print('position jump')
 		#player_walk.position.y += 10
 	
 	
@@ -180,14 +181,18 @@ func init():
 	if test_alone:
 		return
 	position = player_script.start_player
-	position.x -= 5
-	position.z -= 5
+	position.x += 5
+	position.z += 5
 	Global.player_status = Global.STATUS_WALKING
-	print(player_walk, ' walk ', camera_walk, ' camera ')
+	print(position, ' car position !!!')
 	if player_walk != null and camera_walk != null and test_alone == false:
 		leave_car()
 
 func dispose():
 	self.leave_car()
+	
+	if Global.count_list_items(Global.placed_items, 'car') > 0:
+		Global.placed_items.erase('car')
+		print("erase car")
 	queue_free()
 	print("car dequeue")
