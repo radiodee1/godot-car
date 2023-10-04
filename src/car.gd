@@ -13,22 +13,14 @@ var f_input = 0
 var h_input = 0
 var jump_pressed = false
 
-#@onready var f_input_in =  $"../CharacterBody3D"
-#@onready var h_input_in =  $"../CharacterBody3D"
-#@onready var jump_pressed_in =  $"../CharacterBody3D"
-
 @onready var camera_chase = $"arm/chase_camera"
 @onready var camera_walk = $"../../CharacterBody3D/arm/Camera3D"
-
-#@onready var player_walk = $"../CharacterBody3D/body"
-#@onready var player_script = $"../CharacterBody3D"
 
 @onready var player_script = $"/root/CentralControl/procedural-terrain/CharacterBody3D"
 @onready var player_walk =   $"/root/CentralControl/procedural-terrain/CharacterBody3D/body"
 
 @onready var car_mesh = $"./CollisionShape3D"
 @onready var car_body = $"./car_body_mesh"
-
 
 @onready var wheel_back_left = $"./wheel_back_left"
 @onready var wheel_back_right = $"./wheel_back_right"
@@ -111,7 +103,7 @@ func _process(delta):
 func correct_angle(delta):
 	#print("correct angle ", $"arm".global_position.y , ' ', global_position.y )	
 	if $"arm".global_position.y  < global_position.y  and Global.player_status == Global.STATUS_CAR :
-		print("correct angle ", $"arm".global_position.y , ' ', global_position.y )
+		#print("correct angle ", $"arm".global_position.y , ' ', global_position.y )
 		rotate_x(deg_to_rad(150))
 
 func _input(event):
