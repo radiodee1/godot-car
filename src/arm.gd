@@ -18,7 +18,7 @@ func get_rotation_from_direction(look_direction : Vector3):
 	return Basis(x_axis, Vector3.UP, -look_direction)
 	
 func input_detected():
-	if abs(get_parent().f_input) > 0.0 or abs(get_parent().h_input) > 0.0 or get_parent().jump_pressed:
+	if abs(get_parent().f_input) > 0.0 or get_parent().jump_pressed:
 		return true
 	else:
 		return false 

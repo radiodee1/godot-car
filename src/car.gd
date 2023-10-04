@@ -55,7 +55,7 @@ func _ready():
 
 func _physics_process(delta):
 	
-	do_process_input(delta)
+	#do_process_input(delta)
 	if Global.player_status == Global.STATUS_CAR or test_alone:
 		
 		if not test_alone: # and not jump_pressed:
@@ -90,7 +90,7 @@ func _physics_process(delta):
 		
 		#print(engine_force, ' force ', friction, ' friction ', brake, ' brake')
 
-func do_process_input(delta):
+func _process(delta):
 	if Global.player_status == Global.STATUS_CAR :
 		h_input = - float(player_script.h_input)
 		f_input = - float(player_script.f_input)
@@ -105,6 +105,13 @@ func do_process_input(delta):
 	if position.y < -500:
 		print("car endless fall >>>", position.y)
 		dispose()
+
+	correct_angle(delta)
+
+func correct_angle(delta):
+	if $"arm".transform.origin.y + position.y < transform.origin.y and Global.player_status == Global.STATUS_CAR :
+		print("correct angle ", $"arm".transform.origin.y + position.y, ' ', transform.origin.y)
+		rotate_x(deg_to_rad(180))
 
 func _input(event):
 	if not test_alone:
