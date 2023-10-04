@@ -109,9 +109,10 @@ func _process(delta):
 	correct_angle(delta)
 
 func correct_angle(delta):
-	if $"arm".transform.origin.y + position.y < position.y  and Global.player_status == Global.STATUS_CAR :
-		print("correct angle ", $"arm".transform.origin.y + position.y, ' ', position.y )
-		rotate_x(deg_to_rad(180))
+	#print("correct angle ", $"arm".global_position.y , ' ', global_position.y )	
+	if $"arm".global_position.y  < global_position.y  and Global.player_status == Global.STATUS_CAR :
+		print("correct angle ", $"arm".global_position.y , ' ', global_position.y )
+		rotate_x(deg_to_rad(150))
 
 func _input(event):
 	if not test_alone:
