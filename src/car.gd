@@ -58,13 +58,10 @@ func _physics_process(delta):
 	do_process_input(delta)
 	if Global.player_status == Global.STATUS_CAR or test_alone:
 		
-		#do_process_input(delta)
-		
 		if not test_alone: # and not jump_pressed:
 			player_walk.position = Vector3(position)
 			#if player_script.position.y < -400:
 			player_script.position.y = float(position.y)
-			#player_walk.position.y += 10
 
 		#print(player_walk.position,' ', player_script.position, ' ',  position, ' player pos')
 			
