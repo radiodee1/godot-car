@@ -1,7 +1,7 @@
 extends VehicleBody3D
 
 var steer = 0
-var max_torque = 50 #30
+var max_torque = 60 #30
 var max_rpm = 50
 var friction = 0
 var accel_const = 250 #0
@@ -109,8 +109,8 @@ func _process(delta):
 	correct_angle(delta)
 
 func correct_angle(delta):
-	if $"arm".transform.origin.y + position.y < transform.origin.y and Global.player_status == Global.STATUS_CAR :
-		print("correct angle ", $"arm".transform.origin.y + position.y, ' ', transform.origin.y)
+	if $"arm".transform.origin.y + position.y < position.y  and Global.player_status == Global.STATUS_CAR :
+		print("correct angle ", $"arm".transform.origin.y + position.y, ' ', position.y )
 		rotate_x(deg_to_rad(180))
 
 func _input(event):

@@ -80,7 +80,7 @@ suspension_stiffness = 30.0
 transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 0, 0, 0)
 mesh = SubResource("CylinderMesh_djm30")
 
-[node name="arm" type="MeshInstance3D" parent="."]
+[node name="arm" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.55863, -3.339)
 script = ExtResource("2_psfdp")
 
