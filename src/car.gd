@@ -1,7 +1,7 @@
 extends VehicleBody3D
 
 var steer = 0
-var max_torque = 30
+var max_torque = 50 #30
 var max_rpm = 50
 var friction = 0
 var accel_const = 250 #0
@@ -54,9 +54,11 @@ func _ready():
 	init()
 
 func _physics_process(delta):
+	
+	do_process_input(delta)
 	if Global.player_status == Global.STATUS_CAR or test_alone:
 		
-		do_process_input(delta)
+		#do_process_input(delta)
 		
 		if not test_alone: # and not jump_pressed:
 			player_walk.position = Vector3(position)
@@ -101,6 +103,7 @@ func do_process_input(delta):
 		h_input = 0.0
 		f_input = 0.0
 		jump_pressed = false
+		engine_force = 0
 		
 	if position.y < -500:
 		print("car endless fall >>>", position.y)
@@ -182,6 +185,7 @@ func init():
 		return
 	position = player_script.start_player
 	position.x += 5
+	position.y += 5 * 5 ## place car above and out of site at start
 	position.z += 5
 	Global.player_status = Global.STATUS_WALKING
 	print(position, ' car position !!!')

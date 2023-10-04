@@ -1,6 +1,7 @@
-[gd_scene load_steps=7 format=3 uid="uid://bns81reo15c55"]
+[gd_scene load_steps=8 format=3 uid="uid://bns81reo15c55"]
 
 [ext_resource type="Script" path="res://src/car.gd" id="1_6qoyu"]
+[ext_resource type="Script" path="res://src/arm.gd" id="2_psfdp"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_n61p1"]
 albedo_color = Color(1, 0.454902, 0.45098, 1)
@@ -81,6 +82,7 @@ mesh = SubResource("CylinderMesh_djm30")
 
 [node name="arm" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.74575, -3.33924)
+script = ExtResource("2_psfdp")
 
 [node name="chase_camera" type="Camera3D" parent="arm"]
-transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 1.23638, -4.19113)
+transform = Transform3D(-0.984808, 0, -0.173648, 0, 1, 0, 0.173648, 0, -0.984808, 0, 1.23638, -4.19113)
