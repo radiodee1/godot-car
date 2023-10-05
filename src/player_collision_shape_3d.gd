@@ -241,9 +241,6 @@ func check_car_jump():
 	pass
 	
 func check_joystick():
-	if Global.player_status == Global.STATUS_CAR:
-		pass
-		#return
 		
 	var stick_left = Input.get_action_strength("stick_left")
 	var stick_right = Input.get_action_strength("stick_right")
@@ -253,6 +250,9 @@ func check_joystick():
 	rotate_y(- (stick_right - stick_left) * deg_to_rad(2))
 	head.rotate_x((stick_down - stick_up) * deg_to_rad(1) )
 	head.rotation.x = clamp(head.rotation.x, deg_to_rad(-69), deg_to_rad(69))
+	
+	if Global.player_status == Global.STATUS_CAR : # allow for zero h_input
+		h_input = stick_right - stick_left
 	pass 
 	
 func check_escape():
