@@ -7,7 +7,7 @@ var friction = 0
 var accel_const = 250 #0
 var test_alone = false
 
-var margin_sideways = 0.1
+var margin_sideways = 0.2
 
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 
@@ -117,16 +117,15 @@ func correct_sideways_angle(delta):
 	var wheel_left_x = wheel_back_left.global_position.x
 	var wheel_left_z = wheel_back_left.global_position.z
 	if abs(wheel_left_x - wheel_right_x) < margin_sideways and abs(wheel_left_z - wheel_right_z) < margin_sideways:
-		position.y += 5
+		#print('sideways ', wheel_left_x, ', ', wheel_right_x, ', ' , margin_sideways)
+		#position.y += 5
 		rotate_x(deg_to_rad(50))
 
 func _input(event):
 	if not test_alone:
 		return
-	
 	#print('unhandled xx ')
 	#print(event.as_text(), ' xx')
-	
 	
 	if event.is_action_pressed("jump"): 
 		jump_pressed = true

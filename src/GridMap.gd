@@ -286,7 +286,7 @@ func setup_level_frame():
 			pass
 	#maze.show_2d_grid(maze.finished_map, true, 2, false, false)
 	
-	#print_tree_pretty()
+	print_tree_pretty()
 	#print('level ', Global.level, ', frame ', i, ' placed ', Global.placed_items)
 	#Global.level += 1
 	pass
