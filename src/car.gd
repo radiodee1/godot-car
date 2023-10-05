@@ -2,10 +2,12 @@ extends VehicleBody3D
 
 var steer = 0
 var max_torque = 60 #30
-var max_rpm = 50
+var max_rpm = 60
 var friction = 0
 var accel_const = 250 #0
 var test_alone = false
+
+var margin_sideways = 0.1
 
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 
@@ -99,12 +101,24 @@ func _process(delta):
 		dispose()
 
 	correct_angle(delta)
+	correct_sideways_angle(delta)
 
 func correct_angle(delta):
 	#print("correct angle ", $"arm".global_position.y , ' ', global_position.y )	
 	if $"arm".global_position.y  < global_position.y  and Global.player_status == Global.STATUS_CAR :
 		#print("correct angle ", $"arm".global_position.y , ' ', global_position.y )
 		rotate_x(deg_to_rad(150))
+
+func correct_sideways_angle(delta):
+	if Global.player_status != Global.STATUS_CAR:
+		return
+	var wheel_right_x = wheel_back_right.global_position.x
+	var wheel_right_z = wheel_back_right.global_position.z 
+	var wheel_left_x = wheel_back_left.global_position.x
+	var wheel_left_z = wheel_back_left.global_position.z
+	if abs(wheel_left_x - wheel_right_x) < margin_sideways and abs(wheel_left_z - wheel_right_z) < margin_sideways:
+		position.y += 5
+		rotate_x(deg_to_rad(50))
 
 func _input(event):
 	if not test_alone:
