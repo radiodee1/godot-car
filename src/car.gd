@@ -30,7 +30,7 @@ var jump_pressed = false
 func _ready():
 	#print('car start')
 	name = "car"
-	set_name.call_deferred("car")
+	#set_name.call_deferred("car")
 	add_to_group('mob')
 	car_mesh.add_to_group('mob')
 	car_body.add_to_group('mob')
