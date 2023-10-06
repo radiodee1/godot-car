@@ -8,6 +8,7 @@ extends CharacterBody3D
 
 var land_in_maze = false
 var hit_high_altar = false
+var used_joystick = false
 
 var speed = 7
 const ACCEL_DEFAULT = 7
@@ -246,12 +247,15 @@ func check_joystick():
 	var stick_right = Input.get_action_strength("stick_right")
 	var stick_up = Input.get_action_strength("stick_up")
 	var stick_down = Input.get_action_strength("stick_down")
+	
+	if abs(stick_down) + abs(stick_left) + abs(stick_right) + abs(stick_up) > 0.0:
+		used_joystick = true 
 	#print(stick_down, ' ' , stick_up)
 	rotate_y(- (stick_right - stick_left) * deg_to_rad(2))
 	head.rotate_x((stick_down - stick_up) * deg_to_rad(1) )
 	head.rotation.x = clamp(head.rotation.x, deg_to_rad(-69), deg_to_rad(69))
 	
-	if Global.player_status == Global.STATUS_CAR : # allow for zero h_input
+	if Global.player_status == Global.STATUS_CAR and used_joystick: # allow for zero h_input
 		h_input = stick_right - stick_left
 	pass 
 	

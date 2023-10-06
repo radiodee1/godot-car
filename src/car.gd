@@ -5,7 +5,7 @@ var max_torque = 60 #30
 var max_rpm = 60
 var friction = 0
 var accel_const = 250 #0
-var test_alone = false
+@export var test_alone = false
 
 var margin_sideways = 0.2
 

@@ -1,6 +1,7 @@
-[gd_scene load_steps=6 format=3 uid="uid://byu7lrs8tin5w"]
+[gd_scene load_steps=7 format=3 uid="uid://byu7lrs8tin5w"]
 
 [ext_resource type="Script" path="res://src/procedural_test.gd" id="1_06rc0"]
+[ext_resource type="PackedScene" uid="uid://bns81reo15c55" path="res://src/car.tscn" id="3_fvvd8"]
 [ext_resource type="Texture2D" uid="uid://c1grnt2wiad45" path="res://assets/texture_01.png" id="4_vyupf"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_50jkm"]
@@ -29,3 +30,5 @@ mesh = SubResource("BoxMesh_jd1lf")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="ground_MeshInstance3D/StaticBody3D2"]
 shape = SubResource("ConcavePolygonShape3D_w5coc")
+
+[node name="car" parent="." instance=ExtResource("3_fvvd8")]

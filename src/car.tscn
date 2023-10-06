@@ -36,7 +36,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.1)
 shape = SubResource("ConvexPolygonShape3D_iuxyw")
 
 [node name="wheel_front_left" type="VehicleWheel3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.95, 0, 1)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.95, 0, 1.5)
 use_as_steering = true
 wheel_roll_influence = 0.0
 wheel_radius = 1.0
@@ -47,7 +47,7 @@ transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 0, 0, 
 mesh = SubResource("CylinderMesh_djm30")
 
 [node name="wheel_front_right" type="VehicleWheel3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.95, 0, 1)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.95, 0, 1.5)
 use_as_steering = true
 wheel_roll_influence = 0.0
 wheel_radius = 1.0
@@ -59,7 +59,7 @@ mesh = SubResource("CylinderMesh_djm30")
 skeleton = NodePath("../../wheel_front_left")
 
 [node name="wheel_back_left" type="VehicleWheel3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.95, 0, -1)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.95, 0, -1.5)
 use_as_traction = true
 wheel_roll_influence = 0.0
 wheel_radius = 1.0
@@ -70,7 +70,7 @@ transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 0, 0, 
 mesh = SubResource("CylinderMesh_djm30")
 
 [node name="wheel_back_right" type="VehicleWheel3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.95, 0, -1)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.95, 0, -1.5)
 use_as_traction = true
 wheel_roll_influence = 0.0
 wheel_radius = 1.0
@@ -85,4 +85,4 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.55863, -3.339)
 script = ExtResource("2_psfdp")
 
 [node name="chase_camera" type="Camera3D" parent="arm"]
-transform = Transform3D(-0.984808, -3.6687e-08, -0.173648, -0.07257, 0.908486, 0.411566, 0.157757, 0.417915, -0.894684, 0, 1.23638, -4.19113)
+transform = Transform3D(-0.996943, -0.0541003, -0.0563671, -0.07257, 0.908486, 0.411566, 0.0289429, 0.414399, -0.909635, 0, 1.23638, -4.19113)
