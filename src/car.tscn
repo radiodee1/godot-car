@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://bns81reo15c55"]
+[gd_scene load_steps=10 format=3 uid="uid://bns81reo15c55"]
 
 [ext_resource type="Script" path="res://src/car.gd" id="1_6qoyu"]
 [ext_resource type="Script" path="res://src/arm.gd" id="2_psfdp"]
@@ -22,6 +22,13 @@ top_radius = 1.0
 bottom_radius = 1.0
 height = 0.3
 radial_segments = 12
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_pp1hh"]
+albedo_color = Color(0.298039, 0.298039, 0.298039, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_svxi0"]
+material = SubResource("StandardMaterial3D_pp1hh")
+size = Vector3(1.1, 0.5, 2)
 
 [node name="car" type="VehicleBody3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.03147, -0.0146344)
@@ -86,3 +93,7 @@ script = ExtResource("2_psfdp")
 
 [node name="chase_camera" type="Camera3D" parent="arm"]
 transform = Transform3D(-0.996943, -0.0541003, -0.0563671, -0.07257, 0.908486, 0.411566, 0.0289429, 0.414399, -0.909635, 0, 1.23638, -4.19113)
+
+[node name="hood" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.125, 0.75)
+mesh = SubResource("BoxMesh_svxi0")
