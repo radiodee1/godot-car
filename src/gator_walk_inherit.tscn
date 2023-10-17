@@ -1,0 +1,5 @@
+[gd_scene load_steps=2 format=3 uid="uid://c1agcyltsnh3w"]
+
+[ext_resource type="PackedScene" uid="uid://cmbhx3ld8iu2" path="res://src/gator_walk.gltf" id="1_c7lx6"]
+
+[node name="gator_walk" instance=ExtResource("1_c7lx6")]

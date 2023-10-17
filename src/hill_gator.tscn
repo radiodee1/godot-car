@@ -1,0 +1,15 @@
+[gd_scene load_steps=4 format=3 uid="uid://dm3yokbf0nj7b"]
+
+[ext_resource type="Script" path="res://src/hill_gator.gd" id="1_xu1ag"]
+[ext_resource type="PackedScene" uid="uid://c1agcyltsnh3w" path="res://src/gator_walk_inherit.tscn" id="3_d03cv"]
+[ext_resource type="PackedScene" uid="uid://b477g06tapptn" path="res://src/gator_pop.gltf" id="3_konke"]
+
+[node name="hill_gator" type="Node3D"]
+script = ExtResource("1_xu1ag")
+
+[node name="gator_pop" parent="." instance=ExtResource("3_konke")]
+visible = false
+
+[node name="gator_walk" parent="." instance=ExtResource("3_d03cv")]
+
+[editable path="gator_walk"]
