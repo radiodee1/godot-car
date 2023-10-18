@@ -10,7 +10,7 @@ var anim_walk = 'walk'
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	animation_player.play(anim_foot)
+	animation_player.play(anim_walk)
 	#animation_player.play(anim_foot_001)
 	#animation_player.play(anim_foot_002)
 	#animation_player.play(anim_foot_003)
