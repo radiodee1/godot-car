@@ -1,27 +1,31 @@
 [gd_scene load_steps=4 format=3 uid="uid://361mrtmak0it"]
 
 [ext_resource type="Script" path="res://src/hill_gator.gd" id="1_h1alg"]
-[ext_resource type="PackedScene" uid="uid://c5dcw3ocxyey8" path="res://src/gator_walk.gltf" id="3_6t1vb"]
-[ext_resource type="PackedScene" uid="uid://b477g06tapptn" path="res://src/gator_pop.gltf" id="3_dl261"]
+[ext_resource type="PackedScene" uid="uid://bwxw8kidxqk42" path="res://src/gator_pop.gltf" id="2_46t0b"]
+[ext_resource type="PackedScene" uid="uid://wpg3bwb2lrn5" path="res://src/gator_walk.gltf" id="3_lehhl"]
 
 [node name="hill_gator" type="Node3D"]
 script = ExtResource("1_h1alg")
 
-[node name="gator_pop" parent="." instance=ExtResource("3_dl261")]
+[node name="gator_pop" parent="." instance=ExtResource("2_46t0b")]
 visible = false
 
-[node name="gator_walk" parent="." instance=ExtResource("3_6t1vb")]
+[node name="gator_walk" parent="." instance=ExtResource("3_lehhl")]
 
-[node name="foot" parent="gator_walk" index="4"]
-transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0.222984, 0.113834, 0.600328)
+[node name="tail" parent="gator_walk" index="0"]
+transform = Transform3D(0.246271, -0.0164109, -0.159053, 0.0156576, 0.249438, -0.0238886, 0.0400657, 0.00339269, 0.986981, 0.135239, 0.4999, -2)
 
-[node name="foot_001" parent="gator_walk" index="5"]
-transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, -0.225203, 0.113834, 0.999672)
+[node name="foot" parent="gator_walk" index="3"]
+transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0.222984, 0.113834, 0.623968)
 
-[node name="foot_002" parent="gator_walk" index="6"]
-transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0.222984, 0.113834, -0.799672)
+[node name="foot_001" parent="gator_walk" index="4"]
+transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, -0.225203, 0.113834, 0.976032)
 
-[node name="foot_003" parent="gator_walk" index="7"]
-transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, -0.238354, 0.113834, -0.400328)
+[node name="foot_002" parent="gator_walk" index="5"]
+transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0.222984, 0.113834, -0.776032)
 
+[node name="foot_003" parent="gator_walk" index="6"]
+transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, -0.238354, 0.113834, -0.423968)
+
+[editable path="gator_pop"]
 [editable path="gator_walk"]

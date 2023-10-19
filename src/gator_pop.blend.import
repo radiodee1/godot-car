@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://d3x4vtjkisaou"
-path="res://.godot/imported/gator_walk.blend-9f6c53be95ab65b85bc3804445577ea9.scn"
+uid="uid://5mfqlpt6jcbu"
+path="res://.godot/imported/gator_pop.blend-5f3c3e1fb0f4c7567f5c9fff0d8ab9af.scn"
 
 [deps]
 
-source_file="res://assets/gator_walk.blend"
-dest_files=["res://.godot/imported/gator_walk.blend-9f6c53be95ab65b85bc3804445577ea9.scn"]
+source_file="res://src/gator_pop.blend"
+dest_files=["res://.godot/imported/gator_pop.blend-5f3c3e1fb0f4c7567f5c9fff0d8ab9af.scn"]
 
 [params]
 
