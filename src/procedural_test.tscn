@@ -34,4 +34,4 @@ shape = SubResource("ConcavePolygonShape3D_w5coc")
 [node name="hill_gator" parent="." instance=ExtResource("4_ngxtj")]
 
 [node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(0.947283, -0.0725587, 0.312074, 0, 0.974019, 0.226464, -0.320398, -0.214526, 0.922672, 1.37654, 1.49139, 2.47354)
+transform = Transform3D(0.131777, -0.370005, 0.919636, 0.310374, 0.89648, 0.316214, -0.941437, 0.243762, 0.232976, 2.46797, 1.49139, 1.45401)
