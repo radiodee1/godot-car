@@ -18,13 +18,12 @@ var scale_local = 0.5
 
 signal set_highest(high_vector:Vector3)
 
-#var mesh_instance_3d 
-#var box_mesh
-#var box_shape
-#var static_body
-#var collision_shape
+var HILL_SPOT_HIGHEST = 1
+var HILL_SPOT_CENTER = 2
+var HILL_SPOT_LOWEST = 3
+var HILL_SPOT_RANDOM = 4
 
-#var level_frame = 0
+var hill_spot = [] ## Vector3 !!
 
 @onready var maze = preload("res://src/GridMap-maze.gd").new()
 @onready var include = preload("res://src/GridMap-include.gd").new()
@@ -87,6 +86,7 @@ func set_cell_group(x, y, z, index, check_highest=false):
 			#if i_x != xx / group_size * group_size: print(i_x, ' ', xx, ' group settings')
 			var i = Vector3(i_x, y, i_z)
 			set_cell_item(i, index)
+			add_cell_item(i) # add to hill spots
 			if check_highest and highest.y < i.y:
 				var group_x = x * group_size
 				var group_z = z * group_size
@@ -103,12 +103,19 @@ func change_highest(high):
 	var vec = Vector3(x, y, z)
 	return vec 
 
+func add_cell_item(i):
+	## does hill_generation always build up from bottom??
+	## will i.y be highest always??
+	if i.x > group_size and i.z > group_size:
+		if i.x < (limit_pos - 1) * group_size and i.z < (limit_pos - 1) * group_size:
+			var g_index = Global.hill_vector_to_index(Vector2(i.x, i.z))
+			if int(g_index) % limit_pos == 0 and int(i.x) % limit_pos == 0 and int(i.z) % limit_pos == 0:
+				if i not in hill_spot:
+					hill_spot.append(i)
+					if Vector3(i.x, i.y - 1, i.z) in hill_spot:
+						hill_spot.erase(Vector3(i.x, i.y - 1, i.z))
 
 
-#func _on_character_body_3d_hole_to_maze():
-#	hole_to_maze()
-#	pass
-	
 func hole_to_maze():
 	#if mesh_instance_3d != null:
 	include.place_high_rubble(highest)
@@ -132,13 +139,18 @@ func hole_to_nextlevel():
 	#setup_level_frame()
 	pass
 
-		
-#func _on_central_control_restart_terrain():
-#	restart_terrain()
-#	pass
+func get_hill_spot(type):
+	if type == HILL_SPOT_CENTER:
+		pass 
+	if type == HILL_SPOT_HIGHEST:
+		pass 
+	if type == HILL_SPOT_LOWEST:
+		pass
+	if type == HILL_SPOT_RANDOM:
+		pass 
+	pass
 	
 func restart_terrain():
-	
 	var num = 0
 	
 	include.clear_placed()
@@ -146,7 +158,7 @@ func restart_terrain():
 	Global.clear_maze_data()
 	#print(Global.count_list_items(Global.placed_items, "NEXTLEVEL"), ' NEXTLEVEL')
 	
-	if num < 10 and Global.count_list_items(Global.placed_items, "NEXTLEVEL") < 1:
+	while num < 110 and Global.count_list_items(Global.placed_items, "NEXTLEVEL") < 1:
 		
 		include.remove_altar()
 		clear()
@@ -159,10 +171,10 @@ func restart_terrain():
 		hud_map_update(0, -1)
 		hud_map.set_visibility(false)
 		num += 1
-		pass
-	if num >= 100:
-		print("NO RANDOMIZED NEXTLEVEL ITEM")
-		get_tree().quit()
+		
+		if num >= 100:
+			print("NO RANDOMIZED NEXTLEVEL ITEM")
+			get_tree().quit()
 
 func set_hill_size(left, right, depth, x, y, z):
 	if left != right or left != depth or right != depth:
@@ -170,6 +182,8 @@ func set_hill_size(left, right, depth, x, y, z):
 	limit_origin = Vector3(x,y,z)
 	limit_pos = max ( left, right, depth)
 	limit_neg = 0
+	Global.hill_h = left
+	Global.hill_w = left 
 
 func setup_level_frame():
 	Global.clear_list_data()
@@ -289,6 +303,7 @@ func setup_level_frame():
 	print_tree_pretty()
 	#print('level ', Global.level, ', frame ', i, ' placed ', Global.placed_items)
 	#Global.level += 1
+	print(hill_spot, " hill spots ", str(hill_spot.size()))
 	pass
 
 

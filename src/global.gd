@@ -21,6 +21,10 @@ var maze_w = 0
 var maze_h = 0
 var hall_width = 0
 
+var hill_w = 0
+var hill_h = 0
+var hill_spot_width = 0
+
 var group_visited = []
 
 func _ready():
@@ -57,6 +61,13 @@ func vector_to_index(v):
 
 func index_to_vector(i):
 	var v = Vector2( int(i / maze_w), i - int(i / maze_w) * maze_w)
+	return v
+
+func hill_vector_to_index(v):
+	return int(v.x * hill_w + v.y)
+	
+func hill_index_to_vector(i):
+	var v = Vector2( int(i/ hill_w), i - int(i/ hill_w) * hill_w)
 	return v
 
 ##############################

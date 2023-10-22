@@ -6,7 +6,7 @@ var anim_foot = 'footAction'
 var anim_foot_001 = 'foot_001Action'
 var anim_foot_002 = 'foot_002Action'
 var anim_foot_003 = 'foot_003Action'
-var anim_walk = 'walk'
+var anim_walk = 'walking'
 
 var action_name = 'Action'
 
