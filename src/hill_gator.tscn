@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://src/hill_gator.gd" id="1_h1alg"]
 [ext_resource type="PackedScene" uid="uid://bwxw8kidxqk42" path="res://src/gator_pop.gltf" id="2_46t0b"]
-[ext_resource type="PackedScene" uid="uid://dgarpafgdfq70" path="res://src/gator_walk.gltf" id="3_86vpf"]
+[ext_resource type="PackedScene" uid="uid://q1i1aetooufd" path="res://src/gator_walk.gltf" id="3_86vpf"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_1rvjl"]
 size = Vector3(1, 1, 3.5)
@@ -20,10 +20,25 @@ shape = SubResource("BoxShape3D_1rvjl")
 [node name="gator_walk" parent="." instance=ExtResource("3_86vpf")]
 
 [node name="tail" parent="gator_walk" index="0"]
-transform = Transform3D(0.991185, 0, 0.132488, 0, 1, 0, -0.132488, 0, 0.991185, 0, 0, 0)
+transform = Transform3D(0.996196, 0, 0.0871405, 0, 1, 0, -0.0871405, 0, 0.996196, 0, 0, 0)
+
+[node name="foot_003" parent="gator_walk" index="1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.125573)
+
+[node name="foot_002" parent="gator_walk" index="2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.125573)
+
+[node name="foot_001" parent="gator_walk" index="3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.125573)
+
+[node name="foot" parent="gator_walk" index="4"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.125573)
+
+[node name="eyeball" parent="gator_walk" index="5"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.125573)
 
 [node name="body" parent="gator_walk" index="6"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.198533)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.125573)
 
 [editable path="gator_pop"]
 [editable path="gator_walk"]
