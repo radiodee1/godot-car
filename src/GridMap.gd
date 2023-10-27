@@ -9,6 +9,8 @@ var limit_neg = 0
 var limit_step = 1
 var group_size = 5
 
+var limit_filter = group_size #* 3 #int(limit_pos / 2)
+
 var limit_origin = Vector3(0,0,0)
 
 var highest = Vector3(0,0,0)
@@ -64,17 +66,12 @@ func hill_generate(block_num=2):
 					#set_cell_item(i, 0)
 					set_cell_group(x,y,z, block_num, true)
 					
-	#var hh = Vector3(highest)
-	
 	highest = change_highest(highest)
 	#print(highest, " next")
-	#maze.maze_generate(highest)
-	
-	#print(dict.game)
 
-	
 func set_cell_group(x, y, z, index, check_highest=false):
 	#if x / group_size * group_size != x : print(x, " group settings")
+	var j = Vector3(x,y,z)
 	var g = limit_origin
 	x += g.x
 	y += g.y
@@ -86,7 +83,7 @@ func set_cell_group(x, y, z, index, check_highest=false):
 			#if i_x != xx / group_size * group_size: print(i_x, ' ', xx, ' group settings')
 			var i = Vector3(i_x, y, i_z)
 			set_cell_item(i, index)
-			add_cell_item(i) # add to hill spots
+			add_cell_item(j) # add to hill spots
 			if check_highest and highest.y < i.y:
 				var group_x = x * group_size
 				var group_z = z * group_size
@@ -106,14 +103,19 @@ func change_highest(high):
 func add_cell_item(i):
 	## does hill_generation always build up from bottom??
 	## will i.y be highest always??
+	var BELOW = -1 
 	if i.x > group_size and i.z > group_size:
 		if i.x < (limit_pos - 1) * group_size and i.z < (limit_pos - 1) * group_size:
 			var g_index = Global.hill_vector_to_index(Vector2(i.x, i.z))
-			if int(g_index) % limit_pos == 0 and int(i.x) % limit_pos == 0 and int(i.z) % limit_pos == 0:
+			if int(g_index) % limit_filter == 0 and int(i.x) % limit_filter == 0 and int(i.z) % limit_filter == 0:
+				#i.y /= group_size
+				#i.x /= group_size
+				#i.z /= group_size
 				if i not in hill_spot:
 					hill_spot.append(i)
-					if Vector3(i.x, i.y - 1, i.z) in hill_spot:
-						hill_spot.erase(Vector3(i.x, i.y - 1, i.z))
+					if Vector3(i.x, i.y + BELOW, i.z) in hill_spot:
+						hill_spot.erase(Vector3(i.x, i.y + BELOW, i.z))
+						#print(i.y, ' i.y')
 
 
 func hole_to_maze():
@@ -125,9 +127,6 @@ func hole_to_maze():
 	hud_map.set_visibility(true)
 	pass # Replace with function body.
 
-#func _on_character_body_3d_hole_to_nextlevel():
-#	hole_to_nextlevel()
-#	pass
 	
 func hole_to_nextlevel():
 	print('on hole to nextlevel')
@@ -139,16 +138,44 @@ func hole_to_nextlevel():
 	#setup_level_frame()
 	pass
 
-func get_hill_spot(type):
+func get_hill_spot_list(type, num=5):
+	var l = []
 	if type == HILL_SPOT_CENTER:
+		return l
 		pass 
 	if type == HILL_SPOT_HIGHEST:
+		return l
 		pass 
 	if type == HILL_SPOT_LOWEST:
+		return l
 		pass
 	if type == HILL_SPOT_RANDOM:
+		#print('hill spot random ', hill_spot.size())
+		for i in range(num):
+			var x = randi_range(0, hill_spot.size() - 1)
+			if x < hill_spot.size() and x > -1:
+				var xx = hill_spot[x]
+				l.append(xx)
+				hill_spot.erase(xx)
+		#print(hill_spot.size(), ' end hill spot random ', l.size())
+		return l
 		pass 
 	pass
+	
+func place_gators(num = 5):
+	var l = get_hill_spot_list(HILL_SPOT_RANDOM, num)
+	print('here len of l list ', l.size())
+	for i in l:
+		var j = load("res://src/hill_gator.tscn")
+		var g = j.instantiate()
+		#g.init(i)
+		var number = Global.hill_vector_to_index(Vector2(i.x, i.z))
+		Global.placed_items.append('GATOR-' + str(number))
+		add_child(g)
+		include.add_to_placed(g)
+		i.y /= 4
+		g.init(i, 'GATOR-'+ str(number))
+		pass
 	
 func restart_terrain():
 	var num = 0
@@ -208,7 +235,11 @@ func setup_level_frame():
 			hill_generate(e['mesh'])
 			#include.place_rubble(highest)
 			for ii in e['includes']:
-				include.place_object(ii, 'RANDOM', 'HILL', Global.level, highest, lowest)
+				if ii != 'GATORS':
+					include.place_object(ii, 'RANDOM', 'HILL', Global.level, highest, lowest)
+				elif ii == 'GATORS':
+					#print('GATORS')
+					place_gators(4)
 			pass
 
 		if e['type'] == 'maze':

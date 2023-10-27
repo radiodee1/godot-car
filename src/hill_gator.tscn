@@ -13,10 +13,6 @@ script = ExtResource("1_h1alg")
 [node name="gator_pop" parent="." instance=ExtResource("2_46t0b")]
 visible = false
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
-shape = SubResource("BoxShape3D_1rvjl")
-
 [node name="gator_walk" parent="." instance=ExtResource("3_86vpf")]
 
 [node name="tail" parent="gator_walk" index="0"]
@@ -39,6 +35,10 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.191542)
 
 [node name="body" parent="gator_walk" index="6"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.191542)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+shape = SubResource("BoxShape3D_1rvjl")
 
 [editable path="gator_pop"]
 [editable path="gator_walk"]

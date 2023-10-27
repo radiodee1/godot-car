@@ -44,12 +44,11 @@ func _process(delta):
 	#process_mode = Node.PROCESS_MODE_ALWAYS
 
 func _physics_process(delta):
-	#process_mode = Node.PROCESS_MODE_ALWAYS
 	
-	if len(path_forward) <= 1:
+	if animation_walk == null:
 		return
 		
-	point = Vector3(path_forward[path_point]) 
+	point = Vector3(3,3,3) 
 	
 	#print(path_point, ' ', len(path_forward),' ', velocity,' ', path_forward[path_point], ' path stuff')
 	#print(global_transform.origin)
@@ -64,7 +63,6 @@ func _physics_process(delta):
 		velocity = point - transform.origin
 		velocity = velocity * speed * delta
 
-	
 	#print(transform.origin.y, ' y here')
 	if transform.origin.y < -2:
 		velocity.y = 0
@@ -72,9 +70,6 @@ func _physics_process(delta):
 	check_collision()
 	move_and_slide() 
 	#check_collision()
-	
-
-
 	
 
 func set_speed(speed_val):
@@ -108,6 +103,7 @@ func init(v, name='GATOR', group='mob'):
 	
 	self.collision_mask = 1
 	self.collision_layer = 1
+	move_walk()
 
 func move_walk():
 	$"gator_pop".visible = false
