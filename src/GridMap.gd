@@ -71,11 +71,12 @@ func hill_generate(block_num=2):
 
 func set_cell_group(x, y, z, index, check_highest=false):
 	#if x / group_size * group_size != x : print(x, " group settings")
-	var j = Vector3(x,y,z)
+	var j = Vector3(x, y  ,z)
 	var g = limit_origin
 	x += g.x
 	y += g.y
 	z += g.z 
+	
 	for xx in range(x * group_size, x * group_size + group_size ):
 		for zz in range(z * group_size, z * group_size + group_size):
 			var i_x = xx 
@@ -83,12 +84,13 @@ func set_cell_group(x, y, z, index, check_highest=false):
 			#if i_x != xx / group_size * group_size: print(i_x, ' ', xx, ' group settings')
 			var i = Vector3(i_x, y, i_z)
 			set_cell_item(i, index)
-			add_cell_item(j) # add to hill spots
+			add_cell_item(Vector3(j)) # add to hill spots
 			if check_highest and highest.y < i.y:
 				var group_x = x * group_size
 				var group_z = z * group_size
 				highest = Vector3(group_x, i.y, group_z)
 				#highest = Vector3(x,y,z)
+				#add_cell_item(highest)
 				#print(highest, ' print highest')
 
 func change_highest(high):
@@ -164,20 +166,23 @@ func get_hill_spot_list(type, num=5):
 	
 func place_gators(num = 5):
 	var l = get_hill_spot_list(HILL_SPOT_RANDOM, num)
-	print('here len of l list ', l.size(), ' >>>', l)
+	#var map_location = maze.find_map()	
+	
+	print('here len of l list ', l.size(), ' >>> ', l)
 	for i in l:
-		var j = load("res://src/hill_gator.tscn")
+		var j = preload("res://src/hill_gator.tscn")
 		var g = j.instantiate()
 		var number = Global.hill_vector_to_index(Vector2(i.x, i.z))
+		i.y = i.y - 10 + 1
+		#i.x -= map_location.x
+		#i.z -= map_location.y
 		g.init(i, 'GATOR-'+ str(number))
 		if g == null:
 			return
-		#print(i, g)
-		i.y /= 4
+		print(i,' --- ', g)
+		#Global.placed_items.append('GATOR-' + str(number))
 		
-		Global.placed_items.append('GATOR-' + str(number))
-		
-		include.add_to_placed(g)
+		include.add_to_placed(g, true)
 		add_child(g)
 		pass
 	

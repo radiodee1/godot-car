@@ -24,16 +24,17 @@ var path_forward = []
 var path_point = 1
 var anchor = Vector3(0,0,0)
 
+var floating = true
 var can_die = false
 
 var try = 0
 
 func _ready():
-	
+	pass
 	#print("should play")
 	#animation_walk.connect("animation_finished",  self.play)
 	#var altar = get_node("altar-copy/altar")	
-	process_mode = Node.PROCESS_MODE_ALWAYS	
+	process_mode = Node.PROCESS_MODE_PAUSABLE
 	#set_red()
 	
 func _process(delta):
@@ -45,7 +46,9 @@ func _physics_process(delta):
 	if animation_walk == null:
 		return
 		
-	point = Vector3(3,3,3) 
+	if floating and transform.origin.y > 0:
+		point.y -= 10
+	#point = Vector3(3,3,3) 
 	
 	#print(path_point, ' ', len(path_forward),' ', velocity,' ', path_forward[path_point], ' path stuff')
 	#print(global_transform.origin)
@@ -97,9 +100,7 @@ func init(v, name='GATOR', group='mob'):
 	self.collision_layer = 1
 	move_walk()
 	
-	if gator_walk == null or gator_pop == null:
-		print_tree_pretty()
-		pass
+	point = v #Vector3(v.x, v.y - 10, v.z)
 	
 	animation_walk = $'gator_walk/AnimationPlayer'
 	animation_pop = $"gator_pop/AnimationPlayer"
@@ -107,6 +108,11 @@ func init(v, name='GATOR', group='mob'):
 	gator_walk = $"gator_walk"
 	gator_pop = $"gator_pop"
 	
+	if gator_walk == null or gator_pop == null:
+		print('-----')
+		print_tree_pretty()
+		pass
+		
 	animation_walk.play(anim_walk)
 	animation_pop.play(action_name)
 		

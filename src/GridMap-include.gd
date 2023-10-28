@@ -49,7 +49,7 @@ func emit_rubble():
 	rubble_instance.set_emitting(true)
 
 func place_landing_spot(v, name='SPOT', group='mob'):
-	var spot_instance = load("res://src/landing_spot.tscn").instantiate()
+	var spot_instance = preload("res://src/landing_spot.tscn").instantiate()
 	v.x *= .5
 	v.y *= .5
 	v.z *= .5
@@ -64,7 +64,7 @@ func remove_landing_spot():
 	pass
 
 func place_altar(v, name='ALTAR', group='mob'):
-	scene_instance = load("res://src/altar_moving.tscn").instantiate()
+	scene_instance = preload("res://src/altar_moving.tscn").instantiate()
 	#scene_instance = load_scene
 	v.x *= .5
 	v.y *= .5
@@ -122,7 +122,7 @@ func remove_altar():
 
 func place_low_altar(v, name='NEXTLEVEL', group='mob'):
 	low_location_vec = v 
-	low_scene_instance = load("res://src/altar_moving.tscn").instantiate()
+	low_scene_instance = preload("res://src/altar_moving.tscn").instantiate()
 	#scene_instance = load_scene
 	v.x *= .5
 	v.y *= .5
@@ -180,7 +180,7 @@ func place_altar_key(v: Vector3, description: String):
 	if Global.count_list_items(Global.placed_items, 'NEXTLEVEL') == 0:
 		low_location_vec = Vector3(v)
 		
-	var altar_w_key = load("res://src/altar_key_moving.tscn")
+	var altar_w_key = preload("res://src/altar_key_moving.tscn")
 	var altar_key = altar_w_key.instantiate()
 	altar_key.init(v, description)
 	
@@ -214,7 +214,7 @@ func place_dot(v, description: String):
 func place_car():
 	#if hash(get_placed_node('car')) == hash(null):	
 	if Global.count_list_items(Global.placed_items, 'car') == 0:
-		var car = load("res://src/car.tscn")
+		var car = preload("res://src/car.tscn")
 		var instance_car = car.instantiate()
 	
 		#Global.placed_items.append('car')
