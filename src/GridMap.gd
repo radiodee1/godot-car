@@ -164,7 +164,7 @@ func get_hill_spot_list(type, num=5):
 	
 func place_gators(num = 5):
 	var l = get_hill_spot_list(HILL_SPOT_RANDOM, num)
-	print('here len of l list ', l.size())
+	print('here len of l list ', l.size(), ' >>>', l)
 	for i in l:
 		var j = load("res://src/hill_gator.tscn")
 		var g = j.instantiate()
@@ -175,9 +175,9 @@ func place_gators(num = 5):
 		#print(i, g)
 		i.y /= 4
 		
-		#Global.placed_items.append('GATOR-' + str(number))
+		Global.placed_items.append('GATOR-' + str(number))
 		
-		include.add_to_placed(g, true)
+		include.add_to_placed(g)
 		add_child(g)
 		pass
 	
