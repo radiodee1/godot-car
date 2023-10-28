@@ -217,7 +217,7 @@ func place_car():
 		var car = load("res://src/car.tscn")
 		var instance_car = car.instantiate()
 	
-		Global.placed_items.append('car')
+		#Global.placed_items.append('car')
 		add_child.call(instance_car)
 		add_to_placed(instance_car, true)
 		instance_car.init()

@@ -168,13 +168,17 @@ func place_gators(num = 5):
 	for i in l:
 		var j = load("res://src/hill_gator.tscn")
 		var g = j.instantiate()
-		#g.init(i)
 		var number = Global.hill_vector_to_index(Vector2(i.x, i.z))
-		Global.placed_items.append('GATOR-' + str(number))
-		add_child(g)
-		include.add_to_placed(g)
-		i.y /= 4
 		g.init(i, 'GATOR-'+ str(number))
+		if g == null:
+			return
+		#print(i, g)
+		i.y /= 4
+		
+		#Global.placed_items.append('GATOR-' + str(number))
+		
+		include.add_to_placed(g, true)
+		add_child(g)
 		pass
 	
 func restart_terrain():

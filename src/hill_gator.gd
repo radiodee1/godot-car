@@ -12,7 +12,7 @@ var action_name = 'Action'
 
 @onready var animation_pop = $"gator_pop/AnimationPlayer"
 
-@onready var collision_shape = $"CollisionShape3D" #.new()
+@onready var collision_shape = $"CollisionShape3D" 
 
 @onready var gator_walk = $"gator_walk"
 @onready var gator_pop = $"gator_pop"
@@ -84,6 +84,17 @@ func play(name="name"):
 
 func init(v, name='GATOR', group='mob'):
 	#transform.origin = v
+	print(gator_walk, ' here')
+	
+	self.add_to_group(group)
+	self.name = name
+	
+	self.collision_mask = 1
+	self.collision_layer = 1
+	move_walk()
+	
+	if gator_walk == null or gator_pop == null:
+		return
 	gator_walk.global_transform.origin = v
 	gator_pop.global_transform.origin = v
 	global_transform.origin = v
@@ -96,14 +107,6 @@ func init(v, name='GATOR', group='mob'):
 	gator_walk.scale_object_local(Vector3(scale_local, scale_local ,scale_local))
 	gator_pop.scale_object_local(Vector3(scale_local, scale_local, scale_local))
 	collision_shape.scale_object_local(Vector3(scale_local, scale_local, scale_local))
-	
-	
-	self.add_to_group(group)
-	self.name = name
-	
-	self.collision_mask = 1
-	self.collision_layer = 1
-	move_walk()
 
 func move_walk():
 	$"gator_pop".visible = false
