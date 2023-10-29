@@ -34,7 +34,7 @@ func set_text_stat(msg='start'):
 	if msg == "hill":
 		line += 'objective: high altar'
 	if msg == "maze":
-		line += 'Keys :' + str(Global.count_list_items(Global.items_temp, 'KEY')) 
-		line += "/" + str(Global.count_list_items(Global.placed_items, "KEY"))
+		line += 'Keys :' + str(Global.count_list_items(Global.items_temp, 'KEY', true)) 
+		line += "/" + str(Global.count_list_items(Global.placed_items, "KEY", true))
 	
 	text_stat.text = line

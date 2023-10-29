@@ -173,10 +173,11 @@ func place_gators(num = 5):
 		var j = preload("res://src/hill_gator.tscn")
 		var g = j.instantiate()
 		var number = Global.hill_vector_to_index(Vector2(i.x, i.z))
+		var hash = str(number) + Global.g_hash()
 		i.y = i.y - 10 + 1
 		#i.x -= map_location.x
 		#i.z -= map_location.y
-		g.init(i, 'GATOR-'+ str(number))
+		g.init(i, 'GATOR-'+ hash) # str(number))
 		if g == null:
 			return
 		print(i,' --- ', g)

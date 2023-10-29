@@ -45,11 +45,14 @@ func  add_to_items_temp(name):
 		items_temp.append(name)
 
 	
-func count_list_items(list, item):
+func count_list_items(list, item, has_ending=false):
 	var num = 0
 	for i in list:
 		if i.begins_with(item): #  item == i:
-			num += 1
+			if has_ending and i.ends_with(g_hash()):
+				num += 1
+			if not has_ending:
+				num += 1
 		pass
 	return num
 	
@@ -144,6 +147,9 @@ func add_to_score(num):
 		
 func set_score_allowed(allowed=true):
 	score_allowed = allowed
+
+func g_hash():
+	return '-G' + str(level)
 
 ##############################
 

@@ -189,7 +189,8 @@ func leave_car():
 	pass 
 
 
-func init():
+func init(name = 'car'):
+	self.name = name
 	#print_tree_pretty()
 	if test_alone:
 		return

@@ -49,6 +49,7 @@ func emit_rubble():
 	rubble_instance.set_emitting(true)
 
 func place_landing_spot(v, name='SPOT', group='mob'):
+	name = name + Global.g_hash()
 	var spot_instance = preload("res://src/landing_spot.tscn").instantiate()
 	v.x *= .5
 	v.y *= .5
@@ -64,6 +65,7 @@ func remove_landing_spot():
 	pass
 
 func place_altar(v, name='ALTAR', group='mob'):
+	name = name + Global.g_hash()
 	scene_instance = preload("res://src/altar_moving.tscn").instantiate()
 	#scene_instance = load_scene
 	v.x *= .5
@@ -99,7 +101,7 @@ func place_altar(v, name='ALTAR', group='mob'):
 	scene_instance.add_to_group(group)
 	scene_instance.name = name
 	
-	add_to_placed(scene_instance, true)
+	add_to_placed(scene_instance, true, true)
 	#static_body.layers = 1
 	
 	static_body.collision_mask = 1
@@ -121,6 +123,8 @@ func remove_altar():
 
 
 func place_low_altar(v, name='NEXTLEVEL', group='mob'):
+	name = name + Global.g_hash()
+	
 	low_location_vec = v 
 	low_scene_instance = preload("res://src/altar_moving.tscn").instantiate()
 	#scene_instance = load_scene
@@ -156,7 +160,7 @@ func place_low_altar(v, name='NEXTLEVEL', group='mob'):
 	low_scene_instance.add_to_group(group)
 	low_scene_instance.name = name
 
-	add_to_placed(low_scene_instance, true)
+	add_to_placed(low_scene_instance, true, true)
 	
 	low_static_body.collision_mask = 1
 	low_static_body.collision_layer = 1
@@ -177,6 +181,7 @@ func remove_low_altar():
 		#collision_shape.queue_free()
 
 func place_altar_key(v: Vector3, description: String):
+	description = description + Global.g_hash()
 	if Global.count_list_items(Global.placed_items, 'NEXTLEVEL') == 0:
 		low_location_vec = Vector3(v)
 		
@@ -185,13 +190,13 @@ func place_altar_key(v: Vector3, description: String):
 	altar_key.init(v, description)
 	
 	add_child.call(altar_key)
-	add_to_placed(altar_key)
+	add_to_placed(altar_key, true, true)
 	#print(v, ' vec3 ', Global.intersections)
 	pass
 	
 
 func place_patrol(v_list, description: String):
-	
+	description = description + Global.g_hash()
 	var patrol = load("res://src/patrol.tscn")
 	var patrol_instance = patrol.instantiate()
 	patrol_instance.init(v_list[0], description)
@@ -202,7 +207,7 @@ func place_patrol(v_list, description: String):
 	pass
 	
 func place_dot(v, description: String):
-	
+	description = description + Global.g_hash()
 	var dot = load("res://src/patrol_dot.tscn")
 	var instance_dot = dot.instantiate()
 	instance_dot.init(v, description)
@@ -213,19 +218,21 @@ func place_dot(v, description: String):
 	
 func place_car():
 	#if hash(get_placed_node('car')) == hash(null):	
-	if Global.count_list_items(Global.placed_items, 'car') == 0:
+	if Global.count_list_items(Global.placed_items, 'car') == 0 :
 		var car = preload("res://src/car.tscn")
 		var instance_car = car.instantiate()
-	
+		
+		instance_car.name = instance_car.name + Global.g_hash()
 		#Global.placed_items.append('car')
 		add_child.call(instance_car)
-		add_to_placed(instance_car, true)
-		instance_car.init()
+		add_to_placed(instance_car, true, true)
+		instance_car.init('car' + Global.g_hash())
 	else:
 		var car = get_placed_node('car')
+		
 		#add_child.call(car)
 		#add_to_placed(car, true)
-		car['instance'].init()
+		car['instance'].init('car' + Global.g_hash())
 	
 
 func make_hole_to_maze(highest, group_size=5, remove_type=[4], print_output=false):
@@ -305,7 +312,7 @@ func clear_placed():
 			i['instance'].queue_free()
 	placed = []
 	
-func add_to_placed(instance, add_global=false):
+func add_to_placed(instance, add_global=false, skip_check=false):
 	for i in placed:
 		if str(i['name']).begins_with(str(instance.name)): # == str(instance.name):
 			#print('bad i ', str(instance.name))
@@ -322,7 +329,7 @@ func add_to_placed(instance, add_global=false):
 		return
 		
 	for i in Global.placed_items:
-		if i.begins_with(str(instance.name)): # == str(instance.name):
+		if i.begins_with(str(instance.name)) and not skip_check: # == str(instance.name):
 			return
 	Global.placed_items.append(str(instance.name))
 

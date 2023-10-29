@@ -301,11 +301,12 @@ func check_collision():
 			
 			if collision.get_collider().is_in_group("mob") :
 				
-				var key_items_placed = Global.count_list_items(Global.placed_items, "KEY")
-				var key_items_found = Global.count_list_items(Global.items_temp, "KEY")
-				var nextlevel_item_count = Global.count_list_items(Global.placed_items, 'NEXTLEVEL')
+				var key_items_placed = Global.count_list_items(Global.placed_items, "KEY", true)
+				var key_items_found = Global.count_list_items(Global.items_temp, "KEY", true)
+				var nextlevel_item_count = Global.count_list_items(Global.placed_items, 'NEXTLEVEL' , true)
 				
-				#print(collision.get_collider().name)			
+				#print('placed:',key_items_placed, ' found:', key_items_found, ' nextlevel:', nextlevel_item_count)
+
 				if collision.get_collider().name.begins_with('ALTAR') and try == 0:
 					
 					hud.set_text_stat("maze")
@@ -324,7 +325,7 @@ func check_collision():
 				if collision.get_collider().name.begins_with("NEXTLEVEL") :
 					#Global.items_temp.append("NEXTLEVEL")
 					#Global.add_to_items_temp("NEXTLEVEL")
-					
+					print(collision.get_collider().name, ' nextlevel name')								
 					if key_items_found >= key_items_placed and try == 0:
 						Global.level += 1
 						Global.add_to_score(50)
@@ -332,6 +333,7 @@ func check_collision():
 						
 						#hit_high_altar = false
 						gridmap.remove_named_child(collision.get_collider().name, true)
+						gridmap.remove_named_child("NEXTLEVEL", true)
 						
 						hud.set_text_msg('hill')
 						hud.set_text_stat("hill")
@@ -349,13 +351,16 @@ func check_collision():
 				if collision.get_collider().name.begins_with("KEY"): 
 					var hash = collision.get_collider().name.substr(len("KEY")+ 1, -1)
 					print("hash = ", hash)
+					print(collision.get_collider().name, ' key name')	
 					
 					Global.add_to_items_temp(str(collision.get_collider().name))
+					print(Global.items_temp, ' <<<< ')
 					Global.add_to_score(30)
 					
 					hud.set_text_stat("maze")					
 					
 					gridmap.remove_named_child(collision.get_collider().name, true)
+					#gridmap.remove_named_child('KEY', true)
 					#remove_child.emit(collision.get_collider().name)
 					#Global.print_maze_data()
 					
@@ -414,7 +419,7 @@ func check_collision():
 				if collision.get_collider().name.begins_with("DOT"): 
 					if try == 0:
 					
-						if 1 <= Global.count_list_items(Global.items_temp, str(collision.get_collider().name)):
+						if 1 <= Global.count_list_items(Global.items_temp, str(collision.get_collider().name), true):
 							try = 1
 							break
 						
@@ -445,7 +450,7 @@ func check_collision():
 							
 						hud.set_text_stat("keys")	
 						gridmap.remove_named_child(str(collision.get_collider().name), false)
-						
+						gridmap.remove_named_child('SPOT', false)
 						try = 1		
 										
 				if collision.get_collider().name.to_lower().begins_with("car") and Global.player_status == Global.STATUS_WALKING: 
@@ -503,8 +508,8 @@ func disable_patrol(dot_hash:String):
 		var h1 = dot_hash.get_slice('-', 0)
 		var h2 = dot_hash.get_slice('-', 1)
 		var name = 'DOT-' + h1 + '-' + h2 + '-'
-		var num = Global.count_list_items(Global.placed_items, name)
-		var collect = Global.count_list_items(Global.items_temp, name)
+		var num = Global.count_list_items(Global.placed_items, name, true)
+		var collect = Global.count_list_items(Global.items_temp, name, true)
 		#print(name, ' dotname ', str(num), ' num ', str(collect), ' collected')
 		if num / 2 > collect :
 			return
