@@ -15,6 +15,8 @@ func _process(delta):
 	pass
 
 func set_translate(vv: Vector3, altered=false):
+	if particles.emitting == true:
+		return
 	var v = Vector3(vv)
 	if  altered:
 		v.x *= 0.5
@@ -28,6 +30,9 @@ func set_translate(vv: Vector3, altered=false):
 	
 func set_emitting(emit):
 	#print("emitting!!")
+	if particles.emitting == true:
+		return
+	
 	if emit == true:
 		particles.restart()
 	#particles.emitting = emit

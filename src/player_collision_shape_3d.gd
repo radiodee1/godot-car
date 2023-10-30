@@ -327,13 +327,13 @@ func check_collision():
 					#Global.add_to_items_temp("NEXTLEVEL")
 					print(collision.get_collider().name, ' nextlevel name')								
 					if key_items_found >= key_items_placed and try == 0:
-						Global.level += 1
+						#Global.level += 1
 						Global.add_to_score(50)
 						Global.do_nextlevel_transition = true
 						
 						#hit_high_altar = false
 						gridmap.remove_named_child(collision.get_collider().name, true)
-						gridmap.remove_named_child("NEXTLEVEL", true)
+						#gridmap.remove_named_child("NEXTLEVEL", true)
 						
 						hud.set_text_msg('hill')
 						hud.set_text_stat("hill")
@@ -369,7 +369,7 @@ func check_collision():
 						
 						if nextlevel_item_count == 0 and try == 0:
 							
-							Global.level += 1
+							#Global.level += 1
 							#Global.add_to_score(10)
 							Global.do_nextlevel_transition = true
 							#Global.add_to_score(30)
@@ -440,17 +440,22 @@ func check_collision():
 								
 				if collision.get_collider().name.begins_with("SPOT"): 
 					if try == 0:
-						
+						if str(collision.get_collider().name).ends_with(Global.g_hash(1)):
+							print('spot skipping ', Global.level + 1)
+							try = 1
+							return
 						var hash = collision.get_collider().name.substr(len("SPOT") + 1, -1)
-						print("SPOT hash = ", hash, ' ', collision.get_collider().name)
+						print("SPOT hash = ", hash, ' ', collision.get_collider().name,' ', Global.g_hash())
 						
 						Global.add_to_items_temp(str(collision.get_collider().name))
 						Global.add_to_items(str(collision.get_collider().name))
 						Global.add_to_score(30)
 							
 						hud.set_text_stat("keys")	
-						gridmap.remove_named_child(str(collision.get_collider().name), false)
-						gridmap.remove_named_child('SPOT', false)
+						#var found = gridmap.remove_named_child(str(collision.get_collider().name), false)
+						var found = gridmap.remove_named_child('SPOT', false)
+						
+						print('spot ', found)
 						try = 1		
 										
 				if collision.get_collider().name.to_lower().begins_with("car") and Global.player_status == Global.STATUS_WALKING: 

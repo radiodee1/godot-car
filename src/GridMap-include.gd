@@ -343,6 +343,7 @@ func get_placed_node(name):
 
 func dequeue_placed_node(name, animate=false, erase_global=false):
 	#print('before ', placed)
+	var found = false
 	var x 
 	x = get_placed_node(name)
 	if x != null:
@@ -354,12 +355,13 @@ func dequeue_placed_node(name, animate=false, erase_global=false):
 		if animate:
 			place_key_rubble(v)
 			emit_rubble()
+		found = true
 	if not erase_global:
-		return
+		return found
 	if name in Global.placed_items:
 		Global.placed_items.erase(name)
 		#print("erased ", name)
-	pass
+	return found
 	#print('after ', placed)
 
 func place_object(name, strategy, layer, frame_num, vector_high=Vector3(0,0,0), vector_low=Vector3(0,0,0)):

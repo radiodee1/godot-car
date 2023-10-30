@@ -106,7 +106,7 @@ func clear_score_lives_health():
 	score = 0
 	lives = 3
 	health = 30
-	level = 0
+	#level = 0
 
 #################################
 
@@ -148,8 +148,8 @@ func add_to_score(num):
 func set_score_allowed(allowed=true):
 	score_allowed = allowed
 
-func g_hash():
-	return '-G' + str(level)
+func g_hash(inc=0):
+	return '-G' + str(level + inc)
 
 ##############################
 

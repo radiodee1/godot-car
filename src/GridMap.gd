@@ -53,6 +53,7 @@ func _ready()->void:
 	pass
 	
 func hill_generate(block_num=2):	
+	hill_spot = []
 	highest = Vector3(0,0,0)
 	noise.seed = rng.randi()
 	noise.noise_type = FastNoiseLite.TYPE_SIMPLEX_SMOOTH 
@@ -194,7 +195,6 @@ func restart_terrain():
 	Global.clear_list_data()
 	Global.clear_maze_data()
 	#print(Global.count_list_items(Global.placed_items, "NEXTLEVEL"), ' NEXTLEVEL')
-	
 	while num < 110 and Global.count_list_items(Global.placed_items, "NEXTLEVEL") < 1:
 		
 		include.remove_altar()
@@ -227,6 +227,7 @@ func setup_level_frame():
 	Global.clear_maze_data()
 	
 	include.clear_placed()
+	include.dequeue_placed_node('SPOT', false, true)
 	
 	var i = Global.level % len(dict.game['level'])
 	
@@ -373,8 +374,8 @@ func globalize_segment(segment, dot=false):
 	return out
 
 	
-func remove_named_child(name, animate=false):
-	include.dequeue_placed_node(name, animate)
+func remove_named_child(name, animate=false, erase_global=false):
+	return include.dequeue_placed_node(name, animate, erase_global)
 	#var node = get_node( name)
 	#print(node, ' node')
 	pass # Replace with function body.
