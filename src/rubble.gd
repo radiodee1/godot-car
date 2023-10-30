@@ -9,10 +9,6 @@ func _ready():
 	particles.process_mode = Node.PROCESS_MODE_ALWAYS
 	pass 
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	#process_mode = Node.PROCESS_MODE_ALWAYS
-	pass
 
 func set_translate(vv: Vector3, altered=false):
 	if particles.emitting == true:
@@ -38,4 +34,6 @@ func set_emitting(emit):
 	#particles.emitting = emit
 
 func set_lifetime(l):
+	if particles.emitting == true:
+		return
 	particles.lifetime = l 

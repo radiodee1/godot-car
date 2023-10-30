@@ -31,7 +31,7 @@ var low_location_vec
 func place_high_rubble(v):
 	var vv = Vector3(v)
 	if rubble_instance == null:
-		rubble_instance = load("res://src/rubble.tscn").instantiate()
+		rubble_instance = preload("res://src/rubble.tscn").instantiate()
 		add_child.call(rubble_instance)
 	vv.y = -4
 	rubble_instance.set_translate(vv, true)
@@ -43,7 +43,7 @@ func place_low_rubble():
 func place_key_rubble(v):
 	var vv = Vector3(v)
 	rubble_instance.set_lifetime(3)
-	rubble_instance.set_translate(vv)
+	rubble_instance.set_translate(vv) 
 
 func emit_rubble():
 	rubble_instance.set_emitting(true)
@@ -190,7 +190,7 @@ func place_altar_key(v: Vector3, description: String):
 	altar_key.init(v, description)
 	
 	add_child.call(altar_key)
-	add_to_placed(altar_key, true, true)
+	add_to_placed(altar_key, true)
 	#print(v, ' vec3 ', Global.intersections)
 	pass
 	
@@ -208,7 +208,7 @@ func place_patrol(v_list, description: String):
 	
 func place_dot(v, description: String):
 	description = description + Global.g_hash()
-	var dot = load("res://src/patrol_dot.tscn")
+	var dot = preload("res://src/patrol_dot.tscn")
 	var instance_dot = dot.instantiate()
 	instance_dot.init(v, description)
 	
@@ -352,9 +352,10 @@ func dequeue_placed_node(name, animate=false, erase_global=false):
 		x['status'] = 'CANCEL'
 		placed.erase(x)
 		
-		if animate:
+		if animate and name.ends_with(Global.g_hash()):
 			place_key_rubble(v)
 			emit_rubble()
+			print('spot key rubble... ', name)
 		found = true
 	if not erase_global:
 		return found

@@ -305,7 +305,7 @@ func check_collision():
 				var key_items_found = Global.count_list_items(Global.items_temp, "KEY", true)
 				var nextlevel_item_count = Global.count_list_items(Global.placed_items, 'NEXTLEVEL' , true)
 				
-				#print('placed:',key_items_placed, ' found:', key_items_found, ' nextlevel:', nextlevel_item_count)
+				print('key-placed:',key_items_placed, ' found:', key_items_found, ' nextlevel:', nextlevel_item_count)
 
 				if collision.get_collider().name.begins_with('ALTAR') and try == 0:
 					
@@ -351,15 +351,21 @@ func check_collision():
 				if collision.get_collider().name.begins_with("KEY"): 
 					var hash = collision.get_collider().name.substr(len("KEY")+ 1, -1)
 					print("hash = ", hash)
-					print(collision.get_collider().name, ' key name')	
+					print(collision.get_collider().name, ' ', Global.g_hash() ,' key name')	
 					
+					if not str(collision.get_collider().name).ends_with(Global.g_hash()):
+						try = 1
+						return
 					Global.add_to_items_temp(str(collision.get_collider().name))
+					Global.add_to_items(str(collision.get_collider().name))
+					
 					print(Global.items_temp, ' <<<< ')
 					Global.add_to_score(30)
 					
 					hud.set_text_stat("maze")					
 					
-					gridmap.remove_named_child(collision.get_collider().name, true)
+					var found = gridmap.remove_named_child(str(collision.get_collider().name), true, true)
+					print('key found ', found)
 					#gridmap.remove_named_child('KEY', true)
 					#remove_child.emit(collision.get_collider().name)
 					#Global.print_maze_data()

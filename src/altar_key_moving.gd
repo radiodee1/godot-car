@@ -63,6 +63,7 @@ func init(v: Vector3 , name='pin', group='mob'):
 	low_static_body.set_collision_mask_value(1, true)
 	low_scene_instance.add_child(low_static_body) 
 	low_scene_instance.add_to_group(group)
+	
 	low_scene_instance.name = name
 
 	#static_body.layers = 1

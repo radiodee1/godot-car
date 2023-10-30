@@ -9,16 +9,16 @@ var do_once = 0
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	animation_player.play(altar_name )
-	animation_player.connect("animation_finished", self.play)
+	#animation_player.connect("animation_finished", self.play)
 	#var altar = get_node("altar-copy/altar")	
-	process_mode = Node.PROCESS_MODE_ALWAYS	
-	pass # Replace with function body.
-
+	process_mode = Node.PROCESS_MODE_ALWAYS
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	_ready()
-		
+	#_ready()
+	animation_player.play(altar_name )
+	#animation_player.connect("animation_finished", self.play)
+	#var altar = get_node("altar-copy/altar")	
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	pass
 
