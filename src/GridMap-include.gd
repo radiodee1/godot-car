@@ -133,7 +133,7 @@ func place_low_altar(v, name='NEXTLEVEL', group='mob'):
 	v.z *= .5
 	#scene_instance.scale = Vector3(1,1,1)
 	low_scene_instance.translate(v)
-	add_child.call(low_scene_instance)	
+
 	#print(v, " vector")
 	low_box_shape = BoxShape3D.new()
 	low_box_shape.size = Vector3(0.5,0.5,0.5)
@@ -164,6 +164,7 @@ func place_low_altar(v, name='NEXTLEVEL', group='mob'):
 	
 	low_static_body.collision_mask = 1
 	low_static_body.collision_layer = 1
+	add_child.call(low_scene_instance)
 	
 	return
 
@@ -182,7 +183,7 @@ func remove_low_altar():
 
 func place_altar_key(v: Vector3, description: String):
 	description = description + Global.g_hash()
-	if Global.count_list_items(Global.placed_items, 'NEXTLEVEL') == 0:
+	if Global.count_list_items(Global.placed_items, 'NEXTLEVEL', true) == 0:
 		low_location_vec = Vector3(v)
 		
 	var altar_w_key = preload("res://src/altar_key_moving.tscn")
@@ -190,7 +191,7 @@ func place_altar_key(v: Vector3, description: String):
 	altar_key.init(v, description)
 	
 	add_child.call(altar_key)
-	add_to_placed(altar_key, true)
+	add_to_placed(altar_key, true, true)
 	#print(v, ' vec3 ', Global.intersections)
 	pass
 	
