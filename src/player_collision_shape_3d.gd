@@ -503,6 +503,7 @@ func timer_on_nextlevel():
 	hud.set_text_msg('start', 0)
 	Global.items_temp = []
 	Global.level += 1
+	hud.set_text_stat('maze') ## show level on status line!!
 	pass
 	
 func end_game():
