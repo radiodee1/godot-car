@@ -215,7 +215,7 @@ func restart_terrain():
 
 func set_hill_size(left, right, depth, x, y, z):
 	if left != right or left != depth or right != depth:
-		print('maze uses same size for all elements!!')
+		print('hill uses same size for all elements!!')
 	limit_origin = Vector3(x,y,z)
 	limit_pos = max ( left, right, depth)
 	limit_neg = 0
@@ -343,8 +343,7 @@ func setup_level_frame():
 	#maze.show_2d_grid(maze.finished_map, true, 2, false, false)
 	
 	print_tree_pretty()
-	#print('level ', Global.level, ', frame ', i, ' placed ', Global.placed_items)
-	#Global.level += 1
+	
 	print(hill_spot, " hill spots ", str(hill_spot.size()))
 	pass
 

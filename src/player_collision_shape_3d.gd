@@ -447,7 +447,7 @@ func check_collision():
 				if collision.get_collider().name.begins_with("SPOT"): 
 					if try == 0:
 						if str(collision.get_collider().name).ends_with(Global.g_hash(1)):
-							print('spot skipping ', Global.level + 1)
+							#print('spot skipping ', Global.level + 1)
 							try = 1
 							return
 						var hash = collision.get_collider().name.substr(len("SPOT") + 1, -1)
@@ -457,7 +457,7 @@ func check_collision():
 						Global.add_to_items(str(collision.get_collider().name))
 						Global.add_to_score(30)
 							
-						hud.set_text_stat("keys")	
+						hud.set_text_stat("maze")	
 						#var found = gridmap.remove_named_child(str(collision.get_collider().name), false)
 						var found = gridmap.remove_named_child('SPOT', false)
 						
@@ -502,6 +502,7 @@ func timer_on_nextlevel():
 	restart_player()
 	hud.set_text_msg('start', 0)
 	Global.items_temp = []
+	Global.level += 1
 	pass
 	
 func end_game():
