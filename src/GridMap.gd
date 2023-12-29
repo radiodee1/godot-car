@@ -33,6 +33,8 @@ var hill_spot = [] ## Vector3 !!
 
 @onready var hud_map = $"../map/"
 
+@onready var player_script = $"/root/CentralControl/procedural-terrain/CharacterBody3D"
+
 # Called when the node enters the scene tree for the first time.
 func _ready()->void:
 	maze.set_callable(set_cell_item)
@@ -338,7 +340,10 @@ func setup_level_frame():
 			
 			pass
 		if e['type'] == 'player':
-			print('player handled by central_control!!')
+			#print('player handled by central_control!!')
+			print('player ', int(e['x']), ' ',  int(e['y']), ' ', int(e['z']))			
+			player_script.set_player_start(int(e['x']), int(e['y']), int(e['z']))
+			player_script.restart_player()
 			pass
 	#maze.show_2d_grid(maze.finished_map, true, 2, false, false)
 	

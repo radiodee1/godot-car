@@ -16,6 +16,8 @@ var f_input = 0
 var h_input = 0
 var jump_pressed = false
 
+var engine_f ## engine_force
+
 @onready var camera_chase = $"arm/chase_camera"
 @onready var camera_walk = $"../../CharacterBody3D/arm/Camera3D"
 
@@ -79,21 +81,25 @@ func _physics_process(delta):
 		var rpm3 = (wheel_front_left.get_rpm())
 		var rpm4 = (wheel_front_right.get_rpm())
 		var rpm = abs((rpm1 + rpm2 + rpm3 + rpm4) / 4.0)
+		#print('rpm ' , rpm1, ' ', rpm2, ' ', rpm3, ' ', rpm4, ' ')
 		
 		var margin_for_acceleration = 0.1
 		var margin_for_rpm = 0.1
 		
 		if abs(acceleration) < margin_for_acceleration and rpm > margin_for_rpm :
-			friction = delta * accel_const * max_torque *  ( rpm1 / abs(rpm1) ) 
+			friction = delta * accel_const * max_torque * sign(rpm1) 
 		else:
 			friction = 0
-		engine_force = acceleration * max_torque * ( 1 - rpm / max_rpm ) - friction
-		#engine_force = abs(acceleration)
+		engine_f = acceleration * max_torque * ( 1 - rpm / max_rpm ) - friction
+		wheel_back_left.engine_force = engine_f
+		wheel_back_right.engine_force = engine_f
+		#wheel_front_left.engine_force = engine_f
+		#wheel_front_right.engine_force = engine_f
 		
 		#print(engine_force, ' force ', friction, ' friction ', brake, ' brake')
 	if Global.player_status != Global.STATUS_CAR and test_alone == false:
 		engine_force = 0
-		all_brake()
+		#all_brake()
 
 func all_brake():
 	wheel_back_left.brake = 1000
@@ -138,7 +144,7 @@ func correct_angle(delta):
 		#print("correct angle ", $"arm".global_position.y , ' ', global_position.y )
 		if not is_not_on_ground():
 			engine_force = 0
-			all_brake()
+			#all_brake()
 			rotate_x(deg_to_rad(150))
 
 func correct_sideways_angle(delta):
@@ -155,7 +161,7 @@ func correct_sideways_angle(delta):
 		#position.y += 5
 		if not is_not_on_ground():
 			engine_force = 0
-			all_brake()
+			#all_brake()
 			rotate_x(deg_to_rad(50))
 	
 		
@@ -245,8 +251,8 @@ func init(name = 'car'):
 func dispose():
 	self.leave_car()
 	
-	var new_car: Vector3 = Vector3( 15 * 5 / 2, 5 * 5, 15 * 5 / 2)
-	player_script.set_player_start(new_car.x, new_car.y, new_car.z)
+	#var new_car: Vector3 = Vector3( 15 * 5 / 2, 5 * 5, 15 * 5 / 2)
+	#player_script.set_player_start(new_car.x, new_car.y, new_car.z)
 	
 	player_script.end_game()
 

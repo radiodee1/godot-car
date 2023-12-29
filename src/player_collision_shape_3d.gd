@@ -66,7 +66,7 @@ func _ready():
 	self.collision_layer = 1
 	#set_player_start(0, 0, 0)
 	#restart_player()
-	position = Vector3(15 * 5 / 2, 5 * 5 , 15 * 5 / 2)
+	position = start_player #Vector3(15 * 5 / 2, 5 * 5 , 15 * 5 / 2)
 	process_mode = Node.PROCESS_MODE_PAUSABLE
 	
 	#get_node("/root/CentralControl").connect("restart_player", _on_central_control_restart_player)
@@ -342,7 +342,7 @@ func check_collision():
 						Global.add_to_items_temp('NEXTLEVEL')
 						#hud.set_text_msg('hill')
 						#hud.set_text_stat("hill")
-						set_player_start(15 * 5 / 2, 100, 15 * 5 / 2)
+						#set_player_start(start_player.x, start_player.y * 2, start_player.z)
 						timer_to_nextlevel()
 						
 						try = 1
@@ -385,7 +385,7 @@ func check_collision():
 							hud.set_text_stat("hill")
 							#hole_to_nextlevel.emit()
 
-							set_player_start(5, 100, 5)
+							set_player_start(start_player.x, start_player.y * 2, start_player.z)
 							#gridmap.hole_to_nextlevel()	
 														
 							timer_to_nextlevel()
@@ -495,7 +495,7 @@ func timer_to_nextlevel(t=2):
 	timer.start()
 	
 func timer_on_nextlevel():
-	set_player_start(5, 100, 5)
+	#set_player_start(5, 100, 5)
 	central._do_nextlevel()
 	#gridmap.hole_to_nextlevel()
 	gridmap.restart_terrain()
@@ -507,7 +507,7 @@ func timer_on_nextlevel():
 	pass
 	
 func end_game():
-	set_player_start(5, 100, 5)
+	set_player_start(start_player.x, start_player.y, start_player.z)
 	control_show()
 	un_pause.hide()
 	start.grab_focus()

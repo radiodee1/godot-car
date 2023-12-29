@@ -44,6 +44,8 @@ func _do_start():
 	#restart_terrain.emit()
 	gridmap.restart_terrain()
 	#restart_player.emit()
+	#var new_player: Vector3 = Vector3( 15 * 5 / 2, 5 * 5, 15 * 5 / 2)
+	#player.set_player_start(new_player.x, new_player.y, new_player.z)
 	player.restart_player()
 	#get_node("procedural-terrain/GridMap").queue_free()
 	#get_node("procedural-terrain").add_child(get_node('procedural-terrain/GridMap') )
