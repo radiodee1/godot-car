@@ -5,6 +5,7 @@ var max_torque = 60 #30
 var max_rpm = 60
 var friction = 0
 var accel_const = 250 #0
+var falling = false
 @export var test_alone = false
 
 var margin_sideways = 0.2
@@ -26,6 +27,8 @@ var jump_pressed = false
 
 @onready var wheel_back_left = $"./wheel_back_left"
 @onready var wheel_back_right = $"./wheel_back_right"
+@onready var wheel_front_left = $"./wheel_front_left"
+@onready var wheel_front_right = $"./wheel_front_right"
 
 func _ready():
 	#print('car start')
@@ -48,7 +51,7 @@ func _ready():
 	init()
 
 func _physics_process(delta):
-	
+	stop_roll()
 	#do_process_input(delta)
 	if Global.player_status == Global.STATUS_CAR or test_alone:
 		
@@ -58,7 +61,10 @@ func _physics_process(delta):
 			player_script.position.y = float(position.y)
 
 		#print(player_walk.position,' ', player_script.position, ' ',  position, ' player pos')
-			
+		wheel_back_left.brake = 0
+		wheel_back_right.brake = 0
+		wheel_front_left.brake = 0
+		wheel_front_right.brake = 0
 		
 		steer = lerp(float(steer), float(h_input * 0.4), 5 * delta)			
 		#steer = lerp(float(steer), float(Input.get_axis("move_right", "move_left") * 0.4), 5 * delta)
@@ -70,7 +76,9 @@ func _physics_process(delta):
 		
 		var rpm1 = (wheel_back_left.get_rpm())
 		var rpm2 = (wheel_back_right.get_rpm())
-		var rpm = abs((rpm1 + rpm2) / 2.0)
+		var rpm3 = (wheel_front_left.get_rpm())
+		var rpm4 = (wheel_front_right.get_rpm())
+		var rpm = abs((rpm1 + rpm2 + rpm3 + rpm4) / 4.0)
 		
 		var margin_for_acceleration = 0.1
 		var margin_for_rpm = 0.1
@@ -83,6 +91,24 @@ func _physics_process(delta):
 		#engine_force = abs(acceleration)
 		
 		#print(engine_force, ' force ', friction, ' friction ', brake, ' brake')
+	if Global.player_status != Global.STATUS_CAR and test_alone == false:
+		engine_force = 0
+		all_brake()
+
+func all_brake():
+	wheel_back_left.brake = 1000
+	wheel_back_right.brake = 1000
+	wheel_front_left.brake = 1000
+	wheel_front_right.brake = 1000
+
+func stop_roll():
+	wheel_back_left.wheel_roll_influence = 0
+	wheel_back_right.wheel_roll_influence = 0
+	wheel_front_left.wheel_roll_influence = 0
+	wheel_front_right.wheel_roll_influence = 0
+
+func is_not_on_ground():
+	return not wheel_back_left.is_in_contact() and not wheel_back_right.is_in_contact() and not wheel_front_left.is_in_contact() and not wheel_front_right.is_in_contact()
 
 func _process(delta):
 	if Global.player_status == Global.STATUS_CAR :
@@ -96,20 +122,28 @@ func _process(delta):
 		jump_pressed = false
 		engine_force = 0
 		
-	if position.y < -500:
+	if position.y < -30:
 		print("car endless fall >>>", position.y)
+		falling = true
 		dispose()
 
 	correct_angle(delta)
 	correct_sideways_angle(delta)
 
 func correct_angle(delta):
+	if falling:
+		return
 	#print("correct angle ", $"arm".global_position.y , ' ', global_position.y )	
 	if $"arm".global_position.y  < global_position.y  and Global.player_status == Global.STATUS_CAR :
 		#print("correct angle ", $"arm".global_position.y , ' ', global_position.y )
-		rotate_x(deg_to_rad(150))
+		if not is_not_on_ground():
+			engine_force = 0
+			all_brake()
+			rotate_x(deg_to_rad(150))
 
 func correct_sideways_angle(delta):
+	if falling:
+		return
 	if Global.player_status != Global.STATUS_CAR:
 		return
 	var wheel_right_x = wheel_back_right.global_position.x
@@ -119,7 +153,12 @@ func correct_sideways_angle(delta):
 	if abs(wheel_left_x - wheel_right_x) < margin_sideways and abs(wheel_left_z - wheel_right_z) < margin_sideways:
 		#print('sideways ', wheel_left_x, ', ', wheel_right_x, ', ' , margin_sideways)
 		#position.y += 5
-		rotate_x(deg_to_rad(50))
+		if not is_not_on_ground():
+			engine_force = 0
+			all_brake()
+			rotate_x(deg_to_rad(50))
+	
+		
 
 func _input(event):
 	if not test_alone:
@@ -206,6 +245,11 @@ func init(name = 'car'):
 func dispose():
 	self.leave_car()
 	
+	var new_car: Vector3 = Vector3( 15 * 5 / 2, 5 * 5, 15 * 5 / 2)
+	player_script.set_player_start(new_car.x, new_car.y, new_car.z)
+	
+	player_script.end_game()
+
 	if Global.count_list_items(Global.placed_items, 'car') > 0:
 		Global.placed_items.erase('car')
 		print("erase car")
