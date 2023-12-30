@@ -535,6 +535,8 @@ func disable_patrol(dot_hash:String):
 	
 func restart_player():
 	position = Vector3(start_player.x , start_player.y , start_player.z)
+	#print('rot ', rotation)
+	rotation = Vector3(0,deg_to_rad(180),0)
 	pass
 
 func set_player_start(x,y,z):

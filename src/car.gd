@@ -1,8 +1,8 @@
 extends VehicleBody3D
 
 var steer = 0
-var max_torque = 120 #30
-var max_rpm = 90
+var max_torque = 120 #60
+var max_rpm = 90 #60
 var friction = 0
 var accel_const = 250 #0
 var falling = false
