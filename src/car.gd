@@ -1,8 +1,8 @@
 extends VehicleBody3D
 
 var steer = 0
-var max_torque = 60 #30
-var max_rpm = 60
+var max_torque = 120 #30
+var max_rpm = 90
 var friction = 0
 var accel_const = 250 #0
 var falling = false
@@ -80,7 +80,8 @@ func _physics_process(delta):
 		var rpm2 = (wheel_back_right.get_rpm())
 		var rpm3 = (wheel_front_left.get_rpm())
 		var rpm4 = (wheel_front_right.get_rpm())
-		var rpm = abs((rpm1 + rpm2 + rpm3 + rpm4) / 4.0)
+		#var rpm = abs((rpm1 + rpm2 + rpm3 + rpm4) / 4.0)
+		var rpm = abs((rpm1 + rpm2) / 2.0)
 		#print('rpm ' , rpm1, ' ', rpm2, ' ', rpm3, ' ', rpm4, ' ')
 		
 		var margin_for_acceleration = 0.1
@@ -90,6 +91,7 @@ func _physics_process(delta):
 			friction = delta * accel_const * max_torque  * sign(rpm1) 
 		else:
 			friction = 0
+			
 		engine_f = acceleration * max_torque * ( 1 - rpm / max_rpm ) - friction
 		wheel_back_left.engine_force = engine_f
 		wheel_back_right.engine_force = engine_f

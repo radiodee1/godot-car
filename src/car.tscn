@@ -32,6 +32,7 @@ size = Vector3(1.1, 0.5, 2)
 
 [node name="car" type="VehicleBody3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.03147, -0.0146344)
+mass = 80.0
 script = ExtResource("1_6qoyu")
 
 [node name="car_body_mesh" type="MeshInstance3D" parent="."]
