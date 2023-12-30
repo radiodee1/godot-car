@@ -278,8 +278,8 @@ func control_show():
 	
 func check_landing(delta):
 	var spot = gridmap.get_placed_node("SPOT")
-	#print('spot ', spot)
-	if spot != null:
+	## assume gridmap origin is 0,0,0
+	if spot != null and transform.origin.y < gridmap.highest.y * gridmap.scale_local - 1.5:
 		var instance = spot['instance']
 		var point = instance.transform.origin
 		velocity = point - transform.origin

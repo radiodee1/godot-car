@@ -87,7 +87,7 @@ func _physics_process(delta):
 		var margin_for_rpm = 0.1
 		
 		if abs(acceleration) < margin_for_acceleration and rpm > margin_for_rpm :
-			friction = delta * accel_const * max_torque * sign(rpm1) 
+			friction = delta * accel_const * max_torque  * sign(rpm1) 
 		else:
 			friction = 0
 		engine_f = acceleration * max_torque * ( 1 - rpm / max_rpm ) - friction

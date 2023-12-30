@@ -16,6 +16,8 @@ var limit_origin = Vector3(0,0,0)
 var highest = Vector3(0,0,0)
 var lowest = Vector3(0,0,0)
 
+var hill_size = Vector3(0,0,0)
+
 var scale_local = 0.5
 
 signal set_highest(high_vector:Vector3)
@@ -128,9 +130,9 @@ func hole_to_maze():
 	include.place_high_rubble(highest)
 	include.emit_rubble()
 	include.remove_altar()
-	include.make_hole_to_maze(highest)
+	include.make_hole_to_maze(highest, 8)
 	hud_map.set_visibility(true)
-	pass # Replace with function body.
+	
 
 	
 func hole_to_nextlevel():
@@ -223,6 +225,7 @@ func set_hill_size(left, right, depth, x, y, z):
 	limit_neg = 0
 	Global.hill_h = left
 	Global.hill_w = left 
+	hill_size = Vector3(left, right, depth)
 
 func setup_level_frame():
 	Global.clear_list_data()

@@ -24,6 +24,7 @@ Global="*res://src/global.gd"
 
 [filesystem]
 
+import/blender/enabled=false
 import/fbx/enabled=false
 
 [input]
