@@ -179,13 +179,18 @@ func place_gators(num = 5):
 		var g = j.instantiate()
 		var number = Global.hill_vector_to_index(Vector2(i.x, i.z))
 		var hash = str(number) + Global.g_hash()
-		i.y = i.y - 10 + 1
+		i.y = i.y * scale_local * scale_local  #+ 1 * scale_local
+		i.x = i.x #* scale_local 
+		i.z = i.z #* scale_local 
+		var k = Vector3(i.x, i.y, i.z)
+		
+		print('gator-i ', i)
 		#i.x -= map_location.x
 		#i.z -= map_location.y
-		g.init(i, 'GATOR-'+ hash) # str(number))
+		g.init(k, 'GATOR-'+ hash) # str(number))
 		if g == null:
 			return
-		print(i,' --- ', g)
+		print(k,' --- ', g)
 		#Global.placed_items.append('GATOR-' + str(number))
 		
 		include.add_to_placed(g, true)

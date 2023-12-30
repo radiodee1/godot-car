@@ -1,6 +1,6 @@
 extends CharacterBody3D
 
-
+@onready var player_script = $"/root/CentralControl/procedural-terrain/CharacterBody3D"
 
 var anim_foot = 'footAction'
 var anim_foot_001 = 'foot_001Action'
@@ -27,6 +27,10 @@ var anchor = Vector3(0,0,0)
 var floating = true
 var can_die = false
 
+var jumping = false
+var snap
+var jump 
+var gravity_vec = Vector3.DOWN
 var try = 0
 
 func _ready():
@@ -35,6 +39,8 @@ func _ready():
 	#animation_walk.connect("animation_finished",  self.play)
 	#var altar = get_node("altar-copy/altar")	
 	process_mode = Node.PROCESS_MODE_PAUSABLE
+	#point = transform.origin
+	
 	#set_red()
 	
 func _process(delta):
@@ -46,26 +52,32 @@ func _physics_process(delta):
 	if animation_walk == null:
 		return
 		
-	if floating and transform.origin.y > 0:
-		point.y -= 10
-	#point = Vector3(3,3,3) 
+	return 
+	floating = not is_on_floor()
+	if floating and transform.origin.y > 0: # and point.y > 0:
+		point.y = 0.0 #-= 0.5
+		#point = player_script.transform.origin
 	
-	#print(path_point, ' ', len(path_forward),' ', velocity,' ', path_forward[path_point], ' path stuff')
-	#print(global_transform.origin)
+		if point.distance_to(transform.origin) > 1.0 :# and path_point < len(path_forward):
+			velocity = point - transform.origin
+			velocity = velocity.normalized() * speed * delta #+ gravity_vec
+			#velocity = velocity * speed 
+		else:
+			#velocity = point - transform.origin
+			#velocity = velocity * speed * delta
+			pass
+			
+	elif not jumping and is_on_floor() and false:
+		jumping = true
+		snap = Vector3.ZERO
+		gravity_vec = Vector3.UP * jump
+		pass
+			
+	velocity += gravity_vec
+	print( 'gator point ', point,' ', is_on_floor(), ' ', transform.origin, ' ', global_transform.origin)
 	
-	#print(point.distance_to(transform.origin), ' distance')
-	
-	if point.distance_to(transform.origin) > 1:# and path_point < len(path_forward):
-		velocity = point - transform.origin
-		velocity = velocity.normalized() * speed * delta
-		#velocity = velocity * speed 
-	else:
-		velocity = point - transform.origin
-		velocity = velocity * speed * delta
-
-	#print(transform.origin.y, ' y here')
-	if transform.origin.y < -2:
-		velocity.y = 0
+	#if transform.origin.y < -2:
+	#	velocity.y = 0
 	
 	check_collision()
 	move_and_slide() 
@@ -85,7 +97,8 @@ func play(name="name"):
 func init(v, name='GATOR', group='mob'):
 	#transform.origin = v
 	print(gator_walk, ' here')
-	
+	var scale_local = 0.5 #1.0
+		
 	var j = load("res://src/gator_walk.tscn").instantiate()
 	var k = load("res://src/gator_pop.tscn").instantiate()
 	j.name = 'gator_walk'
@@ -100,7 +113,7 @@ func init(v, name='GATOR', group='mob'):
 	self.collision_layer = 1
 	move_walk()
 	
-	point = v #Vector3(v.x, v.y - 10, v.z)
+	point = v # transform.origin #v #Vector3(v.x, v.y - 10, v.z)
 	
 	animation_walk = $'gator_walk/AnimationPlayer'
 	animation_pop = $"gator_pop/AnimationPlayer"
@@ -122,7 +135,7 @@ func init(v, name='GATOR', group='mob'):
 	#print(v, " vector")
 	#var low_box_shape = BoxShape3D.new()
 	#low_box_shape.size = Vector3(0.5,0.5,0.5)
-	var scale_local = 0.25
+
 	#mesh_instance_3d.mesh = box_mesh
 	#scene_instance.add_to_group(group)
 	gator_walk.scale_object_local(Vector3(scale_local, scale_local ,scale_local))
@@ -160,5 +173,5 @@ func check_collision():
 				#path_forward.reverse()
 				#path_point = min(len(path_forward) - path_point + backoff, len(path_forward) - 1)
 				#path_point = max( path_point, 0)
-				
+				#floating = false
 				try += 1
