@@ -179,9 +179,9 @@ func place_gators(num = 5):
 		var g = j.instantiate()
 		var number = Global.hill_vector_to_index(Vector2(i.x, i.z))
 		var hash = str(number) + Global.g_hash()
-		i.y = i.y * scale_local * scale_local #+ 1 * scale_local
-		i.x = i.x #* scale_local 
-		i.z = i.z #* scale_local 
+		i.y = i.y * scale_local * scale_local + 1 * scale_local * scale_local
+		i.x = i.x * 5 / 4
+		i.z = i.z * 5 / 4 
 		var k = Vector3(i.x, i.y, i.z)
 		
 		print('gator-i ', i)
