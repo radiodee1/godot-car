@@ -17,6 +17,7 @@ var h_input = 0
 var jump_pressed = false
 
 var engine_f ## engine_force
+var rpm = 0
 
 @onready var camera_chase = $"arm/chase_camera"
 @onready var camera_walk = $"../../CharacterBody3D/arm/Camera3D"
@@ -80,8 +81,8 @@ func _physics_process(delta):
 		var rpm2 = (wheel_back_right.get_rpm())
 		var rpm3 = (wheel_front_left.get_rpm())
 		var rpm4 = (wheel_front_right.get_rpm())
-		#var rpm = abs((rpm1 + rpm2 + rpm3 + rpm4) / 4.0)
-		var rpm = abs((rpm1 + rpm2) / 2.0)
+		#rpm = abs((rpm1 + rpm2 + rpm3 + rpm4) / 4.0)
+		rpm = abs((rpm1 + rpm2) / 2.0)
 		#print('rpm ' , rpm1, ' ', rpm2, ' ', rpm3, ' ', rpm4, ' ')
 		
 		var margin_for_acceleration = 0.1
