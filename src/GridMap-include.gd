@@ -47,6 +47,9 @@ func place_key_rubble(v):
 
 func emit_rubble():
 	rubble_instance.set_emitting(true)
+	
+func stop_emit_rubble():
+	rubble_instance.set_emitting(false)
 
 func place_landing_spot(v, name='SPOT', group='mob'):
 	name = name + Global.g_hash()
@@ -259,6 +262,7 @@ func make_hole_to_maze(highest, group_size=5, remove_type=[4], print_output=fals
 func make_hole_to_nextlevel(group_size=5, remove_type=[1]):
 	var ll = Vector3(low_location_vec)
 	make_hole_to_maze(ll, group_size, remove_type)
+	#stop_emit_rubble()
 
 
 func get_intersection(num, exact=true, skip_record_index=-1):

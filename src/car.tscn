@@ -101,7 +101,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.55863, -3.339)
 script = ExtResource("2_psfdp")
 
 [node name="chase_camera" type="Camera3D" parent="arm"]
-transform = Transform3D(-0.996943, -0.0541003, -0.0563671, -0.07257, 0.908486, 0.411566, 0.0289429, 0.414399, -0.909635, 0, 1.23638, -4.19113)
+transform = Transform3D(-0.996943, -0.0541003, -0.0563672, -0.07257, 0.908486, 0.411566, 0.0289429, 0.414399, -0.909635, 0, 1.23638, -4.19113)
 
 [node name="hood" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.125, 0.75)
