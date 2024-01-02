@@ -135,8 +135,8 @@ func init(v, name='GATOR', group='mob'):
 	k.name = 'gator_pop'
 	add_child(j)
 	add_child(k)
-	var box_shape = BoxShape3D.new()
-	box_shape.size = Vector3(0.5,0.5,0.5)
+	#var box_shape = BoxShape3D.new()
+	#box_shape.size = Vector3(0.5,0.5,0.5)
 	
 	#mesh_instance_3d.mesh = box_mesh
 	#scene_instance.add_to_group(group)
@@ -145,14 +145,14 @@ func init(v, name='GATOR', group='mob'):
 	#mesh_instance_3d.translate(v) 
 	#var static_body = StaticBody3D.new()
 	#static_body.scale_object_local(Vector3(1,1,1))
-	var collision_shape = CollisionShape3D.new()
-	collision_shape.translate(Vector3(0, -1, 0))
-	collision_shape.scale_object_local(Vector3(2,2,2))
-	collision_shape.add_to_group(group)
-	collision_shape.name = name
-	collision_shape.shape = box_shape
-	collision_shape.disabled = false
-	self.add_child(collision_shape)
+	#var collision_shape = CollisionShape3D.new()
+	#collision_shape.translate(Vector3(0, -1, 0))
+	#collision_shape.scale_object_local(Vector3(2,2,2))
+	#collision_shape.add_to_group(group)
+	#collision_shape.name = name
+	#collision_shape.shape = box_shape
+	#collision_shape.disabled = false
+	#self.add_child(collision_shape)
 	#static_body.add_to_group(group)
 	#static_body.name = name
 	#static_body.set_collision_layer_value(1, true)
@@ -170,7 +170,7 @@ func init(v, name='GATOR', group='mob'):
 	
 	animation_walk = $'gator_walk/AnimationPlayer'
 	animation_pop = $"gator_pop/AnimationPlayer"
-	#collision_shape = $"CollisionShape3D" 
+	var collision_shape = $"CollisionShape3D" 
 	gator_walk = $"gator_walk"
 	gator_pop = $"gator_pop"
 	
