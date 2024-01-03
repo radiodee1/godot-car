@@ -19,7 +19,7 @@ var action_name = 'Action'
 @onready var gator_pop = $"gator_pop"
 
 #var speed = 1000
-var point = Vector3(0,0,0)
+var point = Vector3.ZERO
 var path = []
 var path_forward = []
 var path_point = 1
@@ -32,8 +32,8 @@ var jumping = false
 var snap
 var jump = 1.5
 #var accel = 3
-var gravity = 0
-var gravity_vec = Vector3.DOWN * jump
+var gravity = 50
+var gravity_vec = Vector3.ZERO
 var try = 0
 
 var speed = 70
@@ -63,51 +63,7 @@ func _process(delta):
 
 func _physics_process(delta):
 	
-	together(transform.origin , rotation)	
-	
-	gator_walk.look_at( Vector3(point.x , point.y  , point.z))
-	gator_pop.look_at(point)
-	
-	if animation_walk == null:
-		return
-	
-	point = Vector3.ZERO
-	if Global.player_status == Global.STATUS_WALKING :
-		point = player_script.transform.origin   
-	else :
-		point = car_script.transform.origin
-	
-	var floating = not is_on_floor()
-	
-	if floating : # and transform.origin.y > 0: # and point.y > 0:
-		
-		if point.distance_to(global_transform.origin) > 0.1  :# and path_point < len(path_forward):
-			velocity = (point - global_transform.origin) 
-			#velocity = velocity.lerp(velocity * speed,  delta)
-			#velocity = point - global_position
-			velocity = velocity.normalized() * speed * delta  + gravity_vec
-			print('gator velocity change ', velocity)
-		else:
-			velocity = point - global_transform.origin
-			velocity = velocity * speed * delta + gravity_vec
-			pass
-			
-	elif not jumping and not floating and false:
-		jumping = true
-		snap = Vector3.ZERO
-		gravity_vec = Vector3.UP * jump
-		floating = true
-		pass
-			
-	else:
-		velocity = (point - global_transform.origin) 
-		#velocity = velocity.lerp(velocity * speed,  delta)
-		#velocity = point - global_position
-		velocity = velocity.normalized() * speed * delta + gravity_vec
-		#velocity = Vector3(0,0,0)
-		
-		print('gator velocity ', velocity)
-	
+	keep_together(transform.origin )	
 	
 	if is_on_floor() :
 		snap = -get_floor_normal()
@@ -116,23 +72,50 @@ func _physics_process(delta):
 	else:
 		snap = Vector3.DOWN
 		accel = ACCEL_AIR
-		gravity_vec += Vector3.DOWN * gravity * delta
+		gravity_vec = Vector3.DOWN * gravity * delta
 		
 	if snap.y >= 0 :
 		floor_snap_length = snap.y
-		
 	else:
 		floor_snap_length = 0
+		
+	point = Vector3.ZERO
+	#if Global.player_status == Global.STATUS_WALKING :
+	point = player_script.transform.origin   
+	#else :
+	#	point = car_script.transform.origin
+		
+	gator_walk.look_at(point, Vector3.UP, true) #Vector3(point.x , point.y  , point.z))
+	gator_pop.look_at(point, Vector3.UP, true)
+	$"CollisionShape3D".look_at(point, Vector3.UP, true)
+		
+	floating = not is_on_floor()
 	
-
-	#together(Vector3.ZERO, rotation)
-	
+	if floating : 
+		if point.distance_to(global_transform.origin) > 0.1  :# and path_point < len(path_forward):
+			velocity = (point - transform.origin) 
+			velocity = velocity.normalized() * speed * delta
+			velocity = Vector3(velocity.x, gravity_vec.y, velocity.z) # * speed * delta
+			#velocity = velocity.normalized() * speed * delta
+			print('gator velocity change ', velocity,' ', gravity_vec)
+		#elif false:
+		#	velocity = point - global_transform.origin
+		#	velocity = velocity * speed * delta + gravity_vec
+		#	pass
+			
+	elif not jumping and not floating and false:
+		jumping = true
+		snap = Vector3.ZERO
+		gravity_vec = Vector3.UP * jump
+		floating = true
+		pass
+	else:
+		velocity = Vector3.ZERO
 	print( 'gator point ', point,' ', floating,  ' ', global_position, ' ', gator_walk.transform.origin, ' ', gator_walk.position )
 	
 	check_collision()
 	move_and_slide() 
-	#check_collision()
-	#move(transform.origin)	
+	#move_and_collide(velocity * delta)
 
 func set_speed(speed_val):
 	self.speed = speed_val
@@ -151,11 +134,7 @@ func init(v, name='GATOR', group='mob'):
 	k.name = 'gator_pop'
 	add_child(j)
 	add_child(k)
-	#var box_shape = BoxShape3D.new()
-	#box_shape.size = Vector3(0.5,0.5,0.5)
 	
-	#mesh_instance_3d.mesh = box_mesh
-	#scene_instance.add_to_group(group)
 	self.scale_object_local(Vector3(scale_local, scale_local ,scale_local))
 	
 	self.add_to_group(group)
@@ -165,8 +144,6 @@ func init(v, name='GATOR', group='mob'):
 	self.collision_mask = 1
 	self.collision_layer = 1
 	move_walk()
-	
-	#point = v # transform.origin #v #Vector3(v.x, v.y - 10, v.z)
 	
 	animation_walk = $'gator_walk/AnimationPlayer'
 	animation_pop = $"gator_pop/AnimationPlayer"
@@ -209,8 +186,7 @@ func move(v):
 	global_transform.origin = v
 	pass
 	
-func together(v, r = Vector3.ZERO):
-	
+func keep_together(v):
 	gator_walk.global_transform.origin = v  
 	gator_pop.global_transform.origin = v 
 	gator_walk.transform.origin = v
@@ -221,15 +197,11 @@ func together(v, r = Vector3.ZERO):
 	gator_pop.position = v 
 	$"gator_pop/StaticBody3D/CollisionShape3D".global_transform.origin = v
 	$"gator_walk/StaticBody3D/CollisionShape3D".global_transform.origin = v
+	$"CollisionShape3D".transform.origin = v  
 	
-#func face_guy(delta):
-#look_at(point)
-#pass
 	
 func check_collision():
-	## always reverse on collision!!
 	
-	var backoff = 0 ## 1 or 0 or -1
 	try = 0
 	for index in range(get_slide_collision_count()):
 		# We get one of the collisions with the player
@@ -238,8 +210,6 @@ func check_collision():
 		if collision != null and collision.get_collider() != null:
 			if try == 0:
 				print('gator collision ', collision.get_collider().name)
-				#path_forward.reverse()
-				#path_point = min(len(path_forward) - path_point + backoff, len(path_forward) - 1)
-				#path_point = max( path_point, 0)
+				velocity = Vector3.ZERO
 				#floating = false
 				try += 1
