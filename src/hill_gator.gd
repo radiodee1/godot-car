@@ -1,6 +1,7 @@
 extends CharacterBody3D
 
 @onready var player_script = $"/root/CentralControl/procedural-terrain/CharacterBody3D"
+@onready var car_script = $"/root/CentralControl/procedural-terrain/GridMap/car"
 
 var anim_foot = 'footAction'
 var anim_foot_001 = 'foot_001Action'
@@ -35,7 +36,7 @@ var gravity = 0
 var gravity_vec = Vector3.DOWN * jump
 var try = 0
 
-var speed = 7
+var speed = 70
 const ACCEL_DEFAULT = 7
 const ACCEL_AIR = 1
 @onready var accel = ACCEL_DEFAULT
@@ -56,20 +57,31 @@ func _ready():
 	process_mode = Node.PROCESS_MODE_PAUSABLE
 	
 func _process(delta):
+
 	pass
 	#process_mode = Node.PROCESS_MODE_ALWAYS
 
 func _physics_process(delta):
 	
+	together(transform.origin , rotation)	
+	
+	gator_walk.look_at( Vector3(point.x , point.y  , point.z))
+	gator_pop.look_at(point)
+	
 	if animation_walk == null:
 		return
-		
-	point = player_script.global_position  #global_transform.origin
-	#point.y = 0.0
+	
+	point = Vector3.ZERO
+	if Global.player_status == Global.STATUS_WALKING :
+		point = player_script.transform.origin   
+	else :
+		point = car_script.transform.origin
+	
+	var floating = not is_on_floor()
 	
 	if floating : # and transform.origin.y > 0: # and point.y > 0:
 		
-		if point.distance_to(global_position) > 0.25 :# and path_point < len(path_forward):
+		if point.distance_to(global_transform.origin) > 0.1  :# and path_point < len(path_forward):
 			velocity = (point - global_transform.origin) 
 			#velocity = velocity.lerp(velocity * speed,  delta)
 			#velocity = point - global_position
@@ -77,7 +89,7 @@ func _physics_process(delta):
 			print('gator velocity change ', velocity)
 		else:
 			velocity = point - global_transform.origin
-			velocity = velocity * speed * delta
+			velocity = velocity * speed * delta + gravity_vec
 			pass
 			
 	elif not jumping and not floating and false:
@@ -91,9 +103,11 @@ func _physics_process(delta):
 		velocity = (point - global_transform.origin) 
 		#velocity = velocity.lerp(velocity * speed,  delta)
 		#velocity = point - global_position
-		velocity = velocity.normalized() * speed * delta 
+		velocity = velocity.normalized() * speed * delta + gravity_vec
 		#velocity = Vector3(0,0,0)
-		print('gator velocity 0')
+		
+		print('gator velocity ', velocity)
+	
 	
 	if is_on_floor() :
 		snap = -get_floor_normal()
@@ -110,7 +124,10 @@ func _physics_process(delta):
 	else:
 		floor_snap_length = 0
 	
-	print( 'gator point ', point,' ', floating,  ' ', global_position, ' ', velocity )
+
+	#together(Vector3.ZERO, rotation)
+	
+	print( 'gator point ', point,' ', floating,  ' ', global_position, ' ', gator_walk.transform.origin, ' ', gator_walk.position )
 	
 	check_collision()
 	move_and_slide() 
@@ -123,10 +140,9 @@ func set_speed(speed_val):
 func play(name="name"):
 	pass
 	
-
 func init(v, name='GATOR', group='mob'):
 	#transform.origin = v
-	print(gator_walk, ' here')
+	#print(gator_walk, ' here')
 	var scale_local = 0.5 #1.0
 		
 	var j = load("res://src/gator_walk.tscn").instantiate()
@@ -141,23 +157,7 @@ func init(v, name='GATOR', group='mob'):
 	#mesh_instance_3d.mesh = box_mesh
 	#scene_instance.add_to_group(group)
 	self.scale_object_local(Vector3(scale_local, scale_local ,scale_local))
-	#add_child.call(mesh_instance_3d)
-	#mesh_instance_3d.translate(v) 
-	#var static_body = StaticBody3D.new()
-	#static_body.scale_object_local(Vector3(1,1,1))
-	#var collision_shape = CollisionShape3D.new()
-	#collision_shape.translate(Vector3(0, -1, 0))
-	#collision_shape.scale_object_local(Vector3(2,2,2))
-	#collision_shape.add_to_group(group)
-	#collision_shape.name = name
-	#collision_shape.shape = box_shape
-	#collision_shape.disabled = false
-	#self.add_child(collision_shape)
-	#static_body.add_to_group(group)
-	#static_body.name = name
-	#static_body.set_collision_layer_value(1, true)
-	#static_body.set_collision_mask_value(1, true)
-	#self.add_child(static_body) 
+	
 	self.add_to_group(group)
 	#self.add_to_group(group)
 	self.name = name
@@ -173,11 +173,6 @@ func init(v, name='GATOR', group='mob'):
 	var collision_shape = $"CollisionShape3D" 
 	gator_walk = $"gator_walk"
 	gator_pop = $"gator_pop"
-	
-	if gator_walk == null or gator_pop == null:
-		print('-----')
-		print_tree_pretty()
-		pass
 		
 	animation_walk.play(anim_walk)
 	animation_pop.play(action_name)
@@ -186,6 +181,10 @@ func init(v, name='GATOR', group='mob'):
 	gator_pop.global_transform.origin = v
 	global_transform.origin = v
 	
+	#rotation_degrees = Vector3(0, 180, 0)
+	#gator_walk.rotation_degrees.y = 180
+	#gator_pop.rotation_degrees.y = 180
+	
 	gator_walk.scale_object_local(Vector3(scale_local, scale_local ,scale_local))
 	gator_pop.scale_object_local(Vector3(scale_local, scale_local, scale_local))
 	collision_shape.scale_object_local(Vector3(scale_local, scale_local, scale_local))
@@ -193,11 +192,15 @@ func init(v, name='GATOR', group='mob'):
 func move_walk():
 	$"gator_pop".visible = false
 	$"gator_walk".visible = true
+	$"gator_pop/StaticBody3D/CollisionShape3D".disabled = true
+	$"gator_walk/StaticBody3D/CollisionShape3D".disabled = false
 	pass 
 	
 func move_pop():
 	$"gator_pop".visible = true
 	$"gator_walk".visible = false 
+	$"gator_pop/StaticBody3D/CollisionShape3D".disabled = false
+	$"gator_walk/StaticBody3D/CollisionShape3D".disabled = true
 	pass
 	
 func move(v):
@@ -206,8 +209,22 @@ func move(v):
 	global_transform.origin = v
 	pass
 	
-func face_guy(delta):
-	pass
+func together(v, r = Vector3.ZERO):
+	
+	gator_walk.global_transform.origin = v  
+	gator_pop.global_transform.origin = v 
+	gator_walk.transform.origin = v
+	gator_pop.transform.origin = v
+	#$"gator_pop/StaticBody3D".global_transform.origin = v
+	#$"gator_walk/StaticBody3D".global_transform.origin = v
+	gator_walk.position = v
+	gator_pop.position = v 
+	$"gator_pop/StaticBody3D/CollisionShape3D".global_transform.origin = v
+	$"gator_walk/StaticBody3D/CollisionShape3D".global_transform.origin = v
+	
+#func face_guy(delta):
+#look_at(point)
+#pass
 	
 func check_collision():
 	## always reverse on collision!!
@@ -224,5 +241,5 @@ func check_collision():
 				#path_forward.reverse()
 				#path_point = min(len(path_forward) - path_point + backoff, len(path_forward) - 1)
 				#path_point = max( path_point, 0)
-				floating = false
+				#floating = false
 				try += 1
