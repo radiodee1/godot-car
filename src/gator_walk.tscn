@@ -8,7 +8,8 @@ size = Vector3(0.5, 0.7, 5)
 [node name="gator_walk" instance=ExtResource("1_ry11w")]
 
 [node name="StaticBody3D" type="StaticBody3D" parent="." index="8"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D" index="0"]
-transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0.352142, -0.407269)
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 1, -0.407)
 shape = SubResource("BoxShape3D_7pqu3")

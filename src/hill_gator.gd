@@ -20,13 +20,13 @@ var action_name = 'Action'
 
 #var speed = 1000
 var point = Vector3.ZERO
-var path = []
-var path_forward = []
-var path_point = 1
-var anchor = Vector3(0,0,0)
+#var path = []
+#var path_forward = []
+#var path_point = 1
+#var anchor = Vector3(0,0,0)
 
 var floating = true
-var can_die = false
+#var can_die = false
 
 var jumping = false
 var snap
@@ -37,9 +37,9 @@ var gravity_vec = Vector3.ZERO
 var try = 0
 
 var speed = 70
-const ACCEL_DEFAULT = 7
-const ACCEL_AIR = 1
-@onready var accel = ACCEL_DEFAULT
+#const ACCEL_DEFAULT = 7
+#const ACCEL_AIR = 1
+#@onready var accel = ACCEL_DEFAULT
 var gravity_mult = 9.8
 #var jump = 1.5
 
@@ -62,16 +62,26 @@ func _process(delta):
 	#process_mode = Node.PROCESS_MODE_ALWAYS
 
 func _physics_process(delta):
-	
-	keep_together(transform.origin )	
+	point = Vector3.ZERO
+	if Global.player_status == Global.STATUS_WALKING :
+		point = player_script.global_transform.origin   
+		physics_follow(delta)
+	else :
+		pass
+		#point = car_script.position
+		
+
+		
+func physics_follow(delta):
+	keep_together(global_transform.origin )	
 	
 	if is_on_floor() :
 		snap = -get_floor_normal()
-		accel = ACCEL_DEFAULT
+		#accel = ACCEL_DEFAULT
 		gravity_vec = Vector3.ZERO
 	else:
 		snap = Vector3.DOWN
-		accel = ACCEL_AIR
+		#accel = ACCEL_AIR
 		gravity_vec = Vector3.DOWN * gravity * delta
 		
 	if snap.y >= 0 :
@@ -79,39 +89,23 @@ func _physics_process(delta):
 	else:
 		floor_snap_length = 0
 		
-	point = Vector3.ZERO
-	#if Global.player_status == Global.STATUS_WALKING :
-	point = player_script.transform.origin   
-	#else :
-	#	point = car_script.transform.origin
-		
+	
 	gator_walk.look_at(point, Vector3.UP, true) #Vector3(point.x , point.y  , point.z))
 	gator_pop.look_at(point, Vector3.UP, true)
 	$"CollisionShape3D".look_at(point, Vector3.UP, true)
 		
 	floating = not is_on_floor()
 	
-	if floating : 
-		if point.distance_to(global_transform.origin) > 0.1  :# and path_point < len(path_forward):
-			velocity = (point - transform.origin) 
-			velocity = velocity.normalized() * speed * delta
-			velocity = Vector3(velocity.x, gravity_vec.y, velocity.z) # * speed * delta
-			#velocity = velocity.normalized() * speed * delta
-			print('gator velocity change ', velocity,' ', gravity_vec)
-		#elif false:
-		#	velocity = point - global_transform.origin
-		#	velocity = velocity * speed * delta + gravity_vec
-		#	pass
-			
-	elif not jumping and not floating and false:
-		jumping = true
-		snap = Vector3.ZERO
-		gravity_vec = Vector3.UP * jump
-		floating = true
-		pass
+	
+	if point.distance_to(global_transform.origin) > 0.01  :# and path_point < len(path_forward):
+		velocity = (point - global_transform.origin) 
+		velocity = speed * delta  * velocity.normalized()
+		velocity = Vector3(velocity.x, gravity_vec.y, velocity.z) # * speed * delta
 	else:
 		velocity = Vector3.ZERO
-	print( 'gator point ', point,' ', floating,  ' ', global_position, ' ', gator_walk.transform.origin, ' ', gator_walk.position )
+		
+	
+	print( 'gator point ', point,' ', floating,  ' ', global_position, ' ', gator_walk.transform.origin, ' ', velocity )
 	
 	check_collision()
 	move_and_slide() 
@@ -165,6 +159,7 @@ func init(v, name='GATOR', group='mob'):
 	gator_walk.scale_object_local(Vector3(scale_local, scale_local ,scale_local))
 	gator_pop.scale_object_local(Vector3(scale_local, scale_local, scale_local))
 	collision_shape.scale_object_local(Vector3(scale_local, scale_local, scale_local))
+	#collision_shape.transform.origin = Vector3(0,1,0)
 
 func move_walk():
 	$"gator_pop".visible = false
