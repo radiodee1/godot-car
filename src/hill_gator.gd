@@ -95,13 +95,13 @@ func physics_follow(delta):
 	
 	if point.distance_to(global_transform.origin) >= 1.0 :
 		velocity = point - global_transform.origin  
-		velocity = speed  * velocity.normalized()  * delta 
-		velocity = velocity.inverse()  
+		velocity = speed  * velocity.normalized()  * delta #* -1 
+		#velocity = velocity.inverse()  
 		velocity = Vector3(  velocity.x, gravity_vec.y,  velocity.z) 
 	else:
 		velocity = point - global_transform.origin 
-		velocity = velocity * speed * delta 
-		velocity = velocity.inverse()
+		velocity = velocity * speed * delta #* -1
+		#velocity = velocity.inverse()
 		velocity = Vector3(  velocity.x, gravity_vec.y,  velocity.z) 
 	
 	
@@ -207,6 +207,6 @@ func check_collision():
 		if collision != null and collision.get_collider() != null:
 			if try == 0:
 				print('gator collision ', collision.get_collider().name)
-				velocity = Vector3.ZERO
+				#velocity = Vector3.ZERO
 				#floating = false
 				try += 1
