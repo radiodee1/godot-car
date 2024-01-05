@@ -109,14 +109,14 @@ func physics_follow(delta):
 	
 	if point.distance_to(global_transform.origin) >= 3.0 :
 		#position = point - global_transform.origin / (100 * speed )
-		velocity = + point - position #global_transform.origin  
+		velocity = + point - global_transform.origin  
 		velocity =  - velocity.inverse()  
 		velocity = speed  * velocity.normalized()  * delta #* -1 
 		velocity = Vector3(  velocity.x, gravity_vec.y,  velocity.z)
 	else:
 		pass
 		#position = point - global_transform.origin
-		velocity = + point - position # global_transform.origin
+		velocity = + point - global_transform.origin
 		velocity = - velocity.inverse() 
 		velocity = velocity * speed * delta #* -1
 		velocity = Vector3(  velocity.x, gravity_vec.y,  velocity.z) 
