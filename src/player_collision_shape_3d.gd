@@ -133,6 +133,7 @@ func _process(delta):
 func _physics_process(delta):
 	#get keyboard input
 	
+	
 	check_joystick()
 	#Physics.
 	check_escape()

@@ -20,6 +20,7 @@ var action_name = 'Action'
 
 #var speed = 1000
 var point = Vector3.ZERO
+var point_global = Vector3.ZERO
 #var path = []
 #var path_forward = []
 #var path_point = 1
@@ -32,11 +33,11 @@ var jumping = false
 var snap
 var jump = 1.5
 #var accel = 3
-var gravity = 50
+var gravity = 90
 var gravity_vec = Vector3.ZERO
 var try = 0
 
-var speed = 70
+var speed = 30
 #const ACCEL_DEFAULT = 7
 #const ACCEL_AIR = 1
 #@onready var accel = ACCEL_DEFAULT
@@ -63,7 +64,8 @@ func _process(delta):
 
 func _physics_process(delta):
 	
-	point =  player_script.global_transform.origin   
+	point_global = player_script.global_transform.origin   
+	point = to_local(point_global)
 	
 	if Global.player_status == Global.STATUS_WALKING :
 		if floating:
@@ -83,7 +85,6 @@ func physics_jump(delta):
 	position += gravity_vec
 	floating = true
 	
-	
 		
 func physics_follow(delta):
 	keep_together(global_transform.origin )
@@ -102,32 +103,33 @@ func physics_follow(delta):
 	else:
 		floor_snap_length = 0
 	
-	gator_walk.look_at(point, Vector3.UP, true) 
-	gator_pop.look_at(point, Vector3.UP, true)
-	$"CollisionShape3D".look_at(point, Vector3.UP, true)
+	gator_walk.look_at(point_global, Vector3.UP, true) 
+	gator_pop.look_at(point_global, Vector3.UP, true)
+	$"CollisionShape3D".look_at(point_global, Vector3.UP, true)
 		
 	
 	if point.distance_to(global_transform.origin) >= 3.0 :
 		#position = point - global_transform.origin / (100 * speed )
 		velocity = + point - global_transform.origin  
-		velocity =  - velocity.inverse()  
+		#velocity =  - velocity.inverse()  
 		velocity = speed  * velocity.normalized()  * delta #* -1 
 		velocity = Vector3(  velocity.x, gravity_vec.y,  velocity.z)
 	else:
 		pass
 		#position = point - global_transform.origin
 		velocity = + point - global_transform.origin
-		velocity = - velocity.inverse() 
+		#velocity = - velocity.inverse() 
 		velocity = velocity * speed * delta #* -1
 		velocity = Vector3(  velocity.x, gravity_vec.y,  velocity.z) 
 		
 	
-	#print( 'gator point ', point,' ', delta,  ' ', global_position, ' ', gator_walk.transform.origin, ' ', null )
+	#print( 'gator point ', point,' ', delta,  ' ', global_position, ' ', gator_walk.transform.origin, ' ', gravity_vec )
 	
-	check_collision()
-	move_and_slide() 
-	#move_and_collide(velocity)
-	#print('gator velocity changed ', velocity)
+	if Global.player_status == Global.STATUS_WALKING :	
+		check_collision()
+		move_and_slide() 
+		#move_and_collide(velocity)
+		#print('gator velocity changed ', velocity)
 
 func set_speed(speed_val):
 	self.speed = speed_val
