@@ -108,7 +108,7 @@ func physics_follow(delta):
 	$"CollisionShape3D".look_at(point_global, Vector3.UP, true)
 		
 	
-	if point.distance_to(global_transform.origin) >= 3.0 :
+	if point.distance_to(global_transform.origin) > 1.0 :
 		#position = point - global_transform.origin / (100 * speed )
 		velocity = + point - global_transform.origin  
 		#velocity =  - velocity.inverse()  
