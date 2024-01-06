@@ -140,7 +140,7 @@ func play(name="name"):
 func init(v, name='GATOR', group='mob'):
 	#transform.origin = v
 	#print(gator_walk, ' here')
-	var scale_local = 0.5 #1.0
+	var scale_local = 0.125 # 0.5
 		
 	v.y += 2
 	var j = load("res://src/gator_walk.tscn").instantiate()
