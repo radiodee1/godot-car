@@ -18,16 +18,14 @@ var action_name = 'Action'
 @onready var gator_walk = $"gator_walk"
 @onready var gator_pop = $"gator_pop"
 
-#var speed = 1000
+
 var point = Vector3.ZERO
 var point_global = Vector3.ZERO
-#var path = []
-#var path_forward = []
-#var path_point = 1
-#var anchor = Vector3(0,0,0)
 
-var floating = true
-#var can_die = false
+
+var floating = false
+var top = 0 
+var jump_height = 3
 
 var jumping = false
 var snap
@@ -45,7 +43,7 @@ var gravity_mult = 9.8
 #var jump = 1.5
 
 func _ready():
-	
+	top = position.y + jump_height
 	#name = "gator"
 	#set_name.call_deferred("car")
 	add_to_group('mob')
@@ -67,8 +65,8 @@ func _physics_process(delta):
 	point_global = player_script.global_transform.origin   
 	point = to_local(point_global)
 	
-	if Global.player_status == Global.STATUS_WALKING :
-		if floating:
+	if Global.player_status == Global.STATUS_WALKING and not altar_in_zone():
+		if not floating:
 			physics_follow(delta)
 		else:
 			# put a timer here!!
@@ -81,10 +79,15 @@ func _physics_process(delta):
 func physics_jump(delta):
 	keep_together(global_transform.origin )	
 	
-	gravity_vec = Vector3.UP * gravity * delta
-	position += gravity_vec
-	floating = true
+	gravity_vec = Vector3.UP # * gravity * delta
+	velocity = gravity_vec.normalized() * gravity * delta
+	#top = 5 # * velocity
 	
+	if abs(top - position.y) < 1.0:
+		floating = false
+	else:
+		#print('gator jump ', floating, ' ', velocity, ' ', top)
+		move_and_slide()
 		
 func physics_follow(delta):
 	keep_together(global_transform.origin )
@@ -109,17 +112,12 @@ func physics_follow(delta):
 		
 	
 	if point.distance_to(global_transform.origin) > 1.0 :
-		#position = point - global_transform.origin / (100 * speed )
 		velocity = + point - global_transform.origin  
-		#velocity =  - velocity.inverse()  
-		velocity = speed  * velocity.normalized()  * delta #* -1 
+		velocity = speed  * velocity.normalized()  * delta  
 		velocity = Vector3(  velocity.x, gravity_vec.y,  velocity.z)
 	else:
-		pass
-		#position = point - global_transform.origin
 		velocity = + point - global_transform.origin
-		#velocity = - velocity.inverse() 
-		velocity = velocity * speed * delta #* -1
+		velocity = velocity * speed * delta 
 		velocity = Vector3(  velocity.x, gravity_vec.y,  velocity.z) 
 		
 	
@@ -136,6 +134,22 @@ func set_speed(speed_val):
 
 func play(name="name"):
 	pass
+
+func altar_in_zone():
+	var altar_instance = get_parent().get_placed_node('ALTAR')['instance']
+	var altar_point_global = null
+	var altar_point = null
+	var altar_distance = null
+	var altar_in = false
+	if altar_instance != null:
+		altar_point_global = altar_instance.global_transform.origin
+		altar_point = to_local(altar_point_global)
+		altar_distance = point.distance_to(altar_point)
+		if altar_distance < 3:
+			altar_in = true
+		print('gator to altar ', altar_distance)
+	return altar_in
+	
 	
 func init(v, name='GATOR', group='mob'):
 	#transform.origin = v
@@ -222,8 +236,14 @@ func check_collision():
 		if collision != null and collision.get_collider() != null:
 			if try == 0:
 				#print('gator collision ', collision.get_collider().name)
-				#velocity = Vector3.ZERO
+				
 				if collision.get_collider().name.begins_with('GridMap'):
 					if is_on_wall():
-						floating = false
-				try += 1
+						floating = true
+						top = position.y + jump_height
+						try += 1
+				if collision.get_collider().name.begins_with('CharacterBody3D'):
+					## first collidion with player ???
+					floating = false
+					top = 0
+					try += 1
