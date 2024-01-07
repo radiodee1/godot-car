@@ -306,7 +306,7 @@ func check_collision():
 				var key_items_found = Global.count_list_items(Global.items_temp, "KEY", true)
 				var nextlevel_item_count = Global.count_list_items(Global.placed_items, 'NEXTLEVEL' , true)
 				
-				print('key-placed:',key_items_placed, ' found:', key_items_found, ' nextlevel:', nextlevel_item_count)
+				#print('key-placed:',key_items_placed, ' found:', key_items_found, ' nextlevel:', nextlevel_item_count)
 
 				if collision.get_collider().name.begins_with('ALTAR') and try == 0:
 					

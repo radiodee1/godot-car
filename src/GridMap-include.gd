@@ -38,17 +38,25 @@ func place_high_rubble(v):
 
 func place_low_rubble():
 	var ll = Vector3(low_location_vec)
+	if rubble_instance == null:
+		return
 	rubble_instance.set_translate(ll, true)
 
 func place_key_rubble(v):
 	var vv = Vector3(v)
+	if rubble_instance == null:
+		return
 	rubble_instance.set_lifetime(3)
 	rubble_instance.set_translate(vv) 
 
 func emit_rubble():
+	if rubble_instance == null:
+		return
 	rubble_instance.set_emitting(true)
 	
 func stop_emit_rubble():
+	if rubble_instance == null:
+		return
 	rubble_instance.set_emitting(false)
 
 func place_landing_spot(v, name='SPOT', group='mob'):

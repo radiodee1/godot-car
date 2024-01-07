@@ -184,7 +184,7 @@ func place_gators(num = 5):
 		i.z = i.z * 5 / 4 
 		var k = Vector3(i.x, i.y, i.z)
 		
-		print('gator-i ', i)
+		#print('gator-i ', i)
 		#i.x -= map_location.x
 		#i.z -= map_location.y
 		g.init(k, 'GATOR-'+ hash) # str(number))

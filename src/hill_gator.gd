@@ -65,7 +65,10 @@ func _physics_process(delta):
 	point_global = player_script.global_transform.origin   
 	point = to_local(point_global)
 	
-	if Global.player_status == Global.STATUS_WALKING and not altar_in_zone():
+	if position.y < 0:
+		return
+	
+	if Global.player_status == Global.STATUS_WALKING:
 		if not floating:
 			physics_follow(delta)
 		else:
@@ -120,10 +123,12 @@ func physics_follow(delta):
 		velocity = velocity * speed * delta 
 		velocity = Vector3(  velocity.x, gravity_vec.y,  velocity.z) 
 		
-	
+	if altar_in_zone():
+		velocity *= Vector3(0, 1.0, 0)	
+
 	#print( 'gator point ', point,' ', delta,  ' ', global_position, ' ', gator_walk.transform.origin, ' ', gravity_vec )
 	
-	if Global.player_status == Global.STATUS_WALKING :	
+	if Global.player_status == Global.STATUS_WALKING and not altar_gone() :	
 		check_collision()
 		move_and_slide() 
 		#move_and_collide(velocity)
@@ -135,8 +140,21 @@ func set_speed(speed_val):
 func play(name="name"):
 	pass
 
-func altar_in_zone():
-	var altar_instance = get_parent().get_placed_node('ALTAR')['instance']
+func altar_gone():
+	var name = 'ALTAR' # + Global.g_hash()
+	var altar_instance = get_parent().get_placed_node(name)['instance']
+
+	if altar_instance != null:
+		#print('gator altar ' , altar_instance.name)
+		return false
+	else:
+		#print('gator altar freed')
+		return true
+	pass
+
+func altar_in_zone(closeness = 5):
+	var name = 'ALTAR' # + Global.g_hash()
+	var altar_instance = get_parent().get_placed_node(name)['instance']
 	var altar_point_global = null
 	var altar_point = null
 	var altar_distance = null
@@ -145,9 +163,9 @@ func altar_in_zone():
 		altar_point_global = altar_instance.global_transform.origin
 		altar_point = to_local(altar_point_global)
 		altar_distance = point.distance_to(altar_point)
-		if altar_distance < 3:
+		if altar_distance < closeness:
 			altar_in = true
-		print('gator to altar ', altar_distance)
+		#print('gator to altar ', altar_distance)
 	return altar_in
 	
 	
