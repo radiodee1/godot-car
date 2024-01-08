@@ -30,17 +30,12 @@ var jump_height = 3
 var jumping = false
 var snap
 var jump = 1.5
-#var accel = 3
 var gravity = 90
 var gravity_vec = Vector3.ZERO
 var try = 0
-
 var speed = 30
-#const ACCEL_DEFAULT = 7
-#const ACCEL_AIR = 1
-#@onready var accel = ACCEL_DEFAULT
 var gravity_mult = 9.8
-#var jump = 1.5
+
 
 func _ready():
 	top = position.y + jump_height
@@ -142,8 +137,13 @@ func play(name="name"):
 
 func altar_gone():
 	var name = 'ALTAR' # + Global.g_hash()
-	var altar_instance = get_parent().get_placed_node(name)['instance']
-
+	var altar_instance = get_parent().get_placed_node(name) #['instance']
+	if not altar_instance == null:
+		altar_instance = altar_instance['instance']
+	else:
+		return true
+	if not is_instance_valid(altar_instance):
+		return true
 	if altar_instance != null:
 		#print('gator altar ' , altar_instance.name)
 		return false
@@ -154,12 +154,15 @@ func altar_gone():
 
 func altar_in_zone(closeness = 5):
 	var name = 'ALTAR' # + Global.g_hash()
-	var altar_instance = get_parent().get_placed_node(name)['instance']
+	var altar_instance = get_parent().get_placed_node(name)#['instance']
 	var altar_point_global = null
 	var altar_point = null
 	var altar_distance = null
 	var altar_in = false
-	if altar_instance != null:
+	if altar_instance != null :
+		altar_instance = altar_instance['instance']
+		if not is_instance_valid(altar_instance):
+			return altar_in
 		altar_point_global = altar_instance.global_transform.origin
 		altar_point = to_local(altar_point_global)
 		altar_distance = point.distance_to(altar_point)
