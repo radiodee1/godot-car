@@ -349,7 +349,7 @@ func add_to_placed(instance, add_global=false, skip_check=false):
 func get_placed_node(name):
 	var out = null
 	for i in placed:
-		if i['name'].begins_with(name): # == name: # and i['status'] != "CANCEL":
+		if i['name'].begins_with(name) and is_instance_valid(i['instance']): # == name: # and i['status'] != "CANCEL":
 			out = i
 			return out
 	return out
