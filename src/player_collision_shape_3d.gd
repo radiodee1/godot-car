@@ -395,7 +395,7 @@ func check_collision():
 						
 				if collision.get_collider().name.begins_with("PATROL"): 
 					var hash = collision.get_collider().name.substr(len("PATROL")+ 1, -1)
-					print("hash = ", hash)
+					#print("hash = ", hash)
 					
 
 					if collision.get_collider().can_die == false:

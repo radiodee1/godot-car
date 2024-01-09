@@ -16,7 +16,7 @@ var action_name = 'Action'
 @onready var animation_pop = $"gator_pop/AnimationPlayer"
 #@onready var collision_shape = $"CollisionShape3D" 
 @onready var gator_walk = $"gator_walk"
-@onready var gator_pop = $"gator_pop"
+#@onready var gator_pop = $"gator_pop"
 
 
 var point = Vector3.ZERO
@@ -105,7 +105,7 @@ func physics_follow(delta):
 		floor_snap_length = 0
 	
 	gator_walk.look_at(point_global, Vector3.UP, true) 
-	gator_pop.look_at(point_global, Vector3.UP, true)
+	#gator_pop.look_at(point_global, Vector3.UP, true)
 	$"CollisionShape3D".look_at(point_global, Vector3.UP, true)
 		
 	
@@ -179,11 +179,11 @@ func init(v, name='GATOR', group='mob'):
 		
 	v.y += 2
 	var j = load("res://src/gator_walk.tscn").instantiate()
-	var k = load("res://src/gator_pop.tscn").instantiate()
+	#var k = load("res://src/gator_pop.tscn").instantiate()
 	j.name = 'gator_walk'
-	k.name = 'gator_pop'
+	#k.name = 'gator_pop'
 	add_child(j)
-	add_child(k)
+	#add_child(k)
 	
 	self.scale_object_local(Vector3(scale_local, scale_local ,scale_local))
 	
@@ -196,53 +196,47 @@ func init(v, name='GATOR', group='mob'):
 	move_walk()
 	
 	animation_walk = $'gator_walk/AnimationPlayer'
-	animation_pop = $"gator_pop/AnimationPlayer"
+	#animation_pop = $"gator_pop/AnimationPlayer"
 	var collision_shape = $"CollisionShape3D" 
 	gator_walk = $"gator_walk"
-	gator_pop = $"gator_pop"
+	#gator_pop = $"gator_pop"
 		
 	animation_walk.play(anim_walk)
-	animation_pop.play(action_name)
+	#animation_pop.play(action_name)
 		
 	gator_walk.global_transform.origin = v
-	gator_pop.global_transform.origin = v
+	#gator_pop.global_transform.origin = v
 	global_transform.origin = v
 	
 	gator_walk.scale_object_local(Vector3(scale_local, scale_local ,scale_local))
-	gator_pop.scale_object_local(Vector3(scale_local, scale_local, scale_local))
+	#gator_pop.scale_object_local(Vector3(scale_local, scale_local, scale_local))
 	collision_shape.scale_object_local(Vector3(scale_local, scale_local, scale_local))
 	#collision_shape.transform.origin = Vector3(0,1,0)
 
 func move_walk():
-	$"gator_pop".visible = false
+	#$"gator_pop".visible = false
 	$"gator_walk".visible = true
-	$"gator_pop/StaticBody3D/CollisionShape3D".disabled = true
+	#$"gator_pop/StaticBody3D/CollisionShape3D".disabled = true
 	$"gator_walk/StaticBody3D/CollisionShape3D".disabled = false
 	pass 
 	
-func move_pop():
-	$"gator_pop".visible = true
-	$"gator_walk".visible = false 
-	$"gator_pop/StaticBody3D/CollisionShape3D".disabled = false
-	$"gator_walk/StaticBody3D/CollisionShape3D".disabled = true
-	pass
 	
 func move(v):
 	gator_walk.global_transform.origin = v
-	gator_pop.global_transform.origin = v
+	#gator_pop.global_transform.origin = v
 	global_transform.origin = v
 	pass
 	
 func keep_together(v):
 	gator_walk.global_transform.origin = v  
-	gator_pop.global_transform.origin = v 
+	#gator_pop.global_transform.origin = v 
 	gator_walk.transform.origin = v
-	gator_pop.transform.origin = v
+	#gator_pop.transform.origin = v
 	#$"gator_pop/StaticBody3D".global_transform.origin = v
 	#$"gator_walk/StaticBody3D".global_transform.origin = v
 	gator_walk.position = v
-	gator_pop.position = v 
-	$"gator_pop/StaticBody3D/CollisionShape3D".global_transform.origin = v
+	#gator_pop.position = v 
+	#$"gator_pop/StaticBody3D/CollisionShape3D".global_transform.origin = v
 	$"gator_walk/StaticBody3D/CollisionShape3D".global_transform.origin = v
 	$"CollisionShape3D".transform.origin = v  
 	
