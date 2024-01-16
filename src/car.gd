@@ -131,7 +131,7 @@ func _process(delta):
 		jump_pressed = false
 		engine_force = 0
 		
-	if position.y < 0:
+	if position.y < -10:
 		print("car endless fall >>>", position.y)
 		falling = true
 		dispose()
