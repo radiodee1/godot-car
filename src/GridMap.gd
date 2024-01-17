@@ -144,7 +144,9 @@ func hole_to_nextlevel():
 
 func is_player_too_close(hillspot, distance=15):
 	var p = player_script.get_player_position()
-	if hillspot.distance_to(p) > distance:
+	var q = Vector2(p.x, p.z)
+	var h = Vector2(hillspot.x, hillspot.z)
+	if h.distance_to(q) > distance:
 		return false
 	else:
 		return true
