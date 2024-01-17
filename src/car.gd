@@ -147,8 +147,10 @@ func correct_angle(delta):
 		#print("correct angle ", $"arm".global_position.y , ' ', global_position.y )
 		if not is_not_on_ground():
 			engine_force = 0
-			#all_brake()
-			rotate_x(deg_to_rad(150))
+			
+			#rotate_x(deg_to_rad(150))
+			rotate_x(deg_to_rad(0))
+			rotate_z(deg_to_rad(0))
 
 func correct_sideways_angle(delta):
 	if falling:
@@ -165,8 +167,9 @@ func correct_sideways_angle(delta):
 		if not is_not_on_ground():
 			engine_force = 0
 			#all_brake()
-			rotate_x(deg_to_rad(50))
-	
+			#rotate_x(deg_to_rad(50))
+			rotate_x(deg_to_rad(0))
+			rotate_z(deg_to_rad(0))
 		
 
 func _input(event):
