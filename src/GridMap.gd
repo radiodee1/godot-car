@@ -46,9 +46,6 @@ func _ready()->void:
 	include.set_callable(add_child)
 	include.set_callable_get_cell(get_cell_item)
 	include.set_callable_set_cell(set_cell_item)
-	#set_hill_size(30,0,0,0,0,0)
-	
-	#get_node("/root/CentralControl").connect("restart_terrain", _on_central_control_restart_terrain)
 	
 	#hill_generate()
 	include.remove_altar()
@@ -118,7 +115,7 @@ func add_cell_item(i):
 				#i.y /= group_size
 				#i.x /= group_size
 				#i.z /= group_size
-				if i not in hill_spot:
+				if (i not in hill_spot) and (not is_player_too_close(i)):
 					hill_spot.append(i)
 					if Vector3(i.x, i.y + BELOW, i.z) in hill_spot:
 						hill_spot.erase(Vector3(i.x, i.y + BELOW, i.z))
@@ -144,6 +141,13 @@ func hole_to_nextlevel():
 	include.make_hole_to_nextlevel(5,[2, 1])
 	#setup_level_frame()
 	pass
+
+func is_player_too_close(hillspot, distance=15):
+	var p = player_script.get_player_position()
+	if hillspot.distance_to(p) > distance:
+		return false
+	else:
+		return true
 
 func get_hill_spot_list(type, num=5):
 	var l = []

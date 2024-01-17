@@ -236,7 +236,7 @@ func check_car_jump():
 		position.y += 2
 		position.z += 3 * sign(altar_distance_z())
 		#car_script.leave_car()
-		
+		look_at_altar()
 		snap = Vector3.ZERO
 		gravity_vec = Vector3.UP * jump
 		jump_pressed = false
@@ -264,6 +264,12 @@ func altar_distance_z():
 		return distance
 	return altar_instance.position.z - position.z
 	
+func look_at_altar():
+	var  altar_dict = gridmap.get_placed_node('ALTAR')
+	var altar_instance = null
+	if altar_dict != null:
+		altar_instance = altar_dict['instance']
+		look_at(altar_instance.position)
 	
 func check_joystick():
 		

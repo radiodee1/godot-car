@@ -85,7 +85,7 @@ func place_altar(v, name='ALTAR', group='mob'):
 	add_child.call(scene_instance)
 	#scene_instance.scale = Vector3(1,1,1)
 	scene_instance.translate(v)
-	
+	scene_instance.name = name
 	#print(v, " vector")
 	box_shape = BoxShape3D.new()
 	box_shape.size = Vector3(0.5,0.5,0.5)
@@ -144,7 +144,7 @@ func place_low_altar(v, name='NEXTLEVEL', group='mob'):
 	v.z *= .5
 	#scene_instance.scale = Vector3(1,1,1)
 	low_scene_instance.translate(v)
-
+	low_scene_instance.name = name
 	#print(v, " vector")
 	low_box_shape = BoxShape3D.new()
 	low_box_shape.size = Vector3(0.5,0.5,0.5)
@@ -169,7 +169,6 @@ func place_low_altar(v, name='NEXTLEVEL', group='mob'):
 	low_static_body.set_collision_mask_value(1, true)
 	low_scene_instance.add_child(low_static_body) 
 	low_scene_instance.add_to_group(group)
-	low_scene_instance.name = name
 
 	add_to_placed(low_scene_instance, true, true)
 	

@@ -12,6 +12,7 @@ func _ready():
 	#animation_player.connect("animation_finished", self.play)
 	#var altar = get_node("altar-copy/altar")	
 	process_mode = Node.PROCESS_MODE_ALWAYS
+	self.name = 'ALTAR' + Global.g_hash()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):

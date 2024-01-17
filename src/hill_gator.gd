@@ -216,11 +216,17 @@ func check_collision():
 			if try == 0:
 				if collision.get_collider().name.begins_with('GridMap'):
 					if is_on_wall():
-						floating = true
-						top = position.y + jump_height
+						#floating = true
+						#top = position.y + jump_height
+						jump_gator()
 						try += 1
 				if collision.get_collider().name.begins_with('CharacterBody3D'):
-					## first collidion with player ???
-					floating = false
-					top = 0
+					## first collision with player ???
+					#floating = false
+					#top = 0
+					jump_gator()
 					try += 1
+
+func jump_gator():
+	floating = true
+	top = position.y + jump_height

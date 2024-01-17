@@ -136,8 +136,9 @@ func _process(delta):
 		falling = true
 		dispose()
 
-	correct_angle(delta)
-	correct_sideways_angle(delta)
+	if Global.player_status == Global.STATUS_CAR:
+		correct_angle(delta)
+		correct_sideways_angle(delta)
 
 func correct_angle(delta):
 	if falling:
@@ -149,8 +150,9 @@ func correct_angle(delta):
 			engine_force = 0
 			print('correct angle')
 			#rotate_x(deg_to_rad(150))
-			rotate_x(deg_to_rad(0))
-			rotate_z(deg_to_rad(0))
+			#rotate_x(deg_to_rad(0))
+			#rotate_z(deg_to_rad(0))
+			rotation = Vector3(0, rotation.y, 0)
 
 func correct_sideways_angle(delta):
 	if falling:
@@ -169,9 +171,9 @@ func correct_sideways_angle(delta):
 			#all_brake()
 			print("correct sideways angle")
 			#rotate_x(deg_to_rad(50))
-			rotate_x(deg_to_rad(0))
-			rotate_z(deg_to_rad(0))
-		
+			#rotate_x(deg_to_rad(0))
+			#rotate_z(deg_to_rad(0))
+			rotation = Vector3(0, rotation.y, 0)
 
 func _input(event):
 	if not test_alone:
