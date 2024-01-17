@@ -232,8 +232,9 @@ func check_car_jump():
 		var node = car_script_string + car_script_collider_name
 		get_node(node).leave_car()
 		
-		position.x += 3
+		position.x += 3 * sign(altar_distance_x())
 		position.y += 2
+		position.z += 3 * sign(altar_distance_z())
 		#car_script.leave_car()
 		
 		snap = Vector3.ZERO
@@ -241,6 +242,28 @@ func check_car_jump():
 		jump_pressed = false
 		print("jump from car")		
 	pass
+	
+func altar_distance_x():
+	var distance = 0
+	var altar_dict = gridmap.get_placed_node('ALTAR')
+	var altar_instance = null
+	if altar_dict != null:
+		altar_instance = altar_dict['instance']
+	else:
+		return distance
+	return altar_instance.position.x - position.x
+	
+	
+func altar_distance_z():
+	var distance = 0
+	var altar_dict = gridmap.get_placed_node('ALTAR')
+	var altar_instance = null
+	if altar_dict != null:
+		altar_instance = altar_dict['instance']
+	else:
+		return distance
+	return altar_instance.position.z - position.z
+	
 	
 func check_joystick():
 		
