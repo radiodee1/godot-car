@@ -145,9 +145,9 @@ func correct_angle(delta):
 	#print("correct angle ", $"arm".global_position.y , ' ', global_position.y )	
 	if $"arm".global_position.y  < global_position.y  and Global.player_status == Global.STATUS_CAR :
 		#print("correct angle ", $"arm".global_position.y , ' ', global_position.y )
-		if not is_not_on_ground():
+		if not is_not_on_ground() or true:
 			engine_force = 0
-			
+			print('correct angle')
 			#rotate_x(deg_to_rad(150))
 			rotate_x(deg_to_rad(0))
 			rotate_z(deg_to_rad(0))
@@ -164,9 +164,10 @@ func correct_sideways_angle(delta):
 	if abs(wheel_left_x - wheel_right_x) < margin_sideways and abs(wheel_left_z - wheel_right_z) < margin_sideways:
 		#print('sideways ', wheel_left_x, ', ', wheel_right_x, ', ' , margin_sideways)
 		#position.y += 5
-		if not is_not_on_ground():
+		if not is_not_on_ground() or true:
 			engine_force = 0
 			#all_brake()
+			print("correct sideways angle")
 			#rotate_x(deg_to_rad(50))
 			rotate_x(deg_to_rad(0))
 			rotate_z(deg_to_rad(0))
