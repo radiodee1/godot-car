@@ -150,7 +150,7 @@ func correct_angle(delta):
 			engine_force = 0
 			print('correct angle')
 			#rotate_x(deg_to_rad(150))
-			#rotate_x(deg_to_rad(0))
+			rotate_x(deg_to_rad(180))
 			#rotate_z(deg_to_rad(0))
 			rotation = Vector3(0, rotation.y, 0)
 
