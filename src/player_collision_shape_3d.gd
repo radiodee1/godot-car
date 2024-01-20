@@ -452,6 +452,31 @@ func check_collision():
 						#hud.set_text_msg('maze', 1)	
 						try = 1
 								
+				if collision.get_collider().name.begins_with("GATOR"): 
+					var hash = collision.get_collider().name.substr(len("GATOR")+ 1, -1)
+					#print("hash = ", hash)
+					
+
+					#if collision.get_collider().can_die == false:
+						#Global.lower_health(Global.health + 1)
+					Global.lower_health(1)
+					if Global.is_end_life():
+						Global.set_lives(Global.lives - 1)
+						Global.reset_health()
+					#central._do_lose_life()
+					hud.set_text_msg('maze', 1)
+					
+					if Global.is_end_game():
+						Global.clear_score_lives_health()
+						central._do_lose_game()
+						end_game()
+						pass	
+							
+					hud.set_text_stat("maze")	
+					
+					if  try == 0:
+						#hud.set_text_msg('maze', 1)	
+						try = 1
 				if collision.get_collider().name.begins_with("DOT"): 
 					if try == 0:
 					
