@@ -36,7 +36,7 @@ func _do_start():
 	#control_buttons.queue_free()
 	#terrain.free()
 	#terrain.request_ready()
-	#Global.level += 1
+	
 
 	Global.clear_score_lives_health()
 	
@@ -75,7 +75,7 @@ func _do_nextlevel():
 	btn_unpause.show()
 	btn_unpause.grab_focus()
 	get_tree().paused = true
-	#Global.level += 1
+	
 	hud.set_text_stat("hill")
 	
 	#restart_terrain.emit()
@@ -88,7 +88,7 @@ func _do_nextlevel():
 	control_buttons.visible = true 
 	btn_unpause.visible = true
 	btn_unpause.disabled = false
-	#Global.level += 1
+	
 
 func _do_lose_life():
 	#$"Control/canvas/splash/text_die".process_mode = Node.PROCESS_MODE_ALWAYS
@@ -115,7 +115,7 @@ func _do_lose_game():
 	add_child(timer)
 	timer.start()
 	hud.set_text_msg("start", 0)
-	#Global.level = -1
+	
 	pass  
 
 func _un_show_sprite():

@@ -226,23 +226,21 @@ func check_car_jump():
 		
 	if jump_pressed and Global.player_status == Global.STATUS_CAR: # and is_on_floor():
 		## leave car
-		#Global.player_status = Global.STATUS_WALKING
-		#position = Vector3(car_script.position)
-		#car_script.leave_car()
+		var jump_from_car = 3
 		var node = car_script_string + car_script_collider_name
 		get_node(node).leave_car()
 		
-		position.x += 3 * sign(altar_distance_x())
+		position.x += jump_from_car * sign(altar_distance_x())
 		position.y += 2
-		position.z += 3 * sign(altar_distance_z())
-		#car_script.leave_car()
+		position.z += jump_from_car * sign(altar_distance_z())
 		
-		if abs(altar_distance_x()) > 3 and abs(altar_distance_z()) > 3:
+		if abs(altar_distance_x()) >= jump_from_car or abs(altar_distance_z()) >= jump_from_car:
 			look_at_altar()
+			print('look at altar')
 		snap = Vector3.ZERO
 		gravity_vec = Vector3.UP * jump
 		jump_pressed = false
-		print("jump from car")		
+		print("jump from car ", altar_distance_x(), ' ', altar_distance_z())		
 	pass
 	
 func altar_distance_x():
@@ -365,7 +363,7 @@ func check_collision():
 					#Global.add_to_items_temp("NEXTLEVEL")
 					print(collision.get_collider().name, ' nextlevel name')								
 					if key_items_found >= key_items_placed and try == 0:
-						#Global.level += 1
+						
 						Global.add_to_score(50)
 						Global.do_nextlevel_transition = true
 						
@@ -413,7 +411,7 @@ func check_collision():
 						
 						if nextlevel_item_count == 0 and try == 0:
 							
-							#Global.level += 1
+							
 							#Global.add_to_score(10)
 							Global.do_nextlevel_transition = true
 							#Global.add_to_score(30)
@@ -501,7 +499,7 @@ func check_collision():
 				if collision.get_collider().name.begins_with("SPOT"): 
 					if try == 0:
 						if str(collision.get_collider().name).ends_with(Global.g_hash(1)):
-							#print('spot skipping ', Global.level + 1)
+							
 							try = 1
 							return
 						var hash = collision.get_collider().name.substr(len("SPOT") + 1, -1)
@@ -549,14 +547,14 @@ func timer_to_nextlevel(t=2):
 	timer.start()
 	
 func timer_on_nextlevel():
-	#set_player_start(5, 100, 5)
+	Global.level += 1
 	central._do_nextlevel()
 	#gridmap.hole_to_nextlevel()
 	gridmap.restart_terrain()
 	restart_player()
 	hud.set_text_msg('start', 0)
 	Global.items_temp = []
-	Global.level += 1
+	
 	hud.set_text_stat('maze') ## show level on status line!!
 	pass
 	

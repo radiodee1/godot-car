@@ -49,7 +49,7 @@ func _ready()->void:
 	
 	#hill_generate()
 	include.remove_altar()
-	
+	Global.level = 0
 	setup_level_frame() ## <<-- test me!!
 	pass
 	
@@ -139,7 +139,7 @@ func hole_to_nextlevel():
 	
 	include.remove_low_altar()
 	include.make_hole_to_nextlevel(5,[2, 1])
-	#setup_level_frame()
+	
 	pass
 
 func is_player_too_close(hillspot, distance=15):
@@ -197,7 +197,6 @@ func place_gators(num = 5):
 		if g == null:
 			return
 		print(k,' --- ', g)
-		#Global.placed_items.append('GATOR-' + str(number))
 		
 		include.add_to_placed(g, true)
 		add_child(g)
