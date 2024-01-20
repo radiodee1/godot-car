@@ -89,7 +89,7 @@ func _physics_process(delta):
 		var margin_for_rpm = 0.1
 		
 		if abs(acceleration) < margin_for_acceleration and rpm > margin_for_rpm :
-			friction = delta * accel_const * max_torque  * sign(rpm1) 
+			friction = delta * accel_const * max_torque  * sign(rpm3) 
 		else:
 			friction = 0
 			
@@ -139,7 +139,7 @@ func _process(delta):
 		falling = true
 		dispose()
 
-	if Global.player_status == Global.STATUS_CAR:
+	if Global.player_status == Global.STATUS_CAR or true:
 		correct_angle(delta)
 		correct_sideways_angle(delta)
 
