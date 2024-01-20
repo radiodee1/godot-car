@@ -224,6 +224,14 @@ func check_collision():
 					## first collision with player ???
 					#floating = false
 					#top = 0
+					
+					if try == 0:
+						Global.lower_health(1)
+						if Global.is_end_life():
+							Global.set_lives(Global.lives - 1)
+							Global.reset_health()
+						
+					
 					jump_gator()
 					try += 1
 

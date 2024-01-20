@@ -236,7 +236,9 @@ func check_car_jump():
 		position.y += 2
 		position.z += 3 * sign(altar_distance_z())
 		#car_script.leave_car()
-		look_at_altar()
+		
+		if abs(altar_distance_x()) > 3 and abs(altar_distance_z()) > 3:
+			look_at_altar()
 		snap = Vector3.ZERO
 		gravity_vec = Vector3.UP * jump
 		jump_pressed = false
@@ -321,6 +323,12 @@ func check_landing(delta):
 func check_collision():
 	#Global.set_score_allowed(true)
 	var try = 0
+	
+	if Global.is_end_game():
+		Global.clear_score_lives_health()
+		central._do_lose_game()
+		end_game()
+		pass	
 	
 	for index in range(get_slide_collision_count()):
 		# We get one of the collisions with the player
@@ -456,27 +464,18 @@ func check_collision():
 					var hash = collision.get_collider().name.substr(len("GATOR")+ 1, -1)
 					#print("hash = ", hash)
 					
-
-					#if collision.get_collider().can_die == false:
-						#Global.lower_health(Global.health + 1)
-					Global.lower_health(1)
-					if Global.is_end_life():
-						Global.set_lives(Global.lives - 1)
-						Global.reset_health()
-					#central._do_lose_life()
-					hud.set_text_msg('maze', 1)
+					if try == 0:
+						
+						if Global.is_end_game() and false:
+							Global.clear_score_lives_health()
+							central._do_lose_game()
+							end_game()
+							pass	
+								
+						hud.set_text_stat("hill")	
+						hud.set_text_msg('hill', 2)
+					try += 1
 					
-					if Global.is_end_game():
-						Global.clear_score_lives_health()
-						central._do_lose_game()
-						end_game()
-						pass	
-							
-					hud.set_text_stat("maze")	
-					
-					if  try == 0:
-						#hud.set_text_msg('maze', 1)	
-						try = 1
 				if collision.get_collider().name.begins_with("DOT"): 
 					if try == 0:
 					
