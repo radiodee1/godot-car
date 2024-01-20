@@ -45,6 +45,7 @@ shape = SubResource("ConvexPolygonShape3D_iuxyw")
 
 [node name="wheel_front_left" type="VehicleWheel3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.95, 0, 1.5)
+use_as_traction = true
 use_as_steering = true
 wheel_roll_influence = 0.0
 wheel_radius = 1.0
@@ -58,6 +59,7 @@ mesh = SubResource("CylinderMesh_djm30")
 
 [node name="wheel_front_right" type="VehicleWheel3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.95, 0, 1.5)
+use_as_traction = true
 use_as_steering = true
 wheel_roll_influence = 0.0
 wheel_radius = 1.0
@@ -72,7 +74,6 @@ skeleton = NodePath("../../wheel_front_left")
 
 [node name="wheel_back_left" type="VehicleWheel3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.95, 0, -1.5)
-use_as_traction = true
 wheel_roll_influence = 0.0
 wheel_radius = 1.0
 wheel_friction_slip = 1.5
@@ -85,7 +86,6 @@ mesh = SubResource("CylinderMesh_djm30")
 
 [node name="wheel_back_right" type="VehicleWheel3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.95, 0, -1.5)
-use_as_traction = true
 wheel_roll_influence = 0.0
 wheel_radius = 1.0
 wheel_friction_slip = 1.5

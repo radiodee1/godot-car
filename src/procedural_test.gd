@@ -6,7 +6,7 @@ extends Node3D
 @onready var gator = $"hill_gator"
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	gator.init(Vector3(0,0,0))
+	#gator.init(Vector3(0,0,0))
 	pass
 	
 

@@ -81,8 +81,8 @@ func _physics_process(delta):
 		var rpm2 = (wheel_back_right.get_rpm())
 		var rpm3 = (wheel_front_left.get_rpm())
 		var rpm4 = (wheel_front_right.get_rpm())
-		#rpm = abs((rpm1 + rpm2 + rpm3 + rpm4) / 4.0)
-		rpm = abs((rpm1 + rpm2) / 2.0)
+		rpm = abs((rpm3 + rpm4) / 2.0)
+		#rpm = abs((rpm1 + rpm2) / 2.0)
 		#print('rpm ' , rpm1, ' ', rpm2, ' ', rpm3, ' ', rpm4, ' ')
 		
 		var margin_for_acceleration = 0.1
@@ -94,10 +94,10 @@ func _physics_process(delta):
 			friction = 0
 			
 		engine_f = acceleration * max_torque * ( 1 - rpm / max_rpm ) - friction
-		wheel_back_left.engine_force = engine_f
-		wheel_back_right.engine_force = engine_f
-		#wheel_front_left.engine_force = engine_f
-		#wheel_front_right.engine_force = engine_f
+		#wheel_back_left.engine_force = engine_f
+		#wheel_back_right.engine_force = engine_f
+		wheel_front_left.engine_force = engine_f
+		wheel_front_right.engine_force = engine_f
 		
 		#print(engine_force, ' force ', friction, ' friction ', brake, ' brake')
 	if Global.player_status != Global.STATUS_CAR and test_alone == false:
@@ -120,6 +120,9 @@ func is_not_on_ground():
 	return not wheel_back_left.is_in_contact() and not wheel_back_right.is_in_contact() and not wheel_front_left.is_in_contact() and not wheel_front_right.is_in_contact()
 
 func _process(delta):
+	if test_alone:
+		return
+	
 	if Global.player_status == Global.STATUS_CAR :
 		h_input = - float(player_script.h_input)
 		f_input = - float(player_script.f_input)
@@ -247,6 +250,7 @@ func init(name = 'car'):
 	self.name = name
 	#print_tree_pretty()
 	if test_alone:
+		Global.player_status = Global.STATUS_CAR
 		return
 	position = player_script.start_player
 	position.x += 5
