@@ -6,6 +6,7 @@ var scale_local = 0.5
 var add_child: Callable
 var set_cell_item: Callable
 var get_cell_item: Callable
+var remove_child: Callable
 
 var mesh_instance_3d
 var box_shape
@@ -120,7 +121,8 @@ func place_altar(v, name='ALTAR', group='mob'):
 
 func remove_altar():
 	if scene_instance != null:
-		scene_instance.queue_free()
+		#scene_instance.queue_free()
+		remove_child.call(scene_instance)
 		scene_instance = null
 		print('altar removed.')
 	
@@ -133,8 +135,8 @@ func remove_altar():
 
 
 
-func place_low_altar(v, name='NEXTLEVEL', group='mob'):
-	name = name + Global.g_hash()
+func place_low_altar(v, xname='NEXTLEVEL', group='mob'):
+	xname = xname + Global.g_hash()
 	
 	low_location_vec = v 
 	low_scene_instance = preload("res://src/altar_moving.tscn").instantiate()
@@ -144,7 +146,7 @@ func place_low_altar(v, name='NEXTLEVEL', group='mob'):
 	v.z *= .5
 	#scene_instance.scale = Vector3(1,1,1)
 	low_scene_instance.translate(v)
-	low_scene_instance.name = name
+	low_scene_instance.name = xname
 	#print(v, " vector")
 	low_box_shape = BoxShape3D.new()
 	low_box_shape.size = Vector3(0.5,0.5,0.5)
@@ -159,12 +161,12 @@ func place_low_altar(v, name='NEXTLEVEL', group='mob'):
 	var collision_shape = CollisionShape3D.new()
 	collision_shape.scale_object_local(Vector3(1,1,1))
 	collision_shape.add_to_group(group)
-	collision_shape.name = name
+	collision_shape.name = xname
 	collision_shape.shape = low_box_shape
 	collision_shape.disabled = false
 	low_static_body.add_child(collision_shape)
 	low_static_body.add_to_group(group)
-	low_static_body.name = name
+	low_static_body.name = xname
 	low_static_body.set_collision_layer_value(1, true)
 	low_static_body.set_collision_mask_value(1, true)
 	low_scene_instance.add_child(low_static_body) 
@@ -321,7 +323,8 @@ func get_segment():
 func clear_placed():
 	for i in placed:
 		if i['instance'] != null:
-			i['instance'].queue_free()
+			#i['instance'].queue_free()
+			remove_child.call(i['instance'])
 	placed = []
 	
 func add_to_placed(instance, add_global=false, skip_check=false):
@@ -440,3 +443,6 @@ func set_callable_get_cell(set_get: Callable):
 
 func set_callable_set_cell(set_set: Callable):
 	set_cell_item = set_set
+
+func set_callable_remove_child(set_remove: Callable):
+	remove_child = set_remove

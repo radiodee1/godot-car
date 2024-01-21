@@ -25,10 +25,11 @@ func play():
 	animation_player.play(altar_name)
 	pass #animation_player.advance(0)
 
-func init(v: Vector3 , name='pin', group='mob'):
+func init(v: Vector3 , xname='pin', group='mob'):
 	#low_location_vec = v 
 	#low_scene_instance = load("res://src/altar_moving.tscn").instantiate()
-	#scene_instance = load_scene
+	#xname = xname + Global.g_hash()
+	self.name = xname
 	var low_scene_instance = self 
 	v.x *= .5
 	v.y *= .5
@@ -38,7 +39,7 @@ func init(v: Vector3 , name='pin', group='mob'):
 	#add_child.call(low_scene_instance)
 	#scene_instance.scale = Vector3(1,1,1)
 	low_scene_instance.translate(v)
-	
+	low_scene_instance.name = xname
 	#print(v, " vector")
 	var low_box_shape = BoxShape3D.new()
 	low_box_shape.size = Vector3(0.5,0.5,0.5)
@@ -53,21 +54,17 @@ func init(v: Vector3 , name='pin', group='mob'):
 	var collision_shape = CollisionShape3D.new()
 	collision_shape.scale_object_local(Vector3(1,1,1))
 	collision_shape.add_to_group(group)
-	collision_shape.name = name
+	collision_shape.name = xname
 	collision_shape.shape = low_box_shape
 	collision_shape.disabled = false
 	low_static_body.add_child(collision_shape)
 	low_static_body.add_to_group(group)
-	low_static_body.name = name
+	low_static_body.name = xname
 	low_static_body.set_collision_layer_value(1, true)
 	low_static_body.set_collision_mask_value(1, true)
 	low_scene_instance.add_child(low_static_body) 
 	low_scene_instance.add_to_group(group)
-	
-	low_scene_instance.name = name
 
-	#static_body.layers = 1
-	
 	low_static_body.collision_mask = 1
 	low_static_body.collision_layer = 1
 	

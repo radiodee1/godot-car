@@ -46,7 +46,7 @@ func _ready()->void:
 	include.set_callable(add_child)
 	include.set_callable_get_cell(get_cell_item)
 	include.set_callable_set_cell(set_cell_item)
-	
+	include.set_callable_remove_child(remove_child)
 	#hill_generate()
 	include.remove_altar()
 	Global.level = 0
