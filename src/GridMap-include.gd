@@ -182,6 +182,8 @@ func place_low_altar(v, xname='NEXTLEVEL', group='mob'):
 
 func remove_low_altar():
 	if low_scene_instance != null:
+		remove_child.call(low_scene_instance)
+	if low_scene_instance != null:
 		low_scene_instance.queue_free()
 		low_scene_instance = null
 		print('low altar removed.')
@@ -363,7 +365,8 @@ func dequeue_placed_node(name, animate=false, erase_global=false):
 	x = get_placed_node(name)
 	if x != null:
 		var v = Vector3(x['instance'].position)
-		x['instance'].queue_free()
+		remove_child.call(x['instance'])
+		#x['instance'].queue_free()
 		x['status'] = 'CANCEL'
 		placed.erase(x)
 		
