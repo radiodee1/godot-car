@@ -586,8 +586,9 @@ func disable_patrol(dot_hash:String):
 	pass
 	
 func restart_player():
-	position = Vector3(start_player.x , start_player.y , start_player.z)
-	#print('rot ', rotation)
+	#var position_x = Vector3(start_player.x , start_player.y , start_player.z)
+	global_transform.origin = Vector3(start_player.x , start_player.y , start_player.z)
+	#print('rot ', position_x, ' ' , global_transform.origin)
 	rotation = Vector3(0,deg_to_rad(180),0)
 	pass
 
