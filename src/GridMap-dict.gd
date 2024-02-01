@@ -27,7 +27,7 @@ var game = {
 					'mesh': 1,
 					'endpoints': 3 , #10,
 					'multiplier': - 1,
-					'includes': [ 'KEY', 'NEXTLEVEL', 'KEY', 'PRISON', 'PATROL' ]
+					'includes': [ 'KEY', 'NEXTLEVEL', 'KEY', 'PRISON_F', 'PATROL' ]
 				},
 				{
 					'type': 'player',
@@ -118,10 +118,15 @@ var game = {
 var shapes = {
 	'mesh': [
 		0,
+		
 		1,
 		1,
+
 		1,
-		1
+		1,
+
+		1,
+		1 
 	],
 	'layout': [
 		[],
@@ -166,6 +171,31 @@ var shapes = {
 		
 		'prison_e',
 		'prison_f'
+	],
+	'gate_position': [
+		Vector2(0,0),
+
+		Vector2(-1,-1),
+		Vector2(-1,-1),
+
+		Vector2(-1, -1),
+		Vector2(-1, -1),
+
+		Vector2(-1, -1),
+		Vector2(-1, -1)
+	],
+	'gate_orientation': [
+		Vector3.ZERO,
+
+		Vector3.ZERO,
+		Vector3.ZERO,
+
+		Vector3.ZERO,
+		Vector3.ZERO,
+
+		Vector3.ZERO,
+		Vector3.ZERO,
+
 	]
 }
 

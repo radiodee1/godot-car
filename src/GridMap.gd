@@ -279,9 +279,19 @@ func setup_level_frame():
 			#maze.maze_generate(highest)
 			
 			for ii in e['includes']:
-				if ii == 'PRISON' : 
-					var prison_num = rng.randi_range(0, len(dict.shapes['mesh']) - 1)
-					#print(len(dict.shapes['mesh']), ' len ', prison_num)
+				if ii.begins_with('PRISON') : # == 'PRISON' : 
+					var prison_num = 0 
+					if ii == 'PRISON':
+						prison_num = rng.randi_range(0, len(dict.shapes['mesh']) - 1)
+					else:
+						prison_num = 0  
+						var p = ii.to_lower()
+						for prison in range(1, len(dict.shapes['mesh']) ):
+							var prison_name = dict.shapes['name'][prison]
+							if prison_name.begins_with('prison') and prison_name[-1] == p[-1]:
+								prison_num = prison 
+							pass  
+					#print(len(dict.shapes['mesh']), ' len prison ', prison_num)
 					maze.add_shape(prison_num, Vector2(-1,-1), ii) ## <-- this is a prison shape!!
 			
 			#if not Global.do_nextlevel_transition:
