@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://bwdeqlqd7iqsk"]
+
+[ext_resource type="Script" path="res://src/gate.gd" id="1_vhhyw"]
+[ext_resource type="PackedScene" uid="uid://dqiyg1yu7j5fg" path="res://assets/gate.gltf" id="2_fr4bc"]
+
+[node name="gate" type="Node3D"]
+script = ExtResource("1_vhhyw")
+
+[node name="door" parent="." instance=ExtResource("2_fr4bc")]
+transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 0, 0, 0)

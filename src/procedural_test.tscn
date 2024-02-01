@@ -1,6 +1,7 @@
-[gd_scene load_steps=6 format=3 uid="uid://byu7lrs8tin5w"]
+[gd_scene load_steps=7 format=3 uid="uid://byu7lrs8tin5w"]
 
 [ext_resource type="Script" path="res://src/procedural_test.gd" id="1_06rc0"]
+[ext_resource type="PackedScene" uid="uid://bwdeqlqd7iqsk" path="res://src/gate.tscn" id="3_v2t14"]
 [ext_resource type="Texture2D" uid="uid://c1grnt2wiad45" path="res://assets/texture_01.png" id="4_vyupf"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_50jkm"]
@@ -32,3 +33,5 @@ shape = SubResource("ConcavePolygonShape3D_w5coc")
 
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(0.131777, -0.370005, 0.919636, 0.310374, 0.89648, 0.316214, -0.941437, 0.243761, 0.232975, 2.46797, 0.958321, 1.45401)
+
+[node name="gate" parent="." instance=ExtResource("3_v2t14")]
