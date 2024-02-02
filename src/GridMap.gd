@@ -41,12 +41,14 @@ var hill_spot = [] ## Vector3 !!
 func _ready()->void:
 	maze.set_callable(set_cell_item)
 	maze.set_callable_get_cell(get_cell_item)
-	#maze.set_callable_local_to_map(local_to_map) ## <-- local_to_map
-	#maze.set_callable_map_to_local(map_to_local)
+	maze.set_callable_place_object(include.place_object) ## <-- GridMap decorations!! 
+
+
 	include.set_callable(add_child)
 	include.set_callable_get_cell(get_cell_item)
 	include.set_callable_set_cell(set_cell_item)
 	include.set_callable_remove_child(remove_child)
+	
 	#hill_generate()
 	include.remove_altar()
 	Global.level = 0

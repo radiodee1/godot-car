@@ -57,6 +57,8 @@ var get_cell_item: Callable
   
 var dict = preload("res://src/GridMap-dict.gd").new()
 
+
+var place_object: Callable
 # Called when the node enters the scene tree for the first time.
 #func _ready():
 #	pass
@@ -151,7 +153,7 @@ func shapes_to_map(move_old_vectors=false):
 	#print(shape_list, ' shape_list')
 	for i in range(shape_list.size()):
 		var x = shape_list[i]
-		if x[2] != 'PRISON' :
+		if not x[2].begins_with('PRISON'): # != 'PRISON' :
 			continue
 		var layout = dict.shapes['layout'][x[0]]
 		var mesh = dict.shapes['mesh'][x[0]]
@@ -636,6 +638,9 @@ func set_callable(set_cell: Callable):
 
 func set_callable_get_cell(set_get: Callable):
 	get_cell_item = set_get 
+
+func set_callable_place_object(place: Callable):
+	place_object = place 
 
 #func set_callable_local_to_map(get_map: Callable):
 #	local_to_map = get_map

@@ -173,28 +173,28 @@ var shapes = {
 		'prison_f'
 	],
 	'gate_position': [
-		Vector2(0,0),
+		[Vector2(0,0)],
 
-		Vector2(-1,-1),
-		Vector2(-1,-1),
+		[Vector2(-1,-1), Vector2(0,0)],
+		[Vector2(-1,-1), Vector2(0,0)],
 
-		Vector2(-1, -1),
-		Vector2(-1, -1),
+		[Vector2(-1, -1), Vector2(-1,-1), Vector2(0,0)],
+		[Vector2(-1, -1), Vector2(-1,-1), Vector2(0,0)],
 
-		Vector2(-1, -1),
-		Vector2(-1, -1)
+		[Vector2(-1, -1)],
+		[Vector2(-1, -1)],
 	],
 	'gate_orientation': [
-		Vector3.ZERO,
+		[Vector3.ZERO],
 
-		Vector3.ZERO,
-		Vector3.ZERO,
+		[Vector3.ZERO, Vector3.ZERO],
+		[Vector3.ZERO, Vector3.ZERO],
 
-		Vector3.ZERO,
-		Vector3.ZERO,
+		[Vector3.ZERO, Vector3.ZERO, Vector3.ZERO],
+		[Vector3.ZERO, Vector3.ZERO, Vector3.ZERO],
 
-		Vector3.ZERO,
-		Vector3.ZERO,
+		[Vector3.ZERO],
+		[Vector3.ZERO],
 
 	]
 }
