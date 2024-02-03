@@ -172,7 +172,7 @@ var shapes = {
 		'prison_e',
 		'prison_f'
 	],
-	'gate_position': [
+	'gate_offset': [
 		[Vector2(0,0)],
 
 		[Vector2(-1,-1), Vector2(0,0)],
@@ -184,7 +184,7 @@ var shapes = {
 		[Vector2(-1, -1)],
 		[Vector2(-1, -1)],
 	],
-	'gate_orientation': [
+	'gate_rotation': [
 		[Vector3.ZERO],
 
 		[Vector3.ZERO, Vector3.ZERO],
