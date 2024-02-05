@@ -172,7 +172,21 @@ var shapes = {
 		'prison_e',
 		'prison_f'
 	],
-	'gate_offset': [
+	'decoration_name': [
+		['none'],
+
+		['gate', 'gate'],
+		['gate', 'gate'],
+
+		['gate', 'gate', 'gate'],
+		['gate', 'gate', 'gate'],
+
+		['gate'],
+		['gate'],
+
+
+	],
+	'decoration_offset': [
 		[Vector2(0,0)],
 
 		[Vector2(-1,-1), Vector2(0,0)],
@@ -184,7 +198,7 @@ var shapes = {
 		[Vector2(-1, -1)],
 		[Vector2(-1, -1)],
 	],
-	'gate_rotation': [
+	'decoration_rotation': [
 		[Vector3.ZERO],
 
 		[Vector3.ZERO, Vector3.ZERO],
@@ -196,7 +210,21 @@ var shapes = {
 		[Vector3.ZERO],
 		[Vector3.ZERO],
 
-	]
+	],
+	'decoration_scale' : [
+		[Vector3.ONE],
+
+
+		[Vector3.ONE, Vector3.ONE],
+		[Vector3.ONE, Vector3.ONE],
+
+		[Vector3.ONE, Vector3.ONE, Vector3.ONE],
+		[Vector3.ONE, Vector3.ONE, Vector3.ONE],
+
+		[Vector3.ONE],
+		[Vector3.ONE],
+
+		]
 }
 
 var message = {
