@@ -159,6 +159,7 @@ func shapes_to_map(move_old_vectors=false):
 		var mesh = dict.shapes['mesh'][x[0]]
 		var start = dict.shapes['start'][x[0]]
 		var end = dict.shapes['end'][x[0]]
+		#var decoration = dict.shapes['layout'][x[0]]
 		#print(layout, ' shape ', mesh, ' ', start, ' ' , end)
 		if x[1].x == -1 or x[1].y == -1:
 			#print('place randomly')
@@ -252,7 +253,8 @@ func shapes_to_map(move_old_vectors=false):
 			hallway_in_map(hallway) ## <--
 			
 			#hallway_mask_previous(hallway)
-		pass
+		pass 
+		show_2d_grid_shape(layout)
 	pass
 
 func hallway_decorate():
@@ -354,6 +356,38 @@ func show_2d_grid(matrix, advance = false, line_size=3, show_hidden=false, show_
 			line += "-----".substr(0, line_size)
 		line += "|"
 		print(line)			
+
+func show_2d_grid_shape(nodes):
+	#var matrix = []
+	var highest_x = 0 
+	var highest_y = 0 
+	var lowest_x = 0 
+	var lowest_y = 0 
+	for i in nodes:
+		if i.x >= highest_x:
+			highest_x = i.x + 1 
+		if i.y >= highest_y:
+			highest_y = i.y + 1 
+		pass
+	lowest_x = highest_x
+	lowest_y = highest_y
+	for i in nodes:
+		if i.x <= lowest_x:
+			lowest_x = i.x - 1 
+		if i.y <= lowest_y:
+			lowest_y = i.y - 1 
+	
+	var mat_w = []
+	for h in range(lowest_x, highest_x):
+		var mat_h = []
+		for w in range(lowest_y, highest_y):
+			var label = "h-"+ str(h) + "/w-" + str(w)
+			if Vector2(h,w) in nodes:
+				label = "*" + label + "*"
+			mat_h.append(label)
+		mat_w.append(mat_h)
+	print(mat_w)
+	print('w nodes ' + str( nodes))
 
 func prepare_working_map():
 	var map = working_map
