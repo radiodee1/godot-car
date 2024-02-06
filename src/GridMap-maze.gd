@@ -159,7 +159,12 @@ func shapes_to_map(move_old_vectors=false):
 		var mesh = dict.shapes['mesh'][x[0]]
 		var start = dict.shapes['start'][x[0]]
 		var end = dict.shapes['end'][x[0]]
-		#var decoration = dict.shapes['layout'][x[0]]
+		var shape_index = x[0]
+
+		var dec_offset = dict.shapes['decoration_offset'][shape_index]
+		var dec_scale = dict.shapes['decoration_scale'][shape_index]
+		var dec_rotation = dict.shapes['decoration_rotation'][shape_index]
+		var dec_name = dict.shapes['decoration_name'][shape_index]
 		#print(layout, ' shape ', mesh, ' ', start, ' ' , end)
 		if x[1].x == -1 or x[1].y == -1:
 			#print('place randomly')
@@ -253,9 +258,31 @@ func shapes_to_map(move_old_vectors=false):
 			hallway_in_map(hallway) ## <--
 			
 			#hallway_mask_previous(hallway)
+			decoration_in_shape(place, dec_offset, dec_scale, dec_rotation, dec_name)
 		pass 
-		show_2d_grid_shape(layout, start)
+		show_2d_grid_shape(layout, start) ## <-- not include end array
 	pass
+
+func decoration_in_shape(placex, offset, scale, rotation, name):
+	var scale_local = 0.25 
+	var place = placex * 0.5 ## <-- size of tile??
+	#var depth = -6 
+	if len(offset) != len(scale) or len(scale) != len(rotation):
+		print('bad dict values!!')
+		return
+	for i in range(len(offset)):
+		
+		var gate_place = Vector3( 
+			offset[i].x * scale_local + place.x, 
+			center_depth , 
+			offset[i].y * scale_local + place.y
+		)
+
+		var gate_scale = scale[i]
+		var gate_rot = rotation[i]
+		var gate_name = name[i].to_upper()
+		place_object.call(gate_name, 'random', 'MAZE', 0, gate_place, gate_scale, gate_rot )
+	pass 
 
 func hallway_decorate():
 	for i in decorate:

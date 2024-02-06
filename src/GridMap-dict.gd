@@ -27,7 +27,7 @@ var game = {
 					'mesh': 1,
 					'endpoints': 3 , #10,
 					'multiplier': - 1,
-					'includes': [ 'KEY', 'NEXTLEVEL', 'KEY', 'PRISON_A', 'PATROL' ]
+					'includes': [ 'KEY', 'NEXTLEVEL', 'KEY', 'PRISON_A'] #, 'PATROL' ] # 'PATROL'
 				},
 				{
 					'type': 'player',
@@ -175,8 +175,8 @@ var shapes = {
 	'decoration_name': [
 		['none'],
 
-		['gate', 'gate'],
-		['gate', 'gate'],
+		['gate', 'gate', 'gate'],
+		['gate', 'gate', 'gate'],
 
 		['gate', 'gate', 'gate'],
 		['gate', 'gate', 'gate'],
@@ -189,8 +189,8 @@ var shapes = {
 	'decoration_offset': [
 		[Vector2(0,0)],
 
-		[Vector2(-1,-1), Vector2(0,0)],
-		[Vector2(-1,-1), Vector2(0,0)],
+		[Vector2(0,0), Vector2(1,1), Vector2(0,2)],
+		[Vector2(-1,-1), Vector2(0,0), Vector2(0,0)],
 
 		[Vector2(-1, -1), Vector2(-1,-1), Vector2(0,0)],
 		[Vector2(-1, -1), Vector2(-1,-1), Vector2(0,0)],
@@ -201,8 +201,8 @@ var shapes = {
 	'decoration_rotation': [
 		[Vector3.ZERO],
 
-		[Vector3.ZERO, Vector3.ZERO],
-		[Vector3.ZERO, Vector3.ZERO],
+		[Vector3.ZERO, Vector3.ZERO, Vector3.ZERO],
+		[Vector3.ZERO, Vector3.ZERO, Vector3.ZERO],
 
 		[Vector3.ZERO, Vector3.ZERO, Vector3.ZERO],
 		[Vector3.ZERO, Vector3.ZERO, Vector3.ZERO],
@@ -215,8 +215,8 @@ var shapes = {
 		[Vector3.ONE],
 
 
-		[Vector3.ONE, Vector3.ONE],
-		[Vector3.ONE, Vector3.ONE],
+		[Vector3.ONE, Vector3.ONE, Vector3.ONE],
+		[Vector3.ONE, Vector3.ONE, Vector3.ONE],
 
 		[Vector3.ONE, Vector3.ONE, Vector3.ONE],
 		[Vector3.ONE, Vector3.ONE, Vector3.ONE],

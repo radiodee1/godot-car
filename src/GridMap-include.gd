@@ -230,6 +230,18 @@ func place_dot(v, description: String):
 	add_child.call(instance_dot)
 	add_to_placed(instance_dot, true)
 	#print(v, ' vec3 ', Global.intersections)
+
+func place_gate(v, v_back, v_aux, description: String):
+	description = description + Global.g_hash()
+	var gate = preload("res://src/gate.tscn")
+	var instance_gate = gate.instantiate()
+	instance_gate.init(v, description)
+	instance_gate.scale = v_back
+	instance_gate.rotation = v_aux
+
+	add_child.call(instance_gate)
+	add_to_placed(instance_gate, true)
+	print('shape/node', v, ' ', v_back)
 	
 func place_car():
 	#if hash(get_placed_node('car')) == hash(null):	
@@ -383,7 +395,7 @@ func dequeue_placed_node(name, animate=false, erase_global=false):
 	return found
 	#print('after ', placed)
 
-func place_object(name, strategy, layer, frame_num, vector_high=Vector3(0,0,0), vector_low=Vector3(0,0,0)):
+func place_object(name, strategy, layer, frame_num, vector_high=Vector3(0,0,0), vector_back=Vector3(0,0,0), vector_aux=Vector3(0,0,0)):
 	
 	if layer == "HILL":
 		if name == 'ALTAR':
@@ -435,6 +447,10 @@ func place_object(name, strategy, layer, frame_num, vector_high=Vector3(0,0,0), 
 		if name.begins_with("DOT"):
 			place_dot(vector_high, name)
 			pass
+		if name.begins_with("GATE"):
+			place_gate(vector_high, vector_back, vector_aux, name)
+			print('shape decoration placed')
+			pass 
 	pass
 
 
