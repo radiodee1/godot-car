@@ -254,7 +254,7 @@ func shapes_to_map(move_old_vectors=false):
 			
 			#hallway_mask_previous(hallway)
 		pass 
-		show_2d_grid_shape(layout)
+		show_2d_grid_shape(layout, start)
 	pass
 
 func hallway_decorate():
@@ -357,8 +357,10 @@ func show_2d_grid(matrix, advance = false, line_size=3, show_hidden=false, show_
 		line += "|"
 		print(line)			
 
-func show_2d_grid_shape(nodes):
-	#var matrix = []
+func show_2d_grid_shape(nodex, starts=[], ends=[]):
+	var nodes = nodex + starts + ends
+	var findme = 'shape/node: '
+	var padding = str('                    ')
 	var highest_x = 0 
 	var highest_y = 0 
 	var lowest_x = 0 
@@ -381,13 +383,31 @@ func show_2d_grid_shape(nodes):
 	for h in range(lowest_x, highest_x):
 		var mat_h = []
 		for w in range(lowest_y, highest_y):
-			var label = "h-"+ str(h) + "/w-" + str(w)
+			var label =  str(h) + "," + str(w)
 			if Vector2(h,w) in nodes:
 				label = "*" + label + "*"
+			if Vector2(h,w) in starts:
+				label = 'S' + label + 'S'
+			if Vector2(h,w) in ends:
+				label = 'E' + label + 'E'
 			mat_h.append(label)
 		mat_w.append(mat_h)
-	print(mat_w)
-	print('w nodes ' + str( nodes))
+	
+	#print(findme, mat_w)
+	for i in mat_w:
+		#print(findme,end = '')
+		var line = findme 
+		for j in i:
+			var value = j + padding 
+			value = value.left(10)
+			if value.begins_with('*') or value.begins_with('S') or value.begins_with('E'):
+				line += value
+				#print(value, end = '')
+			else:
+				line += padding.left( len(value) )
+		print(line)
+	
+	#print(findme + str( nodes))
 
 func prepare_working_map():
 	var map = working_map
