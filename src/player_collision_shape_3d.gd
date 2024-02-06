@@ -590,6 +590,8 @@ func restart_player():
 	global_transform.origin = Vector3(start_player.x , start_player.y , start_player.z)
 	#print('rot ', position_x, ' ' , global_transform.origin)
 	rotation = Vector3(0,deg_to_rad(180),0)
+	#hud.set_text_msg('start', 0)
+	#hud.set_text_stat('hill')
 	pass
 
 func set_player_start(x,y,z):

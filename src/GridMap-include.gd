@@ -178,6 +178,7 @@ func place_low_altar(v, xname='NEXTLEVEL', group='mob'):
 	low_static_body.collision_layer = 1
 	add_child.call(low_scene_instance)
 	
+	print('shape ', low_scene_instance.global_transform.origin)
 	return
 
 func remove_low_altar():
@@ -229,7 +230,7 @@ func place_dot(v, description: String):
 	
 	add_child.call(instance_dot)
 	add_to_placed(instance_dot, true)
-	#print(v, ' vec3 ', Global.intersections)
+	#print(v, 'shape vec3 ', Global.intersections)
 
 func place_gate(v, v_back, v_aux, description: String):
 	description = description + Global.g_hash()

@@ -18,11 +18,13 @@ func init(v: Vector3 , xname='gate', group='mob'):
 	#low_scene_instance = load("res://src/altar_moving.tscn").instantiate()
 	self.name = xname
 	var low_scene_instance = self 
-	v.x *= .5
-	v.y *= .5
-	v.z *= .5
+	#v.x *= .5
+	#v.y *= .5
+	#v.z *= .5
 	
-	low_scene_instance.translate(v)
+	global_transform.origin = v 
+
+	#low_scene_instance.translate(v)
 	low_scene_instance.name = xname
 	#print(v, " vector")
 	var low_box_shape = BoxShape3D.new()

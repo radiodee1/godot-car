@@ -264,18 +264,21 @@ func shapes_to_map(move_old_vectors=false):
 	pass
 
 func decoration_in_shape(placex, offset, scale, rotation, name):
-	var scale_local = 0.25 
-	var place = placex * 0.5 ## <-- size of tile??
-	#var depth = -6 
+	var scale_local = 0.5 
+	#var n = find_map()
+	#var vec = index_to_vector(record_index)
+	#print('shape record_index ', vec) 
+	var place = placex * hall_width # * scale_local # 1.0 ## <-- size of tile??
+	#place += n #* scale_local
 	if len(offset) != len(scale) or len(scale) != len(rotation):
-		print('bad dict values!!')
+		print('bad shape dict values!!')
 		return
 	for i in range(len(offset)):
 		
 		var gate_place = Vector3( 
-			offset[i].x * scale_local + place.x, 
-			center_depth , 
-			offset[i].y * scale_local + place.y
+			offset[i].x * hall_width * scale_local + place.x + h_vector.x, 
+			(center_depth + 0) * scale_local , 
+			offset[i].y * hall_width * scale_local + place.y + h_vector.z 
 		)
 
 		var gate_scale = scale[i]

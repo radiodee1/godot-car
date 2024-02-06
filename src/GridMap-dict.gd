@@ -201,7 +201,7 @@ var shapes = {
 	'decoration_rotation': [
 		[Vector3.ZERO],
 
-		[Vector3.ZERO, Vector3.ZERO, Vector3.ZERO],
+		[Vector3(0, deg_to_rad(90), 0), Vector3(0, deg_to_rad(90), 0), Vector3(0, deg_to_rad(90), 0)],
 		[Vector3.ZERO, Vector3.ZERO, Vector3.ZERO],
 
 		[Vector3.ZERO, Vector3.ZERO, Vector3.ZERO],
