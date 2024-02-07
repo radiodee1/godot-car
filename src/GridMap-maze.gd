@@ -59,9 +59,6 @@ var dict = preload("res://src/GridMap-dict.gd").new()
 
 
 var place_object: Callable
-# Called when the node enters the scene tree for the first time.
-#func _ready():
-#	pass
 
 func clear_variables():
 	start_vectors = []
@@ -264,11 +261,12 @@ func shapes_to_map(move_old_vectors=false):
 	pass
 
 func decoration_in_shape(placex, offset, scale, rotation, name):
-	var scale_local = 0.5 
-	#var n = find_map()
-	#var vec = index_to_vector(record_index)
-	#print('shape record_index ', vec) 
-	var place = placex * hall_width # * scale_local # 1.0 ## <-- size of tile??
+	var scale_local = 0.5  
+	var n = hall_width
+	#n /= hall_width
+	var vec = Vector2(h_vector.x, h_vector.z) *  -1 / n # index_to_vector(record_index) # * -1
+	print('shape record_index ', vec) 
+	var place = placex # * hall_width # * scale_local # 1.0 ## <-- size of tile??
 	#place += n #* scale_local
 	if len(offset) != len(scale) or len(scale) != len(rotation):
 		print('bad shape dict values!!')
@@ -276,9 +274,9 @@ func decoration_in_shape(placex, offset, scale, rotation, name):
 	for i in range(len(offset)):
 		
 		var gate_place = Vector3( 
-			offset[i].x * hall_width * scale_local + place.x + h_vector.x, 
-			(center_depth + 0) * scale_local , 
-			offset[i].y * hall_width * scale_local + place.y + h_vector.z 
+			(offset[i].x + place.x + vec.x ) * n * scale_local, 
+			-3, # (center_depth + 1.5 ) *  scale_local , 
+			(offset[i].y + place.y + vec.y ) * n * scale_local
 		)
 
 		var gate_scale = scale[i]
