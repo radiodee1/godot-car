@@ -53,7 +53,8 @@ var h_vector: Vector3 #= Vector3(0,0,0)
 var set_cell_item: Callable
 var get_cell_item: Callable
 #var local_to_map: Callable
-#var map_to_local: Callable
+var map_to_local: Callable
+var to_global: Callable
   
 var dict = preload("res://src/GridMap-dict.gd").new()
 
@@ -260,13 +261,17 @@ func shapes_to_map(move_old_vectors=false):
 		show_2d_grid_shape(layout, start) ## <-- not include end array
 	pass
 
-func decoration_in_shape(placex, offset, scale, rotation, name):
-	var scale_local = 0.5  
-	var n = hall_width
+func decoration_in_shape(place, offset, scale, rotation, name):
+	#var scale_local = 1 # 0.75  
+	var n = h_vector / hall_width
 	#n /= hall_width
-	var vec = Vector2(h_vector.x, h_vector.z) *  -1 / n # index_to_vector(record_index) # * -1
+	#var vec = Vector2.ZERO  # 
+	var a = 0 #finished_map.size() ## square!!
+	var vec = index_to_vector(record_index) 
+	#vec = Vector3(vec.x, -3, vec.z) * -1
+	
 	print('shape record_index ', vec) 
-	var place = placex # * hall_width # * scale_local # 1.0 ## <-- size of tile??
+	#place /= n # * hall_width # * scale_local # 1.0 ## <-- size of tile??
 	#place += n #* scale_local
 	if len(offset) != len(scale) or len(scale) != len(rotation):
 		print('bad shape dict values!!')
@@ -274,10 +279,14 @@ func decoration_in_shape(placex, offset, scale, rotation, name):
 	for i in range(len(offset)):
 		
 		var gate_place = Vector3( 
-			(offset[i].x + place.x + vec.x ) * n * scale_local, 
+			(offset[i].x + place.x + n.x  - vec.x) * hall_width + a, # * n , # * scale_local , 
 			-3, # (center_depth + 1.5 ) *  scale_local , 
-			(offset[i].y + place.y + vec.y ) * n * scale_local
+			(offset[i].y + place.y + n.z  - vec.y) * hall_width + a # * n   #* scale_local  
 		)
+		print('shape -- ', gate_place, ' ', place, ' ' , offset[i] )	
+		gate_place = map_to_local.call(gate_place)
+		gate_place = to_global.call(gate_place)
+		print('shape -2 ', gate_place )
 
 		var gate_scale = scale[i]
 		var gate_rot = rotation[i]
@@ -724,11 +733,11 @@ func set_callable_get_cell(set_get: Callable):
 func set_callable_place_object(place: Callable):
 	place_object = place 
 
-#func set_callable_local_to_map(get_map: Callable):
-#	local_to_map = get_map
+func set_callable_to_global(to_g: Callable):
+	to_global = to_g
 
-#func set_callable_map_to_local(get_local: Callable):
-#	map_to_local = get_local
+func set_callable_map_to_local(get_local: Callable):
+	map_to_local = get_local
 
 #func get_local_to_map(vec):
 #	return local_to_map.call(vec)
