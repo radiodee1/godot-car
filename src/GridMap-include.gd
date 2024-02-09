@@ -291,7 +291,7 @@ func make_hole_to_nextlevel(group_size=5, remove_type=[1]):
 
 func get_intersection(num, exact=true, skip_record_index=-1):
 	#var intersections = Global.intersections
-	print(Global.intersections, ' intersections')
+	#print(Global.intersections, ' intersections')
 	var out = -1
 	var index = -1
 	var tot = -1
@@ -307,7 +307,7 @@ func get_intersection(num, exact=true, skip_record_index=-1):
 		if Global.intersections[i] == num and num != 0 and exact:
 			out = i 
 			Global.intersections[i] = 0
-			print(out)
+			#print(out)
 			return out
 		if Global.intersections[i] <= num and Global.intersections[i] != 0 :
 			if tot < Global.intersections[i] and num != 0 and not exact:
