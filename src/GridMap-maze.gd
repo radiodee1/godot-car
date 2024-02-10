@@ -266,7 +266,7 @@ func decoration_in_shape(place, offset, scale, rotation, name):
 	#place *= -1
 	var n =  h_vector / hall_width * Vector3( 1, 1, 1) # * working_map.size()
 	var a = Vector2.ZERO # - find_map() #* 0.5 #- finished_map.size() ## square!!
-	var vec = Vector2.ZERO # index_to_vector(record_index) 
+	var vec = - index_to_vector(record_index) 
 	var h = Vector2.ZERO # Vector2.ONE * working_map.size() # index_to_vector(get_record_index()) / hall_width # (h_vector / hall_width)
 	var z = Vector3.ZERO # - h_vector 
 	print('shape record_index ', vec, ' ', h, ' ', n, ' ', a) 
