@@ -263,9 +263,9 @@ func shapes_to_map(move_old_vectors=false):
 
 func decoration_in_shape(place, offset, scale, rotation, name):
 	#var scale_local = 1 # 0.75
-	#place *= -1
-	var n =  h_vector / hall_width * Vector3( 1, 1, 1) # * working_map.size()
-	var a = Vector2.ZERO # - find_map() #* 0.5 #- finished_map.size() ## square!!
+	#place *=  1 #0.75 
+	var n =  h_vector / hall_width # * Vector3( 1, 1, 1) # * working_map.size()
+	var a = Vector2.ZERO # * - 2 # - find_map() #* 0.5 #- finished_map.size() ## square!!
 	var vec = - index_to_vector(record_index) 
 	var h = Vector2.ZERO # Vector2.ONE * working_map.size() # index_to_vector(get_record_index()) / hall_width # (h_vector / hall_width)
 	var z = Vector3.ZERO # - h_vector 
@@ -280,7 +280,7 @@ func decoration_in_shape(place, offset, scale, rotation, name):
 			(offset[i].x + place.x + n.x + vec.x + h.x) * hall_width + a.x + z.x ,  
 			-3,  
 			(offset[i].y + place.y + n.z + vec.y + h.y) * hall_width + a.y + z.z  
-		)  # * 0.5 # * 0.5  
+		) #  * 0.5  * 0.5  
 		print('shape -0 ', place, ' ' , offset[i], gate_place )	
 		gate_place = map_to_local.call(gate_place) # * 0.5 * 0.5  
 		#print('shape -1 ', gate_place * 0.5 * 0.5 )
