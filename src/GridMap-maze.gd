@@ -264,11 +264,11 @@ func shapes_to_map(move_old_vectors=false):
 func decoration_in_shape(place, offset, scale, rotation, name):
 	#var scale_local = 1 # 0.75
 	#place *=  1 #0.75 
-	var n =  h_vector / hall_width # * Vector3( 1, 1, 1) # * working_map.size()
+	var n = ( h_vector / hall_width) # * Vector3( 1, 1, 1) # * working_map.size()
 	var a = Vector2.ZERO # * - 2 # - find_map() #* 0.5 #- finished_map.size() ## square!!
 	var vec = - index_to_vector(record_index) 
-	var h = Vector2.ZERO # Vector2.ONE * working_map.size() # index_to_vector(get_record_index()) / hall_width # (h_vector / hall_width)
-	var z = Vector3.ZERO # - h_vector 
+	var h = Vector2( 0, 0) # * hall_width # working_map.size() * Vector2( 0, 0) 
+	var z = Vector3.ZERO 
 	print('shape record_index ', vec, ' ', h, ' ', n, ' ', a) 
 	if len(offset) != len(scale) or len(scale) != len(rotation):
 		print('bad shape dict values!!')
