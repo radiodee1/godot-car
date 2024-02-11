@@ -111,7 +111,7 @@ func maze_generate(hvec=Vector3(0,0,0), block_num=1):
 	
 	var n = find_map()
 
-	copy_map_to_scene(n, block_num, true) ## just set map_start
+	#copy_map_to_scene(n, block_num, true) ## just set map_start
 
 	shapes_to_map() ## after add_to_astar
 	
@@ -269,10 +269,11 @@ func shapes_to_map(move_old_vectors=false):
 func decoration_in_shape(place, offset, scale, rotation, name):
 	#place *=  1 #0.75 
 	var n = floor( h_vector / hall_width) 
-	var vec = -  floor(index_to_vector(record_index)) 
-	var h = Vector3.ZERO #  map_start / hall_width - Vector3(1, 1, 1) * working_map.size() 
+	var vec =  -  floor(index_to_vector(record_index)) 
+	var j = map_start / hall_width #- Vector3(1, 1, 1) * working_map.size() 
+	var h = Vector3.ZERO
 	var a = Vector2.ZERO # - find_map() # Vector2(1,1)
-	print('shape record_index vec:', vec, ' h:', h, ' n:', n, ' a:', a) 
+	print('shape record_index vec:', vec, ' j:', j, ' n:', n, ' a:', a) 
 	if len(offset) != len(scale) or len(scale) != len(rotation):
 		print('bad shape dict values!!')
 		return
@@ -607,7 +608,7 @@ func hallway_in_map(hallway, skip_walkway=false):
 				#record_center_a = j
 				#record_center_b = i #+ working_map.size()
 				record_index = hh
-				print('shape v:', v)
+				#print('shape v:', v)
 	
 	for h in range(hallway.size()):
 		var hh = hallway[h]
