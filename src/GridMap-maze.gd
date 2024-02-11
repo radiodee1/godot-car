@@ -262,14 +262,12 @@ func shapes_to_map(move_old_vectors=false):
 	pass
 
 func decoration_in_shape(place, offset, scale, rotation, name):
-	#var scale_local = 1 # 0.75
 	#place *=  1 #0.75 
-	var n = ( h_vector / hall_width) # * Vector3( 1, 1, 1) # * working_map.size()
-	var a = Vector2.ZERO # * - 2 # - find_map() #* 0.5 #- finished_map.size() ## square!!
-	var vec = - index_to_vector(record_index) 
-	var h = Vector2( 0, 0) # * hall_width # working_map.size() * Vector2( 0, 0) 
-	var z = Vector3.ZERO 
-	print('shape record_index ', vec, ' ', h, ' ', n, ' ', a) 
+	var n =  ( h_vector / hall_width) 
+	var vec =  -  index_to_vector(record_index) 
+	var h =   Vector2.ZERO #( 1, 1) * working_map.size() 
+	var a = Vector2.ZERO # - find_map() # Vector2(1,1)
+	print('shape record_index vec:', vec, ' h:', h, ' n:', n, ' a:', a) 
 	if len(offset) != len(scale) or len(scale) != len(rotation):
 		print('bad shape dict values!!')
 		return
@@ -277,18 +275,18 @@ func decoration_in_shape(place, offset, scale, rotation, name):
 		#place = Vector2.ZERO
 		#offset[i] = Vector2.ZERO
 		var gate_place = Vector3( 
-			(offset[i].x + place.x + n.x + vec.x + h.x) * hall_width + a.x + z.x ,  
+			(offset[i].x + place.x + n.x + vec.x + h.x) * hall_width + a.x,  
 			-3,  
-			(offset[i].y + place.y + n.z + vec.y + h.y) * hall_width + a.y + z.z  
-		) #  * 0.5  * 0.5  
-		print('shape -0 ', place, ' ' , offset[i], gate_place )	
+			(offset[i].y + place.y + n.z + vec.y + h.y) * hall_width + a.y 
+		)  #* 0.75 # * 0.5  
+		print('shape -0 place:', place, ' offset:' , offset[i],' gate_place:', gate_place )	
 		gate_place = map_to_local.call(gate_place) # * 0.5 * 0.5  
-		#print('shape -1 ', gate_place * 0.5 * 0.5 )
+		#print('shape -1 map_to_local:', map_to_local.call(Vector3(10,10,10)) )
 		#print('shape -2 ', map_to_local.call(gate_place))
 		#gate_place = Vector3(floor(gate_place.x), gate_place.y, floor(gate_place.z))
-		#gate_place = to_global.call(gate_place)
+		gate_place = to_global.call(gate_place)
 		#gate_place = Vector3(0, -3, 0)
-		#print('shape -2 ', gate_place )
+		print('shape -2 ', gate_place )
 
 		var gate_scale = scale[i]
 		var gate_rot = rotation[i]
@@ -349,7 +347,7 @@ func make_2d_grid(width, height, fill_with=0):
 	return matrix
 	
 func show_2d_grid(matrix, advance = false, line_size=3, show_hidden=false, show_mesh=false):
-	var map_location = find_map()
+	#var map_location = find_map()
 	if not advance:
 		for h in matrix:
 			print(h)
@@ -604,6 +602,7 @@ func hallway_in_map(hallway, skip_walkway=false):
 				#record_center_a = j
 				#record_center_b = i #+ working_map.size()
 				record_index = hh
+				print('shape v:', v)
 	
 	for h in range(hallway.size()):
 		var hh = hallway[h]
