@@ -109,6 +109,10 @@ func maze_generate(hvec=Vector3(0,0,0), block_num=1):
 	
 	prepare_working_map()
 	
+	var n = find_map()
+
+	copy_map_to_scene(n, block_num, true) ## just set map_start
+
 	shapes_to_map() ## after add_to_astar
 	
 	process_astar_vectors(start_vectors)
@@ -119,8 +123,9 @@ func maze_generate(hvec=Vector3(0,0,0), block_num=1):
 	
 	print("finished")
 	
-	var n = find_map() 
-	
+	#var n = find_map() 
+	n = find_map()
+
 	copy_map_to_scene(n, block_num)
 	
 	#show_2d_grid(working_map, true)
@@ -263,9 +268,9 @@ func shapes_to_map(move_old_vectors=false):
 
 func decoration_in_shape(place, offset, scale, rotation, name):
 	#place *=  1 #0.75 
-	var n =  ( h_vector / hall_width) 
-	var vec =  -  index_to_vector(record_index) 
-	var h =   Vector2.ZERO #( 1, 1) * working_map.size() 
+	var n = floor( h_vector / hall_width) 
+	var vec = -  floor(index_to_vector(record_index)) 
+	var h = Vector3.ZERO #  map_start / hall_width - Vector3(1, 1, 1) * working_map.size() 
 	var a = Vector2.ZERO # - find_map() # Vector2(1,1)
 	print('shape record_index vec:', vec, ' h:', h, ' n:', n, ' a:', a) 
 	if len(offset) != len(scale) or len(scale) != len(rotation):
@@ -277,7 +282,7 @@ func decoration_in_shape(place, offset, scale, rotation, name):
 		var gate_place = Vector3( 
 			(offset[i].x + place.x + n.x + vec.x + h.x) * hall_width + a.x,  
 			-3,  
-			(offset[i].y + place.y + n.z + vec.y + h.y) * hall_width + a.y 
+			(offset[i].y + place.y + n.z + vec.y + h.z) * hall_width + a.y 
 		)  #* 0.75 # * 0.5  
 		print('shape -0 place:', place, ' offset:' , offset[i],' gate_place:', gate_place )	
 		gate_place = map_to_local.call(gate_place) # * 0.5 * 0.5  
@@ -657,7 +662,7 @@ func hallway_mask_previous(hallway):
 			astar.set_point_disabled(hh)
 		
 
-func copy_map_to_scene(n:Vector2, block_num=2):
+func copy_map_to_scene(n:Vector2, block_num=2, set_map_start_only=false):
 	#print('h_vector now ', h_vector)
 	map_start = null
 	for i in range(- ( finished_map.size() -1),0 ): ## mirror
@@ -669,8 +674,10 @@ func copy_map_to_scene(n:Vector2, block_num=2):
 			var v = Vector3(i - n.x + a , center_depth ,j - n.y + b  )	
 			#print(v.x, " v.x new")
 			#v.z = - jj - n.y + b 
-			if map_start == null:
+			if map_start == null : #or set_map_start_only:
 				map_start = Vector3( i - n.x + a, center_depth, j - n.y + b)
+				if set_map_start_only:
+					return
 			if finished_map[ii][jj] == MAZE_WALKWAY:
 				block_num = 1
 				set_cell_item.call(v, block_num)
@@ -687,7 +694,7 @@ func copy_map_to_scene(n:Vector2, block_num=2):
 			#for y in range(center_depth + 4, center_depth + 6):
 			#	v.y = y
 			#	set_cell_item.call(v, 1)
-		
+	#print('shape map_start ', map_start)	
 
 func find_map():
 	#if not skip_loops:

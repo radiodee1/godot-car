@@ -242,7 +242,7 @@ func place_gate(v, v_back, v_aux, description: String):
 
 	add_child.call(instance_gate)
 	add_to_placed(instance_gate, true)
-	print('shape/node', v, ' ', v_back)
+	#print('shape/node', v, ' ', v_back)
 	
 func place_car():
 	#if hash(get_placed_node('car')) == hash(null):	

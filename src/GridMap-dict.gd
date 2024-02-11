@@ -215,7 +215,7 @@ var shapes = {
 		[Vector3.ONE],
 
 
-		[Vector3.ONE, Vector3.ONE, Vector3.ONE],
+		[Vector3.ONE * 0.5, Vector3.ONE * 0.5, Vector3.ONE * 0.5],
 		[Vector3.ONE, Vector3.ONE, Vector3.ONE],
 
 		[Vector3.ONE, Vector3.ONE, Vector3.ONE],

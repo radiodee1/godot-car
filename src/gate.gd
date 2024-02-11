@@ -22,14 +22,15 @@ func init(v: Vector3 , xname='gate', group='mob'):
 	#v.y *= .5
 	#v.z *= .5
 	
-	global_transform.origin = v 
-
+	position = v 
+	#global_transform.origin = v 
+	#transform.origin = v
 	#low_scene_instance.translate(v)
 	low_scene_instance.name = xname
 	#print(v, " vector")
 	var low_box_shape = BoxShape3D.new()
 	low_box_shape.size = Vector3(1,1,1)
-	var scale_local = 1 
+	var scale_local = 1  
 	low_scene_instance.scale_object_local(Vector3(scale_local, scale_local ,scale_local))
 	var low_static_body = StaticBody3D.new()
 	low_static_body.scale_object_local(Vector3(1,1,1))
