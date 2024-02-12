@@ -268,11 +268,12 @@ func shapes_to_map(move_old_vectors=false):
 	pass
 
 func decoration_in_shape(place, offset, scale, rotation, name):
-	var n = Vector3.ZERO # floor( h_vector / hall_width) 
+	var n = Vector3.ZERO #  floor( h_vector / hall_width) 
 	var vec =  Vector2.ZERO 
 	var j = map_start / hall_width  
-	var h = - floor(index_to_vector(record_index)) 
-	var a =  h_vector #Vector2.ZERO 
+	var h = Vector2.ZERO # - floor(index_to_vector(record_index)) 
+	var a = Vector3(2, 2, 2) #  h_vector  #Vector2.ZERO 
+	var b =  - find_map()
 	if len(offset) != len(scale) or len(scale) != len(rotation):
 		print('bad shape dict values!!')
 		return
@@ -280,19 +281,20 @@ func decoration_in_shape(place, offset, scale, rotation, name):
 		#place = Vector2.ZERO
 		#offset[i] = Vector2.ZERO
 		var gate_place = Vector3( 
-			(offset[i].x + place.x + n.x + vec.x + h.x) * hall_width + a.x,  
+			(offset[i].x + place.x + n.x + vec.x + h.x) * hall_width + a.x + b.x,  
 			-3,  
-			(offset[i].y + place.y + n.z + vec.y + h.y) * hall_width + a.z 
-		) #  * 0.25  
+			(offset[i].y + place.y + n.z + vec.y + h.y) * hall_width + a.z + b.y 
+		)   * 0.5 
 		
 		print('shape record_index vec:', vec, ' j:', j, ' n:', n, ' a:', a) 
 		print('shape -0 place:', place, ' offset:' , offset[i],' gate_place:', gate_place )	
-		gate_place = map_to_local.call(gate_place) # * 0.5 * 0.5  
-		print('shape -1 ', gate_place)
+		gate_place = gate_place + Vector3(0.25, 0.25, 0.25)
+		#gate_place = map_to_local.call(gate_place) # * 0.5 * 0.5  
+		print('shape -1 ', gate_place, hall_width)
 		#print('shape -2 ', map_to_local.call(gate_place))
 		#gate_place = Vector3(floor(gate_place.x), gate_place.y, floor(gate_place.z))
 		
-		gate_place = to_global.call(gate_place)
+		#gate_place = to_global.call(gate_place)
 		
 		print('shape -2 ', gate_place )
 

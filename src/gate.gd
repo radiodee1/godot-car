@@ -22,8 +22,8 @@ func init(v: Vector3 , xname='gate', group='mob'):
 	#v.y *= .5
 	#v.z *= .5
 	
-	position = v 
-	#global_transform.origin = v 
+	#v *= 0.5  
+	global_transform.origin = v 
 	#transform.origin = v
 	#low_scene_instance.translate(v)
 	low_scene_instance.name = xname
