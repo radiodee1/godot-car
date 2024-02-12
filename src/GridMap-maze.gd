@@ -111,6 +111,7 @@ func maze_generate(hvec=Vector3(0,0,0), block_num=1):
 	
 	var n = find_map()
 
+	make_map_start(n)
 	#copy_map_to_scene(n, block_num, true) ## just set map_start
 
 	shapes_to_map() ## after add_to_astar
@@ -238,7 +239,7 @@ func shapes_to_map(move_old_vectors=false):
 					#if str(v[0]) not in Global.intersections.keys():
 					if not Global.intersections.has(v[0]):
 						Global.intersections[str(v[0])] = 1
-					print('shape start ', st)
+					#print('shape start ', st)
 				
 			if end[0].x != -1 or end[0].y != -1:
 				for en in end:
@@ -267,13 +268,11 @@ func shapes_to_map(move_old_vectors=false):
 	pass
 
 func decoration_in_shape(place, offset, scale, rotation, name):
-	#place *=  1 #0.75 
-	var n = floor( h_vector / hall_width) 
-	var vec =  -  floor(index_to_vector(record_index)) 
-	var j = map_start / hall_width #- Vector3(1, 1, 1) * working_map.size() 
-	var h = Vector3.ZERO
-	var a = Vector2.ZERO # - find_map() # Vector2(1,1)
-	print('shape record_index vec:', vec, ' j:', j, ' n:', n, ' a:', a) 
+	var n = Vector3.ZERO # floor( h_vector / hall_width) 
+	var vec =  Vector2.ZERO 
+	var j = map_start / hall_width  
+	var h = - floor(index_to_vector(record_index)) 
+	var a =  h_vector #Vector2.ZERO 
 	if len(offset) != len(scale) or len(scale) != len(rotation):
 		print('bad shape dict values!!')
 		return
@@ -283,15 +282,18 @@ func decoration_in_shape(place, offset, scale, rotation, name):
 		var gate_place = Vector3( 
 			(offset[i].x + place.x + n.x + vec.x + h.x) * hall_width + a.x,  
 			-3,  
-			(offset[i].y + place.y + n.z + vec.y + h.z) * hall_width + a.y 
-		)  #* 0.75 # * 0.5  
+			(offset[i].y + place.y + n.z + vec.y + h.y) * hall_width + a.z 
+		) #  * 0.25  
+		
+		print('shape record_index vec:', vec, ' j:', j, ' n:', n, ' a:', a) 
 		print('shape -0 place:', place, ' offset:' , offset[i],' gate_place:', gate_place )	
 		gate_place = map_to_local.call(gate_place) # * 0.5 * 0.5  
-		#print('shape -1 map_to_local:', map_to_local.call(Vector3(10,10,10)) )
+		print('shape -1 ', gate_place)
 		#print('shape -2 ', map_to_local.call(gate_place))
 		#gate_place = Vector3(floor(gate_place.x), gate_place.y, floor(gate_place.z))
+		
 		gate_place = to_global.call(gate_place)
-		#gate_place = Vector3(0, -3, 0)
+		
 		print('shape -2 ', gate_place )
 
 		var gate_scale = scale[i]
@@ -661,7 +663,26 @@ func hallway_mask_previous(hallway):
 		
 		if  astar.has_point(hh) and not astar.is_point_disabled(hh) :
 			astar.set_point_disabled(hh)
-		
+
+
+func make_map_start(n:Vector2):
+	#var set_map_start_only = true 
+	#print('h_vector now ', h_vector)
+	map_start = null
+	for i in range(- ( finished_map.size() -1),0 ): ## mirror
+		for j in range( -(finished_map[i].size() -1),0):
+			#var ii =  finished_map.size() + i
+			#var jj =  finished_map[0].size() + j 
+			var a =  finished_map.size()
+			var b =  finished_map[0].size()
+			#var v = Vector3(i - n.x + a , center_depth ,j - n.y + b  )	
+			#print(v.x, " v.x new")
+			#v.z = - jj - n.y + b 
+			if map_start == null : #or set_map_start_only:
+				map_start = Vector3( i - n.x + a, center_depth, j - n.y + b)
+				return
+				
+
 
 func copy_map_to_scene(n:Vector2, block_num=2, set_map_start_only=false):
 	#print('h_vector now ', h_vector)
@@ -701,12 +722,12 @@ func find_map():
 	#if not skip_loops:
 	#print('record index ', record_index)
 	var vec = index_to_vector(record_index)
-	var hall =  4
-	var i =   hall 
-	var j =   hall
+	#var hall =  4
+	#var i =   hall 
+	#var j =   hall
 
-	var sign_w = 0
-	var sign_h = 1 
+	#var sign_w = 0
+	#var sign_h = 1 
 	
 	var c =  h_vector.x 
 	var d =  h_vector.z 
