@@ -267,11 +267,12 @@ func shapes_to_map(move_old_vectors=false):
 		show_2d_grid_shape(layout, start) ## <-- not include end array
 	pass
 
-func decoration_in_shape(place, offset, scale, rotation, name):
+func decoration_in_shape(place_v, offset, scale, rotation, name):
+	var place = place_v #/ hall_width  
 	var n = Vector3.ZERO #  floor( h_vector / hall_width) 
 	var vec =  Vector2.ZERO 
-	var j = map_start / hall_width  
-	var h = Vector2.ZERO # - floor(index_to_vector(record_index)) 
+	var h = map_start / hall_width  
+	var j =  Vector2.ZERO #- floor(index_to_vector(record_index)) 
 	var a = Vector3(2, 2, 2) #  h_vector  #Vector2.ZERO 
 	var b =  - find_map()
 	if len(offset) != len(scale) or len(scale) != len(rotation):
@@ -286,7 +287,7 @@ func decoration_in_shape(place, offset, scale, rotation, name):
 			(offset[i].y + place.y + n.z + vec.y + h.y) * hall_width + a.z + b.y 
 		)   * 0.5 
 		
-		print('shape record_index vec:', vec, ' j:', j, ' n:', n, ' a:', a) 
+		print('shape record_index h:', h, ' j:', j, ' n:', n, ' a:', a) 
 		print('shape -0 place:', place, ' offset:' , offset[i],' gate_place:', gate_place )	
 		gate_place = gate_place + Vector3(0.25, 0.25, 0.25)
 		#gate_place = map_to_local.call(gate_place) # * 0.5 * 0.5  

@@ -23,9 +23,11 @@ func init(v: Vector3 , xname='gate', group='mob'):
 	#v.z *= .5
 	
 	#v *= 0.5  
-	global_transform.origin = v 
+	#global_transform.origin = v 
 	#transform.origin = v
-	#low_scene_instance.translate(v)
+	#print('shape -00 ', transform.origin)
+	low_scene_instance.translate(v)
+	#print('shape -01 ', transform.origin)
 	low_scene_instance.name = xname
 	#print(v, " vector")
 	var low_box_shape = BoxShape3D.new()
