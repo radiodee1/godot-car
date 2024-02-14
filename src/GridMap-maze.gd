@@ -267,13 +267,13 @@ func shapes_to_map(move_old_vectors=false):
 		show_2d_grid_shape(layout, start) ## <-- not include end array
 	pass
 
-func decoration_in_shape(place_v, offset, scale, rotation, name):
+func decoration_in_shape(place, offset, scale, rotation, name):
 	#var neg = Vector2(1, -1) 
-	var place = - place_v + Vector2.ONE * working_map.size()  #/ hall_width 
+	#var place = - place_v + Vector2.ONE * working_map.size()  #/ hall_width 
 	#place *= -1
 	var n = - ( h_vector / hall_width) #+ Vector3.ONE * working_map.size()
 	var vec = Vector2.ZERO #  *  working_map.size() # / - hall_width 
-	var j = - map_start / hall_width # Vector3.ZERO  
+	var j = Vector3.ZERO # - map_start / hall_width # Vector3.ZERO  
 	var h = Vector2.ZERO # - floor(index_to_vector(record_index)) # + Vector2.ONE * working_map.size()
 	var a = Vector2.ZERO # - floor(index_to_vector(record_index)) * hall_width 
 	var b = Vector3.ZERO # h_vector 
@@ -282,12 +282,13 @@ func decoration_in_shape(place_v, offset, scale, rotation, name):
 		print('bad shape dict values!!')
 		return
 	for i in range(len(offset)):
-		offset[i] = - offset[i] + Vector2.ONE * working_map.size()
-		#offset[i] *= - 1  # Vector2.ZERO
+		var off =  - offset[i] - place
+		off.x = - off.x + working_map.size() ## << try this uncommented
+		off.y = - off.y + working_map.size()
 		var gate_place = Vector3( 
-			(offset[i].x + place.x + j.x + vec.x + h.x) * hall_width + a.x + b.x + c.x,  
+			(off.x + j.x + vec.x + h.x) * hall_width + a.x + b.x + c.x,  
 			-3,  
-			(offset[i].y + place.y + j.z + vec.y + h.y) * hall_width + a.y + b.z + c.y 
+			(off.y + j.z + vec.y + h.y) * hall_width + a.y + b.z + c.y 
 		)   
 		
 		print('shape record_index h:', h, ' j:', j, ' n:', n, ' a:', a, ' vec:', vec) 
