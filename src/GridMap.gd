@@ -44,6 +44,7 @@ func _ready()->void:
 	maze.set_callable_place_object(include.place_object) ## <-- GridMap decorations!! 
 	maze.set_callable_map_to_local(map_to_local)
 	maze.set_callable_to_global(to_global)
+	maze.set_callable_local_to_map(local_to_map)
 
 	include.set_callable(add_child)
 	include.set_callable_get_cell(get_cell_item)

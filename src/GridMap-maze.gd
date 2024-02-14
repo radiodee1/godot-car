@@ -52,7 +52,7 @@ var h_vector: Vector3 #= Vector3(0,0,0)
 
 var set_cell_item: Callable
 var get_cell_item: Callable
-#var local_to_map: Callable
+var local_to_map: Callable
 var map_to_local: Callable
 var to_global: Callable
   
@@ -265,13 +265,13 @@ func shapes_to_map(move_old_vectors=false):
 			decoration_in_shape(place, dec_offset, dec_scale, dec_rotation, dec_name)
 		pass 
 		show_2d_grid_shape(layout, start) ## <-- not include end array
-	pass
+
 
 func decoration_in_shape(place, offset, scale, rotation, name):
 	#var neg = Vector2(1, -1) 
 	#var place = - place_v + Vector2.ONE * working_map.size()  #/ hall_width 
 	#place *= -1
-	var n = - ( h_vector / hall_width) #+ Vector3.ONE * working_map.size()
+	#var n = Vector3.ZERO #- ( h_vector / hall_width) #+ Vector3.ONE * working_map.size()
 	var vec = Vector2.ZERO #  *  working_map.size() # / - hall_width 
 	var j = Vector3.ZERO # - map_start / hall_width # Vector3.ZERO  
 	var h = Vector2.ZERO # - floor(index_to_vector(record_index)) # + Vector2.ONE * working_map.size()
@@ -282,23 +282,25 @@ func decoration_in_shape(place, offset, scale, rotation, name):
 		print('bad shape dict values!!')
 		return
 	for i in range(len(offset)):
-		var off =  - offset[i] - place
-		off.x = - off.x + working_map.size() ## << try this uncommented
-		off.y = - off.y + working_map.size()
+		var off =   offset[i] + place # * 2 # Vector2(place.y, place.x)
+		#var off_v = Vector2(off.y, off.x)
+		#off = - off + Vector2.ONE * working_map.size() 
+		#off.x =  off.x - working_map.size() * 0.25 ## << try this uncommented
+		#off.y =  off.y - working_map.size() * 0.25 
 		var gate_place = Vector3( 
 			(off.x + j.x + vec.x + h.x) * hall_width + a.x + b.x + c.x,  
 			-3,  
 			(off.y + j.z + vec.y + h.y) * hall_width + a.y + b.z + c.y 
 		)   
 		
-		print('shape record_index h:', h, ' j:', j, ' n:', n, ' a:', a, ' vec:', vec) 
+		print('shape record_index h:', h, ' j:', j, ' a:', a, ' vec:', vec) 
 		print('shape -0 place:', place, ' offset:' , offset[i],' gate_place:', gate_place )
 		#gate_place = - gate_place + Vector3.ONE * finished_map.size()
 		#gate_place = Vector3(gate_place.z, gate_place.y, gate_place.x)
 		gate_place = gate_place * 0.5  + Vector3(0.25, 0.25, 0.25)
 		#gate_place = map_to_local.call(gate_place) # * 0.5 * 0.5  
 		print('shape -1 ', gate_place, ' hall_width:', hall_width)
-		#print('shape -2 ', map_to_local.call(gate_place))
+		print('shape -2 ', local_to_map.call(gate_place))
 		#gate_place = Vector3(floor(gate_place.x), gate_place.y, floor(gate_place.z))
 		
 		#gate_place = to_global.call(gate_place)
@@ -776,6 +778,9 @@ func set_callable_to_global(to_g: Callable):
 
 func set_callable_map_to_local(get_local: Callable):
 	map_to_local = get_local
+
+func set_callable_local_to_map(get_map: Callable):
+	local_to_map = get_map
 
 #func get_local_to_map(vec):
 #	return local_to_map.call(vec)
