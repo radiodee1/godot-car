@@ -111,6 +111,7 @@ func maze_generate(hvec=Vector3(0,0,0), block_num=1):
 	
 	var n = find_map()
 
+	print('shape early n:', n)
 	make_map_start(n)
 	#copy_map_to_scene(n, block_num, true) ## just set map_start
 
@@ -126,9 +127,12 @@ func maze_generate(hvec=Vector3(0,0,0), block_num=1):
 	
 	#var n = find_map() 
 	n = find_map()
+	print("shape late n:", n)
 
 	copy_map_to_scene(n, block_num)
-	
+
+	shapes_to_map_plus_decorate()
+
 	#show_2d_grid(working_map, true)
 	
 	pass 
@@ -163,12 +167,12 @@ func shapes_to_map(move_old_vectors=false):
 		var mesh = dict.shapes['mesh'][x[0]]
 		var start = dict.shapes['start'][x[0]]
 		var end = dict.shapes['end'][x[0]]
-		var shape_index = x[0]
+		#var shape_index = x[0]
 
-		var dec_offset = dict.shapes['decoration_offset'][shape_index]
-		var dec_scale = dict.shapes['decoration_scale'][shape_index]
-		var dec_rotation = dict.shapes['decoration_rotation'][shape_index]
-		var dec_name = dict.shapes['decoration_name'][shape_index]
+		#var dec_offset = dict.shapes['decoration_offset'][shape_index]
+		#var dec_scale = dict.shapes['decoration_scale'][shape_index]
+		#var dec_rotation = dict.shapes['decoration_rotation'][shape_index]
+		#var dec_name = dict.shapes['decoration_name'][shape_index]
 		#print(layout, ' shape ', mesh, ' ', start, ' ' , end)
 		if x[1].x == -1 or x[1].y == -1:
 			#print('place randomly')
@@ -185,6 +189,8 @@ func shapes_to_map(move_old_vectors=false):
 			place.x = rng.randi_range(2 + 2, working_map.size() - 2 - width)
 			place.y = rng.randi_range(2 + 2, working_map[0].size() - 2 - height)
 			#print(place, ' place')
+			shape_list[i].append(place)
+
 			if place.x + width > working_map.size() or place.y + height > working_map[0].size():
 				continue
 			var hallway = []
@@ -262,9 +268,32 @@ func shapes_to_map(move_old_vectors=false):
 			hallway_in_map(hallway) ## <--
 			
 			#hallway_mask_previous(hallway)
-			decoration_in_shape(place, dec_offset, dec_scale, dec_rotation, dec_name)
+			#decoration_in_shape(place, dec_offset, dec_scale, dec_rotation, dec_name)
 		pass 
 		show_2d_grid_shape(layout, start) ## <-- not include end array
+
+
+func shapes_to_map_plus_decorate():
+	#print(start_vectors, ' start_vectors')
+	#print(working_map, ' working_map')
+	#print(shape_list, ' shape_list')
+	for i in range(shape_list.size()):
+		var x = shape_list[i]
+		var place = shape_list[i][3]
+		if not x[2].begins_with('PRISON'): # != 'PRISON' :
+			continue
+		#var layout = dict.shapes['layout'][x[0]]
+		#var mesh = dict.shapes['mesh'][x[0]]
+		#var start = dict.shapes['start'][x[0]]
+		#var end = dict.shapes['end'][x[0]]
+		var shape_index = x[0]
+
+		var dec_offset = dict.shapes['decoration_offset'][shape_index]
+		var dec_scale = dict.shapes['decoration_scale'][shape_index]
+		var dec_rotation = dict.shapes['decoration_rotation'][shape_index]
+		var dec_name = dict.shapes['decoration_name'][shape_index]
+		#print(layout, ' shap
+		decoration_in_shape(place, dec_offset, dec_scale, dec_rotation, dec_name)
 
 
 func decoration_in_shape(place, offset, scale, rotation, name):
@@ -295,21 +324,20 @@ func decoration_in_shape(place, offset, scale, rotation, name):
 			(off.y + j.z + vec.y + h.y) * hall_width + a.y + b.z + c.y 
 		)   
 		
-		print('shape record_index:', record_index, index_to_vector(record_index),' h:', h, ' j:', j, ' a:', a, ' vec:', vec) 
-		print('shape -0 place:', place, ' offset:' , offset[i],' gate_place:', gate_place )
+		#print('shape record_index:', record_index, index_to_vector(record_index),' h:', h, ' j:', j, ' a:', a, ' vec:', vec) 
+		#print('shape -0 place:', place, ' offset:' , offset[i],' gate_place:', gate_place )
 		#gate_place = - gate_place + Vector3.ONE * finished_map.size()
 		#gate_place = Vector3(gate_place.z, gate_place.y, gate_place.x)
 		#gate_place = - gate_place + Vector3.ONE * finished_map.size()
 		gate_place.y = -3
 		gate_place = gate_place * 0.5  + Vector3(0.25, 0.25, 0.25)
 		#gate_place = map_to_local.call(gate_place) # * 0.5 * 0.5  
-		print('shape -1 ', gate_place, ' hall_width:', hall_width)
-		print('shape -2 ', local_to_map.call(gate_place), map_start)
+		#print('shape -1 ', gate_place, ' hall_width:', hall_width)
+		#print('shape -2 ', local_to_map.call(gate_place), map_start)
 		#gate_place = Vector3(floor(gate_place.x), gate_place.y, floor(gate_place.z))
 		
 		#gate_place = to_global.call(gate_place)
 		
-		print('shape -2 ', gate_place )
 
 		var gate_scale = scale[i]
 		var gate_rot = rotation[i]
