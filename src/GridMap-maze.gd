@@ -297,6 +297,8 @@ func decoration_in_shape(place, offset, scale, rotation, name):
 		print('shape -0 place:', place, ' offset:' , offset[i],' gate_place:', gate_place )
 		#gate_place = - gate_place + Vector3.ONE * finished_map.size()
 		#gate_place = Vector3(gate_place.z, gate_place.y, gate_place.x)
+		#gate_place = - gate_place + Vector3.ONE * finished_map.size()
+		gate_place.y = -3
 		gate_place = gate_place * 0.5  + Vector3(0.25, 0.25, 0.25)
 		#gate_place = map_to_local.call(gate_place) # * 0.5 * 0.5  
 		print('shape -1 ', gate_place, ' hall_width:', hall_width)
