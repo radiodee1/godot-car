@@ -189,7 +189,7 @@ var shapes = {
 	'decoration_offset': [
 		[Vector2(0,0)],
 
-		[Vector2(1,0), Vector2(2,1), Vector2(1,2)],
+		[Vector2(1.20, 0.5), Vector2(1.80, 1.5), Vector2(1.20, 2.5)],
 		[Vector2(-1,-1), Vector2(0,0), Vector2(0,0)],
 
 		[Vector2(-1, -1), Vector2(-1,-1), Vector2(0,0)],

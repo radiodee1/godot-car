@@ -109,10 +109,10 @@ func maze_generate(hvec=Vector3(0,0,0), block_num=1):
 	
 	prepare_working_map()
 	
-	var n = find_map()
+	#var n = find_map()
 
-	print('shape early n:', n)
-	make_map_start(n)
+	#print('shape early n:', n)
+	#make_map_start(n)
 	#copy_map_to_scene(n, block_num, true) ## just set map_start
 
 	shapes_to_map() ## after add_to_astar
@@ -126,8 +126,8 @@ func maze_generate(hvec=Vector3(0,0,0), block_num=1):
 	print("finished")
 	
 	#var n = find_map() 
-	n = find_map()
-	print("shape late n:", n)
+	var n = find_map()
+	#print("shape late n:", n)
 
 	copy_map_to_scene(n, block_num)
 
@@ -297,10 +297,6 @@ func shapes_to_map_plus_decorate():
 
 
 func decoration_in_shape(place, offset, scale, rotation, name):
-	#var neg = Vector2(1, -1) 
-	#var place = - place_v + Vector2.ONE * working_map.size()  #/ hall_width 
-	#place *= -1
-	#var n = Vector3.ZERO #- ( h_vector / hall_width) #+ Vector3.ONE * working_map.size()
 	var vec = Vector2.ZERO #  *  working_map.size() # / - hall_width 
 	var j = Vector3.ZERO # - map_start / hall_width # Vector3.ZERO  
 	var h =  Vector2.ZERO # * 2 - Vector2.ONE * working_map.size()
@@ -312,33 +308,13 @@ func decoration_in_shape(place, offset, scale, rotation, name):
 		return
 	for i in range(len(offset)):
 		var off =   offset[i] + place # * 2 # Vector2(place.y, place.x)
-		#var a = Vector2.ZERO # off * hall_width 
-		#off.x = - off.x + working_map.size()
-		#var off_v = Vector2(off.y, off.x)
-		#off = - off + Vector2.ONE * working_map.size() 
-		#off.x =  off.x - working_map.size() * 0.25 ## << try this uncommented
-		#off.y =  off.y - working_map.size() * 0.25 
 		var gate_place = Vector3( 
 			(off.x + j.x + vec.x + h.x) * hall_width + a.x + b.x + c.x,  
 			-3,  
 			(off.y + j.z + vec.y + h.y) * hall_width + a.y + b.z + c.y 
 		)   
-		
-		#print('shape record_index:', record_index, index_to_vector(record_index),' h:', h, ' j:', j, ' a:', a, ' vec:', vec) 
-		#print('shape -0 place:', place, ' offset:' , offset[i],' gate_place:', gate_place )
-		#gate_place = - gate_place + Vector3.ONE * finished_map.size()
-		#gate_place = Vector3(gate_place.z, gate_place.y, gate_place.x)
-		#gate_place = - gate_place + Vector3.ONE * finished_map.size()
-		gate_place.y = -3
-		gate_place = gate_place * 0.5  + Vector3(0.25, 0.25, 0.25)
-		#gate_place = map_to_local.call(gate_place) # * 0.5 * 0.5  
-		#print('shape -1 ', gate_place, ' hall_width:', hall_width)
-		#print('shape -2 ', local_to_map.call(gate_place), map_start)
-		#gate_place = Vector3(floor(gate_place.x), gate_place.y, floor(gate_place.z))
-		
-		#gate_place = to_global.call(gate_place)
-		
-
+		gate_place.y =  -5
+		gate_place = gate_place * 0.5 # + Vector3(0.25, 0.25, 0.25)
 		var gate_scale = scale[i]
 		var gate_rot = rotation[i]
 		var gate_name = name[i].to_upper()
