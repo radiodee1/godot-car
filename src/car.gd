@@ -52,6 +52,7 @@ func _ready():
 	set_collision_layer_value(1, true)
 	set_collision_mask_value(1, true)
 	process_mode = Node.PROCESS_MODE_PAUSABLE
+	mass = 160 
 	init()
 
 func _physics_process(delta):
@@ -73,19 +74,30 @@ func _physics_process(delta):
 		steer = lerp(float(steer), float(h_input * 0.4), 5 * delta)			
 		#steer = lerp(float(steer), float(Input.get_axis("move_right", "move_left") * 0.4), 5 * delta)
 		steering = steer 
-	
-		var acceleration = f_input * delta * accel_const
-		#print(Input.get_axis("move_backward", "move_forward") , ' axis') 
-		#print( f_input, ' ' , h_input, ' ' , jump_pressed, ' ', position , ' car')
-		
+			
 		var rpm1 = (wheel_back_left.get_rpm())
 		var rpm2 = (wheel_back_right.get_rpm())
 		var rpm3 = (wheel_front_left.get_rpm())
 		var rpm4 = (wheel_front_right.get_rpm())
+	
+		var mult = 2
+		if sign(rpm3) == +1 or sign(rpm4) == +1:
+			accel_const = 250 * mult 
+			max_torque = 120 * mult 
+			max_rpm = 90 * mult 
+		else :
+			accel_const = 250
+			max_torque = 120 
+			max_rpm = 90
+			pass 
+
+		var acceleration = f_input * delta * accel_const
+		#print(Input.get_axis("move_backward", "move_forward") , ' axis') 
+		#print( f_input, ' ' , h_input, ' ' , jump_pressed, ' ', position , ' car')
 		rpm = abs((rpm3 + rpm4) / 2.0)
 		#rpm = abs((rpm1 + rpm2) / 2.0)
 		#print('rpm ' , rpm1, ' ', rpm2, ' ', rpm3, ' ', rpm4, ' ')
-		
+	
 		var margin_for_acceleration = 0.1
 		var margin_for_rpm = 0.1
 		
