@@ -285,5 +285,8 @@ func dispose():
 	if Global.count_list_items(Global.placed_items, 'car') > 0:
 		Global.placed_items.erase('car')
 		print("erase car")
+
+	get_parent().remove_named_child('car')
+
 	queue_free()
 	print("car dequeue")
