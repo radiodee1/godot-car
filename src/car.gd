@@ -84,11 +84,11 @@ func _physics_process(delta):
 		if sign(rpm3) == +1 or sign(rpm4) == +1:
 			accel_const = 250 * mult 
 			max_torque = 120 * mult 
-			#max_rpm = 90 * mult 
+			mass = 160 
 		else :
 			accel_const = 250
 			max_torque = 120 
-			#max_rpm = 90
+			mass = 160 * mult
 			pass 
 
 		var acceleration = f_input * delta * accel_const
