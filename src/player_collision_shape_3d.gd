@@ -161,13 +161,6 @@ func _physics_process(delta):
 	else :
 		velocity =  Vector3.ZERO
 
-		## try to find car camera arm... doesnt work... 
-		var car_local = find_child(car_script_string + "car/arm")
-		if car_local != null and is_instance_valid(car_local):
-			var pos = car_local.position + Vector3(0, 10, 0)
-			body_shape.position = pos 	
-			print("car position x ", pos)
-
 	
 		#floor_snap_length = Vector3(float(movement), float(snap), float(0))
 	if snap.y >= 0 :
