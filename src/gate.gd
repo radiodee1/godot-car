@@ -4,6 +4,22 @@ var f_input = 0
 var h_input = 0
 var jump_pressed = false
 
+var snap 
+var gravity_vec = Vector3()
+
+var speed = 7
+const ACCEL_DEFAULT = 7
+const ACCEL_AIR = 1
+@onready var accel = ACCEL_DEFAULT
+var gravity_mult = 9.8
+var jump = 1.5
+
+var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
+
+var direction = Vector3()
+var movement = Vector3()
+
+
 @export var test_alone = false 
 
 @onready var player_walk =   $"/root/CentralControl/procedural-terrain/CharacterBody3D/body"
@@ -24,6 +40,7 @@ var gate_mode = MODE_LOCKED
 func _ready():
 	if test_alone:
 		Global.player_status = Global.STATUS_PUSH_JAIL
+		gate_mode = MODE_MOVABLE
 		enter_gate()
 		return
 	
@@ -44,6 +61,37 @@ func init(v: Vector3 , xname='gate', group='mob'):
 
 	#low_static_body.collision_mask = 1
 	#low_static_body.collision_layer = 1
+
+func _physics_process(delta):
+
+	if is_on_floor() or true :
+		snap = -get_floor_normal()
+		accel = ACCEL_DEFAULT
+		gravity_vec = Vector3.ZERO
+	else:
+		snap = Vector3.DOWN
+		accel = ACCEL_AIR
+		gravity_vec += Vector3.DOWN * gravity * delta
+		
+	#check_car_jump()
+
+	if Global.player_status == Global.STATUS_PUSH_JAIL :		
+		velocity = velocity.lerp(direction * speed, accel * delta)
+		velocity = velocity + gravity_vec
+		#print('gate ', velocity, ' ', direction)
+	else :
+		velocity =  Vector3.ZERO
+
+	
+		#floor_snap_length = Vector3(float(movement), float(snap), float(0))
+	if snap.y >= 0 :
+		floor_snap_length = snap.y
+		
+	else:
+		floor_snap_length = 0
+		
+	
+	move_and_slide()
 
 func _process(delta):
 	if test_alone:
@@ -71,7 +119,8 @@ func _input(event):
 		return
 	#print('unhandled xx ')
 	#print(event.as_text(), ' xx')
-	
+	var h_rot = global_transform.basis.get_euler().y
+
 	if event.is_action_pressed("jump"): 
 		jump_pressed = true
 		#print('jump xx')
@@ -101,6 +150,8 @@ func _input(event):
 	elif event.is_action_released("move_left") or event.is_action_released("move_right"):
 		h_input = 0
 	
+	direction = Vector3(h_input, 0, f_input).rotated(Vector3.UP, h_rot).normalized()	
+
 func enter_gate():
 	
 	if not test_alone:
