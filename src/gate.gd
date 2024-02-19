@@ -13,6 +13,7 @@ const ACCEL_AIR = 1
 @onready var accel = ACCEL_DEFAULT
 var gravity_mult = 9.8
 var jump = 1.5
+var mouse_sense = 0.1
 
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 
@@ -64,7 +65,7 @@ func init(v: Vector3 , xname='gate', group='mob'):
 
 func _physics_process(delta):
 
-	if is_on_floor() or true :
+	if is_on_floor()  :
 		snap = -get_floor_normal()
 		accel = ACCEL_DEFAULT
 		gravity_vec = Vector3.ZERO
@@ -149,8 +150,44 @@ func _input(event):
 		#print('right xx')
 	elif event.is_action_released("move_left") or event.is_action_released("move_right"):
 		h_input = 0
+		
+	#get mouse input for camera rotation
+	if event is InputEventMouseMotion:
+		rotate_y(deg_to_rad(-event.relative.x * mouse_sense))
+		#head.rotate_x(deg_to_rad(-event.relative.y * mouse_sense))
+		#head.rotation.x = clamp(head.rotation.x, deg_to_rad(-69), deg_to_rad(69))
 	
-	direction = Vector3(h_input, 0, f_input).rotated(Vector3.UP, h_rot).normalized()	
+	var start = 0 
+	print('gate 0 ', direction)
+	var old = global_transform.basis.get_euler().y 
+	print('gate 1 ', rad_to_deg(old) + start)
+	old = closest_direction_degrees(rad_to_deg(old) + start)
+	print('gate 2 ', old)
+	old = deg_to_rad(old - start)
+	print('gate 3 ', old)
+	#h_rot = old
+	direction = Vector3(h_input, 0, f_input).rotated(Vector3.UP, h_rot).normalized()
+	direction.y = old
+	print('gate 4 ', direction)
+
+func closest_direction_degrees(deg):
+	var test = [ 0, 90, 180, 270, 360 ]
+	deg = int(deg) % 360 
+	#print(deg, ' gate closest' ) 
+	var bottom = 360
+	var d = 360 
+	for i in test:
+		var diff = abs(i - deg)
+		#print(i, ' ', diff, ' gate progress' )
+		if diff <= d:
+			bottom = i
+			d = diff 
+			#print(i, ' gate low')
+	if bottom == 360:
+		bottom = 0 
+	return bottom
+
+
 
 func enter_gate():
 	
