@@ -1,10 +1,17 @@
-[gd_scene load_steps=3 format=3 uid="uid://bwdeqlqd7iqsk"]
+[gd_scene load_steps=4 format=3 uid="uid://bwdeqlqd7iqsk"]
 
 [ext_resource type="Script" path="res://src/gate.gd" id="1_vhhyw"]
 [ext_resource type="PackedScene" uid="uid://dqiyg1yu7j5fg" path="res://assets/gate.gltf" id="2_fr4bc"]
 
-[node name="gate" type="Node3D"]
+[sub_resource type="BoxShape3D" id="BoxShape3D_nr5sv"]
+size = Vector3(2.8, 2.8, 0.1)
+
+[node name="gate" type="CharacterBody3D"]
 script = ExtResource("1_vhhyw")
 
-[node name="door" parent="." instance=ExtResource("2_fr4bc")]
-transform = Transform3D(1.4, 0, 0, 0, 1.4, 0, 0, 0, 1.4, 0, 0.8, 0)
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.33, 0)
+shape = SubResource("BoxShape3D_nr5sv")
+
+[node name="door" parent="CollisionShape3D" instance=ExtResource("2_fr4bc")]
+transform = Transform3D(1.4, 0, 0, 0, 1.4, 0, 0, 0, 1.4, 0, -0.3, 0)

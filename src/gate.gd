@@ -1,4 +1,4 @@
-extends Node3D
+extends CharacterBody3D # Node3D
 
 var MODE_LOCKED = 0 
 var MODE_MOVABLE = 1 
@@ -22,7 +22,7 @@ func init(v: Vector3 , xname='gate', group='mob'):
 	low_scene_instance.name = xname
 	#var low_box_shape = BoxShape3D.new()
 	#low_box_shape.size = Vector3(1,1,1)
-	var scale_local = 1  
+	var scale_local = 1 #0.75  
 	low_scene_instance.scale_object_local(Vector3(scale_local, scale_local ,scale_local))
 	#var low_static_body = StaticBody3D.new()
 	#low_static_body.scale_object_local(Vector3(1,1,1))
