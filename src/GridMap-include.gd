@@ -233,7 +233,9 @@ func place_dot(v, description: String):
 	#print(v, 'shape vec3 ', Global.intersections)
 
 func place_gate(v, v_back, v_aux, description: String):
-	description = description + Global.g_hash()
+	var h = Global.vector_to_index(Vector2(v.x, v.z)  / Global.hall_width )
+	h = '-' + str(h)
+	description = description + h + Global.g_hash()
 	var gate = preload("res://src/gate.tscn")
 	var instance_gate = gate.instantiate()
 	instance_gate.init(v, description)
