@@ -14,12 +14,13 @@ const ACCEL_AIR = 1
 var gravity_mult = 9.8
 var jump = 1.5
 var mouse_sense = 0.1
+var extra_mouse_mult_for_snap = 1 
 
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 
 var direction = Vector3()
 var movement = Vector3()
-
+var store_y = 0
 
 @export var test_alone = false 
 
@@ -42,6 +43,7 @@ func _ready():
 	if test_alone:
 		Global.player_status = Global.STATUS_PUSH_JAIL
 		gate_mode = MODE_MOVABLE
+		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 		enter_gate()
 		return
 	
@@ -152,42 +154,50 @@ func _input(event):
 		h_input = 0
 		
 	#get mouse input for camera rotation
+	var mouse_input = null
+
 	if event is InputEventMouseMotion:
-		rotate_y(deg_to_rad(-event.relative.x * mouse_sense))
-		#head.rotate_x(deg_to_rad(-event.relative.y * mouse_sense))
-		#head.rotation.x = clamp(head.rotation.x, deg_to_rad(-69), deg_to_rad(69))
+		mouse_input = (deg_to_rad(-event.relative.x * mouse_sense))
+		#rotate_y(mouse_input)
 	
-	var start = 0 
-	print('gate 0 ', direction)
-	var old = global_transform.basis.get_euler().y 
-	print('gate 1 ', rad_to_deg(old) + start)
-	old = closest_direction_degrees(rad_to_deg(old) + start)
-	print('gate 2 ', old)
-	old = deg_to_rad(old - start)
-	print('gate 3 ', old)
-	#h_rot = old
 	direction = Vector3(h_input, 0, f_input).rotated(Vector3.UP, h_rot).normalized()
-	direction.y = old
-	print('gate 4 ', direction)
+	
+	if mouse_input != null:
+		print('gate 000 ', h_rot, ' ', mouse_input)
+		snap_to_angle_rot( mouse_input * extra_mouse_mult_for_snap , 180)	
 
 func closest_direction_degrees(deg):
 	var test = [ 0, 90, 180, 270, 360 ]
 	deg = int(deg) % 360 
-	#print(deg, ' gate closest' ) 
+	if sign(deg) == -1:
+		deg += 360
 	var bottom = 360
 	var d = 360 
 	for i in test:
 		var diff = abs(i - deg)
-		#print(i, ' ', diff, ' gate progress' )
 		if diff <= d:
 			bottom = i
 			d = diff 
-			#print(i, ' gate low')
 	if bottom == 360:
 		bottom = 0 
 	return bottom
 
-
+func snap_to_angle_rot(yy, start = 0):
+	var old = yy # + start
+	print('gate 00 yy  ', old)
+	old = rad_to_deg(old) + start #+ store_y 
+	print('gate 01 old ', old)
+	var new = closest_direction_degrees(old)
+	print('gate 02 new ', new)
+	#new = deg_to_rad(new - start) 
+	if store_y != new: # - start:
+		store_y = new # rad_to_deg(direction.y)
+		var n = deg_to_rad(new )
+		rotation.y = 0 #new
+		direction.y = n 
+		rotate_y(new)
+	print('gate 04 dir ', direction, ' ' , rotation)
+	#return new 
 
 func enter_gate():
 	
@@ -229,11 +239,11 @@ func dispose():
 	
 	player_script.end_game()
 
-	if Global.count_list_items(Global.placed_items, 'gate') > 0:
-		Global.placed_items.erase('gate')
-		print("erase gate")
+	if Global.count_list_items(Global.placed_items, self.name) > 0:
+		Global.placed_items.erase(self.name)
+		print("erase gate ", self.name)
 
-	#get_parent().remove_named_child('car')
+	get_parent().remove_named_child(self.name)
 
 	queue_free()
 	print("gate dequeue")
