@@ -14,13 +14,13 @@ const ACCEL_AIR = 1
 var gravity_mult = 9.8
 var jump = 1.5
 var mouse_sense = 0.1
-var extra_mouse_mult_for_snap = 1 
+var extra_mouse_mult_for_snap = 50  
 
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 
 var direction = Vector3()
 var movement = Vector3()
-var store_y = 0
+var store = Vector3()
 
 @export var test_alone = false 
 
@@ -153,18 +153,21 @@ func _input(event):
 	elif event.is_action_released("move_left") or event.is_action_released("move_right"):
 		h_input = 0
 		
-	#get mouse input for camera rotation
-	var mouse_input = null
+	direction = Vector3(h_input, 0, f_input).rotated(Vector3.UP, h_rot).normalized()
+	#store = Vector3(direction)	
 
+	#get mouse input for camera rotation
+	var mouse_input = 0 	
 	if event is InputEventMouseMotion:
 		mouse_input = (deg_to_rad(-event.relative.x * mouse_sense))
 		#rotate_y(mouse_input)
+		store.y += mouse_input
 	
-	direction = Vector3(h_input, 0, f_input).rotated(Vector3.UP, h_rot).normalized()
-	
-	if mouse_input != null:
-		print('gate 000 ', h_rot, ' ', mouse_input)
-		snap_to_angle_rot( mouse_input * extra_mouse_mult_for_snap , 180)	
+	direction.y = snap_to_angle_rot( store.y * extra_mouse_mult_for_snap , 0) ## <<-- bad call??
+	if direction.y != store.y:
+		store = Vector3(direction)
+		rotate_y(store.y)
+
 
 func closest_direction_degrees(deg):
 	var test = [ 0, 90, 180, 270, 360 ]
@@ -183,21 +186,11 @@ func closest_direction_degrees(deg):
 	return bottom
 
 func snap_to_angle_rot(yy, start = 0):
-	var old = yy # + start
-	print('gate 00 yy  ', old)
-	old = rad_to_deg(old) + start #+ store_y 
-	print('gate 01 old ', old)
+	var old = yy 
+	old = rad_to_deg(old) + start 
 	var new = closest_direction_degrees(old)
-	print('gate 02 new ', new)
-	#new = deg_to_rad(new - start) 
-	if store_y != new: # - start:
-		store_y = new # rad_to_deg(direction.y)
-		var n = deg_to_rad(new )
-		rotation.y = 0 #new
-		direction.y = n 
-		rotate_y(new)
-	print('gate 04 dir ', direction, ' ' , rotation)
-	#return new 
+	var n = deg_to_rad(new)
+	return n 
 
 func enter_gate():
 	
