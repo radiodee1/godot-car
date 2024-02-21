@@ -246,8 +246,11 @@ func place_dot(v, description: String):
 	add_to_placed(instance_dot, true)
 	#print(v, 'shape vec3 ', Global.intersections)
 
-func place_gate(v, v_back, v_aux, description: String):
-	var h = abs(Global.vector_to_index(Vector2(v.x, v.z)  / Global.hall_width ))
+func place_gate(v, v_back, v_aux, description: String, testing: bool = false):
+	var width = Global.hall_width
+	if testing:
+		width = 1 
+	var h = abs(Global.vector_to_index(abs(Vector2(v.x, v.z)  / width )))
 	h = '-' + str(h)
 	description = description + h + Global.g_hash()
 	var gate = preload("res://src/gate.tscn")
@@ -442,6 +445,9 @@ func place_object(name, strategy, layer, frame_num, vector_high=Vector3(0,0,0), 
 				#dequeue_placed_node('car', false, true)
 			#	pass
 			place_car()
+			pass 
+		if name.begins_with('GATE'):
+			place_gate(vector_high, vector_back, vector_aux, name, true )
 			pass 
 	if layer == "MAZE":
 		if name == 'ALTAR':
