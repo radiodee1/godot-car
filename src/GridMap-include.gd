@@ -61,11 +61,15 @@ func stop_emit_rubble():
 	rubble_instance.set_emitting(false)
 
 func place_landing_spot(v, name='SPOT', group='mob'):
-	name = name + Global.g_hash()
 	var spot_instance = preload("res://src/landing_spot.tscn").instantiate()
 	v.x *= .5
 	v.y *= .5
 	v.z *= .5
+	var h = Global.vector_to_index(abs( Vector2(v.x, v.z) ))
+	var hh = '-' + str(h)
+
+	name = name + hh  + Global.g_hash()
+
 	spot_instance.init(v, name, group)
 	add_child.call(spot_instance)
 	#spot_instance.translate(v)
@@ -77,12 +81,15 @@ func remove_landing_spot():
 	pass
 
 func place_altar(v, name='ALTAR', group='mob'):
-	name = name + Global.g_hash()
 	scene_instance = preload("res://src/altar_moving.tscn").instantiate()
 	#scene_instance = load_scene
 	v.x *= .5
 	v.y *= .5
 	v.z *= .5
+	var h = Global.vector_to_index(abs(Vector2(v.x, v.z)   ))
+	var hh = '-' + str(h)
+	name = name + hh + Global.g_hash()
+
 	add_child.call(scene_instance)
 	#scene_instance.scale = Vector3(1,1,1)
 	scene_instance.translate(v)
@@ -136,14 +143,16 @@ func remove_altar():
 
 
 func place_low_altar(v, xname='NEXTLEVEL', group='mob'):
-	xname = xname + Global.g_hash()
-	
 	low_location_vec = v 
 	low_scene_instance = preload("res://src/altar_moving.tscn").instantiate()
 	#scene_instance = load_scene
 	v.x *= .5
 	v.y *= .5
 	v.z *= .5
+	var h = abs(Global.vector_to_index(abs(Vector2(v.x, v.z)  / Global.hall_width )))
+	var hh =  '-' + str(h)
+	xname = xname + hh +  Global.g_hash()
+
 	#scene_instance.scale = Vector3(1,1,1)
 	low_scene_instance.translate(v)
 	low_scene_instance.name = xname
@@ -197,7 +206,10 @@ func remove_low_altar():
 		#collision_shape.queue_free()
 
 func place_altar_key(v: Vector3, description: String):
-	description = description + Global.g_hash()
+	var h = Global.vector_to_index(Vector2(v.x, v.z) )
+	h = '-' + str(h)
+
+	description = description  + Global.g_hash()
 	if Global.count_list_items(Global.placed_items, 'NEXTLEVEL', true) == 0:
 		low_location_vec = Vector3(v)
 		
@@ -212,6 +224,7 @@ func place_altar_key(v: Vector3, description: String):
 	
 
 func place_patrol(v_list, description: String):
+	## hash of name is taken care of already !!
 	description = description + Global.g_hash()
 	var patrol = load("res://src/patrol.tscn")
 	var patrol_instance = patrol.instantiate()
@@ -222,8 +235,9 @@ func place_patrol(v_list, description: String):
 	#print(v, ' vec3 ', Global.intersections)
 	pass
 	
-func place_dot(v, description: String):
-	description = description + Global.g_hash()
+func place_dot(v, description: String):	
+	## hash of name is taken care of already !!
+	description = description  + Global.g_hash()
 	var dot = preload("res://src/patrol_dot.tscn")
 	var instance_dot = dot.instantiate()
 	instance_dot.init(v, description)
@@ -233,7 +247,7 @@ func place_dot(v, description: String):
 	#print(v, 'shape vec3 ', Global.intersections)
 
 func place_gate(v, v_back, v_aux, description: String):
-	var h = Global.vector_to_index(Vector2(v.x, v.z)  / Global.hall_width )
+	var h = abs(Global.vector_to_index(Vector2(v.x, v.z)  / Global.hall_width ))
 	h = '-' + str(h)
 	description = description + h + Global.g_hash()
 	var gate = preload("res://src/gate.tscn")
