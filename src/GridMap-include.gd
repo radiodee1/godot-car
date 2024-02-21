@@ -255,6 +255,8 @@ func place_gate(v, v_back, v_aux, description: String, testing: bool = false):
 	description = description + h + Global.g_hash()
 	var gate = preload("res://src/gate.tscn")
 	var instance_gate = gate.instantiate()
+	if testing:
+		instance_gate.gate_mode = instance_gate.MODE_MOVABLE
 	instance_gate.init(v, description)
 	instance_gate.scale = v_back
 	instance_gate.rotation = v_aux

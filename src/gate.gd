@@ -78,7 +78,7 @@ func _physics_process(delta):
 		
 	#check_car_jump()
 
-	if Global.player_status == Global.STATUS_PUSH_JAIL :		
+	if Global.player_status == Global.STATUS_PUSH_JAIL or gate_mode == MODE_MOVABLE :		
 		velocity = velocity.lerp(direction * speed, accel * delta)
 		velocity = velocity + gravity_vec
 		#print('gate ', velocity, ' ', direction)
@@ -101,7 +101,7 @@ func _process(delta):
 		Global.player_status = Global.STATUS_PUSH_JAIL
 		return
 	
-	if Global.player_status == Global.STATUS_PUSH_JAIL :
+	if Global.player_status == Global.STATUS_PUSH_JAIL or gate_mode == MODE_MOVABLE :
 		h_input = - float(player_script.h_input)
 		f_input = - float(player_script.f_input)
 		jump_pressed = bool(player_script.jump_pressed)

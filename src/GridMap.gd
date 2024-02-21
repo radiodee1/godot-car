@@ -272,9 +272,9 @@ func setup_level_frame():
 					place_gators(4)
 				if ii.begins_with("GATE"):
 					var lst = get_hill_spot_list(HILL_SPOT_RANDOM, 1)
-					var v = Vector3(lst[0].x, lst[0].y + 5, lst[0].z)
+					var v = Vector3(lst[0].x, lst[0].y + 25, lst[0].z)
 					print(v, ' gate')
-					include.place_object(ii, 'RANDOM', 'HILL', Global.level, v, Vector3.ZERO, Vector3.ZERO)
+					include.place_object(ii + '_TEST', 'RANDOM', 'HILL', Global.level, v, Vector3.ZERO, Vector3.ZERO)
 			pass
 
 		if e['type'] == 'maze':
