@@ -253,16 +253,21 @@ func place_gate(v, v_back, v_aux, description: String, testing: bool = false):
 	var h = abs(Global.vector_to_index(abs(Vector2(v.x, v.z)  / width )))
 	h = '-' + str(h)
 	description = description + h + Global.g_hash()
-	var gate = preload("res://src/gate.tscn")
+	var gate = load("res://src/gate.tscn")
 	var instance_gate = gate.instantiate()
 	if testing:
 		instance_gate.gate_mode = instance_gate.MODE_MOVABLE
 	instance_gate.init(v, description)
 	instance_gate.scale = v_back
 	instance_gate.rotation = v_aux
-
+	var group = 'mob'
 	add_child.call(instance_gate)
-	add_to_placed(instance_gate, true)
+	add_to_placed(instance_gate, true)	
+	instance_gate.add_to_group(group)
+	instance_gate.set_collision_layer_value(1, true)
+	instance_gate.set_collision_mask_value(1, true)
+
+
 	#print('shape/node', v, ' ', v_back)
 	
 func place_car():
@@ -448,8 +453,10 @@ func place_object(name, strategy, layer, frame_num, vector_high=Vector3(0,0,0), 
 			#	pass
 			place_car()
 			pass 
-		if name.begins_with('GATE'):
+		if name.begins_with('GATE_TEST'):
+			print(vector_high, ' vector_high' )
 			place_gate(vector_high, vector_back, vector_aux, name, true )
+			return
 			pass 
 	if layer == "MAZE":
 		if name == 'ALTAR':
@@ -475,6 +482,7 @@ func place_object(name, strategy, layer, frame_num, vector_high=Vector3(0,0,0), 
 		if name.begins_with("GATE"):
 			place_gate(vector_high, vector_back, vector_aux, name)
 			print('shape decoration placed')
+			return
 			pass 
 	pass
 

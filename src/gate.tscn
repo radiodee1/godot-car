@@ -7,6 +7,7 @@
 size = Vector3(2.8, 2.8, 0.1)
 
 [node name="gate" type="CharacterBody3D"]
+platform_wall_layers = 1
 script = ExtResource("1_vhhyw")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]

@@ -27,7 +27,7 @@ var store = Vector3()
 @onready var player_walk =   $"/root/CentralControl/procedural-terrain/CharacterBody3D/body"
 
 @onready var player_script = $"/root/CentralControl/procedural-terrain/CharacterBody3D" 
-@onready var gate_mesh = $"./CollisionShape3D"
+@onready var gate_mesh = $"CollisionShape3D"
 
 var MODE_LOCKED = 0 
 var MODE_MOVABLE = 1 
@@ -37,8 +37,6 @@ var MODE_OPEN = 3
 var gate_mode = MODE_LOCKED
 
 
-
-# Called when the node enters the scene tree for the first time.
 func _ready():
 	if test_alone:
 		Global.player_status = Global.STATUS_PUSH_JAIL
@@ -47,23 +45,21 @@ func _ready():
 		enter_gate()
 		return
 	
-	pass # Replace with function body.
-
 
 func init(v: Vector3 , xname='gate', group='mob'):
-	#low_scene_instance = load("res://src/altar_moving.tscn").instantiate()
-	self.name = xname
+	#self.name = xname
 	var low_scene_instance = self 
 	low_scene_instance.translate(v)
 	low_scene_instance.name = xname
-	#var low_box_shape = BoxShape3D.new()
-	#low_box_shape.size = Vector3(1,1,1)
-	var scale_local = 1 #0.75  
-	low_scene_instance.scale_object_local(Vector3(scale_local, scale_local ,scale_local))
-	low_scene_instance.add_to_group(group)
+	
+	#var scale_local = 1 #0.75  
+	#low_scene_instance.scale_object_local(Vector3(scale_local, scale_local ,scale_local))
+	#low_scene_instance.add_to_group(group)
+	#low_scene_instance.set_collision_layer_value(1, true)
+	#low_scene_instance.set_collision_mask_value(1, true)
 
-	#low_static_body.collision_mask = 1
-	#low_static_body.collision_layer = 1
+	#low_scene_instance.collision_mask = 1
+	#low_scene_instance.collision_layer = 1
 
 func _physics_process(delta):
 
@@ -84,9 +80,7 @@ func _physics_process(delta):
 		#print('gate ', velocity, ' ', direction)
 	else :
 		velocity =  Vector3.ZERO
-
 	
-		#floor_snap_length = Vector3(float(movement), float(snap), float(0))
 	if snap.y >= 0 :
 		floor_snap_length = snap.y
 		
@@ -113,7 +107,7 @@ func _process(delta):
 		#engine_force = 0
 		
 	if position.y < -10:
-		print("gate endless fall >>>", position.y)
+		print("gate endless fall >>> ", position.y, ' ', position)
 		#falling = true
 		dispose()
 
@@ -228,7 +222,6 @@ func leave_gate():
 
 func dispose():
 	self.leave_gate()
-	
 	
 	player_script.end_game()
 

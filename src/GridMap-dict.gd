@@ -14,7 +14,7 @@ var game = {
 					'y': 0,
 					'z': 0,
 					'mesh': 4, ## 2
-					'includes': ['ALTAR', 'CAR', 'GATORS', 'GATE']
+					'includes': ['ALTAR', 'CAR', 'GATORS', 'GATE_TEST']
 				},
 				{
 					'type': 'maze',
@@ -62,7 +62,7 @@ var game = {
 					'z': 0,
 					'mesh': 1,
 					'endpoints': 3,
-					'multiplier': 1.5,
+					'multiplier': - 1,
 					'includes': [ 'KEY', 'PRISON_A', 'NEXTLEVEL', 'KEY', 'PATROL']
 				},
 				{
@@ -98,7 +98,7 @@ var game = {
 					'z': 0,
 					'mesh': 1,
 					'endpoints': 3, #10,
-					'multiplier': 1.5,
+					'multiplier': - 1,
 					'includes': [ 'KEY', 'PRISON_A', 'NEXTLEVEL', 'PATROL'] #, 'PRISON']
 				},
 				{
