@@ -250,6 +250,7 @@ func place_gate(v, v_back, v_aux, description: String, testing: bool = false):
 	var width = Global.hall_width
 	if testing:
 		width = 1 
+		print('gate testing ')
 	var h = abs(Global.vector_to_index(abs(Vector2(v.x, v.z)  / width )))
 	h = '-' + str(h)
 	description = description + h + Global.g_hash()
@@ -257,6 +258,9 @@ func place_gate(v, v_back, v_aux, description: String, testing: bool = false):
 	var instance_gate = gate.instantiate()
 	if testing:
 		instance_gate.gate_mode = instance_gate.MODE_MOVABLE
+		instance_gate.test_alone = false
+		instance_gate.visible = true
+		#Global.player_status = Global.STATUS_PUSH_JAIL 
 	instance_gate.init(v, description)
 	instance_gate.scale = v_back
 	instance_gate.rotation = v_aux

@@ -51,15 +51,39 @@ func init(v: Vector3 , xname='gate', group='mob'):
 	var low_scene_instance = self 
 	low_scene_instance.translate(v)
 	low_scene_instance.name = xname
+	print('gate init ', position)	
+	low_scene_instance.global_transform.origin = v 
 	
-	#var scale_local = 1 #0.75  
-	#low_scene_instance.scale_object_local(Vector3(scale_local, scale_local ,scale_local))
-	#low_scene_instance.add_to_group(group)
-	#low_scene_instance.set_collision_layer_value(1, true)
-	#low_scene_instance.set_collision_mask_value(1, true)
+	var low_box_shape = BoxShape3D.new()
+	low_box_shape.size = Vector3(2.8, 2.8, 0.1)
+	var scale_local = 1 
+	#mesh_instance_3d.mesh = box_mesh
+	#scene_instance.add_to_group(group)
+	low_scene_instance.scale_object_local(Vector3(scale_local, scale_local ,scale_local))
+	#add_child.call(mesh_instance_3d)
+	#mesh_instance_3d.translate(v) 
+	var low_static_body = StaticBody3D.new()
+	low_static_body.scale_object_local(Vector3(1,1,1))
+	var collision_shape = CollisionShape3D.new()
+	collision_shape.scale_object_local(Vector3(1,1,1))
+	collision_shape.add_to_group(group)
+	collision_shape.name = name
+	collision_shape.shape = low_box_shape
+	collision_shape.disabled = false
+	low_static_body.add_child(collision_shape)
+	low_static_body.add_to_group(group)
+	low_static_body.name = name
+	low_static_body.set_collision_layer_value(1, true)
+	low_static_body.set_collision_mask_value(1, true)
+	low_scene_instance.add_child(low_static_body) 
+	low_scene_instance.add_to_group(group)
+	low_scene_instance.name = name
+	
+	low_static_body.collision_mask = 1
+	low_static_body.collision_layer = 1
 
-	#low_scene_instance.collision_mask = 1
-	#low_scene_instance.collision_layer = 1
+
+
 
 func _physics_process(delta):
 
@@ -71,13 +95,14 @@ func _physics_process(delta):
 		snap = Vector3.DOWN
 		accel = ACCEL_AIR
 		gravity_vec += Vector3.DOWN * gravity * delta
-		
+		direction = Vector3.DOWN
+
 	#check_car_jump()
 
 	if Global.player_status == Global.STATUS_PUSH_JAIL or gate_mode == MODE_MOVABLE :		
 		velocity = velocity.lerp(direction * speed, accel * delta)
 		velocity = velocity + gravity_vec
-		#print('gate ', velocity, ' ', direction)
+		print('gate ', velocity, ' ', direction)
 	else :
 		velocity =  Vector3.ZERO
 	
@@ -87,7 +112,6 @@ func _physics_process(delta):
 	else:
 		floor_snap_length = 0
 		
-	
 	move_and_slide()
 
 func _process(delta):
@@ -95,7 +119,7 @@ func _process(delta):
 		Global.player_status = Global.STATUS_PUSH_JAIL
 		return
 	
-	if Global.player_status == Global.STATUS_PUSH_JAIL or gate_mode == MODE_MOVABLE :
+	if Global.player_status == Global.STATUS_PUSH_JAIL  :
 		h_input = - float(player_script.h_input)
 		f_input = - float(player_script.f_input)
 		jump_pressed = bool(player_script.jump_pressed)
@@ -204,9 +228,6 @@ func leave_gate():
 		player_walk.position = Vector3(position)
 		#if player_script.position.y < -400:
 		player_script.position = Vector3(position)
-		#print('position jump')
-		#player_walk.position.y += 10
-	
 	
 	#camera_chase.current = false
 	#camera_walk.current = true

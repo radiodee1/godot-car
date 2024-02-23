@@ -270,7 +270,7 @@ func shapes_to_map(move_old_vectors=false):
 			#hallway_mask_previous(hallway)
 			#decoration_in_shape(place, dec_offset, dec_scale, dec_rotation, dec_name)
 		pass 
-		show_2d_grid_shape(layout, start) ## <-- not include end array
+		#show_2d_grid_shape(layout, start) ## <-- not include end array
 
 
 func shapes_to_map_plus_decorate():
