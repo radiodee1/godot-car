@@ -271,8 +271,8 @@ func setup_level_frame():
 					#print('GATORS')
 					place_gators(4)
 				if ii.begins_with("GATE_TEST"):
-					#var lst = get_hill_spot_list(HILL_SPOT_RANDOM, 1)
-					var v = Vector3(15 , highest.y , 15 )
+					#var v = get_hill_spot_list(HILL_SPOT_RANDOM, 1)[0]
+					var v = Vector3(15 * 5 / 2 - 5 , highest.y + 2, 15 * 5 / 2 - 5 )
 					#v = v * 0.5 
 					print(v, ' gate')
 					include.place_object(ii , 'RANDOM', 'HILL', Global.level, v, Vector3.ZERO, Vector3.ZERO)

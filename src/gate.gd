@@ -99,7 +99,7 @@ func _physics_process(delta):
 	if Global.player_status == Global.STATUS_PUSH_JAIL or gate_mode == MODE_MOVABLE :		
 		velocity = velocity.lerp(direction * speed, accel * delta)
 		velocity = velocity + gravity_vec
-		print('gate ', velocity, ' ', direction)
+		print('gate v,d,p ', velocity, ' ', direction, ' ', position)
 	else :
 		velocity =  Vector3.ZERO
 	
@@ -131,6 +131,7 @@ func _process(delta):
 		print("gate endless fall >>> ", position.y, ' ', position)
 		#falling = true
 		dispose()
+	print('gate check ', position)
 
 func _input(event):
 	if not test_alone:
