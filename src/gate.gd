@@ -53,30 +53,28 @@ func init(v: Vector3 , xname='gate', group='mob'):
 	low_scene_instance.name = xname
 	print('gate init ', position)	
 	low_scene_instance.global_transform.origin = v 
-	
-	var low_box_shape = BoxShape3D.new()
-	low_box_shape.size = Vector3(2.8, 2.8, 0.1)
-	var scale_local = 1 
-	#mesh_instance_3d.mesh = box_mesh
-	#scene_instance.add_to_group(group)
-	low_scene_instance.scale_object_local(Vector3(scale_local, scale_local ,scale_local))
-	#mesh_instance_3d.translate(v) 
-	var low_static_body = StaticBody3D.new()
-	low_static_body.scale_object_local(Vector3(1,1,1))
-	var collision_shape = CollisionShape3D.new()
-	collision_shape.scale_object_local(Vector3(0 ,1.33, 0 ))
-	collision_shape.add_to_group(group)
-	collision_shape.name = name
-	collision_shape.shape = low_box_shape
-	collision_shape.disabled = false
-	low_static_body.add_child(collision_shape)
-	low_static_body.add_to_group(group)
-	low_static_body.name = name
-	low_static_body.set_collision_layer_value(1, true)
-	low_static_body.set_collision_mask_value(1, true)
-	low_scene_instance.add_child(low_static_body) 
-	low_scene_instance.add_to_group(group)
-	low_scene_instance.name = name
+	return
+
+	#var low_box_shape = BoxShape3D.new()
+	#low_box_shape.size = Vector3(2.8, 2.8, 0.1)
+	#var scale_local = 1 
+	#low_scene_instance.scale_object_local(Vector3(scale_local, scale_local ,scale_local))
+	#var low_static_body = StaticBody3D.new()
+	#low_static_body.scale_object_local(Vector3(1,1,1))
+	#var collision_shape = CollisionShape3D.new()
+	#collision_shape.scale_object_local(Vector3(0 ,1.33, 0 ))
+	#collision_shape.add_to_group(group)
+	#collision_shape.name = name
+	#collision_shape.shape = low_box_shape
+	#collision_shape.disabled = false
+	#low_static_body.add_child(collision_shape)
+	#low_static_body.add_to_group(group)
+	#low_static_body.name = name
+	#low_static_body.set_collision_layer_value(1, true)
+	#low_static_body.set_collision_mask_value(1, true)
+	#low_scene_instance.add_child(low_static_body) 
+	#low_scene_instance.add_to_group(group)
+	#low_scene_instance.name = name
 	
 	#low_static_body.collision_mask = 1
 	#low_static_body.collision_layer = 1

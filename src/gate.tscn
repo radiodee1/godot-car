@@ -1,7 +1,10 @@
-[gd_scene load_steps=4 format=3 uid="uid://bwdeqlqd7iqsk"]
+[gd_scene load_steps=5 format=3 uid="uid://bwdeqlqd7iqsk"]
 
 [ext_resource type="Script" path="res://src/gate.gd" id="1_vhhyw"]
 [ext_resource type="PackedScene" uid="uid://dqiyg1yu7j5fg" path="res://assets/gate.gltf" id="2_fr4bc"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_vlnel"]
+size = Vector3(2.8, 2.8, 0.1)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_nr5sv"]
 size = Vector3(2.8, 2.8, 0.1)
@@ -9,6 +12,11 @@ size = Vector3(2.8, 2.8, 0.1)
 [node name="gate" type="CharacterBody3D"]
 platform_wall_layers = 1
 script = ExtResource("1_vhhyw")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.33, 0)
+visible = false
+mesh = SubResource("BoxMesh_vlnel")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.33, 0)
