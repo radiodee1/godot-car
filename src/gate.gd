@@ -60,12 +60,11 @@ func init(v: Vector3 , xname='gate', group='mob'):
 	#mesh_instance_3d.mesh = box_mesh
 	#scene_instance.add_to_group(group)
 	low_scene_instance.scale_object_local(Vector3(scale_local, scale_local ,scale_local))
-	#add_child.call(mesh_instance_3d)
 	#mesh_instance_3d.translate(v) 
 	var low_static_body = StaticBody3D.new()
 	low_static_body.scale_object_local(Vector3(1,1,1))
 	var collision_shape = CollisionShape3D.new()
-	collision_shape.scale_object_local(Vector3(1,1,1))
+	collision_shape.scale_object_local(Vector3(0 ,1.33, 0 ))
 	collision_shape.add_to_group(group)
 	collision_shape.name = name
 	collision_shape.shape = low_box_shape
@@ -79,8 +78,8 @@ func init(v: Vector3 , xname='gate', group='mob'):
 	low_scene_instance.add_to_group(group)
 	low_scene_instance.name = name
 	
-	low_static_body.collision_mask = 1
-	low_static_body.collision_layer = 1
+	#low_static_body.collision_mask = 1
+	#low_static_body.collision_layer = 1
 
 
 
@@ -244,7 +243,7 @@ func leave_gate():
 func dispose():
 	self.leave_gate()
 	
-	player_script.end_game()
+	#player_script.end_game()
 
 	if Global.count_list_items(Global.placed_items, self.name) > 0:
 		Global.placed_items.erase(self.name)
