@@ -534,6 +534,16 @@ func check_collision():
 						#car_script.enter_car()
 						
 						try = 1	
+											
+				if collision.get_collider().name.to_lower().begins_with("gate") and Global.player_status == Global.STATUS_WALKING: 
+					if try == 0 :
+						var gate = collision.get_collider() 
+						gate.enter_gate()
+						#var hash = collision.get_collider().name.substr(len("SPOT") + 1, -1)
+						#print("CAR ", collision.get_collider().name, ' node ', car_script)
+						Global.player_status = Global.STATUS_PUSH_JAIL
+						print('gate touched')						
+						try = 1	
 						
 						
 func timer_to_nextlevel(t=2):

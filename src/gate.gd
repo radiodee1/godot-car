@@ -18,6 +18,9 @@ var extra_mouse_mult_for_snap = 50
 
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 
+var xmod = 0 
+var zmod = 0
+
 var direction = Vector3()
 var movement = Vector3()
 var store = Vector3()
@@ -36,6 +39,8 @@ var MODE_OPEN = 3
 
 var gate_mode = MODE_LOCKED
 
+var player_position = Vector3.ZERO
+var player_direction = Vector3.ZERO
 
 func _ready():
 	if test_alone:
@@ -120,13 +125,19 @@ func _process(delta):
 		h_input = - float(player_script.h_input)
 		f_input = - float(player_script.f_input)
 		jump_pressed = bool(player_script.jump_pressed)
-		
+		player_position = Vector3(player_script.position)
+		player_direction = Vector3(player_script.rotation)
+		carry_gate()
+		move_gate()
 	else:
 		h_input = 0.0
 		f_input = 0.0
 		jump_pressed = false
 		#engine_force = 0
-		
+	
+	if jump_pressed and Global.player_status == Global.STATUS_PUSH_JAIL:
+		leave_gate()
+
 	if position.y < -10:
 		print("gate endless fall >>> ", position.y, ' ', position)
 		#falling = true
@@ -183,6 +194,16 @@ func _input(event):
 		store = Vector3(direction)
 		rotate_y(store.y)
 
+func move_gate():
+	#var h_rot = global_transform.basis.get_euler().y
+	#direction = Vector3(h_input, 0, f_input).rotated(Vector3.UP, h_rot).normalized()
+
+	direction.y = snap_to_angle_rot( store.y * extra_mouse_mult_for_snap , 0) ## <<-- bad call??
+	if direction.y != store.y:
+		store = Vector3(direction)
+		rotate_y(store.y)
+
+
 
 func closest_direction_degrees(deg):
 	var test = [ 0, 90, 180, 270, 360 ]
@@ -207,31 +228,44 @@ func snap_to_angle_rot(yy, start = 0):
 	var n = deg_to_rad(new)
 	return n 
 
+func carry_gate():
+	direction = player_direction
+	var dir = rad_to_deg( direction.y )
+	dir = closest_direction_degrees(dir) 
+
+	if dir == 0 or dir == 360:
+		zmod = -2
+		xmod = 0 
+	if dir == 90:
+		xmod = -2 
+		zmod = 0 
+	if dir == 180:
+		zmod = 2
+		xmod = 0 
+	if dir == 270:
+		xmod = 2
+		zmod = 0 
+
+	print('gate x,z mod, dir ', xmod, ' ', zmod, ' ', dir, ' ', direction, ' ', player_direction)
+	global_transform.origin = Vector3(player_position.x + xmod, player_position.y, player_position.z + zmod)	
+	pass 
+
 func enter_gate():
 	
-	if not test_alone:
-		player_walk.visible = false
-		gate_mesh.disabled = false
-	
+
 	## enable chase camera
 	#camera_chase.current = true
 	#camera_walk.current = false
 	Global.player_status = Global.STATUS_PUSH_JAIL
 	
 func leave_gate():
-	gate_mesh.disabled = false
 	
 	if Global.player_status == Global.STATUS_PUSH_JAIL and not test_alone: # and not jump_pressed:
-		player_walk.position = Vector3(position)
+		var diff = 2 *  Vector3(xmod, 0, zmod) + position
+		player_walk.position = Vector3(diff)
 		#if player_script.position.y < -400:
-		player_script.position = Vector3(position)
+		player_script.position = Vector3(diff)
 	
-	#camera_chase.current = false
-	#camera_walk.current = true
-	
-	#player_walk.disabled = false
-	if not test_alone:
-		player_walk.visible = true
 
 	Global.player_status = Global.STATUS_WALKING	
 	
