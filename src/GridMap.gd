@@ -274,8 +274,8 @@ func setup_level_frame():
 					#var v = get_hill_spot_list(HILL_SPOT_RANDOM, 1)[0]
 					var v = Vector3(15 * 5 / 2 - 5 , highest.y + 2, 15 * 5 / 2 - 5 )
 					#v = v * 0.5 
-					print(v, ' gate')
-					include.place_object(ii , 'RANDOM', 'HILL', Global.level, v, Vector3.ZERO, Vector3.ZERO)
+					#print(v, ' gate')
+					include.place_object(ii , 'RANDOM', 'HILL', Global.level, v, Vector3.ONE, Vector3.ZERO )
 			pass
 
 		if e['type'] == 'maze':

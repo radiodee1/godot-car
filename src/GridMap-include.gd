@@ -260,6 +260,8 @@ func place_gate(v, v_back, v_aux, description: String, testing: bool = false):
 		instance_gate.gate_mode = instance_gate.MODE_MOVABLE
 		instance_gate.test_alone = false
 		instance_gate.visible = true
+		instance_gate.process_mode = Node.PROCESS_MODE_PAUSABLE
+
 		#Global.player_status = Global.STATUS_PUSH_JAIL 
 	instance_gate.init(v, description)
 	instance_gate.scale = v_back

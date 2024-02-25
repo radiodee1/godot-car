@@ -44,14 +44,14 @@ func _ready():
 		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 		enter_gate()
 		return
-	
+
 
 func init(v: Vector3 , xname='gate', group='mob'):
 	#self.name = xname
 	var low_scene_instance = self 
 	low_scene_instance.translate(v)
 	low_scene_instance.name = xname
-	print('gate init ', position)	
+	#print('gate init ', position)	
 	low_scene_instance.global_transform.origin = v 
 	return
 
@@ -99,7 +99,7 @@ func _physics_process(delta):
 	if Global.player_status == Global.STATUS_PUSH_JAIL or gate_mode == MODE_MOVABLE :		
 		velocity = velocity.lerp(direction * speed, accel * delta)
 		velocity = velocity + gravity_vec
-		print('gate v,d,p ', velocity, ' ', direction, ' ', position)
+		#print('gate v,d,p ', velocity, ' ', direction, ' ', position)
 	else :
 		velocity =  Vector3.ZERO
 	
@@ -131,7 +131,6 @@ func _process(delta):
 		print("gate endless fall >>> ", position.y, ' ', position)
 		#falling = true
 		dispose()
-	print('gate check ', position)
 
 func _input(event):
 	if not test_alone:
