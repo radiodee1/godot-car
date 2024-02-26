@@ -24,6 +24,7 @@ var zmod = 0
 var direction = Vector3()
 var movement = Vector3()
 var store = Vector3()
+var saved_rotation = Vector3()
 
 @export var test_alone = false 
 
@@ -58,6 +59,7 @@ func init(v: Vector3 , xname='gate', group='mob'):
 	low_scene_instance.name = xname
 	#print('gate init ', position)	
 	low_scene_instance.global_transform.origin = v 
+	saved_rotation = low_scene_instance.rotation
 	return
 
 	#var low_box_shape = BoxShape3D.new()
@@ -128,7 +130,7 @@ func _process(delta):
 		player_position = Vector3(player_script.position)
 		player_direction = Vector3(player_script.rotation)
 		carry_gate()
-		move_gate()
+		#move_gate()
 	else:
 		h_input = 0.0
 		f_input = 0.0
@@ -194,16 +196,6 @@ func _input(event):
 		store = Vector3(direction)
 		rotate_y(store.y)
 
-func move_gate():
-	#var h_rot = global_transform.basis.get_euler().y
-	#direction = Vector3(h_input, 0, f_input).rotated(Vector3.UP, h_rot).normalized()
-
-	direction.y = snap_to_angle_rot( store.y * extra_mouse_mult_for_snap , 0) ## <<-- bad call??
-	if direction.y != store.y:
-		store = Vector3(direction)
-		rotate_y(store.y)
-
-
 
 func closest_direction_degrees(deg):
 	var test = [ 0, 90, 180, 270, 360 ]
@@ -229,24 +221,36 @@ func snap_to_angle_rot(yy, start = 0):
 	return n 
 
 func carry_gate():
-	direction = player_direction
-	var dir = rad_to_deg( direction.y )
+	var dir = rad_to_deg( player_direction.y )
 	dir = closest_direction_degrees(dir) 
+	var dist = 1 
+	var d = 0 
 
-	if dir == 0 or dir == 360:
-		zmod = -2
+	if dir == 0 or dir == 360 :
+		zmod = - dist
 		xmod = 0 
+		#d = dir 
 	if dir == 90:
-		xmod = -2 
+		xmod = - dist 
 		zmod = 0 
+		#d = dir 
 	if dir == 180:
-		zmod = 2
+		zmod = dist
 		xmod = 0 
+		d = 90 
 	if dir == 270:
-		xmod = 2
+		xmod = dist
 		zmod = 0 
+		d = 180 
 
-	print('gate x,z mod, dir ', xmod, ' ', zmod, ' ', dir, ' ', direction, ' ', player_direction)
+	dir += rad_to_deg( saved_rotation.y )
+	if dir != store.y:
+		store = Vector3(rad_to_deg(direction.x), dir, rad_to_deg(direction.z))
+
+		direction.y =  saved_rotation.y + deg_to_rad(dir) 
+		#rotate_y(deg_to_rad(dir))
+
+	print('gate x,z mod, dir ', xmod, ' ', zmod, ' ', dir, ' ', direction, ' ', player_direction, ' ', saved_rotation)
 	global_transform.origin = Vector3(player_position.x + xmod, player_position.y, player_position.z + zmod)	
 	pass 
 
