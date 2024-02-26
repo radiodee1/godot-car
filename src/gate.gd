@@ -221,10 +221,19 @@ func snap_to_angle_rot(yy, start = 0):
 	return n 
 
 func carry_gate():
-	var dir = rad_to_deg( player_direction.y )
-	dir = closest_direction_degrees(dir) 
+	direction = player_direction # - rotation
+	#var h_rot = player_script.global_transform.basis.get_euler().y
+
+	#direction = Vector3( - h_input, 0, - f_input).rotated(Vector3.UP, h_rot).normalized()
+
+	var dir = rad_to_deg( direction.y )  
+	dir = closest_direction_degrees(dir)  
+	#var rot = closest_direction_degrees(rad_to_deg(rotation.y))
 	var dist = 1 
 	var d = 0 
+	#dir = dir + rot 
+	var axis = Vector3(0, 1, 0)
+	var rotation_amount = 0 
 
 	if dir == 0 or dir == 360 :
 		zmod = - dist
@@ -237,20 +246,23 @@ func carry_gate():
 	if dir == 180:
 		zmod = dist
 		xmod = 0 
-		d = 90 
+		#d = dir 
 	if dir == 270:
 		xmod = dist
 		zmod = 0 
-		d = 180 
+		#d = dir 
 
-	dir += rad_to_deg( saved_rotation.y )
-	if dir != store.y:
-		store = Vector3(rad_to_deg(direction.x), dir, rad_to_deg(direction.z))
+	d = dir 	
+	
+	if d != store.y:
+		store = Vector3(rad_to_deg(direction.x), d, rad_to_deg(direction.z))
+		rotation_amount = deg_to_rad( d  )  
+		#direction.y =  saved_rotation.y + deg_to_rad(dir) 
+		
+		rotate_object_local(axis, rotation_amount)
+		#transform.basis = transform.basis.rotated(axis, rotation_amount)
 
-		direction.y =  saved_rotation.y + deg_to_rad(dir) 
-		#rotate_y(deg_to_rad(dir))
-
-	print('gate x,z mod, dir ', xmod, ' ', zmod, ' ', dir, ' ', direction, ' ', player_direction, ' ', saved_rotation)
+	print('gate dir:',  dir, ' direction:', direction, ' player_direction:', player_direction, ' saved_rotation:', saved_rotation)
 	global_transform.origin = Vector3(player_position.x + xmod, player_position.y, player_position.z + zmod)	
 	pass 
 
