@@ -228,35 +228,31 @@ func carry_gate():
 
 	var dir = rad_to_deg( direction.y )  
 	dir = closest_direction_degrees(dir)  
-	#var rot = closest_direction_degrees(rad_to_deg(rotation.y))
 	var dist = 1 
 	var d = 0 
-	#dir = dir + rot 
 	var axis = Vector3(0, 1, 0)
 	var rotation_amount = 0 
 
 	if dir == 0 or dir == 360 :
 		zmod = - dist
 		xmod = 0 
-		#d = dir 
 	if dir == 90:
 		xmod = - dist 
 		zmod = 0 
-		#d = dir 
 	if dir == 180:
 		zmod = dist
 		xmod = 0 
-		#d = dir 
 	if dir == 270:
 		xmod = dist
 		zmod = 0 
-		#d = dir 
 
 	d = dir 	
 	
 	if d != store.y:
 		store = Vector3(rad_to_deg(direction.x), d, rad_to_deg(direction.z))
-		rotation_amount = deg_to_rad( d  )  
+		var a = int(rad_to_deg(rotation.y)) % 360 
+
+		rotation_amount = deg_to_rad( d - a )  
 		#direction.y =  saved_rotation.y + deg_to_rad(dir) 
 		
 		rotate_object_local(axis, rotation_amount)
