@@ -27,7 +27,7 @@ var hill_spot_width = 0
 
 var group_visited = []
 
-
+var maze_center_depth = 0 
 
 func add_to_items(name):
 	if name not in items:

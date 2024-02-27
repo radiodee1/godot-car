@@ -21,6 +21,8 @@ var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 var xmod = 0 
 var zmod = 0
 
+var maze_center_depth = 0 
+
 var direction = Vector3()
 var movement = Vector3()
 var store = Vector3()
@@ -60,6 +62,7 @@ func init(v: Vector3 , xname='gate', group='mob'):
 	#print('gate init ', position)	
 	low_scene_instance.global_transform.origin = v 
 	saved_rotation = low_scene_instance.rotation
+	maze_center_depth = Global.maze_center_depth 
 	return
 
 	#var low_box_shape = BoxShape3D.new()
@@ -102,9 +105,11 @@ func _physics_process(delta):
 		accel = ACCEL_AIR
 		gravity_vec += Vector3.DOWN * gravity * delta
 		direction = Vector3.DOWN
-		if position.y > -5:
-			pass 
-		print('gate hovers ', snap)
+	
+	if maze_center_depth != 0 and !test_alone and position.y > maze_center_depth:
+		if not is_on_floor():
+			position.y -= 0.05 * delta
+		pass 
 
 	if gate_mode != MODE_LOCKED : 	
 		velocity = velocity.lerp(direction * speed, accel * delta)
@@ -117,7 +122,7 @@ func _physics_process(delta):
 		
 	else:
 		floor_snap_length = 0
-		
+
 	move_and_slide()
 
 func _process(delta):
@@ -264,6 +269,7 @@ func carry_gate():
 func enter_gate():
 	
 	Global.player_status = Global.STATUS_PUSH_JAIL
+	gate_mode = MODE_MOVABLE
 	
 func leave_gate():
 	

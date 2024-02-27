@@ -240,6 +240,7 @@ func set_hill_size(left, right, depth, x, y, z):
 	Global.hill_h = left
 	Global.hill_w = left 
 	hill_size = Vector3(left, right, depth)
+	Global.maze_center_depth = maze.center_depth
 
 func setup_level_frame():
 	Global.clear_list_data()
