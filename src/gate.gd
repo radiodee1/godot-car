@@ -65,32 +65,6 @@ func init(v: Vector3 , xname='gate', group='mob'):
 	maze_center_depth = Global.maze_center_depth 
 	return
 
-	#var low_box_shape = BoxShape3D.new()
-	#low_box_shape.size = Vector3(2.8, 2.8, 0.1)
-	#var scale_local = 1 
-	#low_scene_instance.scale_object_local(Vector3(scale_local, scale_local ,scale_local))
-	#var low_static_body = StaticBody3D.new()
-	#low_static_body.scale_object_local(Vector3(1,1,1))
-	#var collision_shape = CollisionShape3D.new()
-	#collision_shape.scale_object_local(Vector3(0 ,1.33, 0 ))
-	#collision_shape.add_to_group(group)
-	#collision_shape.name = name
-	#collision_shape.shape = low_box_shape
-	#collision_shape.disabled = false
-	#low_static_body.add_child(collision_shape)
-	#low_static_body.add_to_group(group)
-	#low_static_body.name = name
-	#low_static_body.set_collision_layer_value(1, true)
-	#low_static_body.set_collision_mask_value(1, true)
-	#low_scene_instance.add_child(low_static_body) 
-	#low_scene_instance.add_to_group(group)
-	#low_scene_instance.name = name
-	
-	#low_static_body.collision_mask = 1
-	#low_static_body.collision_layer = 1
-
-
-
 
 func _physics_process(delta):
 
@@ -99,7 +73,6 @@ func _physics_process(delta):
 		snap = -get_floor_normal()
 		accel = ACCEL_DEFAULT
 		gravity_vec = Vector3.ZERO
-		print('gate is on floor ', snap)
 	else:
 		snap = Vector3.DOWN
 		accel = ACCEL_AIR

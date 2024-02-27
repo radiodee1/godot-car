@@ -81,7 +81,7 @@ func _physics_process(delta):
 		var rpm4 = (wheel_front_right.get_rpm())
 	
 		var mult = 2
-		if sign(rpm3) == +1 or sign(rpm4) == +1:
+		if sign(rpm3) != -1 and sign(rpm4) != -1:
 			accel_const = 250 * mult 
 			max_torque = 120 * mult 
 			mass = 160 
