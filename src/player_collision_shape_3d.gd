@@ -192,7 +192,6 @@ func _physics_process(delta):
 		#un_pause.hide()
 		#_on_central_control_restart_player()
 		land_in_maze = true
-		print("here we are...")
 		pass
 			
 	
@@ -538,11 +537,13 @@ func check_collision():
 				if collision.get_collider().name.to_lower().begins_with("gate") and Global.player_status == Global.STATUS_WALKING: 
 					if try == 0 :
 						var gate = collision.get_collider() 
-						gate.enter_gate()
-						#var hash = collision.get_collider().name.substr(len("SPOT") + 1, -1)
-						#print("CAR ", collision.get_collider().name, ' node ', car_script)
-						Global.player_status = Global.STATUS_PUSH_JAIL
-						print('gate touched')						
+						if gate.gate_mode != gate.MODE_LOCKED:
+							gate.enter_gate()
+							gate.gate_mode = gate.MODE_MOVABLE 
+							#var hash = collision.get_collider().name.substr(len("SPOT") + 1, -1)
+							#print("gate ", collision.get_collider().name)
+							Global.player_status = Global.STATUS_PUSH_JAIL
+						#print('gate touched ', str(gate.name))						
 						try = 1	
 						
 						

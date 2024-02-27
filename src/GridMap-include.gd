@@ -272,7 +272,10 @@ func place_gate(v, v_back, v_aux, description: String, testing: bool = false):
 	instance_gate.add_to_group(group)
 	instance_gate.set_collision_layer_value(1, true)
 	instance_gate.set_collision_mask_value(1, true)
-
+	
+	## vv maybe set randomly?? vv ##
+	#instance_gate.gate_mode = instance_gate.MODE_MOVABLE
+	instance_gate.process_mode = Node.PROCESS_MODE_PAUSABLE 
 
 	#print('shape/node', v, ' ', v_back)
 	

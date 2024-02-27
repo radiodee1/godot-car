@@ -38,7 +38,7 @@ var MODE_MOVABLE = 1
 var MODE_UN_MOVABLE = 2 
 var MODE_OPEN = 3 
 
-var gate_mode = MODE_LOCKED
+var gate_mode = MODE_OPEN
 
 var player_position = Vector3.ZERO
 var player_direction = Vector3.ZERO
@@ -91,22 +91,24 @@ func init(v: Vector3 , xname='gate', group='mob'):
 
 func _physics_process(delta):
 
+
 	if is_on_floor()  :
 		snap = -get_floor_normal()
 		accel = ACCEL_DEFAULT
 		gravity_vec = Vector3.ZERO
+		print('gate is on floor ', snap)
 	else:
 		snap = Vector3.DOWN
 		accel = ACCEL_AIR
 		gravity_vec += Vector3.DOWN * gravity * delta
 		direction = Vector3.DOWN
+		if position.y > -5:
+			pass 
+		print('gate hovers ', snap)
 
-	#check_car_jump()
-
-	if Global.player_status == Global.STATUS_PUSH_JAIL or gate_mode == MODE_MOVABLE :		
+	if gate_mode != MODE_LOCKED : 	
 		velocity = velocity.lerp(direction * speed, accel * delta)
 		velocity = velocity + gravity_vec
-		#print('gate v,d,p ', velocity, ' ', direction, ' ', position)
 	else :
 		velocity =  Vector3.ZERO
 	
@@ -122,7 +124,10 @@ func _process(delta):
 	if test_alone:
 		Global.player_status = Global.STATUS_PUSH_JAIL
 		return
-	
+
+	if gate_mode != MODE_MOVABLE:
+		return
+
 	if Global.player_status == Global.STATUS_PUSH_JAIL  :
 		h_input = - float(player_script.h_input)
 		f_input = - float(player_script.f_input)
@@ -222,13 +227,10 @@ func snap_to_angle_rot(yy, start = 0):
 
 func carry_gate():
 	direction = player_direction # - rotation
-	#var h_rot = player_script.global_transform.basis.get_euler().y
-
-	#direction = Vector3( - h_input, 0, - f_input).rotated(Vector3.UP, h_rot).normalized()
 
 	var dir = rad_to_deg( direction.y )  
 	dir = closest_direction_degrees(dir)  
-	var dist = 1 
+	var dist = 1  
 	var d = 0 
 	var axis = Vector3(0, 1, 0)
 	var rotation_amount = 0 
@@ -253,34 +255,25 @@ func carry_gate():
 		var a = int(rad_to_deg(rotation.y)) % 360 
 
 		rotation_amount = deg_to_rad( d - a )  
-		#direction.y =  saved_rotation.y + deg_to_rad(dir) 
 		
 		rotate_object_local(axis, rotation_amount)
-		#transform.basis = transform.basis.rotated(axis, rotation_amount)
 
-	print('gate dir:',  dir, ' direction:', direction, ' player_direction:', player_direction, ' saved_rotation:', saved_rotation)
 	global_transform.origin = Vector3(player_position.x + xmod, player_position.y, player_position.z + zmod)	
 	pass 
 
 func enter_gate():
 	
-
-	## enable chase camera
-	#camera_chase.current = true
-	#camera_walk.current = false
 	Global.player_status = Global.STATUS_PUSH_JAIL
 	
 func leave_gate():
 	
 	if Global.player_status == Global.STATUS_PUSH_JAIL and not test_alone: # and not jump_pressed:
-		var diff = 2 *  Vector3(xmod, 0, zmod) + position
+		var diff = 2 *  Vector3(- xmod, 0, - zmod) + position
 		player_walk.position = Vector3(diff)
-		#if player_script.position.y < -400:
 		player_script.position = Vector3(diff)
 	
-
-	Global.player_status = Global.STATUS_WALKING	
-	
+		Global.player_status = Global.STATUS_WALKING	
+		gate_mode = MODE_OPEN	
 	pass 
 
 
