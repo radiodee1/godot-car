@@ -536,6 +536,8 @@ func check_collision():
 											
 				if collision.get_collider().name.to_lower().begins_with("gate") and Global.player_status == Global.STATUS_WALKING: 
 					if try == 0 :
+						if key_items_placed > 0 and key_items_found < 1 :
+							return
 						var gate = collision.get_collider() 
 						if gate.gate_mode != gate.MODE_LOCKED:
 							gate.enter_gate()
