@@ -208,7 +208,7 @@ func carry_gate():
 
 	var dir = rad_to_deg( direction.y )  
 	dir = closest_direction_degrees(dir)  
-	var dist = 1  
+	var dist = 0.25 #1  
 	var d = 0 
 	var axis = Vector3(0, 1, 0)
 	var rotation_amount = 0 
@@ -236,13 +236,14 @@ func carry_gate():
 		
 		rotate_object_local(axis, rotation_amount)
 
-	global_transform.origin = Vector3(player_position.x + xmod, player_position.y, player_position.z + zmod)	
+	global_transform.origin = Vector3(player_position.x + xmod, player_position.y - dist, player_position.z + zmod)	
 	pass 
 
 func enter_gate():
 	
 	Global.player_status = Global.STATUS_PUSH_JAIL
 	gate_mode = MODE_MOVABLE
+	gate_mesh.disabled = true 
 	
 func leave_gate():
 	
@@ -252,6 +253,7 @@ func leave_gate():
 		player_script.position = Vector3(diff)
 	
 		Global.player_status = Global.STATUS_WALKING	
+		gate_mesh.disabled = false
 		gate_mode = MODE_OPEN	
 	pass 
 
