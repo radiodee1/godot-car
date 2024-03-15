@@ -3,6 +3,9 @@ extends Control
 @onready var text_msg = $Control/message
 @onready var text_stat = $Control/status
 
+var old_msg = ''
+var timer = null
+
 @onready var dict = preload("res://src/GridMap-dict.gd").new()
 
 # Called when the node enters the scene tree for the first time.
@@ -19,9 +22,26 @@ func _ready():
 func _process(delta):
 	pass
 
-func set_text_msg(group='start', msg=0):
+func set_text_msg(group='start', msg=0, time_me=false, wait_time=10):
+	if time_me:
+		if text_msg.text != dict.message[group][msg]:
+			old_msg = text_msg.text 
+		else :
+			pass 
+			#old_msg = ''
+		timer = Timer.new()
+		timer.wait_time = wait_time
+		timer.one_shot = true
+		timer.start(wait_time)
+		add_child(timer)
+		timer.connect('timeout', _on_timer_timeout)
 	text_msg.text = dict.message[group][msg]
-	pass 
+
+func _on_timer_timeout():
+	if old_msg != '': # text_msg.text:
+		text_msg.text = old_msg
+		print(old_msg,'??????')
+
 	
 func set_text_stat(msg='start'):
 	var line = ""

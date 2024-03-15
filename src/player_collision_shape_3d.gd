@@ -475,7 +475,7 @@ func check_collision():
 							pass	
 								
 						hud.set_text_stat("hill")	
-						hud.set_text_msg('hill', 2)
+						hud.set_text_msg('hill', 2, true)
 					try += 1
 					
 				if collision.get_collider().name.begins_with("DOT"): 
