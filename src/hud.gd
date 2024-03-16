@@ -15,6 +15,15 @@ func _ready():
 	
 	#text_stat.text = "Start"
 	set_text_stat('hill')
+	timer = Timer.new()
+	timer.autostart = false
+	add_child(timer)
+	timer.wait_time = 1 
+	timer.name = 'Timer-HUD'
+	timer.start()
+	timer.one_shot = false
+	timer.connect('timeout', _on_timer_timeout)
+
 	pass # Replace with function body.
 
 
@@ -24,23 +33,20 @@ func _process(delta):
 
 func set_text_msg(group='start', msg=0, time_me=false, wait_time=10):
 	if time_me:
-		if text_msg.text != dict.message[group][msg]:
+		if old_msg == '': #  text_msg.text != dict.message[group][msg]:
 			old_msg = text_msg.text 
-		else :
-			pass 
-			#old_msg = ''
-		timer = Timer.new()
-		timer.wait_time = wait_time
-		timer.one_shot = true
 		timer.start(wait_time)
-		add_child(timer)
-		timer.connect('timeout', _on_timer_timeout)
+		#add_child(timer)
+		print('???---??? hud.gd')
+		print_tree_pretty()
 	text_msg.text = dict.message[group][msg]
 
 func _on_timer_timeout():
 	if old_msg != '': # text_msg.text:
 		text_msg.text = old_msg
-		print(old_msg,'??????')
+		old_msg = ''
+	print(old_msg,'?????? hud.gd')
+
 
 	
 func set_text_stat(msg='start'):
