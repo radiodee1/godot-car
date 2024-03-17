@@ -15,6 +15,8 @@ func _ready():
 	
 	#text_stat.text = "Start"
 	set_text_stat('hill')
+
+	process_mode = Node.PROCESS_MODE_ALWAYS
 	timer = Timer.new()
 	timer.autostart = false
 	add_child(timer)
@@ -31,22 +33,29 @@ func _ready():
 func _process(delta):
 	pass
 
-func set_text_msg(group='start', msg=0, time_me=false, wait_time=10):
+func set_text_msg(group='start', msg=0, time_me=false, wait_time=40):
 	if time_me:
-		if old_msg == '': #  text_msg.text != dict.message[group][msg]:
+		if timer.is_stopped() == true: # timer.time_left != wait_time:
+			timer = Timer.new()
+			timer.autostart = true
+			timer.process_mode = Node.PROCESS_MODE_ALWAYS 
+			#add_child(timer)
+			#timer.wait_time = 1 
+			timer.name = 'Timer-HUD'
+			#timer.start()
+			timer.one_shot = true 
+			timer.set_timer_process_callback(Timer.TIMER_PROCESS_IDLE)
+			#timer.connect('timeout', _on_timer_timeout)
+		if old_msg == '' and  text_msg.text != '': # dict.message[group][msg]:
 			old_msg = text_msg.text 
-		timer.start(wait_time)
-		#add_child(timer)
-		print('???---??? hud.gd')
-		print_tree_pretty()
+			timer.start(wait_time)
+			#add_child(timer)
 	text_msg.text = dict.message[group][msg]
 
 func _on_timer_timeout():
 	if old_msg != '': # text_msg.text:
 		text_msg.text = old_msg
 		old_msg = ''
-	print(old_msg,'?????? hud.gd')
-
 
 	
 func set_text_stat(msg='start'):
