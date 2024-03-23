@@ -25,6 +25,8 @@ var rpm = 0
 @onready var player_script = $"/root/CentralControl/procedural-terrain/CharacterBody3D"
 @onready var player_walk =   $"/root/CentralControl/procedural-terrain/CharacterBody3D/body"
 
+@onready var player_collision = $"/root/CentralControl/procedural-terrain/CharacterBody3D/CollisionShape3D"
+
 @onready var car_mesh = $"./CollisionShape3D"
 @onready var car_body = $"./car_body_mesh"
 
@@ -140,7 +142,11 @@ func _process(delta):
 		h_input = - float(player_script.h_input)
 		f_input = - float(player_script.f_input)
 		jump_pressed = bool(player_script.jump_pressed)
-		
+
+		#var pos = Vector3(position)
+		#pos.y += 2 
+		#player_walk.position = pos 
+		#player_script.position = pos
 	else:
 		h_input = 0.0
 		f_input = 0.0
@@ -232,7 +238,10 @@ func enter_car():
 	player_walk.visible = false
 	
 	car_mesh.disabled = false
-	
+
+	player_collision.disabled = true
+	#player_script.disabled = true
+
 	## enable chase camera
 	camera_chase.current = true
 	camera_walk.current = false
@@ -241,6 +250,9 @@ func enter_car():
 func leave_car():
 	car_mesh.disabled = false
 	
+	player_collision.disabled = false
+	#player_walk.disabled = false
+
 	if Global.player_status == Global.STATUS_CAR: # and not jump_pressed:
 		player_walk.position = Vector3(position)
 		#if player_script.position.y < -400:
