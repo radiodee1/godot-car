@@ -55,6 +55,7 @@ var start_player: Vector3 = Vector3( 15 * 5 / 2, 5 * 5, 15 * 5 / 2)
 
 var player_rotation = 0
 
+@export var test_alone = false
 @export var f_input : float = 0
 @export var h_input : float = 0
 @export var jump_pressed : bool = false
@@ -68,12 +69,19 @@ func _ready():
 	self.collision_layer = 1
 	#set_player_start(0, 0, 0)
 	#restart_player()
-	position = start_player #Vector3(15 * 5 / 2, 5 * 5 , 15 * 5 / 2)
+	if not test_alone:
+		position = start_player #Vector3(15 * 5 / 2, 5 * 5 , 15 * 5 / 2)
+
 	process_mode = Node.PROCESS_MODE_PAUSABLE
 	
 	#get_node("/root/CentralControl").connect("restart_player", _on_central_control_restart_player)
 	#get_tree().paused = true
 	Global.set_score_allowed(true)
+
+	if test_alone:
+		Global.player_status = Global.STATUS_WALKING
+		process_mode = Node.PROCESS_MODE_ALWAYS
+		print('player insert ', global_transform.origin)
 
 func _input(event):
 	direction = Vector3.ZERO
@@ -170,7 +178,11 @@ func _physics_process(delta):
 		floor_snap_length = 0
 		
 		#gravity = gravity_vec * gravity_mult
-	
+
+	if test_alone:
+		move_and_slide()
+		return
+
 	var found_altars = Global.count_list_items(Global.items_temp, 'ALTAR')
 	var found_nextlevels = Global.count_list_items(Global.items_temp, 'NEXTLEVEL')
 	
@@ -294,6 +306,8 @@ func check_joystick():
 	pass 
 	
 func check_escape():
+	if test_alone:
+		return 
 	var escape = Input.get_action_strength("escape")
 	if escape >= .5:
 		start.text = 'NEW-GAME'

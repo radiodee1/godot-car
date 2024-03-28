@@ -1,8 +1,10 @@
-extends Node3D
+extends StaticBody3D
 
+@export var test_alone = false
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	print("ramp insert ", global_transform.origin)
 	pass # Replace with function body.
 
 
@@ -12,20 +14,23 @@ func _process(delta):
 
 func init(v, namex='RAMP', group='mob'):
 	var scale_local = 1 
-	v.y += 2
-	var j = load("res://src/gator_walk.tscn").instantiate()
-	j.name = namex
-	add_child(j)
+	#v.y += 2
+	#var j = load("res://src/gator_walk.tscn").instantiate()
+	
+	
 	
 	self.scale_object_local(Vector3(scale_local, scale_local ,scale_local))
 	
 	self.add_to_group(group)
 	
-	self.name = name
+	self.name = namex 
 	
 	self.collision_mask = 1
 	self.collision_layer = 1
 	#move_walk()
+
+	if test_alone:
+		return
 	#animation_walk = $'gator_walk/AnimationPlayer'
 	var collision_shape = $"CollisionShape3D" 
 	#gator_walk = $"gator_walk"
