@@ -50,7 +50,8 @@ func _ready()->void:
 	include.set_callable_get_cell(get_cell_item)
 	include.set_callable_set_cell(set_cell_item)
 	include.set_callable_remove_child(remove_child)
-	
+	include.set_maze_reference(maze)
+
 	#hill_generate()
 	include.remove_altar()
 	Global.level = 0
@@ -371,7 +372,36 @@ func setup_level_frame():
 								#print(name_for_hash)
 								num += 1
 					pass
-			
+				if ii == 'RAMPS':
+					#var record_index = maze.get_record_index()
+					var map_location = maze.find_map()
+					var recorded_index = maze.get_record_index()
+					#var intersection_i = include.get_intersection(2, false, recorded_index)
+
+					#print(Global.intersections, ' zz intersections vs. record_index ', record_index)
+					var end_points = []
+					for z in range(len(Global.intersections)):
+						var end_point = include.get_intersection(1, true)
+						#print('zz single end point ', end_point)
+						if end_point != -1 :
+							end_points.append(end_point)
+					if recorded_index not in end_points:
+						end_points.append(recorded_index)
+					for zz in end_points:
+						#print('zz end_points ', zz)
+						var zz_vec = Global.index_to_vector(zz)
+						var vec_placement = Vector3.ZERO 
+						var zz_hash = 'RAMP-' + str(zz)
+
+						#var altar_mapping = maze.index_to_vector(zz)
+						var sub_vec = Vector3(zz_vec.x , maze.center_depth, zz_vec.y )
+						vec_placement.x = maze.hall_width * sub_vec.x + 2 - map_location.x 
+						vec_placement.z = maze.hall_width * sub_vec.z + 2 - map_location.y 
+						vec_placement.y =  sub_vec.y +  4
+						print('zz vec ', sub_vec, vec_placement)
+						include.place_object(zz_hash, "RANDOM", 'MAZE', Global.level, vec_placement)
+					pass 
+
 			pass
 		if e['type'] == 'player':
 			#print('player handled by central_control!!')

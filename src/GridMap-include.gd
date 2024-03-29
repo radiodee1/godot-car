@@ -29,6 +29,9 @@ var low_scene_instance
 var low_location_vec
 #var dict = preload("res://src/GridMap-dict.gd").new()
 
+var maze = "."
+
+
 func place_high_rubble(v):
 	var vv = Vector3(v)
 	if rubble_instance == null:
@@ -278,7 +281,16 @@ func place_gate(v, v_back, v_aux, description: String, testing: bool = false):
 	instance_gate.process_mode = Node.PROCESS_MODE_PAUSABLE 
 
 	#print('shape/node', v, ' ', v_back)
-	
+
+func place_ramp(v, map):
+	var ramp = preload("res://src/ramp.tscn")
+	var ramp_instance = ramp.instantiate()
+	ramp_instance.init(v, map)
+	add_child.call(ramp_instance)
+	add_to_placed(ramp_instance, true)
+	pass 
+
+
 func place_car():
 	#if hash(get_placed_node('car')) == hash(null):	
 	if Global.count_list_items(Global.placed_items, 'car') == 0 :
@@ -492,6 +504,8 @@ func place_object(name, strategy, layer, frame_num, vector_high=Vector3(0,0,0), 
 			place_gate(vector_high, vector_back, vector_aux, name)
 			print('shape decoration placed')
 			return
+		if name.begins_with("RAMP"):
+			place_ramp(vector_high, maze.working_map)
 			pass 
 	pass
 
@@ -507,3 +521,6 @@ func set_callable_set_cell(set_set: Callable):
 
 func set_callable_remove_child(set_remove: Callable):
 	remove_child = set_remove
+
+func set_maze_reference(m):
+	maze = m 

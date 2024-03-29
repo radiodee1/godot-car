@@ -4,7 +4,7 @@ extends StaticBody3D
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	print("ramp insert ", global_transform.origin)
+	print("zz ramp insert ", global_transform.origin)
 	pass # Replace with function body.
 
 
@@ -12,12 +12,12 @@ func _ready():
 func _process(delta):
 	pass
 
-func init(v, namex='RAMP', group='mob'):
+func init(v, map,  namex='RAMP', group='mob'):
 	var scale_local = 1 
 	#v.y += 2
 	#var j = load("res://src/gator_walk.tscn").instantiate()
 	
-	
+	print('zz map ', map, ' test ', test_alone)	
 	
 	self.scale_object_local(Vector3(scale_local, scale_local ,scale_local))
 	
