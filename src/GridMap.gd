@@ -398,8 +398,7 @@ func setup_level_frame():
 						vec_placement.x = maze.hall_width * sub_vec.x + 2 - map_location.x 
 						vec_placement.z = maze.hall_width * sub_vec.z + 2 - map_location.y 
 						vec_placement.y =  sub_vec.y +  4
-						print('zz vec ', sub_vec, vec_placement)
-						include.place_object(zz_hash, "RANDOM", 'MAZE', Global.level, vec_placement)
+						include.place_object(zz_hash, "RANDOM", 'MAZE', Global.level, vec_placement, sub_vec)
 					pass 
 
 			pass

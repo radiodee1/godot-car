@@ -1,5 +1,13 @@
 extends StaticBody3D
 
+var table = {
+		Vector2(1, 0): deg_to_rad(0 + 90),
+		Vector2(0,-1): deg_to_rad(90 + 90),
+		Vector2(-1,0): deg_to_rad(180 + 90),
+		Vector2(0, 1): deg_to_rad(270 + 90)
+	}
+
+
 @export var test_alone = false
 
 # Called when the node enters the scene tree for the first time.
@@ -12,13 +20,12 @@ func _ready():
 func _process(delta):
 	pass
 
-func init(v, map,  namex='RAMP', group='mob'):
+func init(v, map, location,  namex='RAMP', group='mob'):
 	var scale_local = 1 
-	#v.y += 2
+	v.y += -1
 	#var j = load("res://src/gator_walk.tscn").instantiate()
-	
-	print('zz map ', map, ' test ', test_alone)	
-	
+	var loc = Vector2(location.x, location.z)
+
 	self.scale_object_local(Vector3(scale_local, scale_local ,scale_local))
 	
 	self.add_to_group(group)
@@ -27,21 +34,17 @@ func init(v, map,  namex='RAMP', group='mob'):
 	
 	self.collision_mask = 1
 	self.collision_layer = 1
-	#move_walk()
 
 	if test_alone:
 		return
-	#animation_walk = $'gator_walk/AnimationPlayer'
-	#var collision_shape = $"CollisionShape3D" 
-	#gator_walk = $"gator_walk"
 	v *= 0.5 	
-	#animation_walk.play(anim_walk)
-	#gator_walk.global_transform.origin = v
-	#global_transform.origin = v
-	print('zz origin before ', global_transform.origin, ' v ', v)
 	#self.translate(v)
 	global_transform.origin = v 
-	print('zz origin after ', global_transform.origin)
-	#gator_walk.scale_object_local(Vector3(scale_local, scale_local ,scale_local))
-	#collision_shape.scale_object_local(Vector3(scale_local, scale_local, scale_local))
-	
+
+	for i in table.keys():
+		var xx = map[loc.x + i.x][loc.y + i.y]
+		if xx == -1:
+			rotate_y(table[i])
+			break
+
+

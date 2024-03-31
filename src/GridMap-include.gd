@@ -282,10 +282,10 @@ func place_gate(v, v_back, v_aux, description: String, testing: bool = false):
 
 	#print('shape/node', v, ' ', v_back)
 
-func place_ramp(v, map):
+func place_ramp(v, map, location):
 	var ramp = preload("res://src/ramp.tscn")
 	var ramp_instance = ramp.instantiate()
-	ramp_instance.init(v, map)
+	ramp_instance.init(v, map, location)
 	add_child.call(ramp_instance)
 	add_to_placed(ramp_instance, true)
 	pass 
@@ -505,7 +505,7 @@ func place_object(name, strategy, layer, frame_num, vector_high=Vector3(0,0,0), 
 			print('shape decoration placed')
 			return
 		if name.begins_with("RAMP"):
-			place_ramp(vector_high, maze.working_map)
+			place_ramp(vector_high, maze.working_map, vector_back)
 			pass 
 	pass
 
