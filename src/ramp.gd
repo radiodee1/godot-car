@@ -4,7 +4,7 @@ extends StaticBody3D
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	print("zz ramp insert ", global_transform.origin)
+	#print("zz ramp insert ", global_transform.origin)
 	pass # Replace with function body.
 
 
@@ -32,13 +32,16 @@ func init(v, map,  namex='RAMP', group='mob'):
 	if test_alone:
 		return
 	#animation_walk = $'gator_walk/AnimationPlayer'
-	var collision_shape = $"CollisionShape3D" 
+	#var collision_shape = $"CollisionShape3D" 
 	#gator_walk = $"gator_walk"
-		
+	v *= 0.5 	
 	#animation_walk.play(anim_walk)
 	#gator_walk.global_transform.origin = v
-	global_transform.origin = v
-	
+	#global_transform.origin = v
+	print('zz origin before ', global_transform.origin, ' v ', v)
+	#self.translate(v)
+	global_transform.origin = v 
+	print('zz origin after ', global_transform.origin)
 	#gator_walk.scale_object_local(Vector3(scale_local, scale_local ,scale_local))
 	#collision_shape.scale_object_local(Vector3(scale_local, scale_local, scale_local))
 	

@@ -8,7 +8,7 @@ func init(v, name='SPOT', group='mob'):
 	#v.x *= .5
 	#v.y *= .5
 	#v.z *= .5
-	
+	v.y += 2  	
 	#add_child.call(low_scene_instance)
 	#scene_instance.scale = Vector3(1,1,1)
 	#low_scene_instance.scale = Vector3(0.5, 0.5, 0.5)
