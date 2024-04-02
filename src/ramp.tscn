@@ -1,16 +1,15 @@
-[gd_scene load_steps=4 format=3 uid="uid://cixjhdfemk0p1"]
+[gd_scene load_steps=3 format=3 uid="uid://ckbya4tscmm1j"]
 
-[ext_resource type="Script" path="res://src/ramp.gd" id="1_28qhp"]
-[ext_resource type="ArrayMesh" uid="uid://bi0j17r8qagvx" path="res://src/ramp_long.res" id="2_ohxm7"]
+[ext_resource type="Script" path="res://src/ramp_old.gd" id="1_ad8wu"]
 
-[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_b0s46"]
-points = PackedVector3Array(-1, -1, 1, 1.01587, 1.01587, -0.888789, 1.01587, -0.634821, 0.761905, 1, -1, -1, -1.01587, 1.01587, -0.888789, -1, -1, -1, 1, -1, 1, 1, 1, -1, -1.01587, -0.666642, 0.793527, -1, 1, -1, 1.01587, -0.92061, 1.01587, -1.01587, -0.92061, 1.01587, 1.01587, -0.666642, 0.793527, -1.01587, -0.634821, 0.761905)
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_yul7p"]
+points = PackedVector3Array(0, 0, 0, 1.5, 2.5, 1, 0, 2.5, 1, 1.5, 0, 1, 1.5, 2.5, 0, 0, 0, 1, 0, 2.5, 0, 1.5, 0, 0)
 
 [node name="ramp" type="StaticBody3D"]
-script = ExtResource("1_28qhp")
+script = ExtResource("1_ad8wu")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-mesh = ExtResource("2_ohxm7")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-shape = SubResource("ConvexPolygonShape3D_b0s46")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.076383, 0, 0)
+shape = SubResource("ConvexPolygonShape3D_yul7p")
