@@ -1,14 +1,19 @@
 extends StaticBody3D
 
+var mod_xnum =  0.7 
+var mod_znum =  0.7
+
+
 var table = {
-		Vector2(1, 0): deg_to_rad(90), # 270 
-		Vector2(0,-1): deg_to_rad(180), # 0 
-		Vector2(-1,0): deg_to_rad(270), # 90 
-		Vector2(0, 1): deg_to_rad(0) # 180 
+		Vector2(1, 0): [deg_to_rad(90), Vector2(mod_xnum,0)], # perfect  
+		Vector2(0,-1): [deg_to_rad(180),Vector2(0, - mod_znum + 0.3 ) ], # good? 
+		Vector2(-1,0): [deg_to_rad(270),Vector2( - mod_xnum + 0.3 , 0)], # 90 
+		Vector2(0, 1): [deg_to_rad(0),  Vector2(0, mod_znum)] # perfect !! 
 	}
 
 
 @export var test_alone = false
+
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -41,12 +46,19 @@ func init(v, map, location,  namex='RAMP', group='mob'):
 	v *= 0.5 	
 	#self.translate(v)
 	
-
+	var num = 0 
 	for i in table.keys():
+		num += 1 
 		var xx = map[loc.x + i.x][loc.y + i.y]
 		if xx == -1:
+			var j = table[i][1]
+			var xmod = j.x 
+			var zmod = j.y  
+			v.x += xmod
+			v.z += zmod
 			global_transform.origin = v 
-			rotate_y(table[i])
+			rotate_y(table[i][0])
+			print('zz num ', num, ' ', i, ' x ', xmod, ' z ', zmod)
 			break
 
 	#global_transform.origin.y -= 0.25
