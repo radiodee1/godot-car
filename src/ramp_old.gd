@@ -22,7 +22,7 @@ func _process(delta):
 
 func init(v, map, location,  namex='RAMP', group='mob'):
 	var scale_local = 1 
-	v.y += -1
+	v.y += -2.75
 	#var j = load("res://src/gator_walk.tscn").instantiate()
 	var loc = Vector2(location.x, location.z)
 
@@ -47,4 +47,5 @@ func init(v, map, location,  namex='RAMP', group='mob'):
 			rotate_y(table[i])
 			break
 
+	#global_transform.origin.y -= 0.25
 
