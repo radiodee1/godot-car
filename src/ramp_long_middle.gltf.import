@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://b1lmysf6gkvwm"
-path="res://.godot/imported/ramp_applied_scale_half.gltf-7f57e618afd0183c589ce65b8d90610e.scn"
+uid="uid://cmaq0acehoxa1"
+path="res://.godot/imported/ramp_long_middle.gltf-1ac758c639c752a58df8ea27b071a20b.scn"
 
 [deps]
 
-source_file="res://src/ramp_applied_scale_half.gltf"
-dest_files=["res://.godot/imported/ramp_applied_scale_half.gltf-7f57e618afd0183c589ce65b8d90610e.scn"]
+source_file="res://src/ramp_long_middle.gltf"
+dest_files=["res://.godot/imported/ramp_long_middle.gltf-1ac758c639c752a58df8ea27b071a20b.scn"]
 
 [params]
 
