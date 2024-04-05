@@ -5,10 +5,10 @@ var mod_znum =  0.7
 
 
 var table = {
-		Vector2(1, 0): [deg_to_rad(90), Vector2(mod_xnum,0)], # perfect  
+		Vector2(1, 0): [deg_to_rad(90), Vector2(mod_xnum,0)],            # perfect  
 		Vector2(0,-1): [deg_to_rad(180),Vector2(0, - mod_znum + 0.3 ) ], # good? 
-		Vector2(-1,0): [deg_to_rad(270),Vector2( - mod_xnum + 0.3 , 0)], # 90 
-		Vector2(0, 1): [deg_to_rad(0),  Vector2(0, mod_znum)] # perfect !! 
+		Vector2(-1,0): [deg_to_rad(270),Vector2( - mod_xnum + 0.3 , 0)], # needs testing!! 
+		Vector2(0, 1): [deg_to_rad(0),  Vector2(0, mod_znum)]            # perfect !! 
 	}
 
 
@@ -58,8 +58,9 @@ func init(v, map, location,  namex='RAMP', group='mob'):
 			v.z += zmod
 			global_transform.origin = v 
 			rotate_y(table[i][0])
-			print('zz num ', num, ' ', i, ' x ', xmod, ' z ', zmod)
+			#print('zz num ', num, ' ', i, ' x ', xmod, ' z ', zmod) # FINETUNE RAMP PLACEMENT!!
 			break
-
+		if num > 5:
+			break
 	#global_transform.origin.y -= 0.25
 
