@@ -7,7 +7,7 @@ var mod_znum =  0.7
 var table = {
 		Vector2(1, 0): [deg_to_rad(90), Vector2(mod_xnum,0)],            # perfect  
 		Vector2(0,-1): [deg_to_rad(180),Vector2(0, - mod_znum + 0.3 ) ], # good? 
-		Vector2(-1,0): [deg_to_rad(270),Vector2( - mod_xnum + 0.3 , 0)], # needs testing!! 
+		Vector2(-1,0): [deg_to_rad(90),Vector2( - mod_xnum + 0.3 , 0)], # needs testing!! 
 		Vector2(0, 1): [deg_to_rad(0),  Vector2(0, mod_znum)]            # perfect !! 
 	}
 

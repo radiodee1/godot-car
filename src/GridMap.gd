@@ -4,10 +4,10 @@ var noise := FastNoiseLite.new()
  
 var rng = RandomNumberGenerator.new()
 
-var limit_pos = 30
+var limit_pos = 30  
 var limit_neg = 0
 var limit_step = 1
-var group_size = 8 # originally 5 !!  
+var group_size = 15  # originally 5 !!  
 
 var limit_filter = group_size #* 3 #int(limit_pos / 2)
 
@@ -74,7 +74,20 @@ func hill_generate(block_num=2):
 					set_cell_group(x,y,z, block_num, true)
 					
 	highest = change_highest(highest)
-	#print(highest, " next")
+	hill_remove_extra()
+
+func hill_remove_extra():
+	for x in range( limit_neg,  limit_pos, limit_step):
+		for y in range( limit_neg,  limit_pos, limit_step):
+			for z in range( limit_neg, limit_pos, limit_step):
+				var ii = get_cell_item( Vector3(x * group_size + group_size / 2, y, z * group_size + group_size / 2))
+				if ii != -1:
+					var gg = y - 2 
+					for yy in range(gg, -2, -1):
+						#set_cell_item(i, 0)
+						set_cell_group(x, yy, z, -1 )
+						#print('xx culling hill values')
+	pass 
 
 func set_cell_group(x, y, z, index, check_highest=false):
 	#if x / group_size * group_size != x : print(x, " group settings")
