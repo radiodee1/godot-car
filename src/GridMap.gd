@@ -7,7 +7,7 @@ var rng = RandomNumberGenerator.new()
 var limit_pos = 30
 var limit_neg = 0
 var limit_step = 1
-var group_size = 5
+var group_size = 8 # originally 5 !!  
 
 var limit_filter = group_size #* 3 #int(limit_pos / 2)
 
