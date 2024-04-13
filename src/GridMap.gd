@@ -9,7 +9,7 @@ var limit_neg = 0
 var limit_step = 1
 var group_size = 15  # originally 5 !!  
 
-var limit_filter = 10 # group_size, 5 or 3 is ok  
+var limit_filter = 5  # group_size, 5 or 3 is ok  
 
 var limit_origin = Vector3(0,0,0)
 
@@ -29,6 +29,7 @@ var HILL_SPOT_LOWEST = 3
 var HILL_SPOT_RANDOM = 4
 
 var hill_spot = [] ## Vector3 !!
+var hill_spot_vec2 = [] ## Vector2 !!
 
 @onready var maze = preload("res://src/GridMap-maze.gd").new()
 @onready var include = preload("res://src/GridMap-include.gd").new()
@@ -69,6 +70,7 @@ func _ready()->void:
 	
 func hill_generate(block_num=2):	
 	hill_spot = []
+	hill_spot_vec2 = []
 	highest = Vector3(0,0,0)
 	noise.seed = rng.randi()
 	noise.noise_type = FastNoiseLite.TYPE_SIMPLEX_SMOOTH 
@@ -81,7 +83,7 @@ func hill_generate(block_num=2):
 					var i = Vector3(x,y,z)
 					#set_cell_item(i, 0)
 					set_cell_group(x,y,z, block_num, true)
-					
+					add_cell_item(i)	
 	highest = change_highest(highest)
 	hill_remove_extra()
 
@@ -113,7 +115,7 @@ func set_cell_group(x, y, z, index, check_highest=false):
 			#if i_x != xx / group_size * group_size: print(i_x, ' ', xx, ' group settings')
 			var i = Vector3(i_x, y, i_z)
 			set_cell_item(i, index)
-			add_cell_item(Vector3(j)) # add to hill spots
+			#add_cell_item(Vector3(j)) # add to hill spots
 			if check_highest and highest.y < i.y:
 				var group_x = x * group_size
 				var group_z = z * group_size
@@ -134,16 +136,22 @@ func change_highest(high):
 func add_cell_item(i):
 	## does hill_generation always build up from bottom??
 	## will i.y be highest always??
-	var BELOW = -1 
-	if i.x > group_size and i.z > group_size :
-		if i.x < (limit_pos - 1) * group_size and i.z < (limit_pos - 1) * group_size :
+	i = Vector3i(i)
+	var BELOW = -1
+	if i.x > group_size and i.z > group_size or true:
+		if i.x < (limit_pos - 1) * group_size and i.z < (limit_pos - 1) * group_size or true :
 			#var g_index = Global.hill_vector_to_index(Vector2(i.x, i.z))
 			if int(i.x) % limit_filter == 0 and int(i.z) % limit_filter == 0:
 				if (i not in hill_spot) and (not is_player_too_close(i)):
-					hill_spot.append(i)
-					if Vector3(i.x, i.y + BELOW, i.z) in hill_spot:
+					var v2 = Vector2(i.x, i.z)
+					if v2 not in hill_spot_vec2 or true: # and Vector3(i.x, i.y + BELOW, i.z) not in hill_spot:
+						hill_spot_vec2.append(v2)
+					
+						hill_spot.append(i)
+					#for jj in hill_spot:
+					if Vector3(i.x, i.y + BELOW, i.z) in hill_spot and i in hill_spot:
 						hill_spot.erase(Vector3(i.x, i.y + BELOW, i.z))
-	#print(len(hill_spot), ' len here')
+					#print(len(hill_spot),' ', hill_spot ,' len hill here ', i)
 
 
 func hole_to_maze():
@@ -175,7 +183,7 @@ func is_player_too_close(hillspot, distance=15):
 	else:
 		return true
 
-func get_hill_spot_list(type, num=group_size):
+func get_hill_spot_list(type, num=5):
 	var l = []
 	if type == HILL_SPOT_CENTER:
 		return l
@@ -199,19 +207,19 @@ func get_hill_spot_list(type, num=group_size):
 		pass 
 	pass
 	
-func place_gators(num = group_size):
+func place_gators(num = 5):
 	var l = get_hill_spot_list(HILL_SPOT_RANDOM, num)
 	#var map_location = maze.find_map()	
 	
-	print('here len of l list ', l.size(), ' >>> ', l)
+	print('here len of l list ', l.size(), ' >>> ', l, ' ', hill_spot.size())
 	for i in l:
 		var j = preload("res://src/hill_gator.tscn")
 		var g = j.instantiate()
 		var number = Global.hill_vector_to_index(Vector2(i.x, i.z))
 		var hash = str(number) + Global.g_hash()
 		i.y = i.y * scale_local * scale_local + 1 * scale_local * scale_local
-		i.x = i.x * group_size / 4
-		i.z = i.z * group_size / 4 
+		#i.x = i.x * group_size / 4
+		#i.z = i.z * group_size / 4 
 		var k = Vector3(i.x, i.y, i.z)
 		
 		#print('gator-i ', i)
@@ -300,10 +308,8 @@ func setup_level_frame():
 					#print('GATORS')
 					place_gators(4)
 				if ii.begins_with("GATE_TEST"):
-					#var v = get_hill_spot_list(HILL_SPOT_RANDOM, 1)[0]
 					var v = Vector3(15 * 5 / 2 - 5 , highest.y + 2, 15 * 5 / 2 - 5 )
 					#v = v * 0.5 
-					#print(v, ' gate')
 					include.place_object(ii , 'RANDOM', 'HILL', Global.level, v, Vector3.ONE, Vector3.ZERO )
 			pass
 
@@ -439,7 +445,7 @@ func setup_level_frame():
 	
 	print_tree_pretty()
 	
-	print(hill_spot, " hill spots ", str(hill_spot.size()))
+	print(hill_spot, " hill spots ", str(hill_spot.size()), " ", hill_spot_vec2)
 	pass
 
 
