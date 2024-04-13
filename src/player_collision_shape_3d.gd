@@ -311,6 +311,7 @@ func check_escape():
 	var escape = Input.get_action_strength("escape")
 	if escape >= .5:
 		start.text = 'NEW-GAME'
+		Global.first_run = 0 
 		control_show()
 
 func control_show():

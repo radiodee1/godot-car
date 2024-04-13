@@ -9,7 +9,7 @@ var limit_neg = 0
 var limit_step = 1
 var group_size = 15  # originally 5 !!  
 
-var limit_filter = group_size #* 3 #int(limit_pos / 2)
+var limit_filter = 10 # group_size, 5 or 3 is ok  
 
 var limit_origin = Vector3(0,0,0)
 
@@ -19,6 +19,7 @@ var lowest = Vector3(0,0,0)
 var hill_size = Vector3(0,0,0)
 
 var scale_local = 0.5
+ 
 
 signal set_highest(high_vector:Vector3)
 
@@ -55,7 +56,15 @@ func _ready()->void:
 	#hill_generate()
 	include.remove_altar()
 	Global.level = 0
+	
 	setup_level_frame() ## <<-- test me!!
+	Global.first_run = 1 
+
+	hud_map_start()
+	hud_map_update(0, -1)
+	hud_map.set_visibility(false)
+	
+	#restart_terrain()
 	pass
 	
 func hill_generate(block_num=2):	
@@ -126,18 +135,15 @@ func add_cell_item(i):
 	## does hill_generation always build up from bottom??
 	## will i.y be highest always??
 	var BELOW = -1 
-	if i.x > group_size and i.z > group_size:
-		if i.x < (limit_pos - 1) * group_size and i.z < (limit_pos - 1) * group_size:
-			var g_index = Global.hill_vector_to_index(Vector2(i.x, i.z))
-			if int(g_index) % limit_filter == 0 and int(i.x) % limit_filter == 0 and int(i.z) % limit_filter == 0:
-				#i.y /= group_size
-				#i.x /= group_size
-				#i.z /= group_size
+	if i.x > group_size and i.z > group_size :
+		if i.x < (limit_pos - 1) * group_size and i.z < (limit_pos - 1) * group_size :
+			#var g_index = Global.hill_vector_to_index(Vector2(i.x, i.z))
+			if int(i.x) % limit_filter == 0 and int(i.z) % limit_filter == 0:
 				if (i not in hill_spot) and (not is_player_too_close(i)):
 					hill_spot.append(i)
 					if Vector3(i.x, i.y + BELOW, i.z) in hill_spot:
 						hill_spot.erase(Vector3(i.x, i.y + BELOW, i.z))
-						#print(i.y, ' i.y')
+	#print(len(hill_spot), ' len here')
 
 
 func hole_to_maze():
@@ -157,7 +163,7 @@ func hole_to_nextlevel():
 	
 	include.remove_low_altar()
 	include.make_hole_to_nextlevel(5,[2, 1])
-	
+	hud_map.set_visibility(false)	
 	pass
 
 func is_player_too_close(hillspot, distance=15):
@@ -169,7 +175,7 @@ func is_player_too_close(hillspot, distance=15):
 	else:
 		return true
 
-func get_hill_spot_list(type, num=5):
+func get_hill_spot_list(type, num=group_size):
 	var l = []
 	if type == HILL_SPOT_CENTER:
 		return l
@@ -193,7 +199,7 @@ func get_hill_spot_list(type, num=5):
 		pass 
 	pass
 	
-func place_gators(num = 5):
+func place_gators(num = group_size):
 	var l = get_hill_spot_list(HILL_SPOT_RANDOM, num)
 	#var map_location = maze.find_map()	
 	
@@ -204,8 +210,8 @@ func place_gators(num = 5):
 		var number = Global.hill_vector_to_index(Vector2(i.x, i.z))
 		var hash = str(number) + Global.g_hash()
 		i.y = i.y * scale_local * scale_local + 1 * scale_local * scale_local
-		i.x = i.x * 5 / 4
-		i.z = i.z * 5 / 4 
+		i.x = i.x * group_size / 4
+		i.z = i.z * group_size / 4 
 		var k = Vector3(i.x, i.y, i.z)
 		
 		#print('gator-i ', i)
@@ -221,29 +227,34 @@ func place_gators(num = 5):
 		pass
 	
 func restart_terrain():
-	var num = 0
-	
-	include.clear_placed()
-	Global.clear_list_data()
-	Global.clear_maze_data()
+	var num = 0 
+	var pre_start = 0 
+
+	if Global.first_run == 0:
+		include.clear_placed()
+		Global.clear_list_data()
+		Global.clear_maze_data()
 	#print(Global.count_list_items(Global.placed_items, "NEXTLEVEL"), ' NEXTLEVEL')
 	while num < 110 and Global.count_list_items(Global.placed_items, "NEXTLEVEL") < 1:
-		
-		include.remove_altar()
-		clear()
-		
-		setup_level_frame()
-		
-		Global.print_maze_data()
+			
+		if Global.first_run == 0 :  ## <-- level 0 is set and populated by _ready()
+			include.remove_altar()
+			clear()
+			setup_level_frame()
+	
+			Global.print_maze_data()
 		
 		hud_map_start()
 		hud_map_update(0, -1)
 		hud_map.set_visibility(false)
+		
 		num += 1
 		
 		if num >= 100:
 			print("NO RANDOMIZED NEXTLEVEL ITEM")
 			get_tree().quit()
+
+	#Global.first_run = 1 
 
 func set_hill_size(left, right, depth, x, y, z):
 	if left != right or left != depth or right != depth:
@@ -257,12 +268,15 @@ func set_hill_size(left, right, depth, x, y, z):
 	Global.maze_center_depth = maze.center_depth
 
 func setup_level_frame():
-	Global.clear_list_data()
-	Global.clear_maze_data()
+	var pre_start = 0 
 	
-	include.clear_placed()
-	include.dequeue_placed_node('SPOT', false, true)
+	if Global.first_run == 0:
+		Global.clear_list_data()
+		Global.clear_maze_data()
 	
+		include.clear_placed()
+		include.dequeue_placed_node('SPOT', false, true)
+
 	var i = Global.level % len(dict.game['level'])
 	
 	var level = dict.game['level'][i]

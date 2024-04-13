@@ -39,7 +39,11 @@ func _do_start():
 	
 
 	Global.clear_score_lives_health()
-	
+
+	if Global.level > 0 : #or btn_start.text == 'NEW-GAME':
+		Global.first_run = 0 
+	Global.level = 0 
+
 	hud.set_text_stat("hill")
 	#restart_terrain.emit()
 	gridmap.restart_terrain()
@@ -51,6 +55,8 @@ func _do_start():
 	#get_node("procedural-terrain").add_child(get_node('procedural-terrain/GridMap') )
 	#get_node("procedural-terrain/GridMap").request_ready()
 	#print_tree_pretty()
+	Global.first_run = 1 
+	#Global.level = 0 
 	control_buttons.hide()
 	
 func _do_quit():

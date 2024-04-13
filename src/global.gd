@@ -13,6 +13,8 @@ var do_nextlevel_transition = false
 
 var level = 0 ## <- incremented in player
 
+var first_run = 0 
+
 ## maze data ##
 var intersections = {}
 var segments = []
@@ -155,6 +157,4 @@ var player_status = STATUS_WALKING
 
 #########################
 
-#var f_input = Input.get_action_strength("move_backward") - Input.get_action_strength("move_forward")
-#var h_input = Input.get_action_strength("move_right") - Input.get_action_strength("move_left")
 	
