@@ -238,14 +238,14 @@ func restart_terrain():
 	var num = 0 
 	var pre_start = 0 
 
-	if Global.first_run == 0:
+	if Global.first_run == 0 or Global.level > 0:
 		include.clear_placed()
 		Global.clear_list_data()
 		Global.clear_maze_data()
 	#print(Global.count_list_items(Global.placed_items, "NEXTLEVEL"), ' NEXTLEVEL')
 	while num < 110 and Global.count_list_items(Global.placed_items, "NEXTLEVEL") < 1:
 			
-		if Global.first_run == 0 :  ## <-- level 0 is set and populated by _ready()
+		if Global.first_run == 0 or Global.level > 0:  ## <-- level 0 is set and populated by _ready()
 			include.remove_altar()
 			clear()
 			setup_level_frame()
@@ -278,7 +278,7 @@ func set_hill_size(left, right, depth, x, y, z):
 func setup_level_frame():
 	var pre_start = 0 
 	
-	if Global.first_run == 0:
+	if Global.first_run == 0 or Global.level > 0:
 		Global.clear_list_data()
 		Global.clear_maze_data()
 	
