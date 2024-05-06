@@ -22,6 +22,10 @@ boot_splash/minimum_display_time=5
 
 Global="*res://src/global.gd"
 
+[display]
+
+window/size/mode=4
+
 [filesystem]
 
 import/blender/enabled=false

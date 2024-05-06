@@ -18,6 +18,9 @@ background_mode = 2
 sky = SubResource("Sky_y4itt")
 tonemap_mode = 2
 glow_enabled = true
+fog_enabled = true
+fog_light_color = Color(0.419608, 0.533333, 0.854902, 1)
+fog_light_energy = 0.33
 
 [node name="procedural-terrain" type="Node3D"]
 
