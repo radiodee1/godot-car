@@ -554,7 +554,7 @@ func check_collision():
 						if key_items_placed > 0 and key_items_found < 1 :
 							return
 						var gate = collision.get_collider() 
-						if gate.gate_mode != gate.MODE_LOCKED:
+						if gate.gate_mode != gate.MODE_LOCKED: # and Global.player_status != Global.STATUS_PUSH_JAIL:
 							gate.enter_gate()
 							gate.gate_mode = gate.MODE_MOVABLE 
 							#var hash = collision.get_collider().name.substr(len("SPOT") + 1, -1)
