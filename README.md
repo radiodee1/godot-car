@@ -61,10 +61,10 @@ you. The gators cannot follow you to the maze.
 On the maze level (this is a level that exists below every hill level) you will land in the maze
 on a ramp. The ramp goes from the inside of the maze itself to the flat platform that exists at 
 wall height. You can choose to go from the maze to the wall above at any time. From there you 
-can see where the patrols are and go around them. Also, if you are in the maze and you want to 
+can see where the patrols are and go around them. If you are in the maze and you want to 
 get out you can jump to the walls. 
 
-On the maze level there is also a set of passages that make up a jail. Jail cells have getes on them.
+On the maze level there is a set of passages that make up a jail. Jail cells have getes on them.
 You can pick up a gate by first touching the key altar (found in the maze) and then simply touching
 the gate. While you are holding it, the gate cannot protect you from the patrol, but once you drop
 them, putting them in a new position, the patrol cannot pass them. Again, to get the gate you
