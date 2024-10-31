@@ -1,6 +1,7 @@
-[gd_scene load_steps=8 format=3 uid="uid://byu7lrs8tin5w"]
+[gd_scene load_steps=9 format=3 uid="uid://byu7lrs8tin5w"]
 
 [ext_resource type="Script" path="res://src/procedural_test.gd" id="1_06rc0"]
+[ext_resource type="PackedScene" uid="uid://t0g2to33iffs" path="res://src/house.tscn" id="4_2wbpc"]
 [ext_resource type="PackedScene" uid="uid://cjayg8o4rnavy" path="res://src/player_collision_shape_3d.tscn" id="4_81n5q"]
 [ext_resource type="Texture2D" uid="uid://c1grnt2wiad45" path="res://assets/texture_01.png" id="4_vyupf"]
 
@@ -40,3 +41,6 @@ transform = Transform3D(0.131777, -0.370005, 0.919636, 0.310374, 0.89648, 0.3162
 [node name="CharacterBody3D" parent="." instance=ExtResource("4_81n5q")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.24105, 2.27287)
 test_alone = true
+
+[node name="house" parent="." instance=ExtResource("4_2wbpc")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.02692, -0.133523, 1.64771)
