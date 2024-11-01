@@ -227,6 +227,35 @@ var shapes = {
 		]
 }
 
+var test = [
+		{
+			'name' : "test_a",
+			'reference': "prison_a",
+			'position': Vector2(1,1),
+			'note': "ramp test offset."
+		},
+		{
+			'name': "test_a",
+			'reference': "prison_a",
+			'position': Vector2(0,0),
+			'note': "ramp test offset."
+		},
+		{
+			'name': "test_c",
+			'reference': "prison_c",
+			'position': Vector2(1,1),
+			'note': "ramp test offset, different relation."
+		},
+		{
+			'name': "test_c",
+			'reference': "prison_c",
+			'position': Vector2(0,0),
+			'note' : "ramp test offset, different relation."
+		}
+	]
+
+
+
 var message = {
 	'start': {
 		0: "welcome",
