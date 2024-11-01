@@ -71,6 +71,9 @@ func _ready():
 	#restart_player()
 	if not test_alone:
 		position = start_player #Vector3(15 * 5 / 2, 5 * 5 , 15 * 5 / 2)
+	if Global.test_maze:
+		position = Vector3(0,0,0)
+		start_player = Vector3(0,0,0)
 
 	process_mode = Node.PROCESS_MODE_PAUSABLE
 	
@@ -211,7 +214,8 @@ func _physics_process(delta):
 		print(position.y, " <<< endless fall")
 		#get_tree().change_scene_to_packed(control_buttons)	
 		hud.set_text_msg("start", 3)
-		
+		if Global.test_maze:
+			return
 		if found_nextlevels <= 0 or found_altars <= 0:
 			Global.lower_all_health()
 			Global.set_lives(Global.lives - 1)
@@ -631,6 +635,8 @@ func set_player_start(x,y,z):
 	land_in_maze = false
 	hit_high_altar = false
 	start_player = Vector3( x, y, z)
+	if Global.test_maze:
+		start_player = Vector3(0,0,0)
 	#start_player = Vector3(15 * 5 / 2 + 5, 25, 15 * 5 / 2 + 5 )
 	
 func get_player_rotation():

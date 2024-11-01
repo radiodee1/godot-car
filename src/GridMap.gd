@@ -296,10 +296,16 @@ func setup_level_frame():
 	for e in elements:
 		#print(e['type'])
 		if e['type'] == 'hill':
-			include.remove_altar()
-			set_hill_size(e['width_x'], e['height_z'], e['depth_y'], e['x'], e['y'], e['z'])
-			#if not Global.do_nextlevel_transition:
-			hill_generate(e['mesh'])
+			var hill_generated = false
+			for ii in e['includes']:
+				if ii == 'HILL':
+					include.remove_altar()
+					set_hill_size(e['width_x'], e['height_z'], e['depth_y'], e['x'], e['y'], e['z'])
+					#if not Global.do_nextlevel_transition:
+					hill_generate(e['mesh'])
+					hill_generated = true
+			if not hill_generated:
+				Global.test_maze = true
 			#include.place_rubble(highest)
 			for ii in e['includes']:
 				if ii != 'GATORS' and not ii.begins_with("GATE_TEST"):
