@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=3 uid="uid://ckbya4tscmm1j"]
 
-[ext_resource type="Script" path="res://src/ramp_old.gd" id="1_ad8wu"]
+[ext_resource type="Script" path="res://src/ramp.gd" id="1_ad8wu"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_0vt1m"]
 resource_name = "Material"
