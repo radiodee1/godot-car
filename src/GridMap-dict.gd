@@ -231,13 +231,13 @@ var test = [
 		{
 			'name' : "test_a",
 			'reference': "prison_a",
-			'position': Vector2(1,1),
+			'position': Vector2(1,3),
 			'note': "ramp test offset."
 		},
 		{
 			'name': "test_a",
 			'reference': "prison_a",
-			'position': Vector2(0,0),
+			'position': Vector2(1,1),
 			'note': "ramp test offset."
 		},
 		{

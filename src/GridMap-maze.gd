@@ -288,8 +288,7 @@ func shapes_to_map_plus_decorate():
 			var dec_name = dict.shapes['decoration_name'][shape_index]
 			#print(layout, ' shap
 			decoration_in_shape(place, dec_offset, dec_scale, dec_rotation, dec_name)
-			continue
-		if x[2].begins_with("TESTRAMP"):
+
 			for ii in range(dict.test.size()):
 				print('-- here ', dict.test[ii]['reference'])
 				if dict.test[ii]['reference'] == x[2].to_lower():
@@ -298,7 +297,7 @@ func shapes_to_map_plus_decorate():
 					var t_scale = Vector3.ZERO
 					var t_rotation = Vector3.ZERO
 					var t_name = x[2]
-					decoration_in_shape(t_place, t_offset, t_scale, t_rotation, t_name)
+					decoration_in_shape(t_place, [t_offset], [t_scale], [t_rotation], [t_name])
 					print('-- ', t_place, ' ', t_name)
 				pass 
 
