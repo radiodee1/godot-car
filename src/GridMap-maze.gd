@@ -138,13 +138,12 @@ func maze_generate(hvec=Vector3(0,0,0), block_num=1):
 	pass 
 
 func add_shape(shape_num, place=Vector2(-1,-1), name="PRISON"):
-	if shape_num == 0:
+	if shape_num == 0 and name.begins_with( "PRISON"):
 		return
 	var shape = [shape_num, place, name]	
 	shape_list.append(shape)
-	if name == 'ALTAR':
-		#print(shape)
-		pass
+	print('-- shape_list ', shape_list)
+
 
 func add_mesh_hallways(hallway_array, block_num):
 	var temp = {
@@ -154,26 +153,25 @@ func add_mesh_hallways(hallway_array, block_num):
 	decorate.append(temp)
 	#print(decorate)
 
+func decorate_helper( place, container):
+	for i in range(shape_list.size()):
+		if shape_list[i][2].begins_with('TESTRAMP') and container.begins_with('PRISON') and (shape_list[i][2][-1] == container[-1]):
+
+			if len(shape_list[i]) < 4:
+				shape_list[i].append(place)
+				print("-- shapes ", shape_list[i])
+		pass 
 
 func shapes_to_map(move_old_vectors=false):
-	#print(start_vectors, ' start_vectors')
-	#print(working_map, ' working_map')
-	#print(shape_list, ' shape_list')
 	for i in range(shape_list.size()):
 		var x = shape_list[i]
-		if not x[2].begins_with('PRISON'): # != 'PRISON' :
+		if not x[2].begins_with('PRISON'): # and not x[2].begins_with('TESTRAMPS'): 
 			continue
 		var layout = dict.shapes['layout'][x[0]]
 		var mesh = dict.shapes['mesh'][x[0]]
 		var start = dict.shapes['start'][x[0]]
 		var end = dict.shapes['end'][x[0]]
-		#var shape_index = x[0]
-
-		#var dec_offset = dict.shapes['decoration_offset'][shape_index]
-		#var dec_scale = dict.shapes['decoration_scale'][shape_index]
-		#var dec_rotation = dict.shapes['decoration_rotation'][shape_index]
-		#var dec_name = dict.shapes['decoration_name'][shape_index]
-		#print(layout, ' shape ', mesh, ' ', start, ' ' , end)
+		#print( x[2], ' -- ' ,layout, ' shape ', mesh, ' ', start, ' ' , end)
 		if x[1].x == -1 or x[1].y == -1:
 			#print('place randomly')
 			#var widths = []
@@ -190,6 +188,8 @@ func shapes_to_map(move_old_vectors=false):
 			place.y = rng.randi_range(2 + 2, working_map[0].size() - 2 - height)
 			#print(place, ' place')
 			shape_list[i].append(place)
+			decorate_helper( place, x[2])
+			print("-- decorate_helper ", shape_list)
 
 			if place.x + width > working_map.size() or place.y + height > working_map[0].size():
 				continue
@@ -274,26 +274,33 @@ func shapes_to_map(move_old_vectors=false):
 
 
 func shapes_to_map_plus_decorate():
-	#print(start_vectors, ' start_vectors')
-	#print(working_map, ' working_map')
-	#print(shape_list, ' shape_list')
 	for i in range(shape_list.size()):
 		var x = shape_list[i]
-		var place = shape_list[i][3]
-		if not x[2].begins_with('PRISON'): # != 'PRISON' :
+		if not x[2].begins_with('PRISON') and not x[2].begins_with("TESTRAMPS"): # != 'PRISON' :
 			continue
-		#var layout = dict.shapes['layout'][x[0]]
-		#var mesh = dict.shapes['mesh'][x[0]]
-		#var start = dict.shapes['start'][x[0]]
-		#var end = dict.shapes['end'][x[0]]
-		var shape_index = x[0]
+		if x[2].begins_with('PRISON'):
+			var shape_index = x[0]
+			var place = shape_list[i][3]
 
-		var dec_offset = dict.shapes['decoration_offset'][shape_index]
-		var dec_scale = dict.shapes['decoration_scale'][shape_index]
-		var dec_rotation = dict.shapes['decoration_rotation'][shape_index]
-		var dec_name = dict.shapes['decoration_name'][shape_index]
-		#print(layout, ' shap
-		decoration_in_shape(place, dec_offset, dec_scale, dec_rotation, dec_name)
+			var dec_offset = dict.shapes['decoration_offset'][shape_index]
+			var dec_scale = dict.shapes['decoration_scale'][shape_index]
+			var dec_rotation = dict.shapes['decoration_rotation'][shape_index]
+			var dec_name = dict.shapes['decoration_name'][shape_index]
+			#print(layout, ' shap
+			decoration_in_shape(place, dec_offset, dec_scale, dec_rotation, dec_name)
+			continue
+		if x[2].begins_with("TESTRAMP"):
+			for ii in range(dict.test.size()):
+				print('-- here ', dict.test[ii]['reference'])
+				if dict.test[ii]['reference'] == x[2].to_lower():
+					var t_place = shape_list[i][3]
+					var t_offset = dict.test[ii]['position']
+					var t_scale = Vector3.ZERO
+					var t_rotation = Vector3.ZERO
+					var t_name = x[2]
+					decoration_in_shape(t_place, t_offset, t_scale, t_rotation, t_name)
+					print('-- ', t_place, ' ', t_name)
+				pass 
 
 
 func decoration_in_shape(place, offset, scale, rotation, name):

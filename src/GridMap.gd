@@ -344,7 +344,12 @@ func setup_level_frame():
 							pass  
 					#print(len(dict.shapes['mesh']), ' len prison ', prison_num)
 					maze.add_shape(prison_num, Vector2(-1,-1), ii) ## <-- this is a prison shape!!
-			
+				if ii.begins_with('TESTRAMPS'):
+					var shape_num = 0 
+					maze.add_shape(shape_num, Vector2(-1,-1), ii) ## <-- this is a testramps shape!!
+
+					pass 
+		
 			#if not Global.do_nextlevel_transition:
 			maze.maze_generate(highest, e['mesh']) ## <-- after shapes
 
@@ -439,7 +444,6 @@ func setup_level_frame():
 						vec_placement.y =  sub_vec.y +  4
 						include.place_object(zz_hash, "RANDOM", 'MAZE', Global.level, vec_placement, sub_vec)
 					pass 
-
 			pass
 		if e['type'] == 'player':
 			#print('player handled by central_control!!')
