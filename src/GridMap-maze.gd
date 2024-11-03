@@ -329,10 +329,19 @@ func decoration_in_shape(place, offset, scale, rotation, name):
 		if not name[i].begins_with('TEST'):
 			place_object.call(gate_name, 'random', 'MAZE', 0, gate_place, gate_scale, gate_rot )
 		else:
-			var gate_off = Vector3(off.x , 0, off.y )
-			gate_place += Vector3(1 , 0, 1 )
-			gate_place *= 2 
-			gate_place.y = -2 ## temp setting 
+			#var t = Vector3(0, 0, 0) 
+			var aa = - index_to_vector(record_index)
+
+			var gate_off = Vector3(offset[i].x , 0, offset[i].y )
+			gate_place = Vector3(
+				(place.x  + aa.x) * hall_width, # + b.x, 
+				0, 
+				(place.y  + aa.y) * hall_width  #+ b.y 
+			)
+			#gate_place *=  2 
+			gate_place += Vector3(2 , 0, 2 )
+			gate_place.y = 0 #-2 ## temp setting 
+			print('-- ', gate_place, ' ', h_vector)
 			place_object.call('TESTRAMPS', 'random', 'MAZE', 0, gate_place, gate_off, Vector3.ZERO )
 
 	pass 

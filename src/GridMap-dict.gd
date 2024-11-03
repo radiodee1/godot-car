@@ -252,6 +252,15 @@ var test = [
 			'rotation': Vector3.ZERO,
 			'note': "ramp test offset."
 		},
+		{
+			'name': "test_a",
+			'reference': "prison_a",
+			'position': Vector2(1,3),
+			'scale': Vector3.ZERO,
+			'rotation': Vector3.ZERO,
+			'note': "ramp test offset."
+		},
+
 
 		{
 			'name': "test_c",

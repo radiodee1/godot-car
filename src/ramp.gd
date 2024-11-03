@@ -5,10 +5,10 @@ var mod_znum =  0.7
 
 
 var table = {
-		Vector2(1, 0): [deg_to_rad(270), Vector2(mod_xnum,0)],            # right wrong: 0 90 found 270  
-		Vector2(0,-1): [deg_to_rad(90),Vector2(0, - mod_znum + 0.3 ) ], # left wrong: 180 found 90 
-		Vector2(-1,0): [deg_to_rad(0), Vector2( - mod_xnum + 0.3 , 0)], # up-down: 0  
-		Vector2(0, 1): [deg_to_rad(180),  Vector2(0, mod_znum)]          # up-down 180 
+		Vector2(1, 0): [deg_to_rad(180), Vector2(mod_xnum,0)],            # right wrong:  270  0 90 
+		Vector2(0,-1): [deg_to_rad(0),   Vector2(0, - mod_znum  ) ], # left wrong:  90 180 270
+		Vector2(-1,0): [deg_to_rad(270), Vector2( - mod_xnum  , 0)], # up-down: wrong: 0 180  
+		Vector2(0, 1): [deg_to_rad(90),  Vector2(0, mod_znum)]          # up-down wrong: 180 0 
 	}
 
 
@@ -41,6 +41,12 @@ func init(v, map, location,  namex='RAMP', group='mob'):
 	self.collision_mask = 1
 	self.collision_layer = 1
 
+	#var ll = map[loc.x][loc.y]
+	#print('-- ll ', ll, ' loc ', loc)
+	#if ll != -1 or loc.x > len(map) or loc.y > len(map[0]):
+	#	print('-- bad ll ', ll )
+	#	return
+
 	if test_alone:
 		return
 	v *= 0.5 	
@@ -49,8 +55,8 @@ func init(v, map, location,  namex='RAMP', group='mob'):
 	var num = 0 
 	for i in table.keys():
 		num += 1 
-		var xx = map[loc.x + i.x][loc.y + i.y]
-		if xx == -1:
+		var xx = map[loc.x + i.x ][loc.y + i.y ]
+		if xx == -1 : #and ll == -1 :
 			var j = table[i][1]
 			var xmod = j.x 
 			var zmod = j.y  
@@ -58,7 +64,7 @@ func init(v, map, location,  namex='RAMP', group='mob'):
 			v.z += zmod
 			global_transform.origin = v 
 			rotate_y(table[i][0])
-			#print('zz num ', num, ' ', i, ' x ', xmod, ' z ', zmod) # FINETUNE RAMP PLACEMENT!!
+			print('-- zz ',  ' num ', num, ' ', i, ' x ', xmod, ' z ', zmod) # FINETUNE RAMP PLACEMENT!!
 			break
 		if num > 5:
 			break
