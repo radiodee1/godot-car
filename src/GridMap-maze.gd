@@ -292,12 +292,14 @@ func shapes_to_map_plus_decorate():
 			for ii in range(dict.test.size()):
 				print('-- here ', dict.test[ii]['reference'])
 				if dict.test[ii]['reference'] == x[2].to_lower():
-					var t_place = shape_list[i][3]
+					var t_place = shape_list[i][3] #+ place
 					var t_offset = dict.test[ii]['position']
 					var t_scale = Vector3.ZERO
 					var t_rotation = Vector3.ZERO
-					var t_name = x[2]
+					var t_name = dict.test[ii]['name'].to_upper() # x[2]
 					decoration_in_shape(t_place, [t_offset], [t_scale], [t_rotation], [t_name])
+					#place_object.call(t_name, 'random', 'MAZE', 0, t_place, t_scale, t_rotation )
+
 					print('-- ', t_place, ' ', t_name)
 				pass 
 
@@ -324,7 +326,15 @@ func decoration_in_shape(place, offset, scale, rotation, name):
 		var gate_scale = scale[i]
 		var gate_rot = rotation[i]
 		var gate_name = name[i].to_upper()
-		place_object.call(gate_name, 'random', 'MAZE', 0, gate_place, gate_scale, gate_rot )
+		if not name[i].begins_with('TEST'):
+			place_object.call(gate_name, 'random', 'MAZE', 0, gate_place, gate_scale, gate_rot )
+		else:
+			var gate_off = Vector3(off.x , 0, off.y )
+			gate_place += Vector3(1 , 0, 1 )
+			gate_place *= 2 
+			gate_place.y = -2 ## temp setting 
+			place_object.call('TESTRAMPS', 'random', 'MAZE', 0, gate_place, gate_off, Vector3.ZERO )
+
 	pass 
 
 func hallway_decorate():

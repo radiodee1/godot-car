@@ -509,7 +509,8 @@ func place_object(name, strategy, layer, frame_num, vector_high=Vector3(0,0,0), 
 			place_ramp(vector_high, maze.working_map, vector_back)
 			pass 
 		if name.begins_with("TESTRAMPS"):
-			place_ramp(vector_high, maze.working_map, Vector3.ZERO)
+			print('-- vector_back ', vector_back)
+			place_ramp(vector_high, maze.working_map, vector_back)
 			pass 
 	pass
 
