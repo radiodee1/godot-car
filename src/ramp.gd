@@ -5,10 +5,10 @@ var mod_znum =  0.7
 
 
 var table = {
-		Vector2(1, 0): [deg_to_rad(270), Vector2(mod_xnum,0)],            # right wrong:  270  0 90 
+		Vector2(1, 0): [deg_to_rad(90), Vector2(mod_xnum,0)],            # right wrong:  270  0 90 
 		Vector2(0,-1): [deg_to_rad(90),   Vector2(0, - mod_znum  ) ], # left wrong:  90 180 270
-		Vector2(-1,0): [deg_to_rad(0), Vector2( - mod_xnum  , 0)], # up-down: wrong: 0 180  
-		Vector2(0, 1): [deg_to_rad(180),  Vector2(0, mod_znum)]          # up-down wrong: 180 0 
+		Vector2(-1,0): [deg_to_rad(90), Vector2( - mod_xnum  , 0)], # up-down: wrong: 0 180  
+		Vector2(0, 1): [deg_to_rad(90),  Vector2(0, mod_znum)]          # up-down wrong: 180 0 
 	}
 
 

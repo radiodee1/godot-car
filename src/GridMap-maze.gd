@@ -305,21 +305,17 @@ func shapes_to_map_plus_decorate():
 
 
 func decoration_in_shape(place, offset, scale, rotation, name):
-	var vec = Vector2.ZERO #  *  working_map.size() # / - hall_width 
-	var j = Vector3.ZERO # - map_start / hall_width # Vector3.ZERO  
-	var h =  Vector2.ZERO # * 2 - Vector2.ONE * working_map.size()
 	var a = - index_to_vector(record_index) * hall_width 
 	var b =  h_vector 
-	var c = Vector2.ZERO # - find_map()  # - Vector2.ONE * finished_map.size()
 	if len(offset) != len(scale) or len(scale) != len(rotation):
 		print('bad shape dict values!!')
 		return
 	for i in range(len(offset)):
 		var off =   offset[i] + place # * 2 # Vector2(place.y, place.x)
 		var gate_place = Vector3( 
-			(off.x + j.x + vec.x + h.x) * hall_width + a.x + b.x + c.x,  
+			(off.x  ) * hall_width + a.x + b.x ,  
 			-3,  
-			(off.y + j.z + vec.y + h.y) * hall_width + a.y + b.z + c.y 
+			(off.y  ) * hall_width + a.y + b.z  
 		)   
 		gate_place.y =  -5
 		gate_place = gate_place * 0.5 # + Vector3(0.25, 0.25, 0.25)
@@ -329,9 +325,8 @@ func decoration_in_shape(place, offset, scale, rotation, name):
 		if not name[i].begins_with('TEST'):
 			place_object.call(gate_name, 'random', 'MAZE', 0, gate_place, gate_scale, gate_rot )
 		else:
-			#var t = Vector3(0, 0, 0) 
 			var map_location = find_map() 
-			var aa = - index_to_vector(record_index) #- map_location
+			var aa = - index_to_vector(record_index) # + Vector2.ONE
 			var gate_off = Vector3(offset[i].x + place.x , 0, offset[i].y + place.y ) 
 			gate_place = Vector3(
 				aa.x  * hall_width, #- map_location.x, # + b.x, 
@@ -339,14 +334,14 @@ func decoration_in_shape(place, offset, scale, rotation, name):
 				aa.y  * hall_width #- map_location.y #+ b.y 
 			) + gate_off  * hall_width 
 			#gate_place *=  0.5  
-			gate_place += Vector3(hall_width , 0, hall_width )
-			gate_off += Vector3(1,0,1)
+			#gate_place += Vector3(hall_width , 0, hall_width )
+			#gate_off += Vector3(1,0,1)
 			gate_place.y = 0 #-2 ## temp setting 
-			var calc = index_to_vector( vector_to_index( Vector2(gate_place.x, gate_place.z) / hall_width ))
-			var gate_calc = Vector3(calc.x, 0, calc.y)
+			var calc =   offset[i] + place #index_to_vector( vector_to_index( Vector2(gate_place.x, gate_place.z)/ hall_width  ))
+			var gate_calc = Vector3(calc.x, 0, calc.y)  
 			#var gate_loc = gate_off + Vector3(2,0,2)
-			print('-- ', gate_place, ' ', h_vector, ' ', record_index, ' calc:', gate_off, ' ', map_location)
-			place_object.call('TESTRAMPS', 'random', 'MAZE', 0, gate_place, gate_off, Vector3.ZERO )
+			print('-- ', gate_place, ' ', hall_width, ' ', record_index, ' calc:', gate_off, ' ', gate_calc, ' ', aa, ' ', map_location / hall_width  )
+			place_object.call('TESTRAMPS', 'random', 'MAZE', 0, gate_place, gate_calc, Vector3.ZERO )
 
 	pass 
 

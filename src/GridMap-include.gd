@@ -514,7 +514,7 @@ func place_object(name, strategy, layer, frame_num, vector_high=Vector3(0,0,0), 
 			pass 
 		if name.begins_with("TESTRAMPS"):
 			print('-- vector_back ', vector_back,' ', maze.working_map[vector_back.x][vector_back.z] )
-			if maze.working_map[vector_back.x][vector_back.z] != -1 and false :
+			if maze.working_map[vector_back.x][vector_back.z] > -1  :
 				print('-- vector_back bad content ', vector_back)
 				return
 			place_ramp(vector_high, maze.working_map, vector_back)
