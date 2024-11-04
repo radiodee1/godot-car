@@ -330,19 +330,22 @@ func decoration_in_shape(place, offset, scale, rotation, name):
 			place_object.call(gate_name, 'random', 'MAZE', 0, gate_place, gate_scale, gate_rot )
 		else:
 			#var t = Vector3(0, 0, 0) 
-			var aa = - index_to_vector(record_index)
-
-			var gate_off = Vector3(offset[i].x , 0, offset[i].y )
+			var map_location = find_map() 
+			var aa =  index_to_vector(record_index) #- map_location
+			var gate_off = Vector3(offset[i].x + place.x , 0, offset[i].y + place.y )
 			gate_place = Vector3(
-				(place.x  + aa.x) * hall_width, # + b.x, 
+				aa.x  * hall_width - map_location.x, # + b.x, 
 				0, 
-				(place.y  + aa.y) * hall_width  #+ b.y 
-			)
+				aa.y  * hall_width - map_location.y #+ b.y 
+			) #+ gate_off * hall_width 
 			#gate_place *=  2 
 			gate_place += Vector3(2 , 0, 2 )
 			gate_place.y = 0 #-2 ## temp setting 
-			print('-- ', gate_place, ' ', h_vector)
-			place_object.call('TESTRAMPS', 'random', 'MAZE', 0, gate_place, gate_off, Vector3.ZERO )
+			var calc = index_to_vector( vector_to_index( Vector2(gate_place.x, gate_place.z) ))
+			var gate_calc = Vector3(calc.x, 0, calc.y)
+			#var gate_loc = gate_off + Vector3(2,0,2)
+			print('-- ', gate_place, ' ', h_vector, ' ', record_index, ' calc:', gate_calc, ' ', map_location)
+			place_object.call('TESTRAMPS', 'random', 'MAZE', 0, gate_place, gate_calc, Vector3.ZERO )
 
 	pass 
 
