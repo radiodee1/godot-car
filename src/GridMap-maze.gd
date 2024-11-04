@@ -297,14 +297,15 @@ func shapes_to_map_plus_decorate():
 					var t_scale = Vector3.ZERO
 					var t_rotation = Vector3.ZERO
 					var t_name = dict.test[ii]['name'].to_upper() # x[2]
-					decoration_in_shape(t_place, [t_offset], [t_scale], [t_rotation], [t_name])
+					var t_extra = dict.test[ii]['extra']
+					decoration_in_shape(t_place, [t_offset], [t_scale], [t_rotation], [t_name], [t_extra])
 					#place_object.call(t_name, 'random', 'MAZE', 0, t_place, t_scale, t_rotation )
 
 					print('-- ', t_place, ' ', t_name)
 				pass 
 
 
-func decoration_in_shape(place, offset, scale, rotation, name):
+func decoration_in_shape(place, offset, scale, rotation, name, extra=Vector2.ZERO):
 	var a = - index_to_vector(record_index) * hall_width 
 	var b =  h_vector 
 	if len(offset) != len(scale) or len(scale) != len(rotation):
@@ -325,22 +326,20 @@ func decoration_in_shape(place, offset, scale, rotation, name):
 		if not name[i].begins_with('TEST'):
 			place_object.call(gate_name, 'random', 'MAZE', 0, gate_place, gate_scale, gate_rot )
 		else:
-			var map_location = find_map() 
+			var vsize = extra[i]
 			var aa = - index_to_vector(record_index) # + Vector2.ONE
 			var gate_off = Vector3(offset[i].x + place.x , 0, offset[i].y + place.y ) 
 			gate_place = Vector3(
 				aa.x  * hall_width, #- map_location.x, # + b.x, 
 				0, 
 				aa.y  * hall_width #- map_location.y #+ b.y 
-			) + gate_off  * hall_width 
-			#gate_place *=  0.5  
-			#gate_place += Vector3(hall_width , 0, hall_width )
-			#gate_off += Vector3(1,0,1)
+			) + gate_off  * hall_width
+			gate_place += Vector3(2 , 0 , 2 )
+			var ramp_off = Vector2(vsize.y - offset[i].y, vsize.x - offset[i].x)
 			gate_place.y = 0 #-2 ## temp setting 
-			var calc =   offset[i] + place #index_to_vector( vector_to_index( Vector2(gate_place.x, gate_place.z)/ hall_width  ))
+			var calc =   ramp_off + place 
 			var gate_calc = Vector3(calc.x, 0, calc.y)  
-			#var gate_loc = gate_off + Vector3(2,0,2)
-			print('-- ', gate_place, ' ', hall_width, ' ', record_index, ' calc:', gate_off, ' ', gate_calc, ' ', aa, ' ', map_location / hall_width  )
+			#print('-- ', gate_place, ' ', hall_width, ' ', record_index, ' calc:', gate_off, ' ', gate_calc, ' ', aa, ' ', map_location / hall_width  )
 			place_object.call('TESTRAMPS', 'random', 'MAZE', 0, gate_place, gate_calc, Vector3.ZERO )
 
 	pass 
@@ -397,20 +396,24 @@ func make_2d_grid(width, height, fill_with=0):
 			pass
 	return matrix
 	
-func show_2d_grid(matrix, advance = false, line_size=3, show_hidden=false, show_mesh=false):
+func show_2d_grid(matrix, advance = false, line_size=3, show_hidden=false, show_mesh=false, depth=35, specialvec=Vector2.ZERO):
 	if not advance:
 		for h in matrix:
 			print(h)
 	else:
 		var line = "|"
 		for h in range(matrix.size()):
+			if depth != -1 and h > depth:
+				break
 			line += "-----".substr(0, line_size)
 		line += "|"
 		print(line)	
 		for h in range(matrix.size()):
 			line = "|"
 			for j in range(matrix[h].size()):
-				if matrix[h][j] == SPOT:
+				if depth != -1 and j > depth:
+					break 
+				if matrix[h][j] == SPOT or h == specialvec.x and j == specialvec.y:
 					var line_spot = ' X  '.substr(0, line_size)
 					#var line_spot = ' ' + PRINTOUT_SYMBOL + ' '
 					#var line_spot_mod = line_spot.substr(0, line_size)
@@ -440,6 +443,8 @@ func show_2d_grid(matrix, advance = false, line_size=3, show_hidden=false, show_
 			print(line)
 		line = "|"
 		for h in range(matrix.size()):
+			if depth != -1 and h > depth:
+				break
 			line += "-----".substr(0, line_size)
 		line += "|"
 		print(line)			

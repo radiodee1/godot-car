@@ -513,11 +513,13 @@ func place_object(name, strategy, layer, frame_num, vector_high=Vector3(0,0,0), 
 			place_ramp(vector_high, maze.working_map, vector_back)
 			pass 
 		if name.begins_with("TESTRAMPS"):
-			print('-- vector_back ', vector_back,' ', maze.working_map[vector_back.x][vector_back.z] )
-			if maze.working_map[vector_back.x][vector_back.z] > -1  :
+			#print('-- vector_back ', vector_back,' ', maze.working_map[vector_back.x][vector_back.z] )
+			if maze.working_map[vector_back.x][vector_back.z] != -1  :
 				print('-- vector_back bad content ', vector_back)
-				return
+				#return
 			place_ramp(vector_high, maze.working_map, vector_back)
+			#maze.show_2d_grid(maze.working_map, true, 3, false, false, 38, Vector2(vector_back.x, vector_back.z))
+
 			pass 
 	pass
 
