@@ -338,7 +338,7 @@ func decoration_in_shape(place, offset, scale, rotation, name, extra=Vector2.ZER
 				aa.y  * hall_width #- map_location.y #+ b.y 
 			) + gate_off  * hall_width
 			gate_place += Vector3(2 , 0 , 2 )
-			var ramp_off =  Vector2(vsize.x - offset[i].x , vsize.y - offset[i].y)
+			var ramp_off =  Vector2(vsize.x - offset[i].x ,  offset[i].y)
 			#var ramp_off = Vector2( offset[i].x,  offset[i].y)
 			gate_place.y = 0 #-2 ## temp setting 
 			var calc =   ramp_off + place 
@@ -417,7 +417,7 @@ func show_2d_grid(matrix, advance = false, line_size=3, show_hidden=false, show_
 			for j in range(matrix[h].size()):
 				if depth != -1 and j > depth:
 					break 
-				if matrix[h][j] == SPOT or h == specialvec.x and j == specialvec.y:
+				if matrix[h][j] == SPOT or (h == specialvec.x and j == specialvec.y):
 					var line_spot = ' X  '.substr(0, line_size)
 					#var line_spot = ' ' + PRINTOUT_SYMBOL + ' '
 					#var line_spot_mod = line_spot.substr(0, line_size)
