@@ -290,7 +290,10 @@ func shapes_to_map_plus_decorate():
 			decoration_in_shape(place, dec_offset, dec_scale, dec_rotation, dec_name)
 
 			for ii in range(dict.test.size()):
-				print('-- here ', dict.test[ii]['reference'])
+				#print('-- here ', dict.test[ii]['reference'])
+				if ii != 2:
+					#continue
+					pass
 				if dict.test[ii]['reference'] == x[2].to_lower():
 					var t_place = shape_list[i][3] #+ place
 					var t_offset = dict.test[ii]['position']
@@ -301,7 +304,7 @@ func shapes_to_map_plus_decorate():
 					decoration_in_shape(t_place, [t_offset], [t_scale], [t_rotation], [t_name], [t_extra])
 					#place_object.call(t_name, 'random', 'MAZE', 0, t_place, t_scale, t_rotation )
 
-					print('-- ', t_place, ' ', t_name)
+					print('-- v ', t_place, ' ', t_name,' ', ii)
 				pass 
 
 
@@ -335,11 +338,12 @@ func decoration_in_shape(place, offset, scale, rotation, name, extra=Vector2.ZER
 				aa.y  * hall_width #- map_location.y #+ b.y 
 			) + gate_off  * hall_width
 			gate_place += Vector3(2 , 0 , 2 )
-			var ramp_off = Vector2(vsize.y - offset[i].y, vsize.x - offset[i].x)
+			var ramp_off =  Vector2(vsize.x - offset[i].x , vsize.y - offset[i].y)
+			#var ramp_off = Vector2( offset[i].x,  offset[i].y)
 			gate_place.y = 0 #-2 ## temp setting 
 			var calc =   ramp_off + place 
 			var gate_calc = Vector3(calc.x, 0, calc.y)  
-			#print('-- ', gate_place, ' ', hall_width, ' ', record_index, ' calc:', gate_off, ' ', gate_calc, ' ', aa, ' ', map_location / hall_width  )
+			print('-- v offset', offset[i], ' ', ramp_off )
 			place_object.call('TESTRAMPS', 'random', 'MAZE', 0, gate_place, gate_calc, Vector3.ZERO )
 
 	pass 

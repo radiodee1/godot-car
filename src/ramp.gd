@@ -5,10 +5,10 @@ var mod_znum =  0.7
 
 
 var table = {
-		Vector2(1, 0): [deg_to_rad(90), Vector2(mod_xnum,0)],            # right wrong:   
-		Vector2(0,-1): [deg_to_rad(180),   Vector2(0, - mod_znum  ) ], # left wrong:  
-		Vector2(-1,0): [deg_to_rad(180), Vector2( - mod_xnum  , 0)], # up-down: wrong: 
-		Vector2(0, 1): [deg_to_rad(90),  Vector2(0, mod_znum)]          # up-down wrong: 
+		Vector2(1, 0): [deg_to_rad(90), Vector2(mod_xnum,0)],            #left#1  wrong:  correct: 90 !!! 
+		Vector2(0,-1): [deg_to_rad(270),   Vector2(0, - mod_znum  ) ], # right#0 wrong: 90 
+		Vector2(-1,0): [deg_to_rad(90), Vector2( - mod_xnum  , 0)], # :  wrong: 180
+		Vector2(0, 1): [deg_to_rad(90),  Vector2(0, mod_znum)]          #  wrong: 
 	}
 
 
@@ -64,7 +64,7 @@ func init(v, map, location,  namex='RAMP', group='mob'):
 			v.z += zmod
 			global_transform.origin = v 
 			rotate_y(table[i][0])
-			print('-- zz ',  ' num ', num, ' ', i, ' x ', xmod, ' z ', zmod) # FINETUNE RAMP PLACEMENT!!
+			print('-- v | ',  ' num ', num, ' ', i, ' x ', xmod, ' z ', zmod, ' ', map[loc.x][loc.y]) # FINETUNE RAMP PLACEMENT!!
 			break
 		if num > 5:
 			break
