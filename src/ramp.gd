@@ -2,8 +2,7 @@ extends StaticBody3D
 
 var mod_xnum =  0.7 
 var mod_znum =  0.7
-
-var floor_num = 4 
+ 
 
 var table = {
 		Vector2(1, 0): [deg_to_rad(90), Vector2(mod_xnum,0)],            #left#1  wrong:90  correct: !!! 
@@ -26,7 +25,7 @@ func _ready():
 func _process(delta):
 	pass
 
-func init(v, map, location,  namex='RAMP', group='mob'):
+func init(v, map, location,  namex='RAMP', group='mob', floor_num=-1):
 	var scale_local = 1 
 	v.y += -3.45
 	 
