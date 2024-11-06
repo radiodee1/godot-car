@@ -338,7 +338,7 @@ func decoration_in_shape(place, offset, scale, rotation, name, extra=Vector2.ZER
 				aa.y  * hall_width #- map_location.y #+ b.y 
 			) + gate_off  * hall_width
 			gate_place += Vector3(2 , 0 , 2 )
-			var ramp_off =  Vector2(   vsize.x - offset[i].x ,   offset[i].y ) #+ Vector2(0 ,0)
+			var ramp_off =  Vector2(    offset[i].x ,   offset[i].y ) #+ Vector2(0 ,0)
 			#var ramp_off = Vector2( vsize.y - offset[i].x ,   offset[i].y )
 			gate_place.y = 0 #-2 ## temp setting 
 			var calc =   ramp_off + place 
@@ -438,7 +438,7 @@ func show_2d_grid(matrix, advance = false, line_size=3, show_hidden=false, show_
 				else :
 					#var jj = (j / hall_width)
 					#var hh = (h / hall_width)
-					var w = matrix[h][j] -  MAZE_BASE
+					var w = matrix[h][j] #-  MAZE_BASE
 					var vec = Vector3(0,0,0)
 					
 					var line_temp = str( w ) + "   "

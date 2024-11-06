@@ -3,12 +3,13 @@ extends StaticBody3D
 var mod_xnum =  0.7 
 var mod_znum =  0.7
 
+var floor_num = 4 
 
 var table = {
-		Vector2(1, 0): [deg_to_rad(0), Vector2(mod_xnum,0)],            #left#1  wrong:90  correct: !!! 
-		Vector2(0,-1): [deg_to_rad(90),   Vector2(0, - mod_znum  ) ], # right#0 wrong:  270
-		Vector2(-1,0): [deg_to_rad(180), Vector2( - mod_xnum  , 0)], # :  wrong: 0 
-		Vector2(0, 1): [deg_to_rad(270),  Vector2(0, mod_znum)]          #pair  wrong: 0 correct: 270
+		Vector2(1, 0): [deg_to_rad(90), Vector2(mod_xnum,0)],            #left#1  wrong:90  correct: !!! 
+		Vector2(0,-1): [deg_to_rad(180),   Vector2(0, - mod_znum  ) ], # right#0 wrong:  270
+		Vector2(-1,0): [deg_to_rad(270), Vector2( - mod_xnum  , 0)], # :  wrong: 0 
+		Vector2(0, 1): [deg_to_rad(0),  Vector2(0, mod_znum)]          #pair  wrong: 0 correct: 270
 	}
 
 
@@ -41,12 +42,6 @@ func init(v, map, location,  namex='RAMP', group='mob'):
 	self.collision_mask = 1
 	self.collision_layer = 1
 
-	#var ll = map[loc.x][loc.y]
-	#print('-- ll ', ll, ' loc ', loc)
-	#if ll != -1 or loc.x > len(map) or loc.y > len(map[0]):
-	#	print('-- bad ll ', ll )
-	#	return
-
 	if test_alone:
 		return
 	v *= 0.5 	
@@ -56,7 +51,7 @@ func init(v, map, location,  namex='RAMP', group='mob'):
 	for i in table.keys():
 		num += 1 
 		var xx = map[loc.x + i.x ][loc.y + i.y ]
-		if xx == -1 : #and ll == -1 :
+		if xx == floor_num : #and ll == -1 :
 			var j = table[i][1]
 			var xmod = j.x 
 			var zmod = j.y  

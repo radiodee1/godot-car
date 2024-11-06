@@ -506,10 +506,6 @@ func place_object(name, strategy, layer, frame_num, vector_high=Vector3(0,0,0), 
 			print('shape decoration placed')
 			return
 		if name.begins_with("RAMP"):
-			if maze.working_map[vector_back.x][vector_back.z] != -1:
-				print('-- vector_back bad ramp content ', vector_back)
-				return
-
 			place_ramp(vector_high, maze.working_map, vector_back)
 			pass 
 		if name.begins_with("TESTRAMPS"):
@@ -518,7 +514,7 @@ func place_object(name, strategy, layer, frame_num, vector_high=Vector3(0,0,0), 
 				print('-- vector_back bad content ', vector_back)
 				#return
 			place_ramp(vector_high, maze.working_map, vector_back)
-			maze.show_2d_grid(maze.working_map, true, 3, false, false, 38, Vector2(vector_back.x, vector_back.z))
+			maze.show_2d_grid(maze.working_map, true, 3, false, true, 38, Vector2(vector_back.x, vector_back.z))
 
 			pass 
 	pass
