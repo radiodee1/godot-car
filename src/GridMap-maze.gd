@@ -338,8 +338,8 @@ func decoration_in_shape(place, offset, scale, rotation, name, extra=Vector2.ZER
 				aa.y  * hall_width #- map_location.y #+ b.y 
 			) + gate_off  * hall_width
 			gate_place += Vector3(2 , 0 , 2 )
-			var ramp_off =  Vector2(vsize.x - offset[i].x ,  offset[i].y)
-			#var ramp_off = Vector2( offset[i].x,  offset[i].y)
+			var ramp_off =  Vector2(   vsize.x - offset[i].x ,   offset[i].y ) #+ Vector2(0 ,0)
+			#var ramp_off = Vector2( vsize.y - offset[i].x ,   offset[i].y )
 			gate_place.y = 0 #-2 ## temp setting 
 			var calc =   ramp_off + place 
 			var gate_calc = Vector3(calc.x, 0, calc.y)  

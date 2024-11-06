@@ -234,7 +234,7 @@ var test = [
 			'position': Vector2(0,2), # 0,2 to 2,2 
 			'scale': Vector3.ZERO,
 			'rotation': Vector3.ZERO,
-			'extra': Vector2(3,2), ## 4,3
+			'extra': Vector2(2,0), ## 4,3
 			'note': "ramp test offset."
 		},
 		{
@@ -243,7 +243,7 @@ var test = [
 			'position': Vector2(2,1), # 2,1 to 0,1 
 			'scale': Vector3.ZERO,
 			'rotation': Vector3.ZERO,
-			'extra': Vector2(3,2),
+			'extra': Vector2(2,0),
 			'note': "ramp test offset."
 		},
 		{
@@ -252,7 +252,7 @@ var test = [
 			'position': Vector2(0,0), # 0,0 to 2,0 
 			'scale': Vector3.ZERO,
 			'rotation': Vector3.ZERO,
-			'extra': Vector2(3,2),
+			'extra': Vector2(2,0),
 			'note': "ramp test offset."
 		},
 		{
@@ -261,7 +261,7 @@ var test = [
 			'position': Vector2(1,3), ## 1,3 to 1,4 
 			'scale': Vector3.ZERO,
 			'rotation': Vector3.ZERO,
-			'extra': Vector2(3,2),
+			'extra': Vector2(2,0),
 			'note': "ramp test offset."
 		},
 
