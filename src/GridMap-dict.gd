@@ -231,37 +231,37 @@ var test = [
 		{
 			'name' : "test_a",
 			'reference': "prison_a",
-			'position': Vector2(0,2), # 0,2 to 2,2 
+			'position': Vector2(0,2), 
 			'scale': Vector3.ZERO,
 			'rotation': Vector3.ZERO,
-			'extra': Vector2(2,0), ## 4,3
+			'extra': Vector2.ZERO, 
 			'note': "ramp test offset."
 		},
 		{
 			'name': "test_a",
 			'reference': "prison_a",
-			'position': Vector2(2,1), # 2,1 to 0,1 
+			'position': Vector2(2,1), 
 			'scale': Vector3.ZERO,
 			'rotation': Vector3.ZERO,
-			'extra': Vector2(2,0),
+			'extra': Vector2.ZERO,
 			'note': "ramp test offset."
 		},
 		{
 			'name': "test_a",
 			'reference': "prison_a",
-			'position': Vector2(0,0), # 0,0 to 2,0 
+			'position': Vector2(0,0), 
 			'scale': Vector3.ZERO,
 			'rotation': Vector3.ZERO,
-			'extra': Vector2(2,0),
+			'extra': Vector2.ZERO,
 			'note': "ramp test offset."
 		},
 		{
 			'name': "test_a",
 			'reference': "prison_a",
-			'position': Vector2(1,3), ## 1,3 to 1,4 
+			'position': Vector2(1,3), 
 			'scale': Vector3.ZERO,
 			'rotation': Vector3.ZERO,
-			'extra': Vector2(2,0),
+			'extra': Vector2.ZERO,
 			'note': "ramp test offset."
 		},
 
