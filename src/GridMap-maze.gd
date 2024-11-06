@@ -304,7 +304,6 @@ func shapes_to_map_plus_decorate():
 					decoration_in_shape(t_place, [t_offset], [t_scale], [t_rotation], [t_name], [t_extra])
 					#place_object.call(t_name, 'random', 'MAZE', 0, t_place, t_scale, t_rotation )
 
-					print('-- v ', t_place, ' ', t_name,' ', ii)
 				pass 
 
 
@@ -315,14 +314,14 @@ func decoration_in_shape(place, offset, scale, rotation, name, extra=Vector2.ZER
 		print('bad shape dict values!!')
 		return
 	for i in range(len(offset)):
-		var off =   offset[i] + place # * 2 # Vector2(place.y, place.x)
+		var off =   offset[i] + place 
 		var gate_place = Vector3( 
 			(off.x  ) * hall_width + a.x + b.x ,  
 			-3,  
 			(off.y  ) * hall_width + a.y + b.z  
 		)   
 		gate_place.y =  -5
-		gate_place = gate_place * 0.5 # + Vector3(0.25, 0.25, 0.25)
+		gate_place = gate_place * 0.5 
 		var gate_scale = scale[i]
 		var gate_rot = rotation[i]
 		var gate_name = name[i].to_upper()
@@ -330,21 +329,19 @@ func decoration_in_shape(place, offset, scale, rotation, name, extra=Vector2.ZER
 			place_object.call(gate_name, 'random', 'MAZE', 0, gate_place, gate_scale, gate_rot )
 		else:
 			#var vsize = extra[i]
-			var aa = - index_to_vector(record_index) # + Vector2.ONE
-			var gate_off = Vector3(offset[i].x + place.x , 0, offset[i].y + place.y ) 
-			gate_place = Vector3(
-				aa.x  * hall_width, #- map_location.x, # + b.x, 
+			var aa = - index_to_vector(record_index) 
+			var ramp_off = Vector3(offset[i].x + place.x , 0, offset[i].y + place.y ) 
+			var ramp_place = Vector3(
+				aa.x  * hall_width, 
 				0, 
-				aa.y  * hall_width #- map_location.y #+ b.y 
-			) + gate_off  * hall_width
-			gate_place += Vector3(2 , 0 , 2 )
-			var ramp_off =  Vector2(    offset[i].x ,   offset[i].y ) #+ Vector2(0 ,0)
-			#var ramp_off = Vector2( vsize.y - offset[i].x ,   offset[i].y )
-			gate_place.y = 0 #-2 ## temp setting 
-			var calc =   ramp_off + place 
-			var gate_calc = Vector3(calc.x, 0, calc.y)  
-			print('-- v offset', offset[i], ' ', ramp_off )
-			place_object.call('TESTRAMPS', 'random', 'MAZE', 0, gate_place, gate_calc, Vector3.ZERO )
+				aa.y  * hall_width 
+			) + ramp_off  * hall_width
+			ramp_place += Vector3(2 , 0 , 2 )
+			var ramp_offset =  Vector2(    offset[i].x ,   offset[i].y ) #+ Vector2(0 ,0)
+			ramp_place.y = -2  
+			var calc =   ramp_offset + place 
+			var ramp_calc = Vector3(calc.x, 0, calc.y)  
+			place_object.call('TESTRAMPS', 'random', 'MAZE', 0, ramp_place, ramp_calc, Vector3.ZERO )
 
 	pass 
 

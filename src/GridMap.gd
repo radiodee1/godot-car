@@ -236,14 +236,15 @@ func place_gators(num = 5):
 	
 func restart_terrain():
 	var num = 0 
-	var pre_start = 0 
+	#var pre_start = 0 
+	var end_num = 200 
 
 	if Global.first_run == 0 or Global.level > 0:
 		include.clear_placed()
 		Global.clear_list_data()
 		Global.clear_maze_data()
-	#print(Global.count_list_items(Global.placed_items, "NEXTLEVEL"), ' NEXTLEVEL')
-	while num < 110 and Global.count_list_items(Global.placed_items, "NEXTLEVEL") < 1:
+	
+	while num < end_num + 10 and Global.count_list_items(Global.placed_items, "NEXTLEVEL") < 1:
 			
 		if Global.first_run == 0 or Global.level > 0:  ## <-- level 0 is set and populated by _ready()
 			include.remove_altar()
@@ -258,7 +259,7 @@ func restart_terrain():
 		
 		num += 1
 		
-		if num >= 100:
+		if num >= end_num:
 			print("NO RANDOMIZED NEXTLEVEL ITEM")
 			get_tree().quit()
 

@@ -58,7 +58,7 @@ func init(v, map, location,  namex='RAMP', group='mob', floor_num=-1):
 			v.z += zmod
 			global_transform.origin = v 
 			rotate_y(table[i][0])
-			print('-- v | ',  ' num ', num, ' ', i, ' x ', xmod, ' z ', zmod, ' ', map[loc.x][loc.y], ' ', loc) # FINETUNE RAMP PLACEMENT!!
+			#print('-- v | ',  ' num ', num, ' ', i, ' x ', xmod, ' z ', zmod, ' ', map[loc.x][loc.y], ' ', loc) # FINETUNE RAMP PLACEMENT!!
 			break
 		if num > 5:
 			break
