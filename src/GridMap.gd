@@ -310,7 +310,7 @@ func setup_level_frame():
 			#include.place_rubble(highest)
 			for ii in e['includes']:
 				if ii != 'GATORS' and not ii.begins_with("GATE_TEST"):
-					include.place_object(ii, 'RANDOM', 'HILL', Global.level, highest, lowest)
+					include.place_object(ii, 'RANDOM', 'HILL', Global.level, highest, lowest) # ALTAR, etc.
 				elif ii == 'GATORS':
 					#print('GATORS')
 					place_gators(4)
