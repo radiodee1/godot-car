@@ -298,10 +298,12 @@ func shapes_to_map_plus_decorate():
 					var t_rotation = Vector3.ZERO
 					var t_name = dict.test[ii]['name'].to_upper() # x[2]
 					var t_extra = dict.test[ii]['extra']
-					decoration_in_shape(t_place, [t_offset], [t_scale], [t_rotation], [t_name], [t_extra])
-					#place_object.call(t_name, 'random', 'MAZE', 0, t_place, t_scale, t_rotation )
-
-				pass 
+					for j in range(shape_list.size()):
+						#print('-- shape_list ', t_name, ' ', x[2], ' ', shape_list[j][2])
+						if t_name == shape_list[j][2].to_upper():
+							#print('-- decoration_in_shape ', t_name, ' ', place, ' ', t_place)
+							decoration_in_shape(t_place, [t_offset], [t_scale], [t_rotation], [t_name], [t_extra])
+							break
 
 
 func decoration_in_shape(place, offset, scale, rotation, name, extra=Vector2.ZERO):

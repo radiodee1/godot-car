@@ -14,7 +14,7 @@ var game = {
 					'y': 0,
 					'z': 0,
 					'mesh': 4, ## 2
-					'includes': ['ALTAR', 'GATORS'  , 'HILL' , 'CAR']
+					'includes': ['ALTAR', 'GATORS' ] ## , 'HILL' , 'CAR']
 				},
 				{
 					'type': 'maze',
@@ -27,7 +27,7 @@ var game = {
 					'mesh': 1,
 					'endpoints': 3 , #10,
 					'multiplier': - 1,
-					'includes': [ 'KEY', 'NEXTLEVEL', 'KEY', 'PRISON_A', 'PATROL' , 'RAMPS' ] #, 'TESTRAMPS_A' ] 
+					'includes': [ 'KEY', 'NEXTLEVEL', 'KEY', 'PRISON_A', 'PATROL' , 'RAMPS' , 'TESTRAMPS_A' ] 
 				},
 				{
 					'type': 'player',
@@ -229,7 +229,7 @@ var shapes = {
 
 var test = [
 		{
-			'name' : "test_a",
+			'name' : "testramps_a",
 			'reference': "prison_a",
 			'position': Vector2(0,2), 
 			'scale': Vector3.ZERO,
@@ -238,7 +238,7 @@ var test = [
 			'note': "ramp test offset."
 		},
 		{
-			'name': "test_a",
+			'name': "testramps_a",
 			'reference': "prison_a",
 			'position': Vector2(2,1), 
 			'scale': Vector3.ZERO,
@@ -247,7 +247,7 @@ var test = [
 			'note': "ramp test offset."
 		},
 		{
-			'name': "test_a",
+			'name': "testramps_a",
 			'reference': "prison_a",
 			'position': Vector2(0,0), 
 			'scale': Vector3.ZERO,
@@ -256,7 +256,7 @@ var test = [
 			'note': "ramp test offset."
 		},
 		{
-			'name': "test_a",
+			'name': "testramps_a",
 			'reference': "prison_a",
 			'position': Vector2(1,3), 
 			'scale': Vector3.ZERO,
@@ -267,7 +267,7 @@ var test = [
 
 
 		{
-			'name': "test_c",
+			'name': "testramps_c",
 			'reference': "prison_c",
 			'position': Vector2(1,1),
 			'scale': Vector3.ZERO,
@@ -276,7 +276,7 @@ var test = [
 			'note': "ramp test offset, different relation."
 		},
 		{
-			'name': "test_c",
+			'name': "testramps_c",
 			'reference': "prison_c",
 			'position': Vector2(0,0),
 			'scale': Vector3.ZERO,
