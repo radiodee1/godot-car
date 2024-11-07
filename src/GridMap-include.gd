@@ -458,6 +458,9 @@ func place_object(name, strategy, layer, frame_num, vector_high=Vector3(0,0,0), 
 			hhh.y = - 4.5
 			hhh.z += 2.5
 			place_landing_spot(hhh)
+
+			#hh.y = -4.5
+			#place_landing_spot(hh)
 			#print(hh, " altar here.")
 			pass
 		if name == 'TRAPDOOR':

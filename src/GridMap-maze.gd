@@ -291,9 +291,6 @@ func shapes_to_map_plus_decorate():
 
 			for ii in range(dict.test.size()):
 				#print('-- here ', dict.test[ii]['reference'])
-				if ii != 2:
-					#continue
-					pass
 				if dict.test[ii]['reference'] == x[2].to_lower():
 					var t_place = shape_list[i][3] #+ place
 					var t_offset = dict.test[ii]['position']
