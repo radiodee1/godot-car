@@ -14,7 +14,7 @@ var game = {
 					'y': 0,
 					'z': 0,
 					'mesh': 4, ## 2
-					'includes': ['ALTAR', 'GATORS'  , 'HILL' , 'CAR']
+					'includes': ['ALTAR', 'GATORS'  , 'HILL' , 'CAR', 'HOUSE']
 				},
 				{
 					'type': 'maze',
@@ -50,7 +50,7 @@ var game = {
 					'y': 0,
 					'z': 0,
 					'mesh': 4,
-					'includes': ['ALTAR', 'CAR', 'GATORS', 'HILL']
+					'includes': ['ALTAR', 'CAR', 'GATORS', 'HILL', 'HOUSE']
 				},
 				{
 					'type': 'maze',
@@ -86,7 +86,7 @@ var game = {
 					'y': 0,
 					'z': 0,
 					'mesh': 4,
-					'includes':  ['ALTAR', 'CAR', 'GATORS', 'HILL']
+					'includes':  ['ALTAR', 'CAR', 'GATORS', 'HILL', 'HOUSE']
 				},
 				{
 					'type': 'maze',
