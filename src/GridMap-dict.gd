@@ -14,7 +14,7 @@ var game = {
 					'y': 0,
 					'z': 0,
 					'mesh': 4, ## 2
-					'includes': ['ALTAR', 'GATORS' ] ## , 'HILL' , 'CAR']
+					'includes': ['ALTAR', 'GATORS'  , 'HILL' , 'CAR']
 				},
 				{
 					'type': 'maze',
@@ -27,7 +27,7 @@ var game = {
 					'mesh': 1,
 					'endpoints': 3 , #10,
 					'multiplier': - 1,
-					'includes': [ 'KEY', 'NEXTLEVEL', 'KEY', 'PRISON_A', 'PATROL' , 'RAMPS' , 'TESTRAMPS_A' ] 
+					'includes': [ 'KEY', 'NEXTLEVEL', 'KEY', 'PRISON_A', 'PATROL' , 'RAMPS' ] #, 'TESTRAMPS_A' ] 
 				},
 				{
 					'type': 'player',

@@ -328,12 +328,13 @@ func decoration_in_shape(place, offset, scale, rotation, name, extra=Vector2.ZER
 			place_object.call(gate_name, 'random', 'MAZE', 0, gate_place, gate_scale, gate_rot )
 		else:
 			#var vsize = extra[i]
-			var aa = - index_to_vector(record_index) 
+			var aa = - index_to_vector(record_index)
+			var bb = h_vector
 			var ramp_off = Vector3(offset[i].x + place.x , 0, offset[i].y + place.y ) 
 			var ramp_place = Vector3(
-				aa.x  * hall_width, 
+				aa.x  * hall_width + bb.x, 
 				0, 
-				aa.y  * hall_width 
+				aa.y  * hall_width + bb.z
 			) + ramp_off  * hall_width
 			ramp_place += Vector3(2 , 0 , 2 )
 			var ramp_offset =  Vector2(    offset[i].x ,   offset[i].y ) #+ Vector2(0 ,0)
