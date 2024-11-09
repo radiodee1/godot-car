@@ -15,3 +15,16 @@ func _process(delta):
 
 func set_color_gui(x:Color):
 	get_node("house/Cube").get_mesh().surface_get_material(0).albedo_color = x
+
+func init(v, xname='HOUSE', group='mob'):
+	var low_scene_instance = self 
+	global_transform.origin = Vector3(v)
+	
+	var scale_local = 0.25
+	#low_scene_instance.scale_object_local(Vector3(scale_local, scale_local ,scale_local))
+	low_scene_instance.add_to_group(group)
+	low_scene_instance.name = xname
+	
+	low_scene_instance.collision_mask = 1
+	low_scene_instance.collision_layer = 1
+	pass 

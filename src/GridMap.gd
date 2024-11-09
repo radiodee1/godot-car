@@ -309,11 +309,17 @@ func setup_level_frame():
 				Global.test_maze = true
 			#include.place_rubble(highest)
 			for ii in e['includes']:
-				if ii != 'GATORS' and not ii.begins_with("GATE_TEST"):
+				if ii != 'GATORS' and not ii.begins_with("GATE_TEST") and not ii.begins_with("HOUSE"):
 					include.place_object(ii, 'RANDOM', 'HILL', Global.level, highest, lowest) # ALTAR, etc.
 				elif ii == 'GATORS':
 					#print('GATORS')
 					place_gators(4)
+				elif ii.begins_with("HOUSE"):
+					var num_houses = 5
+					var l = get_hill_spot_list(HILL_SPOT_RANDOM, num_houses)
+					print('-- house ', l.size())
+					for v in l:
+						include.place_object(ii, 'RANDOM', 'HILL', Global.level, v, Vector3.ONE, Vector3.ZERO)
 				if ii.begins_with("GATE_TEST"):
 					var v = Vector3(15 * 5 / 2 - 5 , highest.y + 2, 15 * 5 / 2 - 5 )
 					#v = v * 0.5 

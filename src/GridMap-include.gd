@@ -291,6 +291,16 @@ func place_ramp(v, map, location, floor_num=-1):
 	add_to_placed(ramp_instance, true)
 	pass 
 
+func place_house(v, name="HOUSE"):
+	var number = Global.hill_vector_to_index(Vector2(v.x, v.z))
+	var xhash = str(number) + Global.g_hash()
+	
+	var ramp = preload("res://src/house.tscn")
+	var ramp_instance = ramp.instantiate()
+	ramp_instance.init(v, str(name + '-' + xhash), 'mob')
+	add_child.call(ramp_instance)
+	add_to_placed(ramp_instance, true)
+	print('-- house ', xhash, ' ', v )
 
 func place_car():
 	#if hash(get_placed_node('car')) == hash(null):	
@@ -483,6 +493,9 @@ func place_object(name, strategy, layer, frame_num, vector_high=Vector3(0,0,0), 
 			place_gate(vector_high, vector_back, vector_aux, name, true )
 			return
 			pass 
+		if name.begins_with("HOUSE"):
+			place_house(vector_high, name)
+
 	if layer == "MAZE":
 		if name == 'ALTAR':
 			pass
