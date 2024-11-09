@@ -2,9 +2,6 @@
 
 [ext_resource type="Script" path="res://src/house.gd" id="1_8kxac"]
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_otku4"]
-size = Vector3(1.5, 3, 1.5)
-
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_bivok"]
 resource_name = "Material"
 cull_mode = 2
@@ -51,11 +48,11 @@ size = Vector3(1, 3.5, 1.5)
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_gxobk"]
 albedo_color = Color(0.00784314, 0.00784314, 0.00784314, 1)
 
-[node name="house" type="StaticBody3D"]
-script = ExtResource("1_8kxac")
+[sub_resource type="BoxShape3D" id="BoxShape3D_cpepi"]
+size = Vector3(1.45526, 3.08618, 1.46936)
 
-[node name="CollisionPolygon3D" type="CollisionShape3D" parent="."]
-shape = SubResource("BoxShape3D_otku4")
+[node name="house" type="CharacterBody3D"]
+script = ExtResource("1_8kxac")
 
 [node name="house" type="Node3D" parent="."]
 transform = Transform3D(0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, 0, 0, 0)
@@ -68,3 +65,7 @@ skeleton = NodePath("")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.247925, -0.265045, 0)
 mesh = SubResource("BoxMesh_p25vv")
 surface_material_override/0 = SubResource("StandardMaterial3D_gxobk")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.026825, -0.0269775, 0.00665283)
+shape = SubResource("BoxShape3D_cpepi")

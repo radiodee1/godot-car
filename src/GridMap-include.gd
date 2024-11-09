@@ -300,7 +300,7 @@ func place_house(v, name="HOUSE"):
 	ramp_instance.init(v, str(name + '-' + xhash), 'mob')
 	add_child.call(ramp_instance)
 	add_to_placed(ramp_instance, true)
-	print('-- house ', xhash, ' ', v )
+	print('-- house ', ramp_instance.name, ' ', v )
 
 func place_car():
 	#if hash(get_placed_node('car')) == hash(null):	

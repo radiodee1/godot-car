@@ -1,4 +1,4 @@
-extends StaticBody3D
+extends CharacterBody3D
 
 var color:Color = Color(0.8, 0.7, 0.5)
 
@@ -27,4 +27,24 @@ func init(v, xname='HOUSE', group='mob'):
 	
 	low_scene_instance.collision_mask = 1
 	low_scene_instance.collision_layer = 1
-	pass 
+
+	check_collision_ground()
+	pass
+
+func check_collision_ground():
+	while not is_on_floor() and global_transform.origin.y > 1:
+		global_transform.origin.y -= 1 
+	return 
+
+func check_collision():
+	for index in range(get_slide_collision_count()):
+		var collision = get_slide_collision(index)
+	
+		if collision != null and collision.get_collider() != null:
+			#Global.set_score_allowed(true)
+			
+			if collision.get_collider().is_in_group("mob") :
+				
+				if collision.get_collider().name.begins_with('ALTAR') :
+					pass 
+	

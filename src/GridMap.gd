@@ -148,10 +148,8 @@ func add_cell_item(i):
 						hill_spot_vec2.append(v2)
 					
 						hill_spot.append(i)
-					#for jj in hill_spot:
-					if Vector3(i.x, i.y + BELOW, i.z) in hill_spot and i in hill_spot:
+					if Vector3(i.x, i.y + BELOW, i.z) in hill_spot and Vector3(i) in hill_spot:
 						hill_spot.erase(Vector3(i.x, i.y + BELOW, i.z))
-					#print(len(hill_spot),' ', hill_spot ,' len hill here ', i)
 
 
 func hole_to_maze():
@@ -200,7 +198,7 @@ func get_hill_spot_list(type, num=5):
 			var x = randi_range(0, hill_spot.size() - 1)
 			if x < hill_spot.size() and x > -1:
 				var xx = hill_spot[x]
-				l.append(xx)
+				l.append(xx )
 				hill_spot.erase(xx)
 		#print(hill_spot.size(), ' end hill spot random ', l.size())
 		return l
@@ -209,22 +207,14 @@ func get_hill_spot_list(type, num=5):
 	
 func place_gators(num = 5):
 	var l = get_hill_spot_list(HILL_SPOT_RANDOM, num)
-	#var map_location = maze.find_map()	
-	
-	print('here len of l list ', l.size(), ' >>> ', l, ' ', hill_spot.size())
 	for i in l:
 		var j = preload("res://src/hill_gator.tscn")
 		var g = j.instantiate()
 		var number = Global.hill_vector_to_index(Vector2(i.x, i.z))
 		var hash = str(number) + Global.g_hash()
 		i.y = i.y * scale_local * scale_local + 1 * scale_local * scale_local
-		#i.x = i.x * group_size / 4
-		#i.z = i.z * group_size / 4 
 		var k = Vector3(i.x, i.y, i.z)
 		
-		#print('gator-i ', i)
-		#i.x -= map_location.x
-		#i.z -= map_location.y
 		g.init(k, 'GATOR-'+ hash) # str(number))
 		if g == null:
 			return
@@ -319,6 +309,8 @@ func setup_level_frame():
 					var l = get_hill_spot_list(HILL_SPOT_RANDOM, num_houses)
 					print('-- house ', l.size())
 					for v in l:
+						v.x *= 2
+						v.z *= 2
 						include.place_object(ii, 'RANDOM', 'HILL', Global.level, v, Vector3.ONE, Vector3.ZERO)
 				if ii.begins_with("GATE_TEST"):
 					var v = Vector3(15 * 5 / 2 - 5 , highest.y + 2, 15 * 5 / 2 - 5 )
