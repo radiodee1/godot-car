@@ -9,7 +9,6 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	set_color_gui(color)
 	pass
 
 
@@ -17,10 +16,11 @@ func set_color_gui(x:Color):
 	get_node("house/Cube").get_mesh().surface_get_material(0).albedo_color = x
 
 func init(v, xname='HOUSE', group='mob'):
+	set_color_gui(color)
 	var low_scene_instance = self 
 	global_transform.origin = Vector3(v)
 	
-	var scale_local = 0.25
+	#var scale_local = 0.25
 	#low_scene_instance.scale_object_local(Vector3(scale_local, scale_local ,scale_local))
 	low_scene_instance.add_to_group(group)
 	low_scene_instance.name = xname
@@ -28,12 +28,21 @@ func init(v, xname='HOUSE', group='mob'):
 	low_scene_instance.collision_mask = 1
 	low_scene_instance.collision_layer = 1
 
+	set_collision_mask_value(1,true)
+	set_collision_layer_value(1, true)
+	self.collision_mask = 1
+	self.collision_layer = 1
+
 	check_collision_ground()
 	pass
 
 func check_collision_ground():
-	while not is_on_floor() and global_transform.origin.y > 1:
-		global_transform.origin.y -= 1 
+	var num = 0 
+	while not is_on_floor() and global_transform.origin.y > 1 and num < 200:
+		var y = global_transform.origin.y 
+		y -= 0.1  
+		global_transform.origin.y = y
+		num += 1 
 	return 
 
 func check_collision():

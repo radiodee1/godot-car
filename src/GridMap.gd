@@ -136,7 +136,7 @@ func change_highest(high):
 func add_cell_item(i):
 	## does hill_generation always build up from bottom??
 	## will i.y be highest always??
-	i = Vector3i(i)
+	#i = Vector3i(i)
 	var BELOW = -1
 	if i.x > group_size and i.z > group_size or true:
 		if i.x < (limit_pos - 1) * group_size and i.z < (limit_pos - 1) * group_size or true :
@@ -148,8 +148,10 @@ func add_cell_item(i):
 						hill_spot_vec2.append(v2)
 					
 						hill_spot.append(i)
-					if Vector3(i.x, i.y + BELOW, i.z) in hill_spot and Vector3(i) in hill_spot:
+					var num = 0 
+					while Vector3(i.x, i.y + BELOW, i.z) in hill_spot and Vector3(i) in hill_spot and num < 10:
 						hill_spot.erase(Vector3(i.x, i.y + BELOW, i.z))
+						num += 1 
 
 
 func hole_to_maze():
@@ -309,8 +311,8 @@ func setup_level_frame():
 					var l = get_hill_spot_list(HILL_SPOT_RANDOM, num_houses)
 					print('-- house ', l.size())
 					for v in l:
-						v.x *= 2
-						v.z *= 2
+						v.x *= group_size * 0.5
+						v.z *= group_size * 0.5
 						include.place_object(ii, 'RANDOM', 'HILL', Global.level, v, Vector3.ONE, Vector3.ZERO)
 				if ii.begins_with("GATE_TEST"):
 					var v = Vector3(15 * 5 / 2 - 5 , highest.y + 2, 15 * 5 / 2 - 5 )
