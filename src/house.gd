@@ -33,17 +33,9 @@ func init(v, xname='HOUSE', group='mob'):
 	self.collision_mask = 1
 	self.collision_layer = 1
 
-	check_collision_ground()
+	#check_collision_ground()
 	pass
 
-func check_collision_ground():
-	var num = 0 
-	while not is_on_floor() and global_transform.origin.y > 1 and num < 200:
-		var y = global_transform.origin.y 
-		y -= 0.1  
-		global_transform.origin.y = y
-		num += 1 
-	return 
 
 func check_collision():
 	for index in range(get_slide_collision_count()):

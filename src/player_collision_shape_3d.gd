@@ -566,7 +566,11 @@ func check_collision():
 							Global.player_status = Global.STATUS_PUSH_JAIL
 						#print('gate touched ', str(gate.name))						
 						try = 1	
-						
+				if collision.get_collider().name.to_lower().begins_with("house") and Global.player_status == Global.STATUS_WALKING: 
+					if try == 0 :
+						hud.set_text_msg('hill', 3, true, 50)
+						try = 1	
+					
 						
 func timer_to_nextlevel(t=2):
 	gridmap.hole_to_nextlevel()

@@ -302,7 +302,8 @@ var message = {
 	'hill': {
 		0: "find the high altar!",
 		1: "that hurts",
-		2: "gators!! Hide in the car!"
+		2: "gators!! Hide in the car!",
+		3: "You can't go in the house!!"
 	},
 	'maze': {
 		0: "you skipped something??",

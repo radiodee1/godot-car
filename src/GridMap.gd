@@ -309,9 +309,9 @@ func setup_level_frame():
 				elif ii.begins_with("HOUSE"):
 					var num_houses = 5
 					var l = get_hill_spot_list(HILL_SPOT_RANDOM, num_houses)
-					print('-- house ', l.size())
 					for v in l:
 						v.x *= group_size * 0.5
+						v.y = v.y * 0.5 + 1 
 						v.z *= group_size * 0.5
 						include.place_object(ii, 'RANDOM', 'HILL', Global.level, v, Vector3.ONE, Vector3.ZERO)
 				if ii.begins_with("GATE_TEST"):
