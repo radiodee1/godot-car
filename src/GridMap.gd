@@ -216,11 +216,12 @@ func place_gators(num = 5):
 		var hash = str(number) + Global.g_hash()
 		i.y = i.y * scale_local * scale_local + 1 * scale_local * scale_local
 		var k = Vector3(i.x, i.y, i.z)
-		
+		#k.x *= group_size
+		#k.z *= group_size
 		g.init(k, 'GATOR-'+ hash) # str(number))
 		if g == null:
 			return
-		print(k,' --- ', g)
+		#print(k,' --- ', g)
 		
 		include.add_to_placed(g, true)
 		add_child(g)
@@ -243,7 +244,7 @@ func restart_terrain():
 			clear()
 			setup_level_frame()
 	
-			Global.print_maze_data()
+			#Global.print_maze_data()
 		
 		hud_map_start()
 		hud_map_update(0, -1)
@@ -389,7 +390,8 @@ func setup_level_frame():
 						include.place_object(hashed_name, 'RANDOM', 'MAZE', Global.level, altar_vec)
 						Global.placed_items.append(hashed_name)
 					else:
-						print(ii, ' skip here.')
+						#print(ii, ' skip here.')
+						pass 
 				if ii == 'PATROL':
 					var map_segment = include.get_segment()
 					if len(map_segment) > 0:
@@ -448,7 +450,7 @@ func setup_level_frame():
 			pass
 		if e['type'] == 'player':
 			#print('player handled by central_control!!')
-			print('player ', int(e['x']), ' ',  int(e['y']), ' ', int(e['z']))			
+			#print('player ', int(e['x']), ' ',  int(e['y']), ' ', int(e['z']))			
 			player_script.set_player_start(int(e['x']), int(e['y']), int(e['z']))
 			player_script.restart_player()
 			pass
@@ -456,7 +458,7 @@ func setup_level_frame():
 	
 	print_tree_pretty()
 	
-	print(hill_spot, " hill spots ", str(hill_spot.size()), " ", hill_spot_vec2)
+	#print(hill_spot, " hill spots ", str(hill_spot.size()), " ", hill_spot_vec2)
 	pass
 
 

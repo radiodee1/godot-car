@@ -2,6 +2,12 @@ extends CharacterBody3D
 
 var color:Color = Color(0.8, 0.7, 0.5)
 
+var rads = [
+		deg_to_rad(0),
+		deg_to_rad(90),
+		deg_to_rad(180),
+		deg_to_rad(270)
+	]
 # Called when the node enters the scene tree for the first time.
 func _ready():	
 	pass # Replace with function body.
@@ -33,6 +39,8 @@ func init(v, xname='HOUSE', group='mob'):
 	self.collision_mask = 1
 	self.collision_layer = 1
 
+	var x = randi_range(0, rads.size() -1)
+	rotate_y(rads[x])
 	#check_collision_ground()
 	pass
 
